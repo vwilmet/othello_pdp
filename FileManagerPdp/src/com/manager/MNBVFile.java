@@ -20,19 +20,24 @@ public class MNBVFile {
 	private boolean canWrite, canRead;
 	PrintWriter writer;
 
-	public MNBVFile(String name, String path) throws FileHandlingException{
+	public MNBVFile(String name, String path) throws FileHandlingException, IOException{
 		this.name = name;
 		this.path = path;
 		this.canWrite = true;
 		this.canRead = true;
 		this.content = "";
 
-		open();
+		File file = new File(path + File.separator + name);
+		
+		if (!file.exists()){
+			file.createNewFile();
+		}
+		
+		open(file);
 
 		if(!name.substring(name.length()-5).matches(".mnbv"))
-			throw new FileHandlingException(1);
+			throw new FileHandlingException(FileHandlingException.BAD_EXTENSION_FILENAME);
 
-		//TODO si nexiste pas on cr�er
 		content = read();
 	}
 
@@ -48,13 +53,11 @@ public class MNBVFile {
 	public boolean write(String content){
 		if(!canWrite)
 			return false;
-				
+		
 		try{
 			writer.println(content);
 			return true;
-		} catch (Exception e) {
-			//TODO;
-		} 
+		} catch (Exception e) {} 
 		return false;
 	}
 
@@ -81,16 +84,15 @@ public class MNBVFile {
 		return success;
 	}
 
-	private void open() throws FileHandlingException{
+	private void open(File file) throws FileHandlingException{
 		try{
-			this.fileReader = new FileReader(path + File.separator + name);
-			this.fileWriter = new FileWriter(path + File.separator + name, true);
+			this.fileReader = new FileReader(file);
+			this.fileWriter = new FileWriter(file, true);
 			writer = new PrintWriter(fileWriter);
 		}catch(FileNotFoundException n){
-			//TODO h 
+			throw new FileHandlingException(FileHandlingException.ERROR);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FileHandlingException(FileHandlingException.ERROR);
 		}
 	}
 
@@ -104,7 +106,7 @@ public class MNBVFile {
 		this.canRead = false;
 	}
 
-	public String read(){
+	public String read() throws FileHandlingException{
 		if(!canRead)
 			return null;
 		
@@ -115,7 +117,7 @@ public class MNBVFile {
 				content += line + "\n";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new FileHandlingException(FileHandlingException.WRITING_ERROR);
 		} 
 		return content;
 	}

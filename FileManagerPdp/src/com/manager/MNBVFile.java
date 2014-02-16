@@ -1,12 +1,12 @@
 package com.manager;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import utils.FileHandlingException;
 
@@ -18,6 +18,7 @@ public class MNBVFile {
 	private FileReader fileReader; 
 	private FileWriter fileWriter;
 	private boolean canWrite, canRead;
+	PrintWriter writer;
 
 	public MNBVFile(String name, String path) throws FileHandlingException{
 		this.name = name;
@@ -25,24 +26,14 @@ public class MNBVFile {
 		this.canWrite = true;
 		this.canRead = true;
 		this.content = "";
-		
+
 		open();
 
 		if(!name.substring(name.length()-5).matches(".mnbv"))
 			throw new FileHandlingException(1);
 
-		//TODO si nexiste pas on créer
-		
-		try {
-			BufferedReader reader = new BufferedReader(fileReader);
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				content += line + "\n";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		System.out.println(content);
+		//TODO si nexiste pas on crï¿½er
+		content = read();
 	}
 
 	public String getContent(){
@@ -57,30 +48,19 @@ public class MNBVFile {
 	public boolean write(String content){
 		if(!canWrite)
 			return false;
-		
-	    try {
-	      BufferedWriter writer = new BufferedWriter(fileWriter);
-	      writer.write(content);
-	      System.out.println("passé par la");
-	      return true;
-	    } catch (Exception e) {
-	      //TODO;
-	    } 
+				
+		try{
+			writer.println(content);
+			return true;
+		} catch (Exception e) {
+			//TODO;
+		} 
 		return false;
 	}
 
-	/*public boolean write(){
-		return false;
-	}*/
-
 	public boolean close() throws IOException{
-		
-		fileWriter.close();
-		return true;
-		
-		/*
 		boolean success = false;
-	
+
 		if (fileReader != null) {
 			try {
 				fileReader.close();
@@ -93,13 +73,19 @@ public class MNBVFile {
 	        	success = true;
 	        } catch (IOException e) {}
 		}
-		return success;*/
+		if (writer != null) {
+	    		writer.close();
+	        	success = true;
+		}
+		
+		return success;
 	}
 
 	private void open() throws FileHandlingException{
 		try{
 			this.fileReader = new FileReader(path + File.separator + name);
 			this.fileWriter = new FileWriter(path + File.separator + name, true);
+			writer = new PrintWriter(fileWriter);
 		}catch(FileNotFoundException n){
 			//TODO h 
 		} catch (IOException e) {
@@ -122,6 +108,15 @@ public class MNBVFile {
 		if(!canRead)
 			return null;
 		
-		return null;
+		try {
+			BufferedReader reader = new BufferedReader(fileReader);
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				content += line + "\n";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return content;
 	}
 }

@@ -31,12 +31,42 @@ public interface FilesManager {
 	 */
 	public void init(String saveFilename, String autosaveFilename, boolean enableVerification);
 	
+	/**
+	 * Méthode appelée lors d'une demande de sauvegarde utilisateur
+	 * <br><b>Attention : </b> Cette méthode efface complétement le fichier de sauvegarde où elle enregistre les données  
+	 * @param data Le contenue à écrire dans le fichier de sauvegarde
+	 * @return true si la sauvegarde à réussi, false sinon
+	 */
 	public boolean save(String data);
+	
+	/**
+	 * Voir la documentation {@link com.manager.FilesManager#save}
+	 * @param name Le nom du fichier 
+	 * @param data Le contenue à écrire dans le fichier de sauvegarde
+	 * @return true si la sauvegarde à réussi, false sinon
+	 */
 	public boolean save(String name, String data);
+	/**
+	 * Cette méthode permet de sauvegarder dans un fichier automatique une sauvegarde rapide.
+	 * <br>Elle fonctionne en utilisant deux fichiers ; elle sauve alternativement dans un fichier puis dans l'autre. Ainsi, en cas d'erreur, seulement un coup est perdu.
+	 * @param data Le contenue à écrire dans le fichier de sauvegarde
+	 * @return true si la sauvegarde automatique à réussi, false sinon
+	 */
 	public boolean autoSave(String data);
 	
+	/**
+	 * Cette méthode lit le contenue d'un fichier et le retourne sous forme de String
+	 * @param name Le nom du fichier à charger
+	 * @return Le contenue complet du fichier 
+	 */
 	public String load(String name);
 	
+	/**
+	 * Méthode qui permet d'autoriser la vérification de la bonne écriture dans le fichier du contenue en se basant sur la longueur du contenue à écrire
+	 */
 	public void enableVerification();
+	/**
+	 * Méthode qui permet d'éviter la vérification de la bonne écriture dans le fichier
+	 */
 	public void disableVerification();
 }

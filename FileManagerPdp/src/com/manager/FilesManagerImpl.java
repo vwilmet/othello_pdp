@@ -15,7 +15,6 @@ public class FilesManagerImpl implements FilesManager{
 		return null;
 	}
 	
-	
 	@Override
 	public boolean save(String data) {
 		// TODO Auto-generated method stub

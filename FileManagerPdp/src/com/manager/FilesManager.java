@@ -11,14 +11,14 @@ public interface FilesManager {
 	 * Méthode initialisant le module :<ul>
 	 * <li> préparation du fichier de sauvegarde automatique </li>
 	 * <li> préparation du tableau de gestion de plusieurs fichiers </li>
-	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intérité du fichier
+	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intégrité du fichier
 	 */
 	public void init(boolean enableVerification);
 	
 	/**
 	 * Voir la documentation {@link com.manager.FilesManager#init}
-	 * @param autosaveFilename Le nom du fichier pour les sauvegardes automatiques. Par défault le nom est othello_autosave-{date:AAAA-MM-JJ-HH-MM-SS}.mnbv
-	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intérité du fichier
+	 * @param autosaveFilename Le nom du fichier pour les sauvegardes automatiques. Par défaut le nom est othello_autosave-{date:AAAA-MM-JJ-HH-MM-SS}.mnbv
+	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intégrité du fichier
 	 */
 	public void init(String autosaveFilename, boolean enableVerification);
 	
@@ -42,7 +42,7 @@ public interface FilesManager {
 	/**
 	 * Voir la documentation {@link com.manager.FilesManager#save}
 	 * @param name Le nom du fichier 
-	 * @param data Le contenue à écrire dans le fichier de sauvegarde
+	 * @param data Le contenu à écrire dans le fichier de sauvegarde
 	 * @return true si la sauvegarde à réussi, false sinon
 	 */
 	public boolean save(String name, String data);
@@ -57,7 +57,7 @@ public interface FilesManager {
 	/**
 	 * Cette méthode lit le contenue d'un fichier et le retourne sous forme de String
 	 * @param name Le nom du fichier à charger
-	 * @return Le contenue complet du fichier 
+	 * @return Le contenu complet du fichier 
 	 */
 	public String load(String name);
 	

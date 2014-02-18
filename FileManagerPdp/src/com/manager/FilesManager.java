@@ -7,9 +7,21 @@ package com.manager;
  */
 public interface FilesManager {
 		
+	/**
+	 * Constante qui contient le message d'erreur renvoyé lors de l'echec de lecture du fichier demandée
+	 */
 	public static final String ERROR_ON_LOAD = "Une erreur est survenue pendant la lecture du fichier";
+	/**
+	 * Constante qui représente le nom du fichier par défault pour la sauvegarde demandé par l'utilisateur => "Enregistrer sous"
+	 */
 	public static final String DEFAULT_SAVE_FILENAME = "save";
+	/**
+	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde automatique demandé par le logiciel
+	 */
 	public static final String DEFAULT_AUTOSAVE_FILENAME = "autosave";
+	/**
+	 * Constante qui représente le chemin par défault qui seras utilisé pour sauvegarder les fichiers de sauvegarde automatique
+	 */
 	public static final String DEFAULT_FILE_PATH = ".";
 
 	/**

@@ -1,29 +1,64 @@
 package com.manager;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+
+import utils.FileHandlingException;
 
 public class FilesManagerImpl implements FilesManager{
 	
-	ArrayList<MNBVFile> files = new ArrayList<MNBVFile>();
-
+	private String autoSaveFileName = FilesManager.DEFAULT_AUTOSAVE_FILENAME;
+	private String saveFileName = FilesManager.DEFAULT_SAVE_FILENAME;
+	
+	
+	MNBVFile saveFile, currentAutoSaveFile;
+	MNBVFile[] autoSaveFile;
+	
+	private boolean verification = false;
+	
 	public FilesManagerImpl() {
-		
+		autoSaveFile = new MNBVFile[2];
 	}
 	
-	private MNBVFile createFile(String name){
-		
-		return null;
+	@Override
+	public void init(boolean enableVerification) {
+		this.verification = enableVerification;
+	}
+
+	@Override
+	public void init(String autosaveFilename, boolean enableVerification) {
+		this.init(enableVerification);
+		this.autoSaveFileName = autosaveFilename;
+	}
+
+	@Override
+	public void init(String saveFilename, String autosaveFilename, boolean enableVerification) {
+		this.init(autosaveFilename, enableVerification);
+		this.saveFileName = saveFilename;
+	}
+	
+	private MNBVFile createFile(String name) throws FileHandlingException, IOException{
+		return new MNBVFile(name, "." + File.separator);
+	}
+	
+	private void initIfNeededFiles(MNBVFile file, String name, String path) throws FileHandlingException, IOException{
+		if (file == null){
+			file = new MNBVFile(name, path);
+		}
 	}
 	
 	@Override
 	public boolean save(String data) {
+		
+		
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean save(String name, String data) {
-		// TODO Auto-generated method stub
+	public boolean save(String name, String path, String data) {
+		
+		
 		return false;
 	}
 
@@ -34,43 +69,21 @@ public class FilesManagerImpl implements FilesManager{
 	}
 
 	@Override
-	public String load(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public String load(String name, String path) {
+		try {
+			return new MNBVFile(name, path).getContent();
+		} catch (FileHandlingException | IOException e) {
+			return FilesManager.ERROR_ON_LOAD;
+		}
 	}
 
 	@Override
 	public void enableVerification() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void init(boolean enableVerification) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void init(String autosaveFilename, boolean enableVerification) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void init(String saveFilename, String autosaveFilename,
-			boolean enableVerification) {
-		// TODO Auto-generated method stub
-		
+		this.verification = true;
 	}
 
 	@Override
 	public void disableVerification() {
-		// TODO Auto-generated method stub
-		
+		this.verification = false;
 	}
-	
-	
-	
-	
 }

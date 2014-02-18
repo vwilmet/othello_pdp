@@ -6,7 +6,12 @@ package com.manager;
  * @version 1.0
  */
 public interface FilesManager {
-	
+		
+	public static final String ERROR_ON_LOAD = "Une erreur est survenue pendant la lecture du fichier";
+	public static final String DEFAULT_SAVE_FILENAME = "save";
+	public static final String DEFAULT_AUTOSAVE_FILENAME = "autosave";
+	public static final String DEFAULT_FILE_PATH = ".";
+
 	/**
 	 * Méthode initialisant le module :<ul>
 	 * <li> préparation du fichier de sauvegarde automatique </li>
@@ -42,10 +47,11 @@ public interface FilesManager {
 	/**
 	 * Voir la documentation {@link com.manager.FilesManager#save}
 	 * @param name Le nom du fichier 
+	 * @param path Le chemin vers le fichier
 	 * @param data Le contenu à écrire dans le fichier de sauvegarde
 	 * @return true si la sauvegarde à réussi, false sinon
 	 */
-	public boolean save(String name, String data);
+	public boolean save(String name, String path, String data);
 	/**
 	 * Cette méthode permet de sauvegarder dans un fichier automatique une sauvegarde rapide.
 	 * <br>Elle fonctionne en utilisant deux fichiers ; elle sauve alternativement dans un fichier puis dans l'autre. Ainsi, en cas d'erreur, seulement un coup est perdu.
@@ -57,9 +63,10 @@ public interface FilesManager {
 	/**
 	 * Cette méthode lit le contenue d'un fichier et le retourne sous forme de String
 	 * @param name Le nom du fichier à charger
+	 * @param path Le chemin vers le fichier
 	 * @return Le contenu complet du fichier 
 	 */
-	public String load(String name);
+	public String load(String name, String path);
 	
 	/**
 	 * Méthode qui permet d'autoriser la vérification de la bonne écriture dans le fichier du contenue en se basant sur la longueur du contenue à écrire

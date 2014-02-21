@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -15,11 +14,10 @@ public class MNBVFile {
 	 * Attribut qui contient le nom du fichier
 	 */
 	public String name;
-	
+
 	private String path;
-	private String content;
+	private File file;
 	private FileReader fileReader; 
-	private FileWriter fileWriter;
 	private boolean canWrite, canRead;
 	private PrintWriter writer;
 
@@ -34,34 +32,33 @@ public class MNBVFile {
 	 * @throws FileHandlingException : exception soulevée si le fichier ne possède pas la bonne extension
 	 * @throws IOException : exception soulevée en cas de création de fichier impossible si nécessaire
 	 */
-	public MNBVFile(String name, String path) throws FileHandlingException, IOException{
+	public MNBVFile(String name, String path) throws FileHandlingException{
 		this.name = name;
 		this.path = path;
 		this.canWrite = true;
 		this.canRead = true;
-		this.content = "";
 
-		File file = new File(path + File.separator + name);
-		
+		file = new File(path + File.separator + name);
+
 		if (!file.exists()){
-			file.createNewFile();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				throw new FileHandlingException(FileHandlingException.IO_ERROR);
+			}
 		}
+
+		open();
+
+		if(name.length() <= 5)
+			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
+
+		//System.out.println("Name : " + name);
+		//System.out.println("Name  5 : " + name.substring(name.length()-5));
+		//System.out.println("Name  5 : " + name.substring(name.length()-5).matches(".mnbv"));
 		
-		open(file);
-
 		if(!name.substring(name.length()-5).matches(".mnbv"))
-			throw new FileHandlingException(FileHandlingException.BAD_EXTENSION_FILENAME);
-
-		read();
-	}
-
-	/**
-	 * Méthode retournant le contenu du fichier de la précédente lecture
-	 * @return content : contenu du fichier
-	 */
-	public String getContent(){
-		//TODO find the copy way to return a string
-		return this.content;
+			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
 	}
 
 	/**
@@ -71,65 +68,54 @@ public class MNBVFile {
 	public String getPath(){
 		return this.path;
 	}
-	
+
 	/**
-	 * Méthode qui écrit le contenu dans le fichier
+	 * Méthode qui écrit le contenu dans le fichier à la fin
 	 * <br><b>Attention : </b> il faut posséder les droits en écriture
 	 * @param content : contenu du fichier
 	 * @return true si l'écriture a réussi, false sinon
 	 */
-	public boolean write(String content){
+	public boolean write(Object content) throws FileHandlingException{
 		if(!this.canWrite)
 			return false;
-		
-		try{
-			this.writer.println(content);
-			return true;
-		} catch (Exception e) {} 
-		return false;
+
+		try {
+			//reset files automatically
+			this.writer = new PrintWriter(file);
+			this.writer.print(content);
+		} catch (FileNotFoundException e) {
+			throw new FileHandlingException(FileHandlingException.WRITING_ERROR);
+		}
+
+		return true;
 	}
-	
+
 	/**
 	 * Méthode qui ferme le fichier à la suite d'une lecture, écriture
 	 * <br><b>Attention : </b> cette méthode <b>doit</b> être appelé afin de fermer correctement le fichier
 	 * @return true si la fermeture du fichier a réussi, false sinon
 	 * @throws IOException : exception soulevée si une erreur survient lors de la fermeture d'un des deux fichiers 
 	 */
-	public boolean close() throws IOException{
-		boolean success = false;
-
-		if (this.fileReader != null) {
-			try {
+	public boolean close() throws FileHandlingException{
+		try {
+			if (this.fileReader != null) 
 				this.fileReader.close();
-				success = true;
-			} catch (IOException e) {}
+			if (this.writer != null) 
+				this.writer.close();
+
+			return true;
+		} catch (IOException e) {
+			throw new FileHandlingException(FileHandlingException.ERROR);
 		}
-		if (this.fileWriter != null) {
-	        try {
-	        	this.fileWriter.close();
-	        	success = true;
-	        } catch (IOException e) {}
-		}
-		if (this.writer != null) {
-	    		this.writer.close();
-	        	success = true;
-		}
-		
-		return success;
 	}
 
 	/**
 	 * Méthode qui permet l'ouverture d'un fichier pour la lecture ou l'écriture de celui-ci
-	 * @param file : fichier passé en paramètre 
 	 */
-	private void open(File file) throws FileHandlingException{
+	private void open() throws FileHandlingException{
 		try{
 			this.fileReader = new FileReader(file);
-			this.fileWriter = new FileWriter(file, true);
-			this.writer = new PrintWriter(this.fileWriter);
 		}catch(FileNotFoundException n){
-			throw new FileHandlingException(FileHandlingException.ERROR);
-		} catch (IOException e) {
 			throw new FileHandlingException(FileHandlingException.ERROR);
 		}
 	}
@@ -150,25 +136,31 @@ public class MNBVFile {
 		this.canRead = false;
 	}
 
+	public void deleteFile(){
+		file.delete();
+	}
+
 	/**
 	 * Méthode permettant la lecture du contenu dans le fichier
 	 * @return content : le contenu du fichier
 	 * @throws FileHandlingException : exception soulevée si la lecture n'a pas pu aboutir
 	 */
 	public String read() throws FileHandlingException{
+		String content;
+		
 		if(!this.canRead)
 			return null;
 		
 		try {
 			BufferedReader reader = new BufferedReader(this.fileReader);
 			String line = "";
-			this.content = "";
+			content = "";
 			while ((line = reader.readLine()) != null) {
-				this.content += line + "\n";
+				content += line + "\n";
 			}
 		} catch (Exception e) {
 			throw new FileHandlingException(FileHandlingException.READING_ERROR);
 		} 
-		return this.content;
+		return content;
 	}
 }

@@ -1,8 +1,12 @@
 package com.manager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.error_manager.Log;
+
+import utils.FileDateManager;
 import utils.FileHandlingException;
 
 /**
@@ -12,71 +16,132 @@ import utils.FileHandlingException;
  * @version 1.0
  */
 public class FilesManagerImpl implements FilesManager{
-	
+
 	private String autoSaveFileName = FilesManager.DEFAULT_AUTOSAVE_FILENAME;
-	private String saveFileName = FilesManager.DEFAULT_SAVE_FILENAME;
-	MNBVFile saveFile, currentAutoSaveFile;
-	MNBVFile[] autoSaveFile;
-	
+
+	private MNBVFile saveFile, currentAutoSaveFile;
+	private MNBVFile[] autoSaveFile;
+
 	private boolean verification = false;
-	
+
 	public FilesManagerImpl() {
 		autoSaveFile = new MNBVFile[2];
 	}
-	
+
 	@Override
-	public void init(boolean enableVerification) {
+	public boolean init(boolean enableVerification) {
 		this.verification = enableVerification;
-	}
 
-	@Override
-	public void init(String autosaveFilename, boolean enableVerification) {
-		this.init(enableVerification);
-		this.autoSaveFileName = autosaveFilename;
-	}
-
-	@Override
-	public void init(String saveFilename, String autosaveFilename, boolean enableVerification) {
-		this.init(autosaveFilename, enableVerification);
-		this.saveFileName = saveFilename;
-	}
-	
-	private MNBVFile createFile(String name) throws FileHandlingException, IOException{
-		return new MNBVFile(name, "." + File.separator);
-	}
-	
-	private void initIfNeededFiles(MNBVFile file, String name, String path) throws FileHandlingException, IOException{
-		if (file == null){
-			file = new MNBVFile(name, path);
+		try {
+			autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "", FilesManager.DEFAULT_FILE_PATH + File.separator);
+			autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "", FilesManager.DEFAULT_FILE_PATH + File.separator);
+			currentAutoSaveFile = autoSaveFile[0];
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
 		}
-	}
-	
-	@Override
-	public boolean save(String data) {
-		
-		
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
-	public boolean save(String name, String path, String data) {
-		
-		
-		return false;
+	public boolean init(String autosaveFilename, boolean enableVerification) {
+		this.autoSaveFileName = autosaveFilename;
+		return this.init(enableVerification);
+	}
+
+	private MNBVFile createFile(String name, String path) throws FileHandlingException{
+		return new MNBVFile(name, path);
 	}
 
 	@Override
-	public boolean autoSave(String data) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean save(String name, String path, Object data) {
+
+		if (this.saveFile != null) this.saveFile = null;
+
+		try {
+			saveFile = createFile(name, path);
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		try {
+			saveFile.write(data);
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		try {
+			saveFile.close();
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		try {
+			if(this.verification)
+				if(data.toString().length() != saveFile.read().length()){
+					saveFile.deleteFile();
+					return false;
+				}
+		}catch(FileHandlingException e){
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean autoSave(Object data) {
+
+		try {
+			currentAutoSaveFile.write(data);
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
+		}catch (NullPointerException n){
+			Log.error("");
+			return false;
+		}
+
+		try {
+			if(this.verification)
+				if(data.toString().length() != saveFile.read().length()){
+					saveFile.deleteFile();
+					return false;
+				}
+		}catch(FileHandlingException e){
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		try {
+			currentAutoSaveFile.close();
+		} catch (FileHandlingException e) {
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		if(currentAutoSaveFile == autoSaveFile[1]){
+			System.out.println("current == 1");
+			currentAutoSaveFile = autoSaveFile[0];
+		}
+		else {
+			System.out.println("current == 0");
+			currentAutoSaveFile = autoSaveFile[1];
+		}
+
+		return true;
 	}
 
 	@Override
 	public String load(String name, String path) {
 		try {
-			return new MNBVFile(name, path).getContent();
-		} catch (FileHandlingException | IOException e) {
+			return new MNBVFile(name, path).read();
+		} catch (FileHandlingException f) {
+			Log.error(f.getMessage());
 			return FilesManager.ERROR_ON_LOAD;
 		}
 	}

@@ -1,45 +1,27 @@
-import java.io.IOException;
-
-import utils.FileHandlingException;
-
-import com.manager.MNBVFile;
+import com.error_manager.Log;
+import com.manager.FilesManager;
+import com.manager.FilesManagerImpl;
 
 
 public class Main {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		MNBVFile f = null;
-		
-		try {
-			f = new MNBVFile("toto.mnbv", ".");
-			
-			/*f.write("mais ... mais");
-			f.write("test ... test");
-			f.write("12");*/
 	
-			/*f.setReadOnly();
-			f.write("vincent en met sa main à couper");
-			System.out.println(f.read());*/
-			
-			f.setWriteOnly();
-			f.write("vincent en met sa main à couper");
-			System.out.println(f.read());
-			
-			try {
-				f.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileHandlingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	public static void main(String[] args) {
 		
+		Log.reset();
+		
+		FilesManager files = new FilesManagerImpl();
+		files.init(false);
+		
+		if(files.autoSave("Le texte de la mort qui tue :) youpi1"))
+			System.out.println("OK!!");
+
+		if(files.autoSave("Le texte de la mort qui tue :) youpi2"))
+			System.out.println("OK!!");
+
+		if(files.autoSave("Le texte de la mort qui tue :) youpi3"))
+			System.out.println("OK!!");
+
+		System.out.println("Terminée !!");
 		
 	}
 

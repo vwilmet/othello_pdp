@@ -7,6 +7,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class RandomAI implements ArtificialIntelligence {
+	
+	
 
 	Box[][] myBoard;
 	Tree<Point> myTree;
@@ -89,6 +91,7 @@ public class RandomAI implements ArtificialIntelligence {
 		Node<Point> myNode = new Node<Point>(pos,player,myTree.getSentinel(), this.whitePiece.size(), this.blackPiece.size());
 		myTree.getSentinel().addChild(myNode);
 		myTree.setSentinel(myNode);
+		printBoard();
 	}
 
 	public void printBoard(){

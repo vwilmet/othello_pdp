@@ -1,5 +1,5 @@
 
-public class ArtificialIntelligence {
+public class AIModule {
 
 	/**
 	 * @param args

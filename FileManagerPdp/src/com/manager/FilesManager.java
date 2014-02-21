@@ -2,7 +2,9 @@ package com.manager;
 
 /**
  * Interface de gestion du controleur de fichier
- * @author <ul><li>Vincent Wilmet</li><li>Morgane Badré</li>
+ * Cette interface contient les messages d'erreurs ainsi que de nombreuses constantes modifiables
+ * Par exemple : l'extension des fichiers de sauvegarde, les noms par défault, les messages d'erreurs, ... .
+ * @author <ul><li>Morgane Badré</li><li>Vincent Wilmet</li></ul>
  * @version 1.0
  */
 public interface FilesManager {
@@ -20,6 +22,7 @@ public interface FilesManager {
 	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde automatique demandé par le logiciel
 	 */
 	public static final String DEFAULT_AUTOSAVE_FILENAME = "autosave";
+	public static final String DEFAULT_FILENAME_EXTENSION = ".xml";
 	/**
 	 * Constante qui représente le chemin par défault qui seras utilisé pour sauvegarder les fichiers de sauvegarde automatique
 	 */
@@ -30,6 +33,7 @@ public interface FilesManager {
 	 * <li> préparation du fichier de sauvegarde automatique </li>
 	 * <li> préparation du tableau de gestion de plusieurs fichiers </li>
 	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intégrité du fichier
+	 * @return true si l'initilisation s'est effectué correctement
 	 */
 	public boolean init(boolean enableVerification);
 	

@@ -33,8 +33,8 @@ public class FilesManagerImpl implements FilesManager{
 		this.verification = enableVerification;
 
 		try {
-			autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "", FilesManager.DEFAULT_FILE_PATH + File.separator);
-			autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "", FilesManager.DEFAULT_FILE_PATH + File.separator);
+			autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
+			autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
 			currentAutoSaveFile = autoSaveFile[0];
 		} catch (FileHandlingException e) {
 			Log.error(e.getMessage());
@@ -102,7 +102,7 @@ public class FilesManagerImpl implements FilesManager{
 			Log.error(e.getMessage());
 			return false;
 		}catch (NullPointerException n){
-			Log.error("");
+			Log.error("Le fichier de sauvegarde automatique n'as pas pu être ouvert!!");
 			return false;
 		}
 

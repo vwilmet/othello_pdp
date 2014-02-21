@@ -50,14 +50,10 @@ public class MNBVFile {
 
 		open();
 
-		if(name.length() <= 5)
+		if(name.length() <= FilesManager.DEFAULT_FILENAME_EXTENSION.length())
 			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
 
-		//System.out.println("Name : " + name);
-		//System.out.println("Name  5 : " + name.substring(name.length()-5));
-		//System.out.println("Name  5 : " + name.substring(name.length()-5).matches(".mnbv"));
-		
-		if(!name.substring(name.length()-5).matches(".mnbv"))
+		if(!name.substring(name.length()-FilesManager.DEFAULT_FILENAME_EXTENSION.length()).matches(FilesManager.DEFAULT_FILENAME_EXTENSION))
 			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
 	}
 

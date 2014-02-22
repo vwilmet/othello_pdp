@@ -10,8 +10,8 @@ public class RandomAI implements ArtificialIntelligence {
 	
 	
 
-	Box[][] myBoard;
-	Tree<Point> myTree;
+	Box[][] board;
+	Tree<Point> tree;
 	Set<Point> whitePiece;
 	Set<Point> blackPiece;
 	Integer boardWidth;
@@ -52,19 +52,19 @@ public class RandomAI implements ArtificialIntelligence {
 		this.blackPiece = blackPiece;
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
-		myTree = new Tree<Point>();
-		myTree.setRootElement(new Node<Point>(new Point(-1,-1),-1));
-		myTree.setSentinel(myTree.getRootElement());
-		myBoard = new Box[boardWidth][boardHeight];
+		tree = new Tree<Point>();
+		tree.setRootElement(new Node<Point>(new Point(-1,-1)));
+		tree.setSentinel(tree.getRootElement());
+		board = new Box[boardWidth][boardHeight];
 		for(Integer i = 0; i < this.boardWidth; i ++)
 			for(Integer j = 0; j < this.boardHeight; j++){
-				myBoard[i][j] = new BoxImpl();
+				board[i][j] = new BoxImpl();
 				if(whitePiece.contains(new Point(i,j)))
-					myBoard[i][j].putP1Piece();
+					board[i][j].putP1Piece();
 				else if(blackPiece.contains(new Point(i,j)))
-					myBoard[i][j].putP2Piece();
+					board[i][j].putP2Piece();
 				else
-					myBoard[i][j].removePiece();
+					board[i][j].removePiece();
 			}
 		return true;
 	}
@@ -80,18 +80,18 @@ public class RandomAI implements ArtificialIntelligence {
 	public void notifyChosenMove(Point pos, Integer player) {
 		
 		if(player == 1){
-			myBoard[pos.x][pos.y].putP1Piece();
+			board[pos.x][pos.y].putP1Piece();
 			this.whitePiece.add(pos);
 		}
 		else if(player == 2){
-			myBoard[pos.x][pos.y].putP2Piece();
+			board[pos.x][pos.y].putP2Piece();
 			this.blackPiece.add(pos);
 		}
 		calculateTurnResult(pos);
-		Node<Point> myNode = new Node<Point>(pos,player,myTree.getSentinel(), this.whitePiece.size(), this.blackPiece.size());
-		myTree.getSentinel().addChild(myNode);
-		myTree.setSentinel(myNode);
-		printBoard();
+		Node<Point> myNode = new Node<Point>(pos,player,tree.getSentinel(), this.whitePiece.size(), this.blackPiece.size(), board, this.boardWidth, this.boardHeight);
+		tree.getSentinel().addChild(myNode);
+		tree.setSentinel(myNode);
+		System.out.println(tree.toString());
 	}
 
 	public void printBoard(){
@@ -101,9 +101,9 @@ public class RandomAI implements ArtificialIntelligence {
 			System.out.println("");
 			System.out.print("|");
 			for(int i = 0; i < this.boardWidth; i++){
-				if(myBoard[i][j].isP1Piece())
+				if(board[i][j].isP1Piece())
 					System.out.print("1|");
-				else if(myBoard[i][j].isP2Piece())
+				else if(board[i][j].isP2Piece())
 					System.out.print("2|");
 				else
 					System.out.print(" |");
@@ -127,7 +127,7 @@ public class RandomAI implements ArtificialIntelligence {
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if(white.x + x >= 0 && white.x + x < this.boardWidth && white.y + y >= 0 && white.y + y < this.boardHeight && !(x == 0 && y == 0)){
-						if(myBoard[x + white.x][y + white.y].isEmpty()){
+						if(board[x + white.x][y + white.y].isEmpty()){
 							borderLine.add(new Point(x + white.x, y + white.y));
 						}
 					}
@@ -140,7 +140,7 @@ public class RandomAI implements ArtificialIntelligence {
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if(black.x + x >= 0 && black.x + x < this.boardWidth && black.y + y >= 0 && black.y + y < this.boardHeight && !(x == 0 && y == 0)){
-						if(myBoard[x + black.x][y + black.y].isEmpty()){
+						if(board[x + black.x][y + black.y].isEmpty()){
 							borderLine.add(new Point(x + black.x, y + black.y));
 						}
 					}
@@ -160,18 +160,18 @@ public class RandomAI implements ArtificialIntelligence {
 				for(int x = - 1; x < 2; x++){
 					for(int y = -1; y < 2; y++){
 						if((p.x+x) < boardWidth && (p.x + x) >= 0 && (p.y + y) < boardHeight && (p.y+ y) >= 0 && !(x == 0 && y == 0)){
-							if(!myBoard[p.x + x][p.y + y].isPlayer(player) && !myBoard[p.x+x][p.y+y].isEmpty()){
+							if(!board[p.x + x][p.y + y].isPlayer(player) && !board[p.x+x][p.y+y].isEmpty()){
 								Integer i = p.x + x + x;
 								Integer j = p.y + y + y;
 								Boolean playable = false;
 								while(i < boardWidth && i >= 0 && j < boardHeight && j >= 0 && playable == false){
-									if(!myBoard[i][j].isPlayer(player) && !myBoard[i][j].isEmpty()){ // teste s'il y a un pion et si c'est un pion adverse
+									if(!board[i][j].isPlayer(player) && !board[i][j].isEmpty()){ // teste s'il y a un pion et si c'est un pion adverse
 										i += x;
 										j += y;
 									}
-									else if(myBoard[i][j].isPlayer(player)) //teste le pion du joueur qui va "encadrer le coup" 
+									else if(board[i][j].isPlayer(player)) //teste le pion du joueur qui va "encadrer le coup" 
 										playable = true;
-									else if(myBoard[i][j].isEmpty())
+									else if(board[i][j].isEmpty())
 										break;
 								}
 								if(playable)
@@ -197,28 +197,28 @@ public class RandomAI implements ArtificialIntelligence {
 	}
 
 	public void calculateTurnResult(Point position){
-		if(myBoard[position.x][position.y].isP1Piece()){
+		if(board[position.x][position.y].isP1Piece()){
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if((position.x+x) < boardWidth && (position.x + x) >= 0 && (position.y + y) < boardHeight && (position.y+ y) >= 0 && !(x == 0 && y == 0)){
-						if(myBoard[position.x + x][position.y + y].isP2Piece()){
+						if(board[position.x + x][position.y + y].isP2Piece()){
 							Set<Point> tmp = new HashSet<Point>();
 							tmp.add(new Point(position.x+x,position.y+y));
 							Integer i = position.x + x + x;
 							Integer j = position.y + y + y;
 							while(i < boardWidth && i >= 0 && j < boardHeight && j >= 0){
-								if(myBoard[i][j].isP2Piece()){
+								if(board[i][j].isP2Piece()){
 									tmp.add(new Point(i,j));
 									i += x;
 									j += y;
 								}
-								else if (myBoard[i][j].isP1Piece()){
+								else if (board[i][j].isP1Piece()){
 									whitePiece.addAll(tmp);
 									for(Point p : tmp)
-										myBoard[p.x][p.y].turnPiece();
+										board[p.x][p.y].turnPiece();
 									break;
 								}
-								else if(myBoard[i][j].isEmpty())
+								else if(board[i][j].isEmpty())
 									break;
 							}
 						}
@@ -227,30 +227,30 @@ public class RandomAI implements ArtificialIntelligence {
 			}
 			this.blackPiece.removeAll(whitePiece);
 		}
-		else if(myBoard[position.x][position.y].isP2Piece()){
+		else if(board[position.x][position.y].isP2Piece()){
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if((position.x+x) < boardWidth && (position.x + x) >= 0 && (position.y + y) < boardHeight && (position.y+ y) >= 0 && !(x == 0 && y == 0)){
-						if(myBoard[position.x + x][position.y + y].isP1Piece()){
+						if(board[position.x + x][position.y + y].isP1Piece()){
 							Set<Point> tmp = new HashSet<Point>();
 							tmp.add(new Point(position.x+x,position.y+y));
 							Integer i = position.x + x + x;
 							Integer j = position.y + y + y;
 							Boolean stop = false;
 							while(i < boardWidth && i >= 0 && j < boardHeight && j >= 0 && stop == false){
-								if(myBoard[i][j].isP1Piece()){
+								if(board[i][j].isP1Piece()){
 									tmp.add(new Point(i,j));
 									i += x;
 									j += y;
 								}
-								else if (myBoard[i][j].isP2Piece()){
+								else if (board[i][j].isP2Piece()){
 									this.blackPiece.addAll(tmp);
 									for(Point p : tmp){
-										myBoard[p.x][p.y].turnPiece();
+										board[p.x][p.y].turnPiece();
 									}
 									break;
 								}
-								else if(myBoard[i][j].isEmpty())
+								else if(board[i][j].isEmpty())
 									break;
 							}
 

@@ -1,3 +1,5 @@
+import java.awt.Point;
+import java.util.Arrays;;
 
 public class AIModule {
 
@@ -6,6 +8,6 @@ public class AIModule {
 	 */
 	public static void main(String[] args) {
 		Model myModel = new Model();
+		
 	}
-
 }

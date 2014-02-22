@@ -2,69 +2,69 @@ package AI;
 
 public class BoxImpl implements Box {
 
-	private BoxState myState;
+	private BoxState state;
 	
 	public BoxImpl()
 	{
-		myState = new BoxEmpty();
+		state = new BoxEmpty();
 	}
 	
 	
 	@Override
 	public void removePiece() {
-		myState.removePiece(this);
+		state.removePiece(this);
 
 	}
 
 	@Override
 	public void putP1Piece() {
-		myState.putP1Piece(this);
+		state.putP1Piece(this);
 	}
 
 	@Override
 	public void putP2Piece() {
-		myState.putP2Piece(this);
+		state.putP2Piece(this);
 	}
 
 	@Override
 	public void turnPiece() {
-		myState.turnPiece(this);
+		state.turnPiece(this);
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return myState.isEmpty();
+		return state.isEmpty();
 	}
 
 	@Override
 	public boolean isP1Piece() {
-		return myState.isP1Piece();
+		return state.isP1Piece();
 	}
 
 	@Override
 	public boolean isP2Piece() {
-		return myState.isP2Piece();
+		return state.isP2Piece();
 	}
 	
 	@Override
 	public boolean isPlayer(Integer player) {
 		boolean result = false;
 		if(player == 1)
-			result = myState.isP1Piece();
+			result = state.isP1Piece();
 		else if (player == 2)
-			result = myState.isP2Piece();
+			result = state.isP2Piece();
 		return result;
 			
 	}
 
 	@Override
 	public void setState(final BoxState newState) {
-		myState = newState;
+		state = newState;
 	}
 
 	@Override
 	public BoxState getState() {
-		return this.myState;
+		return this.state;
 	}
 
 }

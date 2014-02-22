@@ -61,7 +61,6 @@ public class Model {
 			myAI.notifyChosenMove(k, 1);
 
 
-
 	}
 
 	public Model(Integer width, Integer height)

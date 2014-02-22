@@ -15,6 +15,9 @@ public class Node<T> {
     public Integer nbBlack;
     public Node<T> parent;
     public List<Node<T>> children;
+    public Box[][] board;
+    public Integer width;
+    public Integer height;
  
     /**
      * Default ctor.
@@ -27,28 +30,19 @@ public class Node<T> {
      * Convenience ctor to create a Node<T> with an instance of T.
      * @param data an instance of T.
      */
-    public Node(T data, Integer player) {
+    public Node(T data) {
         this();
         setData(data);
-        setPlayer(player);
     }
     
-
-     
-    public Node(T data, Integer player, Node<T> parent) {
-        this();
-        setData(data);
-        setPlayer(player);
-        setParent(parent);
-    }
-    
-    public Node(T data, Integer player, Node<T> parent, Integer white, Integer black){
+    public Node(T data, Integer player, Node<T> parent, Integer white, Integer black, Box[][] board, Integer width, Integer height){
         this();
         setData(data);
         setPlayer(player);
         setParent(parent);
         setNbWhite(white);
         setNbBlack(black);
+        setBoard(board,width,height);
     }
     
     /**
@@ -163,6 +157,45 @@ public class Node<T> {
 		this.nbBlack = nbBlack;
 	}
 
+	public Box[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(Box[][] board, Integer width, Integer height) {
+		this.width = width;
+		this.height = height;
+		this.board = new Box[width][height];
+		for(int i = 0; i < width; i++)
+			for(int j = 0 ; j < height; j++){
+				this.board[i][j] = new BoxImpl();
+				this.board[i][j].setState(board[i][j].getState());
+			}
+	}
+	
+	public String printBoard(){
+		String res = new String("");
+		for(int i = 0; i < this.width; i++)
+			res = res +" _";
+		for(int j = 0; j < this.height; j++){
+			res = res + "\n";
+			res = res + "|";
+			for(int i = 0; i < this.width; i++){
+				if(this.board[i][j].isP1Piece())
+					res += "1|";
+				else if(this.board[i][j].isP2Piece())
+					res += "2|";
+				else
+					res +=" |";
+			}
+			res +="\n" ;
+			for(int i = 0; i < this.width; i++)
+				res += " _";
+		}
+		res += "\n";
+		return res;
+
+	}
+
 	public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{").append(getData().toString()).append(",[");
@@ -174,6 +207,7 @@ public class Node<T> {
             sb.append(e.getData().toString());
             sb.append("White : " +e.getNbWhite() + " , ");
             sb.append("Black : " +e.getNbBlack() + " ");
+            sb.append("Board : \n" + e.printBoard());
             i++;
         }
         sb.append("]").append("}");

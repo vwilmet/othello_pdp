@@ -1,4 +1,3 @@
-
         SciMark 2.0  Java Numerical Benchmark
 
         Roldan Pozo, Bruce Miller
@@ -15,36 +14,10 @@ Monte Carlo integration, and dense LU matrix factorization.
 (See http://www.math.nist.gov/scimark for further information
 and latest updates.)
 
-1) INSTALLATION
 
-Unpack the contents of archive into a subdirectory on your
-CLASSPATH.  Be sure to keep the directory structure of the
-file contents.
-
-2) COMPILING THE BENCHMARKS (optional)
-
-From the directory above this one, issue the command:
-
-    >javac -O commandline.java
-
-This should compile main benchmark driver and dependent files.
-
-3) RUNNING THE BENCHMARKS
-
-From the directory above this one, issue the command:
-
-    >java jnt.scimark2.commandline
-
-or
-    >java jnt.scimark2.commandline -large
-
-to run the large problem size version. (Note that this one
-takes considerably longer to run.)
 
 After a few minutes, the program should respond with
 the benchmark results, e.g.
-
-    >javac jnt.scimark2.commandline
 
 	SciMark 2.0a
 

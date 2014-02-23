@@ -12,8 +12,8 @@ import utils.FileHandlingException;
 /**
  * Classe qui définie les méthodes de gestion de fichier
  * Elle implémente l'interface {@link com.manager.FilesManager}
- * @author <ul><li>Vincent Wilmet</li><li>Morgane Badré</li>
- * @version 1.0
+ * @author <ul><li>Vincent Wilmet</li><li>Morgane Badré</li></ul>
+ * @version 2.0
  */
 public class FilesManagerImpl implements FilesManager{
 

@@ -5,6 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Classe qui contient les deux méthodes static qui permette ...
+ * @author <ul><li>Vincent Wilmet</li></ul>
+ * @version 1.0
+ */
 public class Log {
 	
 	private static final String FILE_NAME = "log.txt";

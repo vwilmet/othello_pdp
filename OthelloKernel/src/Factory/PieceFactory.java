@@ -16,14 +16,14 @@ public class PieceFactory extends Factory {
 	public Piece getPiece(String pieceType) {
 		if (pieceType == null)
 			return null;
-		
+
 		if (pieceType.equalsIgnoreCase("white"))
 			return new WhitePiece();
 		else if (pieceType.equalsIgnoreCase("black"))
-				return new BlackPiece();
+			return new BlackPiece();
 		else if (pieceType.equalsIgnoreCase("empty"))
 			return new EmptyPiece();
-		
+
 		return null;
 	}
 }

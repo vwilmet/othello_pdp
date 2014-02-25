@@ -3,6 +3,10 @@ package com.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.model.piece.BlackPiece;
+import com.model.piece.Piece;
+import com.model.piece.WhitePiece;
+
 /**
  * 
  * @author <ul><li> Benjamin Letourneau </li></ul>
@@ -17,7 +21,7 @@ public class Board {
 	
 	private List<Piece> initialPieces;
 	
-	public Board(int width, int height, int sizeX, int sizeY) throws //nom exception{
+	public Board(int width, int height, int sizeX, int sizeY) {// throws //nom exception{
 		this.width = width;
 		this.height = height;
 		

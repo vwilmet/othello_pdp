@@ -1,27 +1,27 @@
-package com.factory;
+package com.model.factory;
 
 import java.awt.Color;
 
 import com.controller.GameSettingsController;
 import com.error_manager.Log;
-import com.model.BlackPiece;
 import com.model.Board;
-import com.model.EmptyPiece;
 import com.model.GameSettings;
-import com.model.Piece;
-import com.model.Player;
-import com.model.RestoreGame;
-import com.model.SaveGame;
-import com.model.WhitePiece;
+import com.model.io.RestoreGame;
+import com.model.io.SaveGame;
+import com.model.piece.BlackPiece;
+import com.model.piece.EmptyPiece;
+import com.model.piece.Piece;
+import com.model.piece.WhitePiece;
+import com.model.player.Player;
 
 /**
  * Fabrique d'un pion.
  * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
-public class PieceFactoryImpl extends Factory{
+public class PieceFactoryImpl extends AbstractFactory{
 
-	private static PieceFactoryImpl instance;
+private static PieceFactoryImpl instance;
 	
 	private PieceFactoryImpl() {
 		// TODO Auto-generated constructor stub
@@ -34,7 +34,7 @@ public class PieceFactoryImpl extends Factory{
 		return instance;
 	}
 	
-	@Override
+	
 	public Piece getPiece(String pieceType, int width, int height, int posX, int posY) {
 		if (pieceType == null)
 			return null;
@@ -58,7 +58,7 @@ public class PieceFactoryImpl extends Factory{
 	}
 
 	@Override
-	public Board getBoard() {
+	public Board getBoard(int width, int height, int sizeX, int sizeY) {
 		// TODO Auto-generated method stub
 		return null;
 	}

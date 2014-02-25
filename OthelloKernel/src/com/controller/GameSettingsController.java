@@ -1,4 +1,4 @@
-package Controller;
+package com.controller;
 
 /**
  * Contrôleur de GameSettings.

@@ -1,4 +1,4 @@
-package Model;
+package com.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Board {
 	
 	private List<Piece> initialPieces;
 	
-	public Board(int width, int height, int sizeX, int sizeY){
+	public Board(int width, int height, int sizeX, int sizeY) throws //nom exception{
 		this.width = width;
 		this.height = height;
 		
@@ -61,12 +61,18 @@ public class Board {
 		return this.initialPieces;
 	}
 	
-	// Pour la copie de la piece. mais ca a pas l'aire de marcher
 	public void addInitialPiece (Piece p){
-		this.initialPieces.add(new Piece(p));
+		if (p instanceof WhitePiece)
+			this.initialPieces.add(new WhitePiece(p.getWidth(), p.getHeight(), p.getPosX(), p.getPosY()));
+		else if (p instanceof BlackPiece)
+			this.initialPieces.add(new BlackPiece(p.getWidth(), p.getHeight(), p.getPosX(), p.getPosY()));
+		//else
+			// throw new exception Interdit d'ajouter une piece vide
 	}
 
 	public String toString(){
+		String res = 
+		
 		return null;
 	}
 }

@@ -1,6 +1,8 @@
-import Factory.Factory;
-import Factory.FactoryProducer;
-import Model.Player;
+import com.factory.FactoryProducer;
+import com.factory.PieceFactory;
+import com.factory.PiecerInter;
+import com.factory.PlayerInter;
+import com.model.Player;
 
 /**
  * @author Benjamin Letourneau
@@ -14,8 +16,10 @@ public class Main {
 		
 		System.out.println("Test de la factory : ");
 		
-		Factory playerFactory = FactoryProducer.getFacory("player");
+		PiecerInter p = FactoryProducer.getPieceFacory();
 		
+		PlayerInter playerFactory = FactoryProducer.getFacory("player");
+		p.
 		Player joueur1 = playerFactory.getPlayer("human", "batmann33");
 		Player joueur2 = playerFactory.getPlayer("machine", "John");
 

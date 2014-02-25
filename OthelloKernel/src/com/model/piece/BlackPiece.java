@@ -2,24 +2,19 @@ package com.model.piece;
 
 /**
  * 
- * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @author <ul><li> Benjamin Letourneau </li><li> Vincent Wilmet </li></ul>
  * @version 1.0
  */
-public class BlackPiece extends Piece {
-
-	public BlackPiece(int width, int height, int posX, int posY) {
-		super(width, height, posX, posY);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public BlackPiece(BlackPiece p) {
-		super(p);
-		// TODO Auto-generated constructor stub
-	}
+public class BlackPiece implements PieceColor{
 
 	public String toString(){
 		String res = super.toString();
 		res += "Ce pion est noir.\n";
 		return res;
+	}
+
+	@Override
+	public void reverse(Piece piece) {
+		piece.setPieceState(new WhitePiece());
 	}
 }

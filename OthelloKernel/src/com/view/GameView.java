@@ -20,16 +20,15 @@ import javax.swing.event.MenuListener;
 import utils.TextManager;
 import utils.ViewSettings;
 
-import com.button.BackButton;
-import com.button.ButtonEventListener;
-import com.button.ForwardButton;
-import com.button.HelpIAButton;
-import com.button.ImageButton;
-import com.button.PlayButton;
-import com.button.PositionButton;
-import com.button.ResetButton;
-import com.button.ReversePlayerButton;
-import com.grid.GameCanvas;
+import com.view.button.BackButton;
+import com.view.button.ButtonEventListener;
+import com.view.button.ForwardButton;
+import com.view.button.HelpIAButton;
+import com.view.button.ImageButton;
+import com.view.button.PlayButton;
+import com.view.button.PositionButton;
+import com.view.button.ResetButton;
+import com.view.button.ReversePlayerButton;
 
 public class GameView extends JFrame {
 

@@ -13,16 +13,16 @@ import Model.WhitePiece;
 public class PieceFactory extends Factory {
 
 	@Override
-	public Piece getPiece(String pieceType) {
+	public Piece getPiece(String pieceType, int width, int height, int posX, int posY) {
 		if (pieceType == null)
 			return null;
 		
 		if (pieceType.equalsIgnoreCase("white"))
-			return new WhitePiece();
+			return new WhitePiece(width, height, posX, posY);
 		else if (pieceType.equalsIgnoreCase("black"))
-				return new BlackPiece();
+				return new BlackPiece(width, height, posX, posY);
 		else if (pieceType.equalsIgnoreCase("empty"))
-			return new EmptyPiece();
+			return new EmptyPiece(width, height, posX, posY);
 		
 		return null;
 	}

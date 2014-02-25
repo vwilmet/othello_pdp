@@ -1,18 +1,23 @@
 package Model;
 
+import java.awt.Color;
+
 /**
  * 
  * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
 public class HumanPlayer extends Player {
-	public HumanPlayer(String login){
-		super(login);
+	
+
+	public HumanPlayer(String login, Color c) {
+		super(login, c);
+		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public String toString() {
-		String res = this.login;
+		String res = super.toString();
+		res += "Joueur humain.\n";
 		return res;
 	}
 

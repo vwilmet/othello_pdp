@@ -1,5 +1,7 @@
 package Factory;
 
+import java.awt.Color;
+
 import Model.HumanPlayer;
 import Model.MachinePlayer;
 import Model.Player;
@@ -12,14 +14,14 @@ import Model.Player;
 public class PlayerFactory extends Factory {
 
 	@Override
-	public Player getPlayer(String playerType, String playerLogin) {
+	public Player getPlayer(String playerType, String playerLogin, Color c) {
 		if (playerType == null)
 			return null;
 		
 		if (playerType.equalsIgnoreCase("human"))
-			return new HumanPlayer(playerLogin);
+			return new HumanPlayer(playerLogin, c);
 		else if (playerType.equalsIgnoreCase("machine"))
-			return new MachinePlayer(playerLogin);
+			return new MachinePlayer(playerLogin, c);
 		
 		return null;
 	}

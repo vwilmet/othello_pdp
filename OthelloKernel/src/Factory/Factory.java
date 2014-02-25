@@ -1,5 +1,7 @@
 package Factory;
 
+import java.awt.Color;
+
 import Controller.GameSettingsController;
 import Model.Board;
 import Model.GameSettings;
@@ -16,11 +18,11 @@ import Model.SaveGame;
 public class Factory {
 	
 	// Model Factory
-	public Piece getPiece(String pieceType){
+	public Piece getPiece(String pieceType, int width, int height, int posX, int posY) {
 		return null;
 	}
 	
-	public Player getPlayer(String playerType, String playerName){
+	public Player getPlayer(String playerType, String playerName, Color c){
 		return null;
 	}
 	

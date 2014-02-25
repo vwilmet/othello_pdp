@@ -1,3 +1,5 @@
+import utils.Application;
+
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
@@ -11,6 +13,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Application app = Application.getInstance();
+		
 		System.out.println("Othello Kernel");
 		
 		System.out.println("Test de la factory : ");
@@ -18,7 +22,6 @@ public class Main {
 		PieceFactory p = FactoryProducer.getPieceFacory();
 		
 		PlayerFactory playerFactory = FactoryProducer.getFacory("player");
-		p.
 		Player joueur1 = playerFactory.getPlayer("human", "batmann33");
 		Player joueur2 = playerFactory.getPlayer("machine", "John");
 

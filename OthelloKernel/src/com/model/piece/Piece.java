@@ -6,23 +6,22 @@ package com.model.piece;
  * @version 1.0
  */
 public class Piece {
-
 	
-	/*
+	/* 
 	 * Piece p = Piece.BlackPiece(...);
 	 */
 	protected int width, height;
 	protected int posX, posY;
 	protected PieceColor piece;
-
-	public Piece (int width, int height, int posX, int posY){
+	
+	private Piece (int width, int height, int posX, int posY){
 		this.width = width;
 		this.height = height;
 		this.posX = posX;
 		this.posY = posY;
 		this.piece = new EmptyPiece();
 	}
-
+	
 	public static Piece EmptyPiece(int width, int height, int posX, int posY){
 		return (new Piece(width, height, posX, posY)).setPieceState(new EmptyPiece());
 	}

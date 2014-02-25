@@ -2,7 +2,6 @@ package com.model.factory;
 
 import java.awt.Color;
 
-import com.controller.GameSettingsController;
 import com.error_manager.Log;
 import com.model.Board;
 import com.model.GameSettings;
@@ -34,28 +33,31 @@ private static PieceFactoryImpl instance;
 		return instance;
 	}
 	
+	public Piece getWhitePiece(int width, int height, int posX, int posY) {
+		return new WhitePiece(width, height, posX, posY);
+	}
 	
-	public Piece getPiece(String pieceType, int width, int height, int posX, int posY) {
-		if (pieceType == null)
-			return null;
-
-		if (pieceType.equalsIgnoreCase("white"))
-			return new WhitePiece(width, height, posX, posY);
-		else if (pieceType.equalsIgnoreCase("black"))
-			return new BlackPiece(width, height, posX, posY);
-		else if (pieceType.equalsIgnoreCase("empty"))
-			return new EmptyPiece(width, height, posX, posY);
-		
+	public Piece getBlackPiece(int width, int height, int posX, int posY){
+		return new BlackPiece(width, height, posX, posY);
+	}
+	
+	public Piece getEmptyPiece(int width, int height, int posX, int posY){
+		return new EmptyPiece(width, height, posX, posY);
+	}
+	
+	@Override
+	public Player getHumanPlayer(String playerLogin, Color c) {
+		// TODO Auto-generated method stub
+		//Log.error("");
+		//Throw
 		return null;
 	}
 
 	@Override
-	public Player getPlayer(String playerType, String playerName, Color c) {
+	public Player getMachinePlayer(String playerLogin, Color c) {
 		// TODO Auto-generated method stub
-		Log.error("");
-		//Throw
 		return null;
-	}
+	}	
 
 	@Override
 	public Board getBoard(int width, int height, int sizeX, int sizeY) {
@@ -77,12 +79,6 @@ private static PieceFactoryImpl instance;
 
 	@Override
 	public RestoreGame getRestoreGame() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GameSettingsController getGameSettingsController() {
 		// TODO Auto-generated method stub
 		return null;
 	}

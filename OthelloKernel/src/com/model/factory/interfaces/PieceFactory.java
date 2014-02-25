@@ -1,12 +1,10 @@
 package com.model.factory.interfaces;
-import java.awt.Color;
 
 import com.model.piece.Piece;
-import com.model.player.Player;
 
 
 public interface PieceFactory {
-
-	public Piece getPiece(String pieceType, int width, int height, int posX, int posY);
-	
+	public Piece getWhitePiece(int width, int height, int posX, int posY);
+	public Piece getBlackPiece(int width, int height, int posX, int posY);
+	public Piece getEmptyPiece(int width, int height, int posX, int posY);
 }

@@ -12,7 +12,6 @@ import com.model.player.Player;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Application app = Application.getInstance();
 		
 		System.out.println("Othello Kernel");
@@ -24,7 +23,7 @@ public class Main {
 		PlayerFactory playerFactory = FactoryProducer.getFacory("player");
 		Player joueur1 = playerFactory.getPlayer("human", "batmann33");
 		Player joueur2 = playerFactory.getPlayer("machine", "John");
-
+		
 		System.out.println(joueur1.toString());
 		System.out.println(joueur2.toString());
 	}

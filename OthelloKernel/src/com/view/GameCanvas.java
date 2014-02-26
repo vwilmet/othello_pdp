@@ -29,7 +29,7 @@ public class GameCanvas extends Canvas {
 		//draw grid
 		for(int i = 0; i < SizeX; i ++){
 			for(int j = 0; j < SizeY; j++){
-				//g.drawRect(i*size, j*size, size+ line_size/2, size+ line_size/2);
+				g.drawRect(i*size, j*size, size+ line_size/2, size+ line_size/2);
 				//TODO
 			}
 		}

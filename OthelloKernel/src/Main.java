@@ -1,3 +1,4 @@
+
 import com.view.GameView;
 
 /**
@@ -10,7 +11,6 @@ public class Main {
 		// Application app = Application.getInstance();
 
 		System.out.println("Othello Kernel");
-
 		
 		new GameView();
 

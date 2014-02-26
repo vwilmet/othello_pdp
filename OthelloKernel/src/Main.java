@@ -1,6 +1,9 @@
+import java.awt.Color;
+
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
+import com.model.piece.Piece;
 import com.model.player.Player;
 
 /**
@@ -15,15 +18,16 @@ public class Main {
 		
 		System.out.println("Test de la factory : ");
 		
-		PieceFactory p = FactoryProducer.getPieceFacory();
+		PieceFactory pieceFactory = FactoryProducer.getPieceFacory();
+		Piece p1 = pieceFactory.getWhitePiece(10, 10, 1, 1);
 		
-		PlayerFactory playerFactory = FactoryProducer.getFacory("player");
-		p.
-		Player joueur1 = playerFactory.getPlayer("human", "batmann33");
-		Player joueur2 = playerFactory.getPlayer("machine", "John");
+		PlayerFactory playerFactory = FactoryProducer.getPlayerFacory();
+		Player joueur1 = playerFactory.getHumanPlayer("batmann33", Color.white);
+		Player joueur2 = playerFactory.getMachinePlayer("John", Color.black);
 
 		System.out.println(joueur1.toString());
 		System.out.println(joueur2.toString());
+		System.out.println(p1.toString());
 	}
 
 }

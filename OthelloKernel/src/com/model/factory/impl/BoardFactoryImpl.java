@@ -1,10 +1,11 @@
-package com.model.factory;
+package com.model.factory.impl;
 
 import java.awt.Color;
 
 import com.controller.GameSettingsController;
 import com.model.Board;
 import com.model.GameSettings;
+import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;

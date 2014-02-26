@@ -1,5 +1,12 @@
 package com.model.factory;
 
+import com.model.factory.impl.BoardFactoryImpl;
+import com.model.factory.impl.GameSettingsFactoryImpl;
+import com.model.factory.impl.PieceFactoryImpl;
+import com.model.factory.impl.PlayerFactoryImpl;
+import com.model.factory.impl.RestoreGameFactoryImpl;
+import com.model.factory.impl.SaveGameFactoryImpl;
+
 
 /**
  * Gestionnaire de la fabrique.

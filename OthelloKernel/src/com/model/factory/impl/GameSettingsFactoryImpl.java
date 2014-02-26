@@ -1,34 +1,35 @@
-package com.model.factory;
+package com.model.factory.impl;
 
 import java.awt.Color;
 
 import com.model.Board;
 import com.model.GameSettings;
+import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
 import com.model.player.Player;
 
-public class SaveGameFactoryImpl extends AbstractFactory{
+public class GameSettingsFactoryImpl extends AbstractFactory {
 
-	private static SaveGameFactoryImpl instance;
+	private static GameSettingsFactoryImpl instance;
 	
-	private SaveGameFactoryImpl() {
+	private GameSettingsFactoryImpl() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static SaveGameFactoryImpl getInstance(){
+	public static GameSettingsFactoryImpl getInstance(){
 		if(instance == null)
-			instance = new SaveGameFactoryImpl();
+			instance = new GameSettingsFactoryImpl();
 		
 		return instance;
 	}
-	
-	@Override
-	public SaveGame getSaveGame() {
-		return new SaveGame();
-	}
 
+	@Override
+	public GameSettings getGameSettings() {
+		return new GameSettings();
+	}
+	
 	@Override
 	public Piece getWhitePiece(int width, int height, int posX, int posY) {
 		// TODO Auto-generated method stub
@@ -66,7 +67,7 @@ public class SaveGameFactoryImpl extends AbstractFactory{
 	}
 
 	@Override
-	public GameSettings getGameSettings() {
+	public SaveGame getSaveGame() {
 		// TODO Auto-generated method stub
 		return null;
 	}

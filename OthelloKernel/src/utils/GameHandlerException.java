@@ -16,6 +16,6 @@ public class GameHandlerException extends Exception {
 	public GameHandlerException(int error, String message){
 		this.error = error;
 		this.message = message;
-	
+	}
 
 }

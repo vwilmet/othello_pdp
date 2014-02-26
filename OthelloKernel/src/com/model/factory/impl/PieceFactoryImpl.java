@@ -1,10 +1,12 @@
-package com.model.factory;
+package com.model.factory.impl;
 
 import java.awt.Color;
 
-import com.error_manager.Log;
+import utils.FactoryHandlerException;
+
 import com.model.Board;
 import com.model.GameSettings;
+import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.BlackPiece;
@@ -46,9 +48,8 @@ private static PieceFactoryImpl instance;
 	}
 	
 	@Override
-	public Player getHumanPlayer(String playerLogin, Color c) {
-		// TODO Auto-generated method stub
-		//Log.error("");
+	public Player getHumanPlayer(String playerLogin, Color c) { //throws FactoryHandlerException {
+		//Log.error();
 		//Throw
 		return null;
 	}

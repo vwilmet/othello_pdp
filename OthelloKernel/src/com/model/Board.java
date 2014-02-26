@@ -75,8 +75,7 @@ public class Board {
 	}
 
 	public String toString(){
-		String res = 
-		
-		return null;
+		String res = "ToStringBOARD";
+		return res;
 	}
 }

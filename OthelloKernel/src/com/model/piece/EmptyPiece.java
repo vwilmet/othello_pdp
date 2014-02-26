@@ -11,6 +11,10 @@ public class EmptyPiece implements PieceColor{
 		return "Ce pion est vide.\n";
 	}
 
+	public String graphicalDebug(){
+		return "  ";
+	}
+	
 	@Override
 	public void reverse(Piece piece) {
 		//TODO

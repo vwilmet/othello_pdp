@@ -3,7 +3,9 @@ package com.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
+import com.model.piece.WhitePiece;
 
 /**
  * 
@@ -70,7 +72,20 @@ public class Board {
 	}
 
 	public String toString(){
-		String res = "ToStringBOARD";
+		String res = "Taille graphique de l'othellier : " + this.width + "x" + this.height + "\n" ;
+		res += "Taille de l'othellier (nombre de pions sur le plateau) : " + this.sizeX + "x" + this.sizeY + "\n" ;
+		
+		res += "   ";
+		for (int k = 0; k < this.sizeY; k++)
+			res += (k<10)? " " + k + " " :" " + k ;
+		res += "\n";
+		for (int i = 0; i < this.sizeX; i++){
+			res += i + ((i<10)?"  |":" |");
+			for (int j = 0; j < this.sizeY; j++){
+				res += this.gameBoard[i][j].getColor().graphicalDebug() + "|";  
+			}
+			res += "\n";
+		}
 		return res;
 	}
 }

@@ -2,10 +2,14 @@ package com.model.factory.impl;
 
 import java.awt.Color;
 
+import utils.FactoryHandlerException;
+
 import com.controller.GameSettingsController;
+import com.error_manager.Log;
 import com.model.Board;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
+import com.model.factory.FactoryMessages;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
@@ -44,44 +48,37 @@ public class PlayerFactoryImpl extends AbstractFactory  {
 	}
 	
 	@Override
-	public Piece getWhitePiece(int width, int height, int posX, int posY) {
-		// TODO Auto-generated method stub
-		return null;
+	public Piece getWhitePiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Piece getBlackPiece(int width, int height, int posX, int posY) {
-		// TODO Auto-generated method stub
-		return null;
+	public Piece getBlackPiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Piece getEmptyPiece(int width, int height, int posX, int posY) {
-		// TODO Auto-generated method stub
-		return null;
+	public Piece getEmptyPiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY) {
-		// TODO Auto-generated method stub
-		return null;
+	public Board getBoard(int width, int height, int sizeX, int sizeY) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 	
 	@Override
-	public GameSettings getGameSettings() {
-		// TODO Auto-generated method stub
-		return null;
+	public GameSettings getGameSettings() throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public SaveGame getSaveGame() {
-		// TODO Auto-generated method stub
-		return null;
+	public SaveGame getSaveGame() throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() {
-		// TODO Auto-generated method stub
-		return null;
+	public RestoreGame getRestoreGame() throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryMessages.PLAYER_FACTORY_REQUIRED_FR);
 	}
 }

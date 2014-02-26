@@ -10,6 +10,10 @@ public class WhitePiece implements PieceColor{
 	public String toString(){
 		return "Ce pion est blanc.\n";
 	}
+	
+	public String graphicalDebug(){
+		return "()";
+	}
 
 	@Override
 	public void reverse(Piece piece) {

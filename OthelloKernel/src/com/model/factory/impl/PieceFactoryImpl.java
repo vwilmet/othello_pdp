@@ -1,6 +1,8 @@
 package com.model.factory.impl;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import utils.FactoryHandlerException;
 
@@ -51,6 +53,16 @@ private static PieceFactoryImpl instance;
 	}
 	
 	@Override
+	public Piece[][] getMatrixPiece(int i, int j) {
+		return  new Piece[i][j];
+	}
+	
+	@Override
+	public List<Piece> getArrayListOfPiece() {
+		return new ArrayList<Piece>();
+	}
+	
+	@Override
 	public Player getHumanPlayer(String playerLogin, Color c) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);
 	}
@@ -61,7 +73,7 @@ private static PieceFactoryImpl instance;
 	}	
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY) throws FactoryHandlerException {
+	public Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);
 	}
 
@@ -79,4 +91,6 @@ private static PieceFactoryImpl instance;
 	public RestoreGame getRestoreGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);
 	}
+
+	
 }

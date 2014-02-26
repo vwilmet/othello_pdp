@@ -1,6 +1,7 @@
 package com.model.factory;
 
 import java.awt.Color;
+import java.util.List;
 
 import utils.FactoryHandlerException;
 
@@ -27,11 +28,13 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory, Bo
 	public abstract Piece getWhitePiece(int width, int height, int posX, int posY) throws FactoryHandlerException;
 	public abstract Piece getBlackPiece(int width, int height, int posX, int posY) throws FactoryHandlerException;
 	public abstract Piece getEmptyPiece(int width, int height, int posX, int posY) throws FactoryHandlerException;
+	public abstract Piece[][] getMatrixPiece(int i, int j) throws FactoryHandlerException;
+	public abstract List<Piece> getArrayListOfPiece() throws FactoryHandlerException;
 	
 	public abstract Player getHumanPlayer(String playerLogin, Color c) throws FactoryHandlerException;
 	public abstract Player getMachinePlayer(String playerLogin, Color c) throws FactoryHandlerException;
 	
-	public abstract Board getBoard(int width, int height, int sizeX, int sizeY) throws FactoryHandlerException;
+	public abstract Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException;
 	
 	public abstract GameSettings getGameSettings() throws FactoryHandlerException;
 	

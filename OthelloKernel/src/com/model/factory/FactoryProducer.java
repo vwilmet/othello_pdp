@@ -15,11 +15,11 @@ import com.model.factory.impl.SaveGameFactoryImpl;
  */
 public class FactoryProducer  {
 	
-	public static AbstractFactory getPieceFacory(){
+	public static AbstractFactory getPieceFactory(){
 		return PieceFactoryImpl.getInstance();
 	}
 	
-	public static AbstractFactory getPlayerFacory(){
+	public static AbstractFactory getPlayerFactory(){
 		return PlayerFactoryImpl.getInstance();
 	}
 	

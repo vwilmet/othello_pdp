@@ -1,6 +1,7 @@
 package com.model.factory.impl;
 
 import java.awt.Color;
+import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
@@ -30,13 +31,14 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY) {
+	public Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) {
 		Board b = null;
 		
 		try {
-			b = new Board(width, height, sizeX, sizeY);
+			b = new Board(width, height, sizeX, sizeY, initiaPieces);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return b;
 	}
@@ -56,6 +58,16 @@ public class BoardFactoryImpl extends AbstractFactory {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
+	@Override
+	public Piece[][] getMatrixPiece(int i, int j) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	}
+
+	@Override
+	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	}
+	
 	@Override
 	public Player getHumanPlayer(String playerLogin, Color c) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);

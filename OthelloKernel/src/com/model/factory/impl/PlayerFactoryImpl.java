@@ -1,6 +1,7 @@
 package com.model.factory.impl;
 
 import java.awt.Color;
+import java.util.List;
 
 import utils.FactoryHandlerException;
 
@@ -44,6 +45,8 @@ public class PlayerFactoryImpl extends AbstractFactory  {
 		return new MachinePlayer(playerLogin, c);
 	}
 	
+	
+	
 	@Override
 	public Piece getWhitePiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
@@ -58,9 +61,19 @@ public class PlayerFactoryImpl extends AbstractFactory  {
 	public Piece getEmptyPiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
 	}
+	
+	@Override
+	public Piece[][] getMatrixPiece(int i, int j) throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
+	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY) throws FactoryHandlerException {
+	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException {
+		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
+	}
+
+	@Override
+	public Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
 	}
 	
@@ -78,4 +91,5 @@ public class PlayerFactoryImpl extends AbstractFactory  {
 	public RestoreGame getRestoreGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
 	}
+
 }

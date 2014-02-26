@@ -36,6 +36,7 @@ public class ImageButton extends JButton {
 			this.setIcon(new ImageIcon(image));
 		} catch (IOException e) {
 			Log.error(TextManager.IO_EXCEPTION_ERROR);
+			e.printStackTrace();
 		}
 	}
 }

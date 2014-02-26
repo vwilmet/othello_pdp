@@ -6,10 +6,12 @@ public class GameHandlerException extends Exception {
 	public static final int ERROR = 0;
 	public static final int WRONG_BOARD_SIZE = 1;
 	public static final int WRONG_INITIAL_PIECE_COLOR = 2;
+	public static final int WRONG_INITIAL_PIECE_POSITION = 3;
 	
 	public static final String ERROR_FR = "";
 	public static final String WRONG_BOARD_SIZE_FR = "La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. ";
 	public static final String WRONG_INITIAL_PIECE_COLOR_FR = "Vous ne pouvez ajouter qu'un pion réel à la liste des pions initiaux de votre jeu. ";
+	public static final String WRONG_INITIAL_PIECE_POSITION_FR = "Vous ne pouvez pas ajouter deux pions sur un même endroit de l'othellier. ";
 	
 	private int error;
 	private String message;

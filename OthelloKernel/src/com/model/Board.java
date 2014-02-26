@@ -3,9 +3,7 @@ package com.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.model.piece.BlackPiece;
 import com.model.piece.Piece;
-import com.model.piece.WhitePiece;
 
 /**
  * 
@@ -66,10 +64,7 @@ public class Board {
 	}
 	
 	public void addInitialPiece (Piece p){
-		if (p instanceof WhitePiece)
-			this.initialPieces.add(new WhitePiece(p.getWidth(), p.getHeight(), p.getPosX(), p.getPosY()));
-		else if (p instanceof BlackPiece)
-			this.initialPieces.add(new BlackPiece(p.getWidth(), p.getHeight(), p.getPosX(), p.getPosY()));
+		this.initialPieces.add(p.clone());
 		//else
 			// throw new exception Interdit d'ajouter une piece vide
 	}

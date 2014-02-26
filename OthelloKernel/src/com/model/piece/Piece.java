@@ -21,18 +21,6 @@ public class Piece {
 		this.posY = posY;
 		this.piece = new EmptyPiece();
 	}
-	
-	/*public static Piece EmptyPiece(int width, int height, int posX, int posY){
-		return (new Piece(width, height, posX, posY)).setPieceState(new EmptyPiece());
-	}
-	
-	public static Piece BlackPiece(int width, int height, int posX, int posY){
-		return (new Piece(width, height, posX, posY)).setPieceState(new BlackPiece());
-	}
-	
-	public static Piece WhitePiece(int width, int height, int posX, int posY){
-		return (new Piece(width, height, posX, posY)).setPieceState(new WhitePiece());
-	}*/
 
 	public Piece setPieceState(final PieceColor piece){
 		this.piece = piece;

@@ -72,4 +72,19 @@ public class Application {
 	public static String getOsVersion(){
 		return System.getProperty("os.version");
 	}
+
+	public String toString(){
+		return "Screen Width : " + this.width + " | Height : " + this.height + "\n" +
+				"Temps écoulée : " + this.getExecutionTime() + "\n" +
+				"JVm :" + "\n" +
+				"Mémoire libre : " + getJVMFreeMemory() + "\n" +
+				"Mémoire total : " + getJVMTotalMemory() + "\n" +
+				"Processeur disponible : " + getJVMAvailableProcessor() + "\n" +
+				"Java :" + "\n" +
+				"Vendeur : " + getJavaVendor() + "\n" +
+				"Version : " + getJavaVersion() + "\n" +
+				"Arch : " + getOsArch() + "\n" +
+				"Nom de l'OS : " + getOsName() + "\n" +
+				"Version de l'OS : " + getOsVersion();
+	}
 }

@@ -111,8 +111,9 @@ public class GameView extends JFrame {
 			public void menuSelected(MenuEvent arg0) {
 				try {
 					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
-				} catch (IOException | URISyntaxException e) {
-					// TODO Auto-generated catch block
+				} catch (IOException  e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}	
 			}

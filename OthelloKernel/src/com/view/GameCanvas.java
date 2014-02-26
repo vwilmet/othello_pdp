@@ -17,11 +17,11 @@ public class GameCanvas extends Canvas{
 	}
 
 	private void drawGrid(Graphics2D g){
-		
+		int size = 12;
 		//draw grid
 		for(int i = 0; i < SizeX; i ++){
 			for(int j = 0; j < SizeY; j++){
-				//g.drawRect(i*Piece.size, j*Piece.size, Piece.size+ line_size/2, Piece.size+ line_size/2)
+				g.drawRect(i*size, j*size, size+ line_size/2, size+ line_size/2);
 				//TODO
 			}
 		}

@@ -9,6 +9,7 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.Piece;
 import com.model.player.Player;
+import com.view.GameView;
 
 /**
  * @author Benjamin Letourneau
@@ -20,6 +21,8 @@ public class Main {
 		Application app = Application.getInstance();
 		
 		System.out.println("Othello Kernel");
+		
+		new GameView();
 		
 		System.out.println("Test de la factory : ");
 		

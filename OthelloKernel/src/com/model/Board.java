@@ -3,9 +3,10 @@ package com.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.GameHandlerException;
+
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
-import com.model.piece.WhitePiece;
 
 /**
  * 
@@ -21,24 +22,23 @@ public class Board {
 	
 	private List<Piece> initialPieces;
 	
-	public Board(int width, int height, int sizeX, int sizeY) {// throws //nom exception{
+	public Board(int width, int height, int sizeX, int sizeY) throws GameHandlerException {
 		this.width = width;
 		this.height = height;
 		
 		if (sizeX > 3  && sizeX < 50)
 			this.sizeX = sizeX;
-		//else 
-		//	throw new EXCEPTION sur la taille X 
+		else 
+			throw new GameHandlerException(GameHandlerException.WRONG_BOARD_SIZE, "La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50."); 
 		
 		if (sizeY > 3  && sizeY < 50)
 			this.sizeY = sizeY;
-		//else 
-		//	throw new EXCEPTION sur la taille Y
+		else 
+			throw new GameHandlerException(GameHandlerException.WRONG_BOARD_SIZE, "La taille de votre othellier sur l'axe des ordonnées doit être comprise entre 4 et 50.");
 		
 		this.gameBoard = new Piece[this.sizeX][this.sizeY];
 		
 		this.initialPieces = new ArrayList<Piece>();
-		
 	}
 	
 	public int getWidth(){
@@ -65,10 +65,11 @@ public class Board {
 		return this.initialPieces;
 	}
 	
-	public void addInitialPiece (Piece p){
+	public void addInitialPiece (Piece p) throws GameHandlerException {
+		if (p.getColor() instanceof EmptyPiece)
+			throw new GameHandlerException(GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
+		
 		this.initialPieces.add(p.clone());
-		//else
-			// throw new exception Interdit d'ajouter une piece vide
 	}
 
 	public String toString(){

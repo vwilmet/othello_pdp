@@ -8,7 +8,9 @@ import utils.ViewSettings;
 public class ReversePlayerButton extends ImageButton implements MouseListener {
 
 	public ReversePlayerButton(ButtonEventListener event) {
-		super(ViewSettings.REVERSE_BUTTON_IMAGE, event, ViewSettings.REVERSE_BUTTON_CODE, ViewSettings.REVERSE_BUTTON_TEXT);
+		super(ViewSettings.REVERSE_BUTTON_IMAGE, event,
+				ViewSettings.REVERSE_BUTTON_CODE,
+				ViewSettings.REVERSE_BUTTON_TEXT);
 		this.addMouseListener(this);
 	}
 
@@ -20,11 +22,12 @@ public class ReversePlayerButton extends ImageButton implements MouseListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		super.setImage(ViewSettings.REVERSE_BUTTON_IMAGE);	
+		super.setImage(ViewSettings.REVERSE_BUTTON_IMAGE);
 	}
 
 	@Override

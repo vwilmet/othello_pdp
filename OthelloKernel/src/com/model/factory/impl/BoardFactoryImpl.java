@@ -18,22 +18,23 @@ import com.model.player.Player;
 public class BoardFactoryImpl extends AbstractFactory {
 
 	private static BoardFactoryImpl instance;
-	
+
 	private BoardFactoryImpl() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public static BoardFactoryImpl getInstance(){
-		if(instance == null)
+
+	public static BoardFactoryImpl getInstance() {
+		if (instance == null)
 			instance = new BoardFactoryImpl();
-		
+
 		return instance;
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) {
+	public Board getBoard(int width, int height, int sizeX, int sizeY,
+			List<Piece> initiaPieces) {
 		Board b = null;
-		
+
 		try {
 			b = new Board(width, height, sizeX, sizeY, initiaPieces);
 		} catch (GameHandlerException e) {
@@ -42,54 +43,80 @@ public class BoardFactoryImpl extends AbstractFactory {
 		}
 		return b;
 	}
-	
+
 	@Override
-	public Piece getWhitePiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	public Piece getWhitePiece(int width, int height, int posX, int posY)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Piece getBlackPiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	public Piece getBlackPiece(int width, int height, int posX, int posY)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Piece getEmptyPiece(int width, int height, int posX, int posY) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	public Piece getEmptyPiece(int width, int height, int posX, int posY)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Piece[][] getMatrixPiece(int i, int j) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	public Piece[][] getMatrixPiece(int i, int j)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
-	}
-	
-	@Override
-	public Player getHumanPlayer(String playerLogin, Color c) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, Color c) throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	public Player getHumanPlayer(String playerLogin, Color c)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+	}
+
+	@Override
+	public Player getMachinePlayer(String playerLogin, Color c)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public GameSettings getGameSettings() throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public SaveGame getSaveGame() throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public RestoreGame getRestoreGame() throws FactoryHandlerException {
-		throw new FactoryHandlerException(FactoryHandlerException.WRONG_FACTORY_REFERRED, FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);
 	}
 }

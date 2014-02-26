@@ -8,7 +8,9 @@ import utils.ViewSettings;
 public class PositionButton extends ImageButton implements MouseListener {
 
 	public PositionButton(ButtonEventListener event) {
-		super(ViewSettings.POSITION_BUTTON_IMAGE, event, ViewSettings.POSITION_BUTTON_CODE, ViewSettings.POSITION_BUTTON_TEXT);
+		super(ViewSettings.POSITION_BUTTON_IMAGE, event,
+				ViewSettings.POSITION_BUTTON_CODE,
+				ViewSettings.POSITION_BUTTON_TEXT);
 		this.addMouseListener(this);
 	}
 
@@ -20,11 +22,12 @@ public class PositionButton extends ImageButton implements MouseListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		super.setImage(ViewSettings.POSITION_BUTTON_IMAGE);	
+		super.setImage(ViewSettings.POSITION_BUTTON_IMAGE);
 	}
 
 	@Override

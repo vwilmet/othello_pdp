@@ -4,39 +4,40 @@ import java.awt.Color;
 
 /**
  * 
- * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @author <ul>
+ *         <li>Benjamin Letourneau</li>
+ *         </ul>
  * @version 1.0
  */
 public abstract class Player {
-	
+
 	protected String login;
 	protected Color color;
 	protected int piecesNumber;
-	
-	
-	public Player (String login, Color c){
+
+	public Player(String login, Color c) {
 		this.login = login;
 		this.color = c;
 		this.piecesNumber = 0;
 	}
-	
-	public String getLogin(){
+
+	public String getLogin() {
 		return this.login;
 	}
-	
-	public Color getColor(){
+
+	public Color getColor() {
 		return this.color;
 	}
-	
-	public int getPiecesNumber(){
+
+	public int getPiecesNumber() {
 		return this.piecesNumber;
 	}
-	
-	public void setPiecesNumber (int piecesNumber){
+
+	public void setPiecesNumber(int piecesNumber) {
 		this.piecesNumber = piecesNumber;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String res = "Pseudonyme du joueur : " + this.login + ".\n";
 		res += "Couleur du joueur : " + this.color.toString() + ".\n";
 		res += "Pions sur le plateau : " + this.piecesNumber + ".\n";

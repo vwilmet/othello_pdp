@@ -8,5 +8,6 @@ import com.model.Board;
 import com.model.piece.Piece;
 
 public interface BoardFactory {
-	public Board getBoard(int width, int height, int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException;
+	public Board getBoard(int width, int height, int sizeX, int sizeY,
+			List<Piece> initiaPieces) throws FactoryHandlerException;
 }

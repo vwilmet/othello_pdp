@@ -5,10 +5,12 @@ import java.awt.event.MouseListener;
 
 import utils.ViewSettings;
 
-public class ForwardButton extends ImageButton implements MouseListener{
+public class ForwardButton extends ImageButton implements MouseListener {
 
 	public ForwardButton(ButtonEventListener event) {
-		super(ViewSettings.FORWARD_BUTTON_IMAGE, event, ViewSettings.FORWARD_BUTTON_CODE, ViewSettings.FORWARD_BUTTON_TEXT);
+		super(ViewSettings.FORWARD_BUTTON_IMAGE, event,
+				ViewSettings.FORWARD_BUTTON_CODE,
+				ViewSettings.FORWARD_BUTTON_TEXT);
 		this.addMouseListener(this);
 	}
 
@@ -20,11 +22,12 @@ public class ForwardButton extends ImageButton implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseEntered(MouseEvent arg0) {
+	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		super.setImage(ViewSettings.FORWARD_BUTTON_IMAGE);	
+		super.setImage(ViewSettings.FORWARD_BUTTON_IMAGE);
 	}
 
 	@Override

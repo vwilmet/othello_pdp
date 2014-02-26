@@ -4,7 +4,9 @@ import java.awt.Color;
 
 /**
  * 
- * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @author <ul>
+ *         <li>Benjamin Letourneau</li>
+ *         </ul>
  * @version 1.0
  */
 public class MachinePlayer extends Player {
@@ -13,7 +15,7 @@ public class MachinePlayer extends Player {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String toString(){
+	public String toString() {
 		String res = super.toString();
 		res += "Joueur machine. \n";
 		return res;

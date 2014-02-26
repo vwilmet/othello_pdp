@@ -5,10 +5,12 @@ import java.awt.event.MouseListener;
 
 import utils.ViewSettings;
 
-public class HelpIAButton extends ImageButton implements MouseListener{
+public class HelpIAButton extends ImageButton implements MouseListener {
 
 	public HelpIAButton(ButtonEventListener event) {
-		super(ViewSettings.HELP_IA_BUTTON_IMAGE, event, ViewSettings.HELP_IA_BUTTON_CODE, ViewSettings.HELP_IA_BUTTON_TEXT);
+		super(ViewSettings.HELP_IA_BUTTON_IMAGE, event,
+				ViewSettings.HELP_IA_BUTTON_CODE,
+				ViewSettings.HELP_IA_BUTTON_TEXT);
 		this.addMouseListener(this);
 	}
 
@@ -20,10 +22,12 @@ public class HelpIAButton extends ImageButton implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);	
+	public void mouseExited(MouseEvent e) {
+		super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);
 	}
 
 	@Override

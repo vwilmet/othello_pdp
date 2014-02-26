@@ -5,12 +5,13 @@ import java.awt.event.MouseListener;
 
 import utils.ViewSettings;
 
-public class PlayButton extends ImageButton implements MouseListener{
+public class PlayButton extends ImageButton implements MouseListener {
 
 	private boolean onPlay;
-	
+
 	public PlayButton(ButtonEventListener event) {
-		super(ViewSettings.PAUSE_BUTTON_IMAGE, event, ViewSettings.PLAY_BUTTON_CODE, ViewSettings.PLAY_BUTTON_TEXT);
+		super(ViewSettings.PAUSE_BUTTON_IMAGE, event,
+				ViewSettings.PLAY_BUTTON_CODE, ViewSettings.PLAY_BUTTON_TEXT);
 		this.addMouseListener(this);
 		onPlay = true;
 	}
@@ -18,12 +19,12 @@ public class PlayButton extends ImageButton implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		listener.onButtonCliked(this, code);
-		
-		if(onPlay){
+
+		if (onPlay) {
 			onPlay = false;
 			super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
 			listener.onPauseButtonCliked();
-		}else{
+		} else {
 			onPlay = true;
 			super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
 			listener.onPlayButtonCliked();
@@ -31,11 +32,12 @@ public class PlayButton extends ImageButton implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if(onPlay)
+		if (onPlay)
 			super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
 		else
 			super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
@@ -43,7 +45,7 @@ public class PlayButton extends ImageButton implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(onPlay)
+		if (onPlay)
 			super.setImage(ViewSettings.PAUSE_BUTTON_CLIKED_IMAGE);
 		else
 			super.setImage(ViewSettings.PLAY_BUTTON_CLIKED_IMAGE);
@@ -51,11 +53,10 @@ public class PlayButton extends ImageButton implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(onPlay)
+		if (onPlay)
 			super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
 		else
 			super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
 	}
-
 
 }

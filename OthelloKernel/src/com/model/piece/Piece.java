@@ -14,7 +14,7 @@ public class Piece {
 	protected int posX, posY;
 	protected PieceColor piece;
 	
-	private Piece (int width, int height, int posX, int posY){
+	public Piece (int width, int height, int posX, int posY){
 		this.width = width;
 		this.height = height;
 		this.posX = posX;
@@ -22,7 +22,7 @@ public class Piece {
 		this.piece = new EmptyPiece();
 	}
 	
-	public static Piece EmptyPiece(int width, int height, int posX, int posY){
+	/*public static Piece EmptyPiece(int width, int height, int posX, int posY){
 		return (new Piece(width, height, posX, posY)).setPieceState(new EmptyPiece());
 	}
 	
@@ -32,9 +32,9 @@ public class Piece {
 	
 	public static Piece WhitePiece(int width, int height, int posX, int posY){
 		return (new Piece(width, height, posX, posY)).setPieceState(new WhitePiece());
-	}
+	}*/
 
-	protected Piece setPieceState(final PieceColor piece){
+	public Piece setPieceState(final PieceColor piece){
 		this.piece = piece;
 		return this;
 	}
@@ -66,6 +66,7 @@ public class Piece {
 	public String toString(){
 		String res = "Taille : " + this.width + " * " + this.height + "\n";
 		res += "Position dans la grille : " + this.posX + " : " + this.posY + "\n";
+		res += this.piece.toString();
 		return res;
 	}
 }

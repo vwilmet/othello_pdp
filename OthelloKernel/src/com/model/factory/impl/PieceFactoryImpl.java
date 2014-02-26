@@ -35,16 +35,19 @@ private static PieceFactoryImpl instance;
 		return instance;
 	}
 	
+	@Override
 	public Piece getWhitePiece(int width, int height, int posX, int posY) {
-		return new WhitePiece(width, height, posX, posY);
+		return (new Piece(width, height, posX, posY)).setPieceState(new WhitePiece());
 	}
 	
+	@Override
 	public Piece getBlackPiece(int width, int height, int posX, int posY){
-		return new BlackPiece(width, height, posX, posY);
+		return (new Piece(width, height, posX, posY)).setPieceState(new BlackPiece());
 	}
 	
+	@Override
 	public Piece getEmptyPiece(int width, int height, int posX, int posY){
-		return new EmptyPiece(width, height, posX, posY);
+		return (new Piece(width, height, posX, posY)).setPieceState(new EmptyPiece());
 	}
 	
 	@Override

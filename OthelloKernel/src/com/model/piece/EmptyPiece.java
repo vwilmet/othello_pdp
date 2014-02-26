@@ -8,9 +8,7 @@ package com.model.piece;
 public class EmptyPiece implements PieceColor{
 
 	public String toString(){
-		String res = super.toString();
-		res += "Ce pion est vide.\n";
-		return res;
+		return "Ce pion est vide.\n";
 	}
 
 	@Override

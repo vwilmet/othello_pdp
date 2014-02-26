@@ -8,9 +8,7 @@ package com.model.piece;
 public class BlackPiece implements PieceColor{
 
 	public String toString(){
-		String res = super.toString();
-		res += "Ce pion est noir.\n";
-		return res;
+		return "Ce pion est noir.\n";
 	}
 
 	@Override

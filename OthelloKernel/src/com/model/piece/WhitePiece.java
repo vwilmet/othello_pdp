@@ -8,14 +8,11 @@ package com.model.piece;
 public class WhitePiece implements PieceColor{
 	
 	public String toString(){
-		String res = super.toString();
-		res += "Ce pion est blanc.\n";
-		return res;
+		return "Ce pion est blanc.\n";
 	}
 
 	@Override
 	public void reverse(Piece piece) {
 		piece.setPieceState(new BlackPiece());
 	}
-
 }

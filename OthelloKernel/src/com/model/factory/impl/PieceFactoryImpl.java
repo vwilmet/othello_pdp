@@ -28,7 +28,7 @@ private static PieceFactoryImpl instance;
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static PieceFactoryImpl getInstance(){
+	public static PieceFactoryImpl getInstance() {
 		if(instance == null)
 			instance = new PieceFactoryImpl();
 		

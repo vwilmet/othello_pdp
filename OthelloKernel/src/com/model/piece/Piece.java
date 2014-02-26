@@ -5,7 +5,7 @@ package com.model.piece;
  * @author <ul><li> Benjamin Letourneau </li><li> Vincent Wilmet </li></ul>
  * @version 1.0
  */
-public class Piece {
+public class Piece implements Cloneable{
 	
 	/* 
 	 * Piece p = Piece.BlackPiece(...);
@@ -56,5 +56,13 @@ public class Piece {
 		res += "Position dans la grille : " + this.posX + " : " + this.posY + "\n";
 		res += this.piece.toString();
 		return res;
+	}
+	
+	public Piece clone(){
+		try{
+			return (Piece) super.clone();
+		}catch(Exception e){
+			return null;
+		}
 	}
 }

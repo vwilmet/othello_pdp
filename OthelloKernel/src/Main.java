@@ -1,14 +1,4 @@
-import java.awt.Color;
-
 import utils.Application;
-
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.factory.interfaces.PlayerFactory;
-import com.model.piece.Piece;
-import com.model.player.Player;
-
-
 
 /**
  * @author Benjamin Letourneau
@@ -23,7 +13,7 @@ public class Main {
 		
 		System.out.println("Test de la factory : ");
 		
-		PieceFactory pieceFactory = FactoryProducer.getPieceFacory();
+		/*PieceFactory pieceFactory = FactoryProducer.getPieceFacory();
 		Piece p1 = pieceFactory.getWhitePiece(10, 10, 1, 1);
 
 		PlayerFactory playerFactory = FactoryProducer.getPlayerFacory();
@@ -32,7 +22,7 @@ public class Main {
 
 		System.out.println(joueur1.toString());
 		System.out.println(joueur2.toString());
-		System.out.println(p1.toString());
+		System.out.println(p1.toString());*/
 	}
 
 }

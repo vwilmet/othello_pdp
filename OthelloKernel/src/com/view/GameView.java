@@ -117,10 +117,10 @@ public class GameView extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent arg0) {
 				try {
-					java.awt.Desktop.getDesktop().browse(
-							new URI("www.google.fr"));
-				} catch (IOException | URISyntaxException e) {
-					// TODO Auto-generated catch block
+					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
+				} catch (IOException  e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
 			}

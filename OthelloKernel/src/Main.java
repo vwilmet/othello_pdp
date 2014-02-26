@@ -1,14 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import utils.FactoryHandlerException;
-
-import com.error_manager.Log;
-import com.model.Board;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.BoardFactory;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.piece.Piece;
+import com.view.GameView;
 
 /**
  * @author Benjamin Letourneau
@@ -20,7 +10,11 @@ public class Main {
 		// Application app = Application.getInstance();
 
 		System.out.println("Othello Kernel");
-		System.out.println("Test de la factory : ");
+
+		
+		new GameView();
+
+		/*System.out.println("Test de la factory : ");
 
 		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null;
@@ -44,8 +38,8 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		System.out.println(b.toString());
-
+		System.out.println(b.toString());*/
+		
 		/*
 		 * PlayerFactory playerFactory = FactoryProducer.getPlayerFacory();
 		 * 

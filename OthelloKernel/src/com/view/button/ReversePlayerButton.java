@@ -5,6 +5,13 @@ import java.awt.event.MouseListener;
 
 import utils.ViewSettings;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class ReversePlayerButton extends ImageButton implements MouseListener {
 
 	public ReversePlayerButton(ButtonEventListener event) {

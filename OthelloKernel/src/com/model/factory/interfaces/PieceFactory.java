@@ -6,6 +6,13 @@ import utils.FactoryHandlerException;
 
 import com.model.piece.Piece;
 
+/**
+ * 
+ * @author <ul>
+ *         <li>Benjamin Letourneau</li>
+ *         </ul>
+ * @version 1.0
+ */
 public interface PieceFactory {
 	public Piece getWhitePiece(int width, int height, int posX, int posY)
 			throws FactoryHandlerException;

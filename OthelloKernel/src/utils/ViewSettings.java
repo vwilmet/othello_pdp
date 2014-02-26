@@ -1,5 +1,12 @@
 package utils;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public interface ViewSettings {
 	public static final int sizeX = 740;
 	public static final int sizeY = 660;

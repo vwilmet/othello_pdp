@@ -1,5 +1,12 @@
 package utils;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public interface TextManager {
 
 	// /////////////////////////////////////////

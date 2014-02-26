@@ -13,6 +13,13 @@ import utils.ViewSettings;
 
 import com.error_manager.Log;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class ImageButton extends JButton {
 
 	protected String imageName;

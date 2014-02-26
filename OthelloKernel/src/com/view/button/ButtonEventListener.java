@@ -2,6 +2,13 @@ package com.view.button;
 
 import com.view.button.ImageButton;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public interface ButtonEventListener {
 
 	public void onButtonCliked(ImageButton button, int code);

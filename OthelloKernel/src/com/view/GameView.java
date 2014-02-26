@@ -30,6 +30,13 @@ import com.view.button.PositionButton;
 import com.view.button.ResetButton;
 import com.view.button.ReversePlayerButton;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class GameView extends JFrame {
 
 	private JMenuBar menuBar;

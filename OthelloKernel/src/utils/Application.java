@@ -3,6 +3,13 @@ package utils;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class Application {
 
 	private Dimension screenSize;

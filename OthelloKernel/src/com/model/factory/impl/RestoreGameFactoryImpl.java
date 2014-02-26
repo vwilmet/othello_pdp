@@ -13,6 +13,13 @@ import com.model.io.SaveGame;
 import com.model.piece.Piece;
 import com.model.player.Player;
 
+/**
+ * 
+ * @author <ul>
+ *         <li>Benjamin Letourneau</li>
+ *         </ul>
+ * @version 1.0
+ */
 public class RestoreGameFactoryImpl extends AbstractFactory {
 
 	private static RestoreGameFactoryImpl instance;

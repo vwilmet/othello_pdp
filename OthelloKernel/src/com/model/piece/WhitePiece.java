@@ -2,25 +2,20 @@ package com.model.piece;
 
 /**
  * 
- * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @author <ul><li> Benjamin Letourneau </li><li> Vincent Wilmet </li></ul>
  * @version 1.0
  */
-public class WhitePiece extends Piece {
+public class WhitePiece implements PieceColor{
 	
-	public WhitePiece(int width, int height, int posX, int posY) {
-		super(width, height, posX, posY);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public WhitePiece(WhitePiece p) {
-		super(p);
-		// TODO Auto-generated constructor stub
-	}
-
 	public String toString(){
 		String res = super.toString();
 		res += "Ce pion est blanc.\n";
 		return res;
+	}
+
+	@Override
+	public void reverse(Piece piece) {
+		piece.setPieceState(new BlackPiece());
 	}
 
 }

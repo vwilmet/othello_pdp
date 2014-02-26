@@ -2,45 +2,67 @@ package com.model.piece;
 
 /**
  * 
- * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @author <ul><li> Benjamin Letourneau </li><li> Vincent Wilmet </li></ul>
  * @version 1.0
  */
-public abstract class Piece {
+public class Piece {
 	
+	/* 
+	 * Piece p = Piece.BlackPiece(...);
+	 */
 	protected int width, height;
-	
 	protected int posX, posY;
+	protected PieceColor piece;
 	
-	public Piece (int width, int height, int posX, int posY){
+	private Piece (int width, int height, int posX, int posY){
 		this.width = width;
 		this.height = height;
 		this.posX = posX;
 		this.posY = posY;
+		this.piece = new EmptyPiece();
 	}
 	
-	public Piece(Piece p){
-		this.width = p.getWidth();
-		this.height = p.getHeight();
-		this.posX = p.getPosX();
-		this.posY = p.getPosY();
+	public static Piece EmptyPiece(int width, int height, int posX, int posY){
+		return (new Piece(width, height, posX, posY)).setPieceState(new EmptyPiece());
 	}
 	
+	public static Piece BlackPiece(int width, int height, int posX, int posY){
+		return (new Piece(width, height, posX, posY)).setPieceState(new BlackPiece());
+	}
+	
+	public static Piece WhitePiece(int width, int height, int posX, int posY){
+		return (new Piece(width, height, posX, posY)).setPieceState(new WhitePiece());
+	}
+
+	protected Piece setPieceState(final PieceColor piece){
+		this.piece = piece;
+		return this;
+	}
+
+	public void reverse(){
+		this.piece.reverse(this);
+	}
+
+	public PieceColor getColor(){
+		return piece;
+	}
+
 	public int getWidth(){
 		return this.width;
 	}
-	
+
 	public int getHeight (){
 		return this.height;
 	}
-	
+
 	public int getPosX(){
 		return this.posX;
 	}
-	
+
 	public int getPosY(){
 		return this.posY;
 	}
-	
+
 	public String toString(){
 		String res = "Taille : " + this.width + " * " + this.height + "\n";
 		res += "Position dans la grille : " + this.posX + " : " + this.posY + "\n";

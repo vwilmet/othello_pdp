@@ -2,7 +2,6 @@ package jnt;
 
 public class BenchMarkResult {
 
-	public static SystemInformations system;
 	public FFT fft;
 	public SOR sor;
 	public MonteCarlo monteCarlo;
@@ -96,30 +95,6 @@ public class BenchMarkResult {
 		}
 	}
 	
-	private static class SystemInformations{
-		
-		public static String javaVendor(){
-			return System.getProperty("java.vendor");
-		}
-		
-		public static String javaVersion(){
-			return System.getProperty("java.version");
-		}
-		
-		public static String osArch(){
-			return System.getProperty("os.arch");
-		}
-		
-		public static String osName(){
-			return System.getProperty("os.name");
-		}
-		
-		public static String osVersion(){
-			return System.getProperty("os.version");
-		}
-	}
-
-
 	public static void main(String[] args) {
 
 		/* Benchmark 5 kernels with individual Mflops.

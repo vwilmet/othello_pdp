@@ -13,7 +13,7 @@ public class FactoryHandlerException extends Exception {
 		this.error = error;
 	}
 	
-	public FactoryHandlerException (int error, String Message){
+	public FactoryHandlerException (int error, String message){
 		this.error = error;
 		this.message = message;
 	}

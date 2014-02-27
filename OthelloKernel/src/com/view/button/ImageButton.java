@@ -12,6 +12,7 @@ import utils.TextManager;
 import utils.ViewSettings;
 
 import com.error_manager.Log;
+import com.view.event.ButtonEventListener;
 
 public class ImageButton extends JButton {
 

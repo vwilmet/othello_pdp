@@ -29,12 +29,12 @@ public class Application {
 		return System.currentTimeMillis() - this.startTime;
 	}
 
-	public double getScreenWidth() {
-		return this.width;
+	public int getScreenWidth() {
+		return (int)this.width;
 	}
-
-	public double getScreenHeight() {
-		return this.height;
+	
+	public int getScreenHeight() {
+		return (int)this.height;
 	}
 
 	public static long getJVMTotalMemory(){

@@ -1,8 +1,9 @@
 package utils;
 
 public interface ViewSettings {
-	public static final int sizeX = 740;
-	public static final int sizeY = 660;
+
+	public static final int MENU_COMPONENT_VIEW_HEIGHT = 90;
+	public static final int MESSAGE_COMPONENT_VIEW_HEIGHT = 40;
 	
 	//play pause button
 	public static final int PLAY_BUTTON_CODE = 100;

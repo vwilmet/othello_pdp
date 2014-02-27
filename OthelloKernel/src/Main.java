@@ -1,15 +1,8 @@
-import java.awt.Color;
-
 import utils.Application;
-import utils.FactoryHandlerException;
 
-import com.error_manager.Log;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.factory.interfaces.PlayerFactory;
-import com.model.piece.Piece;
-import com.model.player.Player;
 import com.view.GameView;
+import com.view.event.MouseEventListener;
+import com.view.event.ViewMessageContentHandler;
 
 /**
  * @author Benjamin Letourneau
@@ -22,7 +15,29 @@ public class Main {
 		
 		System.out.println("Othello Kernel");
 		
-		new GameView();
+		
+		MouseEventListener mouse = new MouseEventListener() {
+			
+			@Override
+			public void onRightMouseButtonPressed(int x, int y) {
+				System.out.println("Right button Position x:y =>" + x + ":" + y);
+			}
+			
+			@Override
+			public void onLeftMouseButtonPressed(int x, int y) {
+				System.out.println("Left button Position x:y =>" + x + ":" + y);
+			}
+		};
+		
+		ViewMessageContentHandler message = new GameView(app.getScreenWidth()-100, app.getScreenHeight()-100, null, null, mouse);
+		
+		message.addMessageToMessageList("toto");
+		message.addMessageToMessageList("toto");
+		message.addMessageToMessageList("toto");
+		message.addMessageToMessageList("toto");
+		message.addMessageToMessageList("toto");
+		message.changeMessageViewContent("Petit message !!");
+		message.changeStatViewMessage("stat");
 		
 		System.out.println("Test de la factory : ");
 		

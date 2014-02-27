@@ -7,12 +7,29 @@ package utils;
  * 			</ul>
  * @version 1.0
  */
-public interface ViewSettings {
+public class ViewSettings {
 
-	public static final int MENU_COMPONENT_VIEW_HEIGHT = 90;
-	public static final int MESSAGE_COMPONENT_VIEW_HEIGHT = 40;
+	public static int PIECE_WIDTH = 10;
+	public static int PIECE_HEIGHT = 10;
+
+	public static int FRAME_WIDTH;
+	public static int FRAME_HEIGHT;
 	
+	public static final int MENU_COMPONENT_VIEW_HEIGHT = 90;
+	
+	public static int MESSAGE_COMPONENT_VIEW_WIDTH = 0;
+	public static final int MESSAGE_COMPONENT_VIEW_HEIGHT = 40;
 
+	public static int INFORMATION_COMPONENT_VIEW_WIDTH = 0;
+	public static int INFORMATION_COMPONENT_VIEW_HEIGHT = 0;
+
+	public static int GAMEVIEW_COMPONENT_VIEW_WIDTH = 0;
+	public static int GAMEVIEW_COMPONENT_VIEW_HEIGHT = 0;
+
+	public static int STATISTICS_COMPONENT_VIEW_WIDTH = 0;
+	
+	public static final int DRAW_LINE_SIZE = 2;
+	
 	public static final int PLAY_BUTTON_CODE = 100;
 	public static final String PLAY_BUTTON_IMAGE = "control/play.png";
 	public static final String PLAY_BUTTON_CLIKED_IMAGE = "control/play_cliked.png";

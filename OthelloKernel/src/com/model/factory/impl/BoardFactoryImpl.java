@@ -40,7 +40,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	@Override
 	public Board getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) {
 		Board b = null;
-
+		
 		try {
 			b = new Board(sizeX, sizeY, initiaPieces);
 		} catch (GameHandlerException e) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
+import utils.ViewSettings;
 
 import com.error_manager.Log;
 import com.model.factory.FactoryProducer;
@@ -21,8 +22,6 @@ import com.model.piece.Piece;
  */
 public class Board {
 
-	private final int WIDTH = 10, HEIGHT = 10;
-	
 	private int sizeX, sizeY;
 
 	private Piece[][] gameBoard;
@@ -84,7 +83,7 @@ public class Board {
 	public List<Piece> getInitialPiece() {
 		return Collections.unmodifiableList(this.initialPieces);
 	}
-
+	
 	private void addInitialPiece(Piece p) throws GameHandlerException {
 		if (p.getColor() instanceof EmptyPiece)
 			throw new GameHandlerException(
@@ -94,11 +93,11 @@ public class Board {
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_POSITION,
 					GameHandlerException.WRONG_INITIAL_PIECE_POSITION_FR);
-
+		
 		this.initialPieces.add(p.clone());
 		this.gameBoard[p.getPosX()][p.getPosY()] = p;
 	}
-
+	
 	private void completeBoardToPlay() {
 		PieceFactory pFacto = FactoryProducer.getPieceFactory();
 
@@ -106,7 +105,7 @@ public class Board {
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = pFacto.getEmptyPiece(this.WIDTH, this.HEIGHT, i, j);
+						Piece p = pFacto.getEmptyPiece(ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT, i, j);
 						this.gameBoard[i][j] = p;
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());
@@ -117,18 +116,20 @@ public class Board {
 		}
 	}
 
+	
 	public String toString() {
 		String res = "Taille de l'othellier (nombre de pions sur le plateau) : "
 				+ this.sizeX + "x" + this.sizeY + "\n";
 
 		res += "   ";
-		for (int k = 0; k < this.sizeY; k++)
+		for (int k = 0; k < this.sizeX; k++)
 			res += (k < 10) ? " " + k + " " : " " + k;
 		res += "\n";
-		for (int i = 0; i < this.sizeX; i++) {
+		
+		for (int i = 0; i < this.sizeY; i++) {
 			res += i + ((i < 10) ? "  |" : " |");
-			for (int j = 0; j < this.sizeY; j++) {
-				res += this.gameBoard[i][j].getColor().graphicalDebug() + "|";
+			for (int j = 0; j < this.sizeX; j++) {
+				res += this.gameBoard[j][i].getColor().graphicalDebug() + "|";
 			}
 			res += "\n";
 		}

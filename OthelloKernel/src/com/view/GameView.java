@@ -15,7 +15,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -23,10 +22,10 @@ import javax.swing.event.MenuListener;
 import utils.TextManager;
 import utils.ViewSettings;
 
+import com.model.Board;
 import com.view.button.BackButton;
 import com.view.button.ForwardButton;
 import com.view.button.HelpIAButton;
-import com.view.button.ImageButton;
 import com.view.button.PlayButton;
 import com.view.button.PositionButton;
 import com.view.button.ResetButton;
@@ -44,12 +43,6 @@ import com.view.event.ViewMessageContentHandler;
  * @version 1.0
  */
 public class GameView extends JFrame implements ViewMessageContentHandler{
-
-	private int mainViewWidth, mainviewHeight; // = S
-	private int gameViewWidth, gameViewHeight; // = 2
-	private int informationViewWidth, informationViewHeight; // 3
-	private int messageViewWidth; // 4.1
-	private int statViewWidth; // 4.2
 
 	private ButtonEventListener buttonEvent;
 	private MenuEventListener menuEvent;
@@ -80,17 +73,12 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 	//Help part
 	private JMenu help;
 
-	public GameView(int width, int height, MenuEventListener menuEvent, ButtonEventListener buttonEvent, MouseEventListener mouseEvent) {
-
-		this.mainviewHeight = height;
-		this.mainViewWidth = width;
+	public GameView(Board board, MenuEventListener menuEvent, ButtonEventListener buttonEvent, MouseEventListener mouseEvent) {
 
 		this.menuEvent = menuEvent;
 		this.buttonEvent = buttonEvent;
 
-		calculateComponentDimension();
-
-		this.setSize(mainViewWidth, mainviewHeight);
+		this.setSize(ViewSettings.FRAME_WIDTH, ViewSettings.FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -124,41 +112,29 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 		this.add(messageBar, BorderLayout.SOUTH);
 
-		this.add(new GameCanvas(gameViewWidth, gameViewHeight, mouseEvent), BorderLayout.CENTER);
+		this.add(new GameCanvas(mouseEvent, board), BorderLayout.CENTER);
 		this.add(informationBar, BorderLayout.EAST);
 
 		this.setVisible(true);
 	}
 
-	private void calculateComponentDimension(){
-
-		informationViewWidth = (int)((float)(this.mainViewWidth*(float) (1.0/3.0)));
-		informationViewHeight = this.mainviewHeight - ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT - ViewSettings.MENU_COMPONENT_VIEW_HEIGHT; 
-
-		messageViewWidth = this.mainViewWidth - informationViewWidth;
-		statViewWidth = informationViewWidth;
-
-		gameViewWidth = this.mainViewWidth - informationViewWidth;
-		gameViewHeight = informationViewHeight-ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT;
-	}
-
 	private void setComponentSize(){
 
-		messageBar.setPreferredSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		messageBar.setMinimumSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		messageBar.setMaximumSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageBar.setPreferredSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageBar.setMinimumSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageBar.setMaximumSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 
-		messageList.setPreferredSize(new Dimension(informationViewWidth, informationViewHeight));
-		messageList.setMinimumSize(new Dimension(informationViewWidth, informationViewHeight));
-		messageList.setMaximumSize(new Dimension(informationViewWidth, informationViewHeight));
+		messageList.setPreferredSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
+		messageList.setMinimumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
+		messageList.setMaximumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
 
-		messageLabel.setPreferredSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		messageLabel.setMinimumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		messageLabel.setMaximumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageLabel.setPreferredSize(new Dimension(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageLabel.setMinimumSize(new Dimension(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageLabel.setMaximumSize(new Dimension(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 
-		statLabel.setPreferredSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		statLabel.setMinimumSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
-		statLabel.setMaximumSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		statLabel.setPreferredSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		statLabel.setMinimumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		statLabel.setMaximumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 	}
 
 	private void instantiation(){

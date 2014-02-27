@@ -6,11 +6,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
+import utils.ViewSettings;
+
+import com.model.Board;
+import com.model.piece.BlackPiece;
+import com.model.piece.Piece;
+import com.model.piece.WhitePiece;
 import com.view.event.MouseEventListener;
 
 /**
@@ -22,52 +32,66 @@ import com.view.event.MouseEventListener;
  */
 public class GameCanvas extends Canvas implements MouseListener{
 
-	private static final int line_size = 2;
-	public static final int SizeX = 10;	
-	public static final int SizeY = 4;
-	private int viewWidth;
-	private int viewHeight;
 	private Dimension gridSize;
-	public static int pieceSize = 12;
+	private int pieceSize;
 	private Dimension margin;
 	private MouseEventListener mouseEvent;
+	private Board board;
 
-	public GameCanvas(int width, int height, MouseEventListener event) {
+	public GameCanvas(MouseEventListener event, Board board) {
 		setBackground (Color.white);
-		this.viewWidth = width;
-		this.viewHeight = height;
 		this.mouseEvent = event;
+		this.board = board;
+		this.pieceSize = ViewSettings.PIECE_WIDTH;
 
 		this.addMouseListener(this);
-		
-		int pieceSizeX = (width - (SizeX*(line_size/2))) / SizeX;
-		int pieceSizeY = (height - (SizeY*(line_size/2))) / SizeY;
 
-		if(pieceSizeX > pieceSizeY){
-			gridSize = new Dimension((SizeX*pieceSizeY) + (SizeX*(line_size/2)), (SizeY*pieceSizeY) + (SizeY*(line_size/2)));
-			pieceSize = pieceSizeY;
-			margin = new Dimension((width-gridSize.width)/2, 0);
-		}else{
-			gridSize = new Dimension((SizeX*pieceSizeX) + (SizeX*(line_size/2)), (SizeY*pieceSizeX) + (SizeY*(line_size/2)));
-			pieceSize = pieceSizeX;
-			margin = new Dimension(0, (height-gridSize.height)/2);
-		}
+		gridSize = new Dimension((board.getSizeX()*pieceSize), (board.getSizeY()*pieceSize));
 
+		int marginX = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH-gridSize.width)/2;
+		int marginY = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT-gridSize.height)/2;
+
+		margin = new Dimension(
+				(marginX > marginY ? marginX : 0),
+				(marginX > marginY ? 0 : marginY)
+				);
+
+		System.out.println("gridSize : " + gridSize);
+		System.out.println("margin : " + margin);
 	}
-
 
 	private void drawGrid(Graphics2D g){
 		//draw grid
-		for(int i = 0; i < SizeX; i ++){
-			for(int j = 0; j < SizeY; j++){
-				g.drawRect(i*pieceSize+margin.width, j*pieceSize+margin.height, pieceSize+ line_size/2, pieceSize+ line_size/2);
+		for(int i = 0; i < board.getSizeX(); i ++){
+			for(int j = 0; j < board.getSizeY(); j++){
+				g.drawRect(i*pieceSize+margin.width, j*pieceSize+margin.height, pieceSize, pieceSize);
+
+				Image img;
+				try {
+					Piece p = board.getBoard()[i][j];
+					if(p.getColor() instanceof WhitePiece)
+						img = ImageIO.read(new File("./resources/fx/piece/white_piece.png"));
+					else if (p.getColor() instanceof BlackPiece)
+						img = ImageIO.read(new File("./resources/fx/piece/black_piece.png"));
+					else
+						continue;
+					g.drawImage(img, i*pieceSize+margin.width+ ViewSettings.DRAW_LINE_SIZE/2, j*pieceSize+margin.height+ ViewSettings.DRAW_LINE_SIZE/2, this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+
+
+
 			}
 		}
+
+
 	}
-	
+
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(line_size));
+		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
 		drawGrid(g2);
 	}
 

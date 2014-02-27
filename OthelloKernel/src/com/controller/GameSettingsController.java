@@ -9,5 +9,18 @@ package com.controller;
  * @version 1.0
  */
 public class GameSettingsController {
-
+	
+	// LECTEUR et ECRITURE FICHIERS
+	
+	public GameSettingsController(){
+		
+	}
+	
+	private int askAIThinkingTime(){
+		return 0;
+	}
+	
+	private int askAIDifficulty(){
+		return 0;
+	}
 }

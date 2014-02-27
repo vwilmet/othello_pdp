@@ -32,13 +32,13 @@ public class Main {
 		pcs.add(p1);
 		pcs.add(p2);
 		try {
-			b = bFacto.getBoard(10, 10, 10, 10, pcs);
+			b = bFacto.getBoard(10, 10, pcs);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 
-		System.out.println(b.toString());*/
+		System.out.println(b.toString()); */
 		
 		/*
 		 * PlayerFactory playerFactory = FactoryProducer.getPlayerFacory();

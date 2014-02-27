@@ -38,12 +38,11 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY,
-			List<Piece> initiaPieces) {
+	public Board getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) {
 		Board b = null;
 
 		try {
-			b = new Board(width, height, sizeX, sizeY, initiaPieces);
+			b = new Board(sizeX, sizeY, initiaPieces);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -107,7 +106,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings() throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);

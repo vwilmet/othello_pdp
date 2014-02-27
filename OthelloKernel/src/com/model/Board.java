@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import utils.FactoryHandlerException;
@@ -20,33 +21,26 @@ import com.model.piece.Piece;
  */
 public class Board {
 
-	// IL FAUDRA LE D2GAER D'ICI
-	public static int WIDTH = 10;
-	public static int HEIGHT = 10;
-
-	private int width, height;
+	private final int WIDTH = 10, HEIGHT = 10;
+	
 	private int sizeX, sizeY;
 
 	private Piece[][] gameBoard;
 
 	private List<Piece> initialPieces;
 
-	public Board(int width, int height, int sizeX, int sizeY,
-			List<Piece> initiaPieces) throws GameHandlerException {
+	public Board(int sizeX, int sizeY, List<Piece> initiaPieces) throws GameHandlerException {
 
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 
-		this.width = width;
-		this.height = height;
-
-		if (sizeX > 3 && sizeX < 50)
+		if (sizeX > 3 && sizeX < 51)
 			this.sizeX = sizeX;
 		else
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_BOARD_SIZE,
 					"La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.");
 
-		if (sizeY > 3 && sizeY < 50)
+		if (sizeY > 3 && sizeY < 51)
 			this.sizeY = sizeY;
 		else
 			throw new GameHandlerException(
@@ -75,14 +69,6 @@ public class Board {
 
 	}
 
-	public int getWidth() {
-		return this.width;
-	}
-
-	public int getHeight() {
-		return this.height;
-	}
-
 	public int getSizeX() {
 		return this.sizeX;
 	}
@@ -96,7 +82,7 @@ public class Board {
 	}
 
 	public List<Piece> getInitialPiece() {
-		return this.initialPieces;
+		return Collections.unmodifiableList(this.initialPieces);
 	}
 
 	private void addInitialPiece(Piece p) throws GameHandlerException {
@@ -116,19 +102,11 @@ public class Board {
 	private void completeBoardToPlay() {
 		PieceFactory pFacto = FactoryProducer.getPieceFactory();
 
-		try {
-			Piece p = pFacto.getEmptyPiece(this.WIDTH, this.HEIGHT, 0, 0);
-		} catch (FactoryHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		}
-
 		for (int i = 0; i < this.sizeX; i++) {
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = pFacto.getEmptyPiece(this.WIDTH, this.HEIGHT,
-								i, j);
+						Piece p = pFacto.getEmptyPiece(this.WIDTH, this.HEIGHT, i, j);
 						this.gameBoard[i][j] = p;
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());
@@ -140,9 +118,7 @@ public class Board {
 	}
 
 	public String toString() {
-		String res = "Taille graphique de l'othellier : " + this.width + "x"
-				+ this.height + "\n";
-		res += "Taille de l'othellier (nombre de pions sur le plateau) : "
+		String res = "Taille de l'othellier (nombre de pions sur le plateau) : "
 				+ this.sizeX + "x" + this.sizeY + "\n";
 
 		res += "   ";

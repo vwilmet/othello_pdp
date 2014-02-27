@@ -36,8 +36,8 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings() {
-		return new GameSettings();
+	public GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
+		return new GameSettings(player1, player2, gameBoard, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY,
+	public Board getBoard(int sizeX, int sizeY,
 			List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,

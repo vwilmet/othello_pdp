@@ -88,15 +88,14 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int width, int height, int sizeX, int sizeY,
-			List<Piece> initiaPieces) throws FactoryHandlerException {
+	public Board getBoard(int sizeX, int sizeY,	List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public GameSettings getGameSettings() throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.PLAYER_FACTORY_REQUIRED_FR);

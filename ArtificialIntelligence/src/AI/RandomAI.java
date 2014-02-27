@@ -1,14 +1,13 @@
 package AI;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 public class RandomAI implements ArtificialIntelligence {
-	
-	
 
 	Box[][] board;
 	Tree<Point> tree;
@@ -17,8 +16,6 @@ public class RandomAI implements ArtificialIntelligence {
 	Integer boardWidth;
 	Integer boardHeight;
 	private Set<Point> borderLine;
-
-
 
 	@Override
 	public Point nextMove(Integer player) {
@@ -35,14 +32,22 @@ public class RandomAI implements ArtificialIntelligence {
 
 	@Override
 	public List<Point> nextMoves(Integer player) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Point> l = new ArrayList<Point>();
+		l.add(nextMove(player));
+		return l;
 	}
 
 	@Override
 	public Integer winStatus(Integer player) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.whitePiece.size() == this.blackPiece.size())
+			return 2;
+		else if(player == 1 && this.whitePiece.size() > this.blackPiece.size())
+			return 1;
+		else if(player == 2 && this.blackPiece.size() > this.whitePiece.size())
+			return 1;
+		else
+			return 0;
+			
 	}
 
 	@Override
@@ -52,9 +57,6 @@ public class RandomAI implements ArtificialIntelligence {
 		this.blackPiece = blackPiece;
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
-		tree = new Tree<Point>();
-		tree.setRootElement(new Node<Point>(new Point(-1,-1)));
-		tree.setSentinel(tree.getRootElement());
 		board = new Box[boardWidth][boardHeight];
 		for(Integer i = 0; i < this.boardWidth; i ++)
 			for(Integer j = 0; j < this.boardHeight; j++){
@@ -66,32 +68,32 @@ public class RandomAI implements ArtificialIntelligence {
 				else
 					board[i][j].removePiece();
 			}
+		tree = new Tree<Point>();
+		tree.setRootElement(new Node<Point>(new Point(-1,-1), -1,whitePiece,blackPiece,board,boardWidth,boardHeight));
+		tree.setSentinel(tree.getRootElement());
 		return true;
 	}
 
-	/*@Override
-	public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece,
-			Integer boardWidth, Integer boardHeight) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 	@Override
-	public void notifyChosenMove(Point pos, Integer player) {
-		
-		if(player == 1){
-			board[pos.x][pos.y].putP1Piece();
-			this.whitePiece.add(pos);
+	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException {
+		if(!this.calculatePlayablePosition(player).contains(pos))
+			throw new WrongPlayablePositionException(pos);
+		else{
+			if(player == 1){
+				board[pos.x][pos.y].putP1Piece();
+				this.whitePiece.add(pos);
+			}
+			else if(player == 2){
+				board[pos.x][pos.y].putP2Piece();
+				this.blackPiece.add(pos);
+			}
+			calculateTurnResult(pos);
+			Node<Point> myNode = new Node<Point>(pos,player,tree.getSentinel(), this.whitePiece, this.blackPiece, board, this.boardWidth, this.boardHeight);
+			tree.getSentinel().addChild(myNode);
+			tree.setSentinel(myNode);
+			System.out.println(tree.toString());
 		}
-		else if(player == 2){
-			board[pos.x][pos.y].putP2Piece();
-			this.blackPiece.add(pos);
-		}
-		calculateTurnResult(pos);
-		Node<Point> myNode = new Node<Point>(pos,player,tree.getSentinel(), this.whitePiece.size(), this.blackPiece.size(), board, this.boardWidth, this.boardHeight);
-		tree.getSentinel().addChild(myNode);
-		tree.setSentinel(myNode);
-		System.out.println(tree.toString());
 	}
 
 	public void printBoard(){
@@ -167,7 +169,7 @@ public class RandomAI implements ArtificialIntelligence {
 								while(i < boardWidth && i >= 0 && j < boardHeight && j >= 0 && playable == false){
 									if(!board[i][j].isPlayer(player) && !board[i][j].isEmpty()){ // teste s'il y a un pion et si c'est un pion adverse
 										i += x;
-										j += y;
+									j += y;
 									}
 									else if(board[i][j].isPlayer(player)) //teste le pion du joueur qui va "encadrer le coup" 
 										playable = true;

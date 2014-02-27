@@ -7,38 +7,39 @@ import java.util.Set;
 public interface ArtificialIntelligence {
 
 	 /**
-     * Calculate the next move evaluated by the algorithm.
-     * @param player an integer representing the player asking the next move.
-     * @return the next position evaluated by the algorithm and if no next position for the current player, null.
+     * Calcule le prochain mouvement grâce aux algorithmes de l'IA.
+     * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+     * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
      */
 	public Point nextMove(Integer player);
 
 	 /**
-     * Calculate an entire list of positions which can make the player win the game.
-     * @param player an integer representing the player asking the next moves.
-     * @return a list of position to win the game evaluated by the algorithm.
+     * Calcule une liste entière de mouvement qui permettrait au joueur de gagner.
+     * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+     * @return une liste de mouvement amenant le joueur à gagner le jeu.
      */
 	public List<Point> nextMoves(Integer player);
 	
 	
 	/**
-     * Return an Integer representing the status of the game (winning, losing or draw).
-     * @param player an integer representing the player asking the status.
-     * @return an integer for the status.
+     * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
+     * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
+     * @return un entier représentant le statut.
      */
 	public Integer winStatus(Integer player);
 	
 	/**
-     * Initialize the AI in order to calculate moves
-     * @param whitePiece a list of all the pieces of the player 1.
-     * @param blackPiece a list of all the pieces of the player 2.
-     * @param boardWidth an integer representing the width of the board.
-     * @param boardHeight an integer representing the height of the board.
-     * @return a boolean, true if the initialization is finished without error, otherwise false.
+     * Initialise l'IA dans le but de calculer les mouvements
+     * @param whitePiece une liste de toutes les pièces du joueur 1 déjà sur le plateau.
+     * @param blackPiece une liste de toutes les pièces du joueur 2 déjà sur le plateau.
+     * @param boardWidth un entier représentant la largeur du plateau
+     * @param boardHeight un entier représentant la hauteur du plateau
+     * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
      */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 	
 	/**
+	 * Pas sûr d'être implémenter donc pas encore retraduit
      * Actualize the informations in order to recalculate moves
      * @param whitePiece a list of all the pieces of the player 1.
      * @param blackPiece a list of all the pieces of the player 2.
@@ -49,15 +50,16 @@ public interface ArtificialIntelligence {
 	//public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight); Pas s√ªr de l'utilist√© encore
 	
 	/**
-     * Notify the AI the move chose by the player
-     * @param pos the position of the chosen move.
-     * @param player the player who did the move.
+     * Notifie à l'IA le mouvement que le joueur a choisi.
+     * @param pos la position choisie par le joueur.
+     * @param player le joueur qui a effectué le mouvement.
+	 * @throws WrongPlayablePositionException 
      */
-	public void notifyChosenMove(Point pos, Integer player);
+	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException;
 	
 	/**
-     * Terminate the algorithm searching for solution.
-     * @return a boolean, true if the algorithm has been stopped, otherwise false.
+     * Interrompt la recherche de mouvement de l'algorithme.
+     * @return un booléen, vrai si l'algorithme a été stoppé, faux sinon
      */
 	public Boolean completeReflexion();
 			

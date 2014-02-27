@@ -3,6 +3,13 @@ package utils;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class Application {
 
 	private Dimension screenSize;
@@ -18,14 +25,14 @@ public class Application {
 		this.startTime = System.currentTimeMillis();
 	}
 
-	public static Application getInstance(){
-		if(Application.instance == null)
+	public static Application getInstance() {
+		if (Application.instance == null)
 			Application.instance = new Application();
 
 		return Application.instance;
 	}
 
-	public long getExecutionTime(){
+	public long getExecutionTime() {
 		return System.currentTimeMillis() - this.startTime;
 	}
 
@@ -37,39 +44,39 @@ public class Application {
 		return (int)this.height;
 	}
 
-	public static long getJVMTotalMemory(){
+	public static long getJVMTotalMemory() {
 		return Runtime.getRuntime().totalMemory();
 	}
 
-	public static long getJVMFreeMemory(){
+	public static long getJVMFreeMemory() {
 		return Runtime.getRuntime().freeMemory();
 	}
 
-	public static long getJVMAvailableProcessor(){
+	public static long getJVMAvailableProcessor() {
 		return Runtime.getRuntime().availableProcessors();
 	}
 
-	public void killJVM(){
+	public void killJVM() {
 		Runtime.getRuntime().exit(0);
 	}
 
-	public static String getJavaVendor(){
+	public static String getJavaVendor() {
 		return System.getProperty("java.vendor");
 	}
 
-	public static String getJavaVersion(){
+	public static String getJavaVersion() {
 		return System.getProperty("java.version");
 	}
 
-	public static String getOsArch(){
+	public static String getOsArch() {
 		return System.getProperty("os.arch");
 	}
 
-	public static String getOsName(){
+	public static String getOsName() {
 		return System.getProperty("os.name");
 	}
 
-	public static String getOsVersion(){
+	public static String getOsVersion() {
 		return System.getProperty("os.version");
 	}
 

@@ -7,35 +7,37 @@ import com.model.factory.impl.PlayerFactoryImpl;
 import com.model.factory.impl.RestoreGameFactoryImpl;
 import com.model.factory.impl.SaveGameFactoryImpl;
 
-
 /**
  * Gestionnaire de la fabrique.
- * @author <ul><li>Benjamin Letourneau</li></ul>
+ * 
+ * @author <ul>
+ *         <li>Benjamin Letourneau</li>
+ *         </ul>
  * @version 1.0
  */
-public class FactoryProducer  {
-	
-	public static AbstractFactory getPieceFacory(){
+public class FactoryProducer {
+
+	public static AbstractFactory getPieceFactory() {
 		return PieceFactoryImpl.getInstance();
 	}
-	
-	public static AbstractFactory getPlayerFacory(){
+
+	public static AbstractFactory getPlayerFactory() {
 		return PlayerFactoryImpl.getInstance();
 	}
-	
-	public static AbstractFactory getBoardFactory(){
+
+	public static AbstractFactory getBoardFactory() {
 		return BoardFactoryImpl.getInstance();
 	}
-	
-	public static AbstractFactory getGameSettingsFactory(){
+
+	public static AbstractFactory getGameSettingsFactory() {
 		return GameSettingsFactoryImpl.getInstance();
 	}
-	
-	public static AbstractFactory getRestoreGameFactory(){
+
+	public static AbstractFactory getRestoreGameFactory() {
 		return RestoreGameFactoryImpl.getInstance();
 	}
-	
-	public static AbstractFactory getSaveGameFactory(){
+
+	public static AbstractFactory getSaveGameFactory() {
 		return SaveGameFactoryImpl.getInstance();
 	}
 }

@@ -15,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -25,6 +26,7 @@ import utils.ViewSettings;
 import com.view.button.BackButton;
 import com.view.button.ForwardButton;
 import com.view.button.HelpIAButton;
+import com.view.button.ImageButton;
 import com.view.button.PlayButton;
 import com.view.button.PositionButton;
 import com.view.button.ResetButton;
@@ -34,6 +36,13 @@ import com.view.event.MenuEventListener;
 import com.view.event.MouseEventListener;
 import com.view.event.ViewMessageContentHandler;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class GameView extends JFrame implements ViewMessageContentHandler{
 
 	private int mainViewWidth, mainviewHeight; // = S
@@ -44,13 +53,13 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 	private ButtonEventListener buttonEvent;
 	private MenuEventListener menuEvent;
-	
+
 	private JMenuBar menuBar;
 	private JToolBar actionBar;
 	private JToolBar messageBar;
 	private JToolBar informationBar;
 
-	//Menu part 
+	// Menu part
 	private JMenu menu;
 	private JMenuItem newGame;
 	private JMenu openFile;
@@ -64,7 +73,7 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 	private JList<String> messageList;
 	private DefaultListModel<String> messageListModel;
-	
+
 	//Option part
 	private JMenu option;
 
@@ -95,32 +104,32 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 		statLabel.setBorder(BorderFactory.createMatteBorder(
 				0, 1, 0, 0, Color.black));
-		
-		
+
+
 		manageMenu();
-		
+
 		addImageButtonToMenu();
-		
+
 		this.setJMenuBar(menuBar);
-		
-		
+
+
 		messageBar.add(messageLabel, BorderLayout.WEST);
 		messageBar.add(statLabel, BorderLayout.EAST);
-		
+
 		//informationBar.add(messageList);
-		
+
 		setComponentSize();
-		
+
 		this.add(actionBar, BorderLayout.NORTH);
-		
+
 		this.add(messageBar, BorderLayout.SOUTH);
-		
+
 		this.add(new GameCanvas(gameViewWidth, gameViewHeight, mouseEvent), BorderLayout.CENTER);
 		this.add(informationBar, BorderLayout.EAST);
-		
+
 		this.setVisible(true);
 	}
-	
+
 	private void calculateComponentDimension(){
 
 		informationViewWidth = (int)((float)(this.mainViewWidth*(float) (1.0/3.0)));
@@ -142,7 +151,7 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		messageList.setPreferredSize(new Dimension(informationViewWidth, informationViewHeight));
 		messageList.setMinimumSize(new Dimension(informationViewWidth, informationViewHeight));
 		messageList.setMaximumSize(new Dimension(informationViewWidth, informationViewHeight));
-		
+
 		messageLabel.setPreferredSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 		messageLabel.setMinimumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 		messageLabel.setMaximumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
@@ -161,16 +170,16 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		this.statLabel = new JLabel("stat quelconque");
 		this.messageListModel = new DefaultListModel<String>();
 		this.messageList = new JList<String>(messageListModel);
-		
+
 		JScrollPane listScroller = new JScrollPane(messageList);
 		listScroller.setAlignmentX(RIGHT_ALIGNMENT);
-		
+
 		informationBar.add(listScroller);
 		informationBar.setFloatable(false);
 		messageBar.setFloatable(false);
 		actionBar.setFloatable(false);
-		
-		//menu part
+
+		// menu part
 		this.menu = new JMenu(TextManager.MENU_TEXT_FR);
 		this.newGame = new JMenuItem(TextManager.NEW_GAME_TEXT_FR);
 		this.openFile = new JMenu(TextManager.OPEN_FILE_TEXT_FR);
@@ -178,21 +187,20 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		this.choosePosition = new JMenuItem(TextManager.CHOOSE_POS_TEXT_FR);
 		this.preConfFile = new JMenuItem(TextManager.PRE_CONF_FILE_TEXT_FR);
 		this.saveGame = new JMenuItem(TextManager.SAVE_GAME_TEXT_FR);
-		
+
 		//option part
 		this.option = new JMenu(TextManager.OPTION_TEXT_FR);
-		
+
 		//help part
 		this.help = new JMenu(TextManager.HELP_TEXT_FR);
 	}
-	
+
 	private void addStringToInformationList(String element){
 		messageListModel.addElement(element);
 		messageList.setModel(messageListModel);
 	}
-	
-	private void manageMenu(){
 
+	private void manageMenu(){
 		this.menu.add(newGame);
 		this.openFile.add(continueGame);
 		this.openFile.add(choosePosition);
@@ -203,52 +211,52 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		this.menuBar.add(menu);
 		this.menuBar.add(option);
 		this.menuBar.add(help);
-		
+
 		newGame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("newGame");
 				if(menuEvent != null)menuEvent.onNewGameItemMenuPressed();
 			}
 		});
-		
+
 		saveGame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("save");
 				if(menuEvent != null)menuEvent.onSaveGameUnderItemMenuPressed();
 			}
 		});
-		
+
 		continueGame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("continue");
 				if(menuEvent != null)menuEvent.onOpenFileAndContinueItemMenuPressed();
 			}
 		});
-		
+
 		choosePosition.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("position");
 				if(menuEvent != null)menuEvent.onOpenFileAndChoosePositionItemMenuPressed();
 			}
 		});
-		
+
 		preConfFile.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("preconfig");
 				if(menuEvent != null)menuEvent.onOpenPreConfFileItemMenuPressed();
 			}
 		});
-		
+
 		option.addMenuListener(new MenuListener() {
 
 			@Override
@@ -261,16 +269,21 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
 				}*/	
+
 			}
 
 			@Override
-			public void menuDeselected(MenuEvent arg0) {}
+			public void menuDeselected(MenuEvent arg0) {
+			}
 
 			@Override
-			public void menuCanceled(MenuEvent arg0) {}
+			public void menuCanceled(MenuEvent arg0) {
+			}
 		});
-		
+
 		help.addMenuListener(new MenuListener() {
 
 			@Override
@@ -291,11 +304,13 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 			@Override
 			public void menuCanceled(MenuEvent arg0) {}
+
 		});
+
 	}
-	
+
 	private void addImageButtonToMenu(){
-		
+
 		actionBar.add(new PlayButton(buttonEvent));
 		actionBar.add(new ResetButton(buttonEvent));
 		actionBar.add(new BackButton(buttonEvent));
@@ -304,7 +319,7 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		actionBar.add(new PositionButton(buttonEvent));
 		actionBar.add(new ReversePlayerButton(buttonEvent));
 	}
-
+	
 	@Override
 	public void addMessageToMessageList(String element) {
 		this.addStringToInformationList(element);

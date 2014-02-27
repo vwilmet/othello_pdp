@@ -7,10 +7,18 @@ import com.view.event.ButtonEventListener;
 
 import utils.ViewSettings;
 
-public class ResetButton extends ImageButton implements MouseListener{
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
+public class ResetButton extends ImageButton implements MouseListener {
 
 	public ResetButton(ButtonEventListener event) {
-		super(ViewSettings.RESET_BUTTON_IMAGE, event, ViewSettings.RESET_BUTTON_CODE, ViewSettings.RESET_BUTTON_TEXT);
+		super(ViewSettings.RESET_BUTTON_IMAGE, event,
+				ViewSettings.RESET_BUTTON_CODE, ViewSettings.RESET_BUTTON_TEXT);
 		this.addMouseListener(this);
 	}
 
@@ -22,11 +30,12 @@ public class ResetButton extends ImageButton implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		super.setImage(ViewSettings.RESET_BUTTON_IMAGE);	
+		super.setImage(ViewSettings.RESET_BUTTON_IMAGE);
 	}
 
 	@Override

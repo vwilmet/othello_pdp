@@ -13,11 +13,18 @@ import javax.swing.SwingUtilities;
 
 import com.view.event.MouseEventListener;
 
+/**
+ * 
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class GameCanvas extends Canvas implements MouseListener{
 
 	private static final int line_size = 2;
 	public static final int SizeX = 10;	
-	public static final int SizeY = 10;
+	public static final int SizeY = 4;
 	private int viewWidth;
 	private int viewHeight;
 	private Dimension gridSize;
@@ -45,7 +52,9 @@ public class GameCanvas extends Canvas implements MouseListener{
 			pieceSize = pieceSizeX;
 			margin = new Dimension(0, (height-gridSize.height)/2);
 		}
+
 	}
+
 
 	private void drawGrid(Graphics2D g){
 		//draw grid

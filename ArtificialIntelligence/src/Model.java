@@ -3,7 +3,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import AI.ArtificialIntelligence;
+import AI.BruteForceAI;
 import AI.RandomAI;
+import AI.WrongPlayablePositionException;
 
 public class Model {
 
@@ -12,65 +14,26 @@ public class Model {
 	public Integer width;
 	public Integer height;
 
-	public Model()
+	public Model() throws WrongPlayablePositionException
 	{
 		myBoard = new Board();
-		myAI = new RandomAI();
+		myAI = new BruteForceAI();
 		this.width = myBoard.width;
 		this.height = myBoard.height;
 
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
-		Point k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-		k = myAI.nextMove(2);
-		if(k != null)
-			myAI.notifyChosenMove(k, 2);
-		k = myAI.nextMove(1);
-		if(k != null)
-			myAI.notifyChosenMove(k, 1);
-
+		
 
 	}
 
 	public Model(Integer width, Integer height)
 	{
 		myBoard = new Board(width, height);
-		myAI = new RandomAI();
+		myAI = new BruteForceAI();
 		this.width = myBoard.width;
 		this.height = myBoard.height;
-		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
-
+		//myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		
 	}
 
 

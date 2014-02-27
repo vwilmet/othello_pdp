@@ -29,13 +29,11 @@ public class BoxEmpty implements BoxState {
 
 	@Override
 	public boolean isP1Piece() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isP2Piece() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

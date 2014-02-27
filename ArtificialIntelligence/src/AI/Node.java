@@ -1,6 +1,9 @@
 package AI;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a node of the Tree<T> class. The Node<T> is also a container, and
@@ -11,8 +14,8 @@ public class Node<T> {
  
     public T data;
     public Integer player;
-    public Integer nbWhite;
-    public Integer nbBlack;
+    public Set<Point> whitePiece;
+    public Set<Point> blackPiece;
     public Node<T> parent;
     public List<Node<T>> children;
     public Box[][] board;
@@ -35,13 +38,22 @@ public class Node<T> {
         setData(data);
     }
     
-    public Node(T data, Integer player, Node<T> parent, Integer white, Integer black, Box[][] board, Integer width, Integer height){
+    public Node(T data, Integer player, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
+        this();
+        setData(data);
+        setPlayer(player);
+        setWhitePiece(white);
+        setBlackPiece(black);
+        setBoard(board,width,height);
+    }
+    
+    public Node(T data, Integer player, Node<T> parent, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
         this();
         setData(data);
         setPlayer(player);
         setParent(parent);
-        setNbWhite(white);
-        setNbBlack(black);
+        setWhitePiece(white);
+        setBlackPiece(black);
         setBoard(board,width,height);
     }
     
@@ -142,20 +154,13 @@ public class Node<T> {
 	}
 
 	public Integer getNbWhite() {
-		return nbWhite;
+		return whitePiece.size();
 	}
-
-	public void setNbWhite(Integer nbWhite) {
-		this.nbWhite = nbWhite;
-	}
-
+	
 	public Integer getNbBlack() {
-		return nbBlack;
+		return blackPiece.size();
 	}
 
-	public void setNbBlack(Integer nbBlack) {
-		this.nbBlack = nbBlack;
-	}
 
 	public Box[][] getBoard() {
 		return board;
@@ -172,6 +177,51 @@ public class Node<T> {
 			}
 	}
 	
+	public Box[][] getCopyOfBoard(){
+		Box[][] newBoard = new Box[width][height];
+		for(int i = 0; i < width;i++)
+			for(int j = 0; j < height; j++){
+				newBoard[i][j] = new BoxImpl();
+				newBoard[i][j].setState(this.board[i][j].getState());
+			}
+		
+		return newBoard;
+	}
+	
+	public Set<Point> getWhitePiece() {
+		return whitePiece;
+	}
+
+	public void setWhitePiece(Set<Point> whitePiece) {
+		this.whitePiece = whitePiece;
+	}
+	
+	public Set<Point> getCopyOfWhitePiece(){
+		Set<Point> newWhitePiece = new HashSet<Point>();
+		for(Point p : this.whitePiece){
+			Point f = new Point(p.x,p.y);
+			newWhitePiece.add(f);
+		}
+		return newWhitePiece;
+	}
+
+	public Set<Point> getBlackPiece() {
+		return blackPiece;
+	}
+
+	public void setBlackPiece(Set<Point> blackPiece) {
+		this.blackPiece = blackPiece;
+	}
+	
+	public Set<Point> getCopyOfBlackPiece(){
+		Set<Point> newBlackPiece = new HashSet<Point>();
+		for(Point p : this.blackPiece){
+			Point f = new Point(p.x,p.y);
+			newBlackPiece.add(f);
+		}
+		return newBlackPiece;
+	}
+
 	public String printBoard(){
 		String res = new String("");
 		for(int i = 0; i < this.width; i++)
@@ -207,7 +257,7 @@ public class Node<T> {
             sb.append(e.getData().toString());
             sb.append("White : " +e.getNbWhite() + " , ");
             sb.append("Black : " +e.getNbBlack() + " ");
-            sb.append("Board : \n" + e.printBoard());
+           // sb.append("Board : \n" + e.printBoard());
             i++;
         }
         sb.append("]").append("}");

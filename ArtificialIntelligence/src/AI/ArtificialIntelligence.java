@@ -7,7 +7,7 @@ import java.util.Set;
 public interface ArtificialIntelligence {
 
 	 /**
-     * Calcule le prochain mouvement grâce aux algorithme de l'IA.
+     * Calcule le prochain mouvement grâce aux algorithmes de l'IA.
      * @param player est un entier représentant le joueur effectuant le prochain mouvement.
      * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
      */
@@ -22,7 +22,7 @@ public interface ArtificialIntelligence {
 	
 	
 	/**
-     * Renvoie un entier représentant le statut de la partie (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
+     * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
      * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
      * @return un entier représentant le statut.
      */
@@ -39,6 +39,7 @@ public interface ArtificialIntelligence {
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 	
 	/**
+	 * Pas sûr d'être implémenter donc pas encore retraduit
      * Actualize the informations in order to recalculate moves
      * @param whitePiece a list of all the pieces of the player 1.
      * @param blackPiece a list of all the pieces of the player 2.

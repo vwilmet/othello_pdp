@@ -8,10 +8,11 @@ package utils;
  * @version 1.0
  */
 public interface ViewSettings {
-	public static final int sizeX = 740;
-	public static final int sizeY = 660;
 
-	// play pause button
+	public static final int MENU_COMPONENT_VIEW_HEIGHT = 90;
+	public static final int MESSAGE_COMPONENT_VIEW_HEIGHT = 40;
+	
+
 	public static final int PLAY_BUTTON_CODE = 100;
 	public static final String PLAY_BUTTON_IMAGE = "control/play.png";
 	public static final String PLAY_BUTTON_CLIKED_IMAGE = "control/play_cliked.png";

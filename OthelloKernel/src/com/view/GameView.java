@@ -2,16 +2,19 @@ package com.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
@@ -21,7 +24,6 @@ import utils.TextManager;
 import utils.ViewSettings;
 
 import com.view.button.BackButton;
-import com.view.button.ButtonEventListener;
 import com.view.button.ForwardButton;
 import com.view.button.HelpIAButton;
 import com.view.button.ImageButton;
@@ -29,6 +31,10 @@ import com.view.button.PlayButton;
 import com.view.button.PositionButton;
 import com.view.button.ResetButton;
 import com.view.button.ReversePlayerButton;
+import com.view.event.ButtonEventListener;
+import com.view.event.MenuEventListener;
+import com.view.event.MouseEventListener;
+import com.view.event.ViewMessageContentHandler;
 
 /**
  * 
@@ -37,7 +43,16 @@ import com.view.button.ReversePlayerButton;
  * 			</ul>
  * @version 1.0
  */
-public class GameView extends JFrame {
+public class GameView extends JFrame implements ViewMessageContentHandler{
+
+	private int mainViewWidth, mainviewHeight; // = S
+	private int gameViewWidth, gameViewHeight; // = 2
+	private int informationViewWidth, informationViewHeight; // 3
+	private int messageViewWidth; // 4.1
+	private int statViewWidth; // 4.2
+
+	private ButtonEventListener buttonEvent;
+	private MenuEventListener menuEvent;
 
 	private JMenuBar menuBar;
 	private JToolBar actionBar;
@@ -54,35 +69,115 @@ public class GameView extends JFrame {
 	private JMenuItem preConfFile;
 
 	private JLabel messageLabel;
-	private JLabel informationLabel;
+	private JLabel statLabel;
 
-	// Option part
+	private JList<String> messageList;
+	private DefaultListModel<String> messageListModel;
+
+	//Option part
 	private JMenu option;
 
-	// Help part
+	//Help part
 	private JMenu help;
 
-	public GameView() {
-		this.setSize(ViewSettings.sizeX, ViewSettings.sizeY);
+	public GameView(int width, int height, MenuEventListener menuEvent, ButtonEventListener buttonEvent, MouseEventListener mouseEvent) {
+
+		this.mainviewHeight = height;
+		this.mainViewWidth = width;
+
+		this.menuEvent = menuEvent;
+		this.buttonEvent = buttonEvent;
+
+		calculateComponentDimension();
+
+		this.setSize(mainViewWidth, mainviewHeight);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 
+		instantiation();
+
+		informationBar.setBorder(BorderFactory.createMatteBorder(
+				0, 1, 0, 0, Color.black));
+		messageBar.setBorder(BorderFactory.createMatteBorder(
+				1, 0, 0, 0, Color.black));
+
+		statLabel.setBorder(BorderFactory.createMatteBorder(
+				0, 1, 0, 0, Color.black));
+
+
+		manageMenu();
+
+		addImageButtonToMenu();
+
+		this.setJMenuBar(menuBar);
+
+
+		messageBar.add(messageLabel, BorderLayout.WEST);
+		messageBar.add(statLabel, BorderLayout.EAST);
+
+		//informationBar.add(messageList);
+
+		setComponentSize();
+
+		this.add(actionBar, BorderLayout.NORTH);
+
+		this.add(messageBar, BorderLayout.SOUTH);
+
+		this.add(new GameCanvas(gameViewWidth, gameViewHeight, mouseEvent), BorderLayout.CENTER);
+		this.add(informationBar, BorderLayout.EAST);
+
+		this.setVisible(true);
+	}
+
+	private void calculateComponentDimension(){
+
+		informationViewWidth = (int)((float)(this.mainViewWidth*(float) (1.0/3.0)));
+		informationViewHeight = this.mainviewHeight - ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT - ViewSettings.MENU_COMPONENT_VIEW_HEIGHT; 
+
+		messageViewWidth = this.mainViewWidth - informationViewWidth;
+		statViewWidth = informationViewWidth;
+
+		gameViewWidth = this.mainViewWidth - informationViewWidth;
+		gameViewHeight = informationViewHeight-ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT;
+	}
+
+	private void setComponentSize(){
+
+		messageBar.setPreferredSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageBar.setMinimumSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageBar.setMaximumSize(new Dimension(messageViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+
+		messageList.setPreferredSize(new Dimension(informationViewWidth, informationViewHeight));
+		messageList.setMinimumSize(new Dimension(informationViewWidth, informationViewHeight));
+		messageList.setMaximumSize(new Dimension(informationViewWidth, informationViewHeight));
+
+		messageLabel.setPreferredSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageLabel.setMinimumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		messageLabel.setMaximumSize(new Dimension(gameViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+
+		statLabel.setPreferredSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		statLabel.setMinimumSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+		statLabel.setMaximumSize(new Dimension(informationViewWidth, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
+	}
+
+	private void instantiation(){
 		this.menuBar = new JMenuBar();
 		this.actionBar = new JToolBar();
 		this.messageBar = new JToolBar();
 		this.informationBar = new JToolBar();
-		this.messageLabel = new JLabel();
-		this.informationLabel = new JLabel();
+		this.messageLabel = new JLabel("Textfiled ou il y aura des messages variables");
+		this.statLabel = new JLabel("stat quelconque");
+		this.messageListModel = new DefaultListModel<String>();
+		this.messageList = new JList<String>(messageListModel);
 
+		JScrollPane listScroller = new JScrollPane(messageList);
+		listScroller.setAlignmentX(RIGHT_ALIGNMENT);
+
+		informationBar.add(listScroller);
 		informationBar.setFloatable(false);
 		messageBar.setFloatable(false);
 		actionBar.setFloatable(false);
-
-		informationBar.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-				Color.black));
-		messageBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				Color.black));
 
 		// menu part
 		this.menu = new JMenu(TextManager.MENU_TEXT_FR);
@@ -93,6 +188,19 @@ public class GameView extends JFrame {
 		this.preConfFile = new JMenuItem(TextManager.PRE_CONF_FILE_TEXT_FR);
 		this.saveGame = new JMenuItem(TextManager.SAVE_GAME_TEXT_FR);
 
+		//option part
+		this.option = new JMenu(TextManager.OPTION_TEXT_FR);
+
+		//help part
+		this.help = new JMenu(TextManager.HELP_TEXT_FR);
+	}
+
+	private void addStringToInformationList(String element){
+		messageListModel.addElement(element);
+		messageList.setModel(messageListModel);
+	}
+
+	private void manageMenu(){
 		this.menu.add(newGame);
 		this.openFile.add(continueGame);
 		this.openFile.add(choosePosition);
@@ -100,29 +208,71 @@ public class GameView extends JFrame {
 		this.menu.add(openFile);
 		this.menu.add(saveGame);
 
-		// option part
-		this.option = new JMenu(TextManager.OPTION_TEXT_FR);
-
-		// help part
-		this.help = new JMenu(TextManager.HELP_TEXT_FR);
-
 		this.menuBar.add(menu);
 		this.menuBar.add(option);
 		this.menuBar.add(help);
 
-		// ////////////////////////////////////////////////
-		// TODO
-		help.addMenuListener(new MenuListener() {
+		newGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("newGame");
+				if(menuEvent != null)menuEvent.onNewGameItemMenuPressed();
+			}
+		});
+
+		saveGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("save");
+				if(menuEvent != null)menuEvent.onSaveGameUnderItemMenuPressed();
+			}
+		});
+
+		continueGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("continue");
+				if(menuEvent != null)menuEvent.onOpenFileAndContinueItemMenuPressed();
+			}
+		});
+
+		choosePosition.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("position");
+				if(menuEvent != null)menuEvent.onOpenFileAndChoosePositionItemMenuPressed();
+			}
+		});
+
+		preConfFile.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("preconfig");
+				if(menuEvent != null)menuEvent.onOpenPreConfFileItemMenuPressed();
+			}
+		});
+
+		option.addMenuListener(new MenuListener() {
 
 			@Override
 			public void menuSelected(MenuEvent arg0) {
-				try {
+				System.out.println("option");
+				if(menuEvent != null)menuEvent.onOptionItemMenuPressed();
+				/*try {
 					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
 				} catch (IOException  e) {
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
-				}
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}*/	
+
 			}
 
 			@Override
@@ -133,76 +283,55 @@ public class GameView extends JFrame {
 			public void menuCanceled(MenuEvent arg0) {
 			}
 		});
-		// ////////////////////////////////////////////////
 
-		ButtonEventListener event = new ButtonEventListener() {
+		help.addMenuListener(new MenuListener() {
 
 			@Override
-			public void onPlayButtonCliked() {
-				System.out.println("play!");
+			public void menuSelected(MenuEvent arg0) {
+				System.out.println("help");
+				if(menuEvent != null)menuEvent.onHelpItemMenuPressed();
+				/*try {
+					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
+				} catch (IOException  e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}*/	
 			}
 
 			@Override
-			public void onPauseButtonCliked() {
-				System.out.println("Pause");
-			}
+			public void menuDeselected(MenuEvent arg0) {}
 
 			@Override
-			public void onButtonCliked(ImageButton button, int code) {
-				System.out.println("Button cliked : " + code);
-			}
+			public void menuCanceled(MenuEvent arg0) {}
 
-			@Override
-			public void onForwardButtonCliked() {
-				System.out.println("forward");
-			}
+		});
 
-			@Override
-			public void onBackButtonCliked() {
-				System.out.println("back");
-			}
+	}
 
-			@Override
-			public void onResetButtonCliked() {
-				System.out.println("reset");
-			}
+	private void addImageButtonToMenu(){
 
-			@Override
-			public void onHelpIAButtonCliked() {
-				System.out.println("help ia");
-			}
+		actionBar.add(new PlayButton(buttonEvent));
+		actionBar.add(new ResetButton(buttonEvent));
+		actionBar.add(new BackButton(buttonEvent));
+		actionBar.add(new ForwardButton(buttonEvent));
+		actionBar.add(new HelpIAButton(buttonEvent));
+		actionBar.add(new PositionButton(buttonEvent));
+		actionBar.add(new ReversePlayerButton(buttonEvent));
+	}
+	
+	@Override
+	public void addMessageToMessageList(String element) {
+		this.addStringToInformationList(element);
+	}
 
-			@Override
-			public void onPositionButtonCliked() {
-				System.out.println("position");
-			}
+	@Override
+	public void changeStatViewMessage(String message) {
+		statLabel.setText(message);
+	}
 
-			@Override
-			public void onReversePlayerButtonCliked() {
-				System.out.println("reverse");
-			}
-		};
-
-		actionBar.add(new PlayButton(event));
-		actionBar.add(new ResetButton(event));
-		actionBar.add(new BackButton(event));
-		actionBar.add(new ForwardButton(event));
-		actionBar.add(new HelpIAButton(event));
-		actionBar.add(new PositionButton(event));
-		actionBar.add(new ReversePlayerButton(event));
-
-		this.setJMenuBar(menuBar);
-		messageBar.add(new JTextArea(
-				"Textfiled ou il y aura des messages variables"));
-		informationBar.add(new JTextArea(
-				"Information sur la partie en cours !!!"));
-
-		this.add(actionBar, BorderLayout.NORTH);
-		this.add(messageBar, BorderLayout.SOUTH);
-
-		this.add(new GameCanvas(), BorderLayout.CENTER);
-		this.add(informationBar, BorderLayout.EAST);
-
-		this.setVisible(true);
+	@Override
+	public void changeMessageViewContent(String content) {
+		messageLabel.setText(content);
 	}
 }

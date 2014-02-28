@@ -57,7 +57,7 @@ public class BruteForceAI implements ArtificialIntelligence {
 		tree = new Tree<Point>();
 		tree.setRootElement(new Node<Point>(new Point(-1,-1), 1,whitePiece,blackPiece,board,boardWidth,boardHeight));
 		tree.setSentinel(tree.getRootElement());
-		miniMax(0, tree.getSentinel(), 0, 0);
+		miniMax(10, tree.getSentinel(), 0, 0);
 		System.out.println("Fini!");
 		return true;
 	}
@@ -69,8 +69,8 @@ public class BruteForceAI implements ArtificialIntelligence {
 		Stack<Point> playablePosition = calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer());
 		System.out.println(playablePosition.toString());
 		int i = 0;
-		if(!playablePosition.isEmpty()) // Prendre en charge la possibilité qu'il n'y est pas de coup possible pour le présent joueur
-			while(!playablePosition.isEmpty() && depth <= 10){
+		if(!playablePosition.isEmpty() && depth >= 0){ // Prendre en charge la possibilité qu'il n'y est pas de coup possible pour le présent joueur
+			//while(!playablePosition.isEmpty() && depth >= 10){
 				if(i == 0){
 					System.out.println("Child : " + i );
 					System.out.println("depth : " + depth);
@@ -90,12 +90,17 @@ public class BruteForceAI implements ArtificialIntelligence {
 					//System.out.println(n.printBoard());
 					System.out.println("Pos : " + n.getData().toString());
 				}
-				miniMax(depth+1, n, bestScoreJ1, bestScoreJ2);
+				miniMax(depth-1, n, bestScoreJ1, bestScoreJ2);
 
 				i++;
 
 			}
-		//else
+		else if(!calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer()%2+1).isEmpty()){
+			node.setPlayer(node.getPlayer()%2 + 1);
+			miniMax(depth, node, bestScoreJ1, bestScoreJ2);
+		}
+		else
+			System.out.println("Fin de branche -> Feuille atteinte");
 			
 
 

@@ -47,7 +47,7 @@ public class RandomAI implements ArtificialIntelligence {
 			return 1;
 		else
 			return 0;
-			
+
 	}
 
 	@Override
@@ -123,39 +123,43 @@ public class RandomAI implements ArtificialIntelligence {
 		return true;
 	}
 
-	public void calculateBorderLine(){
+	public void calculateBorderLine(Integer player){
 		Set<Point> borderLine = new HashSet<Point>();
-		for(Point white : whitePiece){
-			for(int x = - 1; x < 2; x++){
-				for(int y = -1; y < 2; y++){
-					if(white.x + x >= 0 && white.x + x < this.boardWidth && white.y + y >= 0 && white.y + y < this.boardHeight && !(x == 0 && y == 0)){
-						if(board[x + white.x][y + white.y].isEmpty()){
-							borderLine.add(new Point(x + white.x, y + white.y));
+		if(player == 2){
+			for(Point white : whitePiece){
+				for(int x = - 1; x < 2; x++){
+					for(int y = -1; y < 2; y++){
+						if(white.x + x >= 0 && white.x + x < this.boardWidth && white.y + y >= 0 && white.y + y < this.boardHeight && !(x == 0 && y == 0)){
+							if(board[x + white.x][y + white.y].isEmpty()){
+								borderLine.add(new Point(x + white.x, y + white.y));
+							}
 						}
-					}
 
+					}
 				}
 			}
 
 		}
-		for(Point black : blackPiece){
-			for(int x = - 1; x < 2; x++){
-				for(int y = -1; y < 2; y++){
-					if(black.x + x >= 0 && black.x + x < this.boardWidth && black.y + y >= 0 && black.y + y < this.boardHeight && !(x == 0 && y == 0)){
-						if(board[x + black.x][y + black.y].isEmpty()){
-							borderLine.add(new Point(x + black.x, y + black.y));
+		else if(player == 1){
+			for(Point black : blackPiece){
+				for(int x = - 1; x < 2; x++){
+					for(int y = -1; y < 2; y++){
+						if(black.x + x >= 0 && black.x + x < this.boardWidth && black.y + y >= 0 && black.y + y < this.boardHeight && !(x == 0 && y == 0)){
+							if(board[x + black.x][y + black.y].isEmpty()){
+								borderLine.add(new Point(x + black.x, y + black.y));
+							}
 						}
+
 					}
-
 				}
-			}
 
+			}
 		}
 		this.borderLine = borderLine;
 	}
 
 	public Set<Point> calculatePlayablePosition(Integer player){
-		calculateBorderLine();
+		calculateBorderLine(player);
 		Set<Point> possiblePosition = new HashSet<Point>();
 		if(player == 1 || player == 2){
 			for(Point p : this.borderLine){
@@ -169,7 +173,7 @@ public class RandomAI implements ArtificialIntelligence {
 								while(i < boardWidth && i >= 0 && j < boardHeight && j >= 0 && playable == false){
 									if(!board[i][j].isPlayer(player) && !board[i][j].isEmpty()){ // teste s'il y a un pion et si c'est un pion adverse
 										i += x;
-									j += y;
+										j += y;
 									}
 									else if(board[i][j].isPlayer(player)) //teste le pion du joueur qui va "encadrer le coup" 
 										playable = true;

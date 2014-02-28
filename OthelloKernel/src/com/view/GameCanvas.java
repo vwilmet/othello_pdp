@@ -1,5 +1,6 @@
 package com.view;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -7,8 +8,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
@@ -36,7 +39,6 @@ import com.view.event.MouseEventListener;
 public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	private Dimension gridSize;
-	private int pieceSize;
 	private Dimension margin;
 	private MouseEventListener mouseEvent;
 	private Board board;
@@ -45,12 +47,11 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		setBackground (Color.white);
 		this.mouseEvent = event;
 		this.board = board;
-		this.pieceSize = ViewSettings.PIECE_WIDTH;
 
 		this.addMouseListener(this);
 		board.addObserver(this);
 
-		gridSize = new Dimension((board.getSizeX()*pieceSize), (board.getSizeY()*pieceSize));
+		gridSize = new Dimension((board.getSizeX()*ViewSettings.PIECE_WIDTH), (board.getSizeY()*ViewSettings.PIECE_HEIGHT));
 
 		int marginX = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH-gridSize.width)/2;
 		int marginY = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT-gridSize.height)/2;
@@ -68,7 +69,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		//draw grid
 		for(int i = 0; i < board.getSizeX(); i ++){
 			for(int j = 0; j < board.getSizeY(); j++){
-				g.drawRect(i*pieceSize+margin.width, j*pieceSize+margin.height, pieceSize, pieceSize);
+				g.drawRect(i*ViewSettings.PIECE_WIDTH+margin.width, j*ViewSettings.PIECE_HEIGHT+margin.height, ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT);
 
 				Image img;
 				try {
@@ -79,26 +80,38 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 						img = ImageIO.read(new File("./resources/fx/piece/black_piece.png"));
 					else
 						continue;
-					g.drawImage(img, i*pieceSize+margin.width+ ViewSettings.DRAW_LINE_SIZE/2, j*pieceSize+margin.height+ ViewSettings.DRAW_LINE_SIZE/2, this);
+					g.drawImage(scaleImage(img, ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT), i*ViewSettings.PIECE_WIDTH+margin.width+ ViewSettings.DRAW_LINE_SIZE/2, j*ViewSettings.PIECE_HEIGHT+margin.height+ ViewSettings.DRAW_LINE_SIZE/2, this);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-
-
-
 			}
 		}
-
-
 	}
-
+	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
 		drawGrid(g2);
 	}
 
+	private Image scaleImage(Image image, int width, int height) {
+	    int type = BufferedImage.TYPE_INT_ARGB;
+
+
+	    BufferedImage resizedImage = new BufferedImage(width, height, type);
+	    Graphics2D g = resizedImage.createGraphics();
+
+	    g.setComposite(AlphaComposite.Src);
+	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	    g.drawImage(image, 0, 0, width, height, this);
+	    g.dispose();
+
+	    return resizedImage;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 

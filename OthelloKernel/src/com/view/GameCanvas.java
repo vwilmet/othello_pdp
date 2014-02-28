@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
@@ -18,6 +20,7 @@ import javax.swing.SwingUtilities;
 import utils.ViewSettings;
 
 import com.model.Board;
+import com.model.BoardObservable;
 import com.model.piece.BlackPiece;
 import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
@@ -30,7 +33,7 @@ import com.view.event.MouseEventListener;
  * 			</ul>
  * @version 1.0
  */
-public class GameCanvas extends Canvas implements MouseListener{
+public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	private Dimension gridSize;
 	private int pieceSize;
@@ -38,13 +41,14 @@ public class GameCanvas extends Canvas implements MouseListener{
 	private MouseEventListener mouseEvent;
 	private Board board;
 
-	public GameCanvas(MouseEventListener event, Board board) {
+	public GameCanvas(MouseEventListener event, BoardObservable board) {
 		setBackground (Color.white);
 		this.mouseEvent = event;
 		this.board = board;
 		this.pieceSize = ViewSettings.PIECE_WIDTH;
 
 		this.addMouseListener(this);
+		board.addObserver(this);
 
 		gridSize = new Dimension((board.getSizeX()*pieceSize), (board.getSizeY()*pieceSize));
 
@@ -108,7 +112,7 @@ public class GameCanvas extends Canvas implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX() - margin.width;
 		int y = e.getY() - margin.height;
-
+		
 		if(SwingUtilities.isLeftMouseButton(e))
 			mouseEvent.onLeftMouseButtonPressed(x, y);
 		else if(SwingUtilities.isRightMouseButton(e))
@@ -117,4 +121,10 @@ public class GameCanvas extends Canvas implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.repaint();
+		System.out.println("refresh !!");
+	}
 }

@@ -22,7 +22,7 @@ import javax.swing.event.MenuListener;
 import utils.TextManager;
 import utils.ViewSettings;
 
-import com.model.Board;
+import com.model.BoardObservable;
 import com.view.button.BackButton;
 import com.view.button.ForwardButton;
 import com.view.button.HelpIAButton;
@@ -72,8 +72,8 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 
 	//Help part
 	private JMenu help;
-
-	public GameView(Board board, MenuEventListener menuEvent, ButtonEventListener buttonEvent, MouseEventListener mouseEvent) {
+	
+	public GameView(BoardObservable board, MenuEventListener menuEvent, ButtonEventListener buttonEvent, MouseEventListener mouseEvent) {
 
 		this.menuEvent = menuEvent;
 		this.buttonEvent = buttonEvent;

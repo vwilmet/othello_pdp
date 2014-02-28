@@ -20,6 +20,6 @@ public class BlackPiece implements PieceColor {
 
 	@Override
 	public void reverse(Piece piece) {
-		piece.setPieceState(new WhitePiece());
+		piece.setWhitePiece();
 	}
 }

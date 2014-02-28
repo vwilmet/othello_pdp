@@ -5,7 +5,8 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 
-import com.model.Board;
+import com.model.BoardImpl;
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
@@ -96,7 +97,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int sizeX, int sizeY,
+	public BoardObservable getBoard(int sizeX, int sizeY,
 			List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -104,7 +105,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);

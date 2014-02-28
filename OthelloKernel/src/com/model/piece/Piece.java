@@ -25,8 +25,13 @@ public class Piece implements Cloneable {
 		this.piece = new EmptyPiece();
 	}
 
-	public Piece setPieceState(final PieceColor piece) {
-		this.piece = piece;
+	public Piece setWhitePiece() {
+		this.piece = new WhitePiece();
+		return this;
+	}
+	
+	public Piece setBlackPiece() {
+		this.piece = new BlackPiece();
 		return this;
 	}
 

@@ -14,13 +14,13 @@ import com.model.piece.Piece;
  * @version 1.0
  */
 public interface PieceFactory {
-	public Piece getWhitePiece(int width, int height, int posX, int posY)
+	public Piece getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException;
 
-	public Piece getBlackPiece(int width, int height, int posX, int posY)
+	public Piece getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException;
 
-	public Piece getEmptyPiece(int width, int height, int posX, int posY)
+	public Piece getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException;
 
 	public Piece[][] getMatrixPiece(int i, int j)

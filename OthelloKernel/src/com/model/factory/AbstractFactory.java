@@ -30,13 +30,13 @@ import com.model.player.Player;
 public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 		BoardFactory, GameSettingsFactory, RestoreGameFactory, SaveGameFactory {
 
-	public abstract Piece getWhitePiece(int width, int height, int posX,
+	public abstract Piece getWhitePiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getBlackPiece(int width, int height, int posX,
+	public abstract Piece getBlackPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getEmptyPiece(int width, int height, int posX,
+	public abstract Piece getEmptyPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
 	public abstract Piece[][] getMatrixPiece(int i, int j)

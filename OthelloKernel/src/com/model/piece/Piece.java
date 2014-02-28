@@ -13,13 +13,10 @@ public class Piece implements Cloneable {
 	/*
 	 * Piece p = Piece.BlackPiece(...);
 	 */
-	protected int width, height;
 	protected int posX, posY;
 	protected PieceColor piece;
 
-	public Piece(int width, int height, int posX, int posY) {
-		this.width = width;
-		this.height = height;
+	public Piece(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
 		this.piece = new EmptyPiece();
@@ -43,14 +40,6 @@ public class Piece implements Cloneable {
 		return piece;
 	}
 
-	public int getWidth() {
-		return this.width;
-	}
-
-	public int getHeight() {
-		return this.height;
-	}
-
 	public int getPosX() {
 		return this.posX;
 	}
@@ -58,10 +47,9 @@ public class Piece implements Cloneable {
 	public int getPosY() {
 		return this.posY;
 	}
-
+	
 	public String toString() {
-		String res = "Taille : " + this.width + " * " + this.height + "\n";
-		res += "Position dans la grille : " + this.posX + " : " + this.posY
+		String res = "Position dans la grille : " + this.posX + " : " + this.posY
 				+ "\n";
 		res += this.piece.toString();
 		return res;

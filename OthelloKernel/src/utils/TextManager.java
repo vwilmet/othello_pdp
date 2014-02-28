@@ -30,6 +30,15 @@ public interface TextManager {
 	// Help part
 	public static final String HELP_TEXT_FR = "Aide";
 
+	//Other
+	//frame title
+	public static final String  CHOOSE_VIEW_TITLE_FR = "Choix de la position de reprise";
+	public static final String  GAME_VIEW_TITLE_FR = "Othello";
+	
+	//button title
+	public static final String  CHOOSE_VIEW_VALID_BUTTON_FR = "Lancer";
+	public static final String  CHOOSE_VIEW_CANCEL_BUTTON_FR = "Annuler";
+	
 	// /////////////////////////////////////////
 	// //////////////Controller/////////////////
 	// /////////////////////////////////////////

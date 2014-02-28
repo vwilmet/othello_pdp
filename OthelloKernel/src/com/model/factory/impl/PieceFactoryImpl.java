@@ -42,20 +42,20 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getWhitePiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY))
+	public Piece getWhitePiece(int posX, int posY) {
+		return (new Piece(posX, posY))
 				.setWhitePiece();
 	}
 
 	@Override
-	public Piece getBlackPiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY))
+	public Piece getBlackPiece(int posX, int posY) {
+		return (new Piece(posX, posY))
 				.setBlackPiece();
 	}
 
 	@Override
-	public Piece getEmptyPiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY));
+	public Piece getEmptyPiece(int posX, int posY) {
+		return (new Piece(posX, posY));
 	}
 
 	@Override

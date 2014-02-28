@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.model.view.ViewSettings;
-import com.view.event.ButtonEventListener;
+import com.view.event.ButtonImageMenuEventListener;
 
 
 /**
@@ -18,25 +18,33 @@ public class PlayButton extends ImageButton implements MouseListener {
 
 	private boolean onPlay;
 
-	public PlayButton(ButtonEventListener event) {
-		super(ViewSettings.PAUSE_BUTTON_IMAGE, event,
-				ViewSettings.PLAY_BUTTON_CODE, ViewSettings.PLAY_BUTTON_TEXT);
-		this.addMouseListener(this);
+	public PlayButton() {
+		super(ViewSettings.PAUSE_BUTTON_IMAGE, ViewSettings.PLAY_BUTTON_CODE, ViewSettings.PLAY_BUTTON_TEXT);
 		onPlay = true;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		listener.onButtonCliked(this, code);
+	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+		this.listener = event;
+		this.addMouseListener(this);
+		return this;
+	}
 
-		if (onPlay) {
-			onPlay = false;
-			super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
-			listener.onPauseButtonCliked();
-		} else {
-			onPlay = true;
-			super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
-			listener.onPlayButtonCliked();
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(this.listener != null)
+		{
+			listener.onButtonCliked(this, code);
+
+			if (onPlay) {
+				onPlay = false;
+				super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
+				listener.onPauseButtonCliked();
+			} else {
+				onPlay = true;
+				super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
+				listener.onPlayButtonCliked();
+			}
 		}
 	}
 

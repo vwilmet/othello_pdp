@@ -12,7 +12,7 @@ import utils.TextManager;
 
 import com.error_manager.Log;
 import com.model.view.ViewSettings;
-import com.view.event.ButtonEventListener;
+import com.view.event.ButtonImageMenuEventListener;
 
 /**
  * 
@@ -21,23 +21,23 @@ import com.view.event.ButtonEventListener;
  * 			</ul>
  * @version 1.0
  */
-public class ImageButton extends JButton {
+public abstract class ImageButton extends JButton {
 
 	protected String imageName;
-	protected ButtonEventListener listener;
+	protected ButtonImageMenuEventListener listener;
 	protected Image image, imageCliked;
 	protected int code;
 
-	public ImageButton(String imageName, ButtonEventListener event, int code,
+	public ImageButton(String imageName, int code,
 			String text) {
 		this.code = code;
 		this.imageName = imageName;
-		this.listener = event;
 		this.setToolTipText(text);
-
 		this.setImage(imageName);
 	}
-
+	
+	public abstract ImageButton setMouseListener(ButtonImageMenuEventListener event);
+	
 	protected void setImage(String imageName) {
 
 		try {

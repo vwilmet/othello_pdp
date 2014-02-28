@@ -10,9 +10,10 @@ package com.model.view;
 public class ViewSettings {
 
 	/////////////////////////////////////////////////////////////////
+
 	
-	public static int GAME_PIECE_WIDTH = 10;
-	public static int GAME_PIECE_HEIGHT = 10;
+	public static int PIECE_WIDTH = 10;
+	public static int PIECE_HEIGHT = 10;
 
 	public static int GAME_FRAME_WIDTH;
 	public static int GAME_FRAME_HEIGHT;
@@ -32,13 +33,15 @@ public class ViewSettings {
 	
 	/////////////////////////////////////////////////////////////////
 	
-	public static int CHOOSE_BOARD_PIECE_WIDTH = 10;
-	public static int CHOOSE_BOARD_PIECE_HEIGHT = 10;
-	
 	public static int CHOOSE_BOARD_FRAME_WIDTH;
 	public static int CHOOSE_BOARD_FRAME_HEIGHT;
 	
+	public static int GAMEVIEW_COMPONENT_CHOOSE_VIEW_WIDTH = 0;
+	public static int GAMEVIEW_COMPONENT_CHOOSE_VIEW_HEIGHT = 0;
+
+	public static final int SLIDER_COMPONENT_CHOOSE_VIEW_HEIGHT = 40;
 	
+	public static int BUTTONS_COMPONENT_CHOOSE_VIEW_WIDTH = 0;
 	
 	
 	/////////////////////////////////////////////////////////////////
@@ -87,5 +90,12 @@ public class ViewSettings {
 
 	// path
 	public static final String IMAGE_BUTTON_PATH = "./resources/fx/";
+	public static final String IMAGE_PIECE_PATH = "./resources/fx/piece/";
+	
+
+	public static final String WHITE_PIECE_IMG = "white_piece.png";
+	public static final String BLACK_PIECE_IMG = "black_piece.png";
+	public static final String POSSIBLE_PIECE_IMG = "possible_position.png";
+	
 
 }

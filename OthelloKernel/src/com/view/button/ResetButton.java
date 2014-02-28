@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.model.view.ViewSettings;
-import com.view.event.ButtonEventListener;
+import com.view.event.ButtonImageMenuEventListener;
 
 
 /**
@@ -16,17 +16,25 @@ import com.view.event.ButtonEventListener;
  */
 public class ResetButton extends ImageButton implements MouseListener {
 
-	public ResetButton(ButtonEventListener event) {
-		super(ViewSettings.RESET_BUTTON_IMAGE, event,
-				ViewSettings.RESET_BUTTON_CODE, ViewSettings.RESET_BUTTON_TEXT);
+	public ResetButton() {
+		super(ViewSettings.RESET_BUTTON_IMAGE, ViewSettings.RESET_BUTTON_CODE, ViewSettings.RESET_BUTTON_TEXT);
+	}
+
+	@Override
+	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+		this.listener = event;
 		this.addMouseListener(this);
+		return this;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		listener.onButtonCliked(this, code);
-		super.setImage(ViewSettings.RESET_BUTTON_IMAGE);
-		listener.onResetButtonCliked();
+		if(this.listener != null)
+		{
+			listener.onButtonCliked(this, code);
+			super.setImage(ViewSettings.RESET_BUTTON_IMAGE);
+			listener.onResetButtonCliked();
+		}
 	}
 
 	@Override

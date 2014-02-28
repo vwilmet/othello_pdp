@@ -42,7 +42,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getWhitePiece(int width, int height, int posX, int posY)
+	public Piece getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -50,7 +50,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getBlackPiece(int width, int height, int posX, int posY)
+	public Piece getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -58,7 +58,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getEmptyPiece(int width, int height, int posX, int posY)
+	public Piece getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,

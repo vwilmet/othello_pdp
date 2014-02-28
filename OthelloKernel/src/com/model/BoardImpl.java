@@ -110,7 +110,7 @@ public class BoardImpl implements Board{
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = pFacto.getEmptyPiece(ViewSettings.GAME_PIECE_WIDTH, ViewSettings.GAME_PIECE_HEIGHT, i, j);
+						Piece p = pFacto.getEmptyPiece(i, j);
 						this.gameBoard[i][j] = p;
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());

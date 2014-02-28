@@ -99,4 +99,13 @@ public interface PostsPublisher {
 	 * Constante indiquant quel joueur va commencer.
 	 */
 	public static final String FIRST_PLAYER_POST_FR = "Le joueur Blanc commence.";
+	
+	public static final String ERROR_RECOVERY_RESULT_FR = "Vous avez saisi une entrée incorrecte.";
+	
+	public static final String INPUT_FATAL_ERROR_FR = "Un probleme est survenu au niveau de la réccupération des entrées utilisateur, fermeture du programme.";
+	
+	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de votre fichier, votre carte n'a pas été suavegardé.";
+	
+	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde.";
+	
 }

@@ -22,46 +22,50 @@ import com.view.event.ViewMessageContentHandler;
 public class Main {
 
 	static BoardObservable b;
-	
+
 	public static void main(String[] args) {
 		Application app = Application.getInstance();
 		app.calculateComponentSize(5, 8);
-		
+
+		//////////////////////////////////////////////////////////////
+		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
+		//////////////////////////////////////////////////////////////
+
 		System.out.println("Othello Kernel");
 		System.out.println("Test de la factory : ");
-		
+
 		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null;
-		
+
 		try {
 			p1 = pieceFactory.getWhitePiece(10, 10, 1, 1);
 			p2 = pieceFactory.getBlackPiece(10, 10, 4, 2);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 		}
-		
+
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		b = null;
 		List<Piece> pcs = new ArrayList<Piece>();
 		pcs.add(p1);
 		pcs.add(p2);
-		
+
 		try {
 			b = bFacto.getBoard(5, 8, pcs);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(b.toString());
-		
+
 		MouseEventListener mouse = new MouseEventListener() {
-			
+
 			@Override
 			public void onRightMouseButtonPressed(int x, int y) {
 				System.out.println("Right button Position x:y =>" + x + ":" + y);
 			}
-			
+
 			@Override
 			public void onLeftMouseButtonPressed(int x, int y) {
 				System.out.println("Left button Position x:y =>" + x + ":" + y);
@@ -69,9 +73,9 @@ public class Main {
 				System.out.println(b.toString());
 			}
 		};
-		
+
 		ViewMessageContentHandler message = new GameView(b, null, null, mouse);
-		
+
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
@@ -79,11 +83,11 @@ public class Main {
 		message.addMessageToMessageList("toto");
 		message.changeMessageViewContent("Petit message !!");
 		message.changeStatViewMessage("stat");
-		
+
 		System.out.println("Test de la factory : ");
-		
+
 		/**/
-		
+
 		/*
 		 * PlayerFactory playerFactory = FactoryProducer.getPlayerFacory();
 		 * 

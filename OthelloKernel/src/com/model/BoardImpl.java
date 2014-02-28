@@ -5,13 +5,13 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
-import utils.ViewSettings;
 
 import com.error_manager.Log;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
+import com.model.view.ViewSettings;
 
 /**
  * 
@@ -110,7 +110,7 @@ public class BoardImpl implements Board{
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = pFacto.getEmptyPiece(ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT, i, j);
+						Piece p = pFacto.getEmptyPiece(ViewSettings.GAME_PIECE_WIDTH, ViewSettings.GAME_PIECE_HEIGHT, i, j);
 						this.gameBoard[i][j] = p;
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());

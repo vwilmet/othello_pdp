@@ -30,7 +30,7 @@ public class Main {
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
 		//////////////////////////////////////////////////////////////
-
+		
 		System.out.println("Othello Kernel");
 		System.out.println("Test de la factory : ");
 

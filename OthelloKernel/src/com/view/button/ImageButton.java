@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import utils.TextManager;
-import utils.ViewSettings;
 
 import com.error_manager.Log;
+import com.model.view.ViewSettings;
 import com.view.event.ButtonEventListener;
 
 /**

@@ -20,9 +20,9 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import utils.TextManager;
-import utils.ViewSettings;
 
 import com.model.BoardObservable;
+import com.model.view.ViewSettings;
 import com.view.button.BackButton;
 import com.view.button.ForwardButton;
 import com.view.button.HelpIAButton;
@@ -78,7 +78,7 @@ public class GameView extends JFrame implements ViewMessageContentHandler{
 		this.menuEvent = menuEvent;
 		this.buttonEvent = buttonEvent;
 
-		this.setSize(ViewSettings.FRAME_WIDTH, ViewSettings.FRAME_HEIGHT);
+		this.setSize(ViewSettings.GAME_FRAME_WIDTH, ViewSettings.GAME_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);

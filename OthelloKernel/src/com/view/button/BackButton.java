@@ -3,9 +3,9 @@ package com.view.button;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import com.model.view.ViewSettings;
 import com.view.event.ButtonEventListener;
 
-import utils.ViewSettings;
 
 /**
  * 

@@ -20,13 +20,13 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
-import utils.ViewSettings;
 
 import com.model.Board;
 import com.model.BoardObservable;
 import com.model.piece.BlackPiece;
 import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
+import com.model.view.ViewSettings;
 import com.view.event.MouseEventListener;
 
 /**
@@ -51,7 +51,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		this.addMouseListener(this);
 		board.addObserver(this);
 
-		gridSize = new Dimension((board.getSizeX()*ViewSettings.PIECE_WIDTH), (board.getSizeY()*ViewSettings.PIECE_HEIGHT));
+		gridSize = new Dimension((board.getSizeX()*ViewSettings.GAME_PIECE_WIDTH), (board.getSizeY()*ViewSettings.GAME_PIECE_HEIGHT));
 
 		int marginX = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH-gridSize.width)/2;
 		int marginY = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT-gridSize.height)/2;
@@ -69,7 +69,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		//draw grid
 		for(int i = 0; i < board.getSizeX(); i ++){
 			for(int j = 0; j < board.getSizeY(); j++){
-				g.drawRect(i*ViewSettings.PIECE_WIDTH+margin.width, j*ViewSettings.PIECE_HEIGHT+margin.height, ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT);
+				g.drawRect(i*ViewSettings.GAME_PIECE_WIDTH+margin.width, j*ViewSettings.GAME_PIECE_HEIGHT+margin.height, ViewSettings.GAME_PIECE_WIDTH, ViewSettings.GAME_PIECE_HEIGHT);
 
 				Image img;
 				try {
@@ -80,7 +80,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 						img = ImageIO.read(new File("./resources/fx/piece/black_piece.png"));
 					else
 						continue;
-					g.drawImage(scaleImage(img, ViewSettings.PIECE_WIDTH, ViewSettings.PIECE_HEIGHT), i*ViewSettings.PIECE_WIDTH+margin.width+ ViewSettings.DRAW_LINE_SIZE/2, j*ViewSettings.PIECE_HEIGHT+margin.height+ ViewSettings.DRAW_LINE_SIZE/2, this);
+					g.drawImage(scaleImage(img, ViewSettings.GAME_PIECE_WIDTH, ViewSettings.GAME_PIECE_HEIGHT), i*ViewSettings.GAME_PIECE_WIDTH+margin.width+ ViewSettings.DRAW_LINE_SIZE/2, j*ViewSettings.GAME_PIECE_HEIGHT+margin.height+ ViewSettings.DRAW_LINE_SIZE/2, this);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

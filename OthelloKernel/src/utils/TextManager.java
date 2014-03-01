@@ -30,14 +30,30 @@ public interface TextManager {
 	// Help part
 	public static final String HELP_TEXT_FR = "Aide";
 
+	public static final String GRID_SIZE_LABEL_TEXT_FR = "Taille de la grille";
+	public static final String GRID_ROW_LABEL_TEXT_FR = "Colonne : ";
+	public static final String GRID_LIGNE_LABEL_TEXT_FR = "Ligne : ";
+	public static final String AI_LABEL_TEXT_FR = "Intelligence Artificielle";
+	public static final String AI_THINKING_TIME_LABEL_TEXT_FR = "Temps de réflexion : ";
+	public static final String AI_DIFFICULTY_LABEL_TEXT_FR = "Difficulté : ";
+	public static final String[] AI_DIFFICULTY_VALUE_TEXT_FR = {"Facile", "Moyen", "Difficile"};
+	public static final String PLAYER_LABEL_TEXT_FR = "Joueur";
+	public static final String PLAYER_1_NAME_TEXT_FR = "Nom du joueur 1 : ";
+	public static final String PLAYER_2_NAME_TEXT_FR = "Nom du joueur 2 : ";
+	
+	
 	//Other
 	//frame title
 	public static final String  CHOOSE_VIEW_TITLE_FR = "Choix de la position de reprise";
 	public static final String  GAME_VIEW_TITLE_FR = "Othello";
+	public static final String  INITGAME_VIEW_TITLE_FR = "Initialisation du jeu";
 	
 	//button title
 	public static final String  CHOOSE_VIEW_VALID_BUTTON_FR = "Lancer";
 	public static final String  CHOOSE_VIEW_CANCEL_BUTTON_FR = "Annuler";
+
+	public static final String  INIT_GAMEVIEW_VALID_BUTTON_FR = "OK";
+	public static final String  INIT_GAMEVIEW_CANCEL_BUTTON_FR = "Annuler";
 	
 	// /////////////////////////////////////////
 	// //////////////Controller/////////////////
@@ -46,4 +62,7 @@ public interface TextManager {
 	// /////////////////////////////////////////
 	// ////////////////Model////////////////////
 	// /////////////////////////////////////////
+
+	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur 1";
+	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur 2";
 }

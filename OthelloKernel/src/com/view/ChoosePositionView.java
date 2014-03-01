@@ -31,7 +31,7 @@ public class ChoosePositionView extends JFrame{
 	private GameCanvas game;
 	private ChoosePositionButtonEventListener buttonEvent;
 
-	public ChoosePositionView(int currentBoard, ArrayList<Board> boards, ChoosePositionButtonEventListener event) {
+	public ChoosePositionView(int currentBoard, ArrayList<Board> boards) {
 
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +41,6 @@ public class ChoosePositionView extends JFrame{
 
 		this.currentChoosenPosition = currentBoard;
 		this.boards = boards;
-		this.buttonEvent = event;
 
 		instantiation();
 
@@ -58,6 +57,18 @@ public class ChoosePositionView extends JFrame{
 		this.setVisible(true);
 	}
 
+	public void setButtonListener(ChoosePositionButtonEventListener event){
+		this.buttonEvent = event;
+	}
+	
+	public void showFrame(){
+		this.setVisible(true);
+	}
+	
+	public void hideFrame(){
+		this.dispose();
+	}
+	
 	private void setComponentSize() {
 		slider.setPreferredSize(new Dimension(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.SLIDER_COMPONENT_CHOOSE_VIEW_HEIGHT));
 		slider.setMinimumSize(new Dimension(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.SLIDER_COMPONENT_CHOOSE_VIEW_HEIGHT));
@@ -79,7 +90,7 @@ public class ChoosePositionView extends JFrame{
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		slider.addChangeListener(new ChangeListener() {
-
+			
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();

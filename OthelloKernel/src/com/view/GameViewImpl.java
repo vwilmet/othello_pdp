@@ -114,7 +114,7 @@ public class GameViewImpl extends JFrame implements GameView{
 		this.add(new GameCanvas(board, ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT).setMouseListener(mouseEvent), BorderLayout.CENTER);
 		this.add(informationBar, BorderLayout.EAST);
 	}
-
+	
 	@Override
 	public void showFrame(){
 		this.setVisible(true);
@@ -307,5 +307,10 @@ public class GameViewImpl extends JFrame implements GameView{
 	@Override
 	public void setMenuListener(GameViewMenuEventListener event) {
 		this.menuEvent = event;
+	}
+
+	@Override
+	public void hideFrame() {
+		this.dispose();
 	}
 }

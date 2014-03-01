@@ -12,12 +12,9 @@ import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.piece.Piece;
 import com.view.ChoosePositionView;
-import com.view.GameView;
-import com.view.GameViewImpl;
-import com.view.button.ImageButton;
-import com.view.event.ButtonImageMenuEventListener;
+import com.view.InitGameView;
 import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.GameViewMenuEventListener;
+import com.view.event.InitGameButtonEventListener;
 
 /**
  * @author Benjamin Letourneau
@@ -76,7 +73,11 @@ public class Main {
 		
 		System.out.println(b.toString());
 		
-		new ChoosePositionView(0, boards, null);
+		//new ChoosePositionView(0, boards, null);
+		
+		InitGameView vi = new InitGameView();
+		
+		vi.showFrame();
 		
 		GameCanvasMouseEventListener mouse = new GameCanvasMouseEventListener() {
 			

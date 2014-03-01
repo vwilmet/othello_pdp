@@ -43,7 +43,6 @@ public class ViewSettings {
 	
 	public static int BUTTONS_COMPONENT_CHOOSE_VIEW_WIDTH = 0;
 	
-	
 	/////////////////////////////////////////////////////////////////
 	public static final int DRAW_LINE_SIZE = 2;
 	
@@ -63,39 +62,45 @@ public class ViewSettings {
 	public static final String FORWARD_BUTTON_CLIKED_IMAGE = "arrow/forward_arrow_cliked.png";
 	public static final String BACK_BUTTON_TEXT = "Retour";
 	public static final String FORWARD_BUTTON_TEXT = "Suivant";
-
+	
 	// reset button
 	public static final int RESET_BUTTON_CODE = 203;
 	public static final String RESET_BUTTON_IMAGE = "arrow/reset.png";
 	public static final String RESET_BUTTON_CLIKED_IMAGE = "arrow/reset_cliked.png";
 	public static final String RESET_BUTTON_TEXT = "Recommencer";
-
+	
 	// help ia button
 	public static final int HELP_IA_BUTTON_CODE = 300;
 	public static final String HELP_IA_BUTTON_IMAGE = "bonus/help_ia.png";
 	public static final String HELP_IA_BUTTON_CLIKED_IMAGE = "bonus/help_ia_cliked.png";
 	public static final String HELP_IA_BUTTON_TEXT = "Aide de l'IA";
-
+	
 	// position button
 	public static final int POSITION_BUTTON_CODE = 301;
 	public static final String POSITION_BUTTON_IMAGE = "bonus/position.png";
 	public static final String POSITION_BUTTON_CLIKED_IMAGE = "bonus/position_cliked.png";
 	public static final String POSITION_BUTTON_TEXT = "Revenir à une position";
-
+	
 	// reverse button
 	public static final int REVERSE_BUTTON_CODE = 302;
 	public static final String REVERSE_BUTTON_IMAGE = "bonus/reverse_player.png";
 	public static final String REVERSE_BUTTON_CLIKED_IMAGE = "bonus/reverse_player_cliked.png";
 	public static final String REVERSE_BUTTON_TEXT = "Changer les joueurs";
-
+	
 	// path
 	public static final String IMAGE_BUTTON_PATH = "./resources/fx/";
 	public static final String IMAGE_PIECE_PATH = "./resources/fx/piece/";
 	
-
 	public static final String WHITE_PIECE_IMG = "white_piece.png";
 	public static final String BLACK_PIECE_IMG = "black_piece.png";
 	public static final String POSSIBLE_PIECE_IMG = "possible_position.png";
 	
-
+	///////////////////////////////////////////////////////////////////////////
+	
+	public static final int DEFAULT_ROW_SIZE = 4;
+	public static final int DEFAULT_LIGNE_SIZE = 4;
+	
+	//mili-seconde
+	public static final int DEFAULT_IA_THINKING_TIME = 2000;
+	public static final int DEFAULT_IA_DIFFICULTY = 0;
 }

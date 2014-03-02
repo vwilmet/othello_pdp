@@ -83,7 +83,7 @@ public class InitGameView extends JFrame {
 		cancel = new JButton(TextManager.INIT_GAMEVIEW_CANCEL_BUTTON_FR);
 		benchmark = new JButton(TextManager.INIT_GAMEVIEW_BENCHMARK_BUTTON_FR);
 		benchmark.setToolTipText(TextManager.INIT_GAMEVIEW_BENCHMARK_TITLE_BUTTON_FR);
-		
+
 		valid.addActionListener(new ActionListener() {
 
 			@Override

@@ -53,7 +53,10 @@ public interface TextManager {
 	public static final String  CHOOSE_VIEW_CANCEL_BUTTON_FR = "Annuler";
 
 	public static final String  INIT_GAMEVIEW_VALID_BUTTON_FR = "OK";
+	public static final String  INIT_GAMEVIEW_BENCHMARK_BUTTON_FR = "BenchMark";
 	public static final String  INIT_GAMEVIEW_CANCEL_BUTTON_FR = "Annuler";
+	
+	public static final String  INIT_GAMEVIEW_BENCHMARK_TITLE_BUTTON_FR = "Lance un benchmark sur les performances de la machine pour calculer le temps idéal de l'IA !";
 	
 	// /////////////////////////////////////////
 	// //////////////Controller/////////////////

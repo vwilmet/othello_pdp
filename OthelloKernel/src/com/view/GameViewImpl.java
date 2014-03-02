@@ -42,15 +42,15 @@ import com.view.event.GameCanvasMouseEventListener;
  * @version 1.0
  */
 public class GameViewImpl extends JFrame implements GameView{
-	
+
 	private ButtonImageMenuEventListener buttonEvent;
 	private GameViewMenuEventListener menuEvent;
-	
+
 	private JMenuBar menuBar;
 	private JToolBar actionBar;
 	private JToolBar messageBar;
 	private JToolBar informationBar;
-	
+
 	// Menu part
 	private JMenu menu;
 	private JMenuItem newGame;
@@ -59,32 +59,35 @@ public class GameViewImpl extends JFrame implements GameView{
 	private JMenuItem continueGame;
 	private JMenuItem choosePosition;
 	private JMenuItem preConfFile;
-	
+
 	private JLabel messageLabel;
 	private JLabel statLabel;
-	
+
 	private JList<String> messageList;
 	private DefaultListModel<String> messageListModel;
-	
+
 	//Option part
 	private JMenu option;
-	
+
 	//Help part
 	private JMenu help;
-	
-	public GameViewImpl(BoardObservable board, ButtonImageMenuEventListener event, GameCanvasMouseEventListener mouseEvent) {
-		
-		
+
+	private GameCanvas game;
+
+	public GameViewImpl(BoardObservable board, ButtonImageMenuEventListener event) {
+
 		this.setSize(ViewSettings.GAME_FRAME_WIDTH, ViewSettings.GAME_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.GAME_VIEW_TITLE_FR);
-		
+
 		this.buttonEvent = event;
-		
+
 		instantiation();
-		
+
+		this.game.setData(board);
+
 		informationBar.setBorder(BorderFactory.createMatteBorder(
 				0, 1, 0, 0, Color.black));
 		messageBar.setBorder(BorderFactory.createMatteBorder(
@@ -106,18 +109,23 @@ public class GameViewImpl extends JFrame implements GameView{
 		//informationBar.add(messageList);
 
 		setComponentSize();
-		
+
 		this.add(actionBar, BorderLayout.NORTH);
 
 		this.add(messageBar, BorderLayout.SOUTH);
 
-		this.add(new GameCanvas(board, ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT).setMouseListener(mouseEvent), BorderLayout.CENTER);
+		this.add(game, BorderLayout.CENTER);
 		this.add(informationBar, BorderLayout.EAST);
 	}
-	
+
 	@Override
 	public void showFrame(){
 		this.setVisible(true);
+	}
+
+	@Override
+	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent){
+		this.game.setMouseListener(mouseEvent);
 	}
 	
 	private void setComponentSize(){
@@ -171,6 +179,8 @@ public class GameViewImpl extends JFrame implements GameView{
 
 		//help part
 		this.help = new JMenu(TextManager.HELP_TEXT_FR);
+
+		this.game = new GameCanvas(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT);
 	}
 
 	private void addStringToInformationList(String element){
@@ -288,7 +298,7 @@ public class GameViewImpl extends JFrame implements GameView{
 		actionBar.add(new PositionButton().setMouseListener(buttonEvent));
 		actionBar.add(new ReversePlayerButton().setMouseListener(buttonEvent));
 	}
-	
+
 	@Override
 	public void addMessageToMessageList(String element) {
 		this.addStringToInformationList(element);
@@ -312,5 +322,10 @@ public class GameViewImpl extends JFrame implements GameView{
 	@Override
 	public void hideFrame() {
 		this.dispose();
+	}
+
+	@Override
+	public void setBoard(BoardObservable board) {
+		this.game.setData(board);
 	}
 }

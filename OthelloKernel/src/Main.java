@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFormattedTextField;
+
 import utils.Application;
 import utils.FactoryHandlerException;
 
@@ -15,6 +17,7 @@ import com.view.GameView;
 import com.view.GameViewImpl;
 import com.view.InitGameView;
 import com.view.event.GameCanvasMouseEventListener;
+import com.view.event.InitGameButtonEventListener;
 
 /**
  * @author Benjamin Letourneau
@@ -27,7 +30,7 @@ public class Main {
 	public static void main(String[] args) {
 		Application app = Application.getInstance();
 		app.calculateComponentSize(5, 8);
-
+		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
 		//////////////////////////////////////////////////////////////
@@ -71,29 +74,56 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		System.out.println(b.toString());
+		//System.out.println(b.toString());
 		
-		//new ChoosePositionView(0, boards, null);
-		
+		/*ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
+		c.showFrame();*/
 		InitGameView vi = new InitGameView();
+		vi.setButtonListener(new InitGameButtonEventListener() {
+			
+			@Override
+			public void onValidButtonPressed(int row, int ligne, int IATime,
+					String IADifficulty, String player1Name, String player2Name) {
+				
+			}
+			
+			@Override
+			public void onCancelButtonPressed() {
+				
+			}
+			
+			@Override
+			public void onBenchMarkButtonPressed(JFormattedTextField AITime) {
+				System.out.println("bench!!");
+			}
+		});
 		
 		vi.showFrame();
+		
+		
+		
 		
 		GameCanvasMouseEventListener mouse = new GameCanvasMouseEventListener() {
 			
 			@Override
 			public void onRightMouseButtonPressed(int x, int y) {
 				System.out.println("Right button Position x:y =>" + x + ":" + y);
+				b.setPiecePlayable(x, y);
 			}
 			
 			@Override
 			public void onLeftMouseButtonPressed(int x, int y) {
 				System.out.println("Left button Position x:y =>" + x + ":" + y);
+				b.setBlackPiece(x, y);
 			}
 		};
 		
-		GameView message = new GameViewImpl(b, null, mouse);
-		message.showFrame();
+		GameView message = new GameViewImpl(b, null);
+		//message.setBoard(b);
+		message.setGameMouseEventListener(mouse);
+		
+		
+		//message.showFrame();
 		/*message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
@@ -102,7 +132,7 @@ public class Main {
 		message.changeMessageViewContent("Petit message !!");
 		message.changeStatViewMessage("stat");*/
 
-		System.out.println("Test de la factory : ");
+		//System.out.println("Test de la factory : ");
 
 		/**/
 

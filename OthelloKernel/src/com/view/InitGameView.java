@@ -23,7 +23,7 @@ import com.view.event.InitGameButtonEventListener;
 public class InitGameView extends JFrame {
 
 	private InitGameButtonEventListener event;
-	private JButton valid, cancel;
+	private JButton valid, cancel, benchmark;
 	private JTextField player1, player2;
 	private JFormattedTextField row, ligne;
 	private JFormattedTextField AItime;
@@ -61,11 +61,11 @@ public class InitGameView extends JFrame {
 	public void setButtonListener(InitGameButtonEventListener event) {
 		this.event = event;
 	}
-	
+
 	public void showFrame(){
 		this.setVisible(true);
 	}
-	
+
 	public void hideFrame(){
 		this.dispose();
 	}
@@ -81,7 +81,9 @@ public class InitGameView extends JFrame {
 	private void instantiation() {
 		valid = new JButton(TextManager.INIT_GAMEVIEW_VALID_BUTTON_FR);
 		cancel = new JButton(TextManager.INIT_GAMEVIEW_CANCEL_BUTTON_FR);
-
+		benchmark = new JButton(TextManager.INIT_GAMEVIEW_BENCHMARK_BUTTON_FR);
+		benchmark.setToolTipText(TextManager.INIT_GAMEVIEW_BENCHMARK_TITLE_BUTTON_FR);
+		
 		valid.addActionListener(new ActionListener() {
 
 			@Override
@@ -102,6 +104,14 @@ public class InitGameView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(event != null) event.onCancelButtonPressed();
+			}
+		});
+
+		benchmark.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(event != null) event.onBenchMarkButtonPressed(AItime);
 			}
 		});
 
@@ -148,6 +158,7 @@ public class InitGameView extends JFrame {
 
 		AIPanelContent1.add(new JLabel(TextManager.AI_THINKING_TIME_LABEL_TEXT_FR));
 		AIPanelContent1.add(AItime);
+		AIPanelContent1.add(benchmark);
 
 		AIPanelContent2.add(new JLabel(TextManager.AI_DIFFICULTY_LABEL_TEXT_FR));
 		AIPanelContent2.add(AIDifficulty);

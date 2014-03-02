@@ -21,4 +21,8 @@ public interface Board {
 	public void setBlackPiece(int i, int j);
 
 	public void setWhitePiece(int i, int j);
+	
+	public void setPiecePlayable(int i, int j);
+	
+	public void setPieceNotPlayable(int i, int j);
 }

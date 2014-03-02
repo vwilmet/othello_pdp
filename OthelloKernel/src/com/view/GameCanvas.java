@@ -37,51 +37,23 @@ import com.view.event.GameCanvasMouseEventListener;
  * @version 1.0
  */
 public class GameCanvas extends Canvas implements MouseListener, Observer{
-	
+
 	private Dimension gridSize;
 	private Dimension margin;
 	private GameCanvasMouseEventListener mouseEvent;
 	private Board board;
 	private int canvasWidth, canvasHeight;
 	private int pieceSizeWidth, pieceSizeHeight;
-	
-	public GameCanvas(BoardObservable board, int canvasWidth, int canvasHeight){
+
+	public GameCanvas(int canvasWidth, int canvasHeight){
 		setBackground (Color.white);
-		this.board = board;
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
-		
-		board.addObserver(this);
-		
-		int boardSizeX = board.getSizeX(), 
-			boardSizeY = board.getSizeY();
-		
-		int pieceSizeX = (this.canvasWidth - (boardSizeX*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeX;
-		int pieceSizeY = (this.canvasHeight - (boardSizeY*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeY;
-		
-		if(pieceSizeX > pieceSizeY){
-			pieceSizeWidth = pieceSizeY;
-			pieceSizeHeight = pieceSizeY;
-		}else{
-			pieceSizeWidth = pieceSizeX;
-			pieceSizeHeight = pieceSizeX;
-		}
-		
-		gridSize = new Dimension((boardSizeX*this.pieceSizeWidth), (boardSizeY*this.pieceSizeHeight));
-		
-		int marginX = (this.canvasWidth - gridSize.width)/2;
-		int marginY = (this.canvasHeight - gridSize.height)/2;
-		
-		margin = new Dimension(
-				(marginX > marginY ? marginX : 0),
-				(marginX > marginY ? 0 : marginY)
-				);
 	}
 
-	public GameCanvas setMouseListener(GameCanvasMouseEventListener event){
+	public void setMouseListener(GameCanvasMouseEventListener event){
 		this.mouseEvent = event;
 		this.addMouseListener(this);
-		return this;
 	}
 
 	private void drawGrid(Graphics2D g){
@@ -89,7 +61,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		for(int i = 0; i < board.getSizeX(); i ++){
 			for(int j = 0; j < board.getSizeY(); j++){
 				g.drawRect(i*this.pieceSizeWidth+margin.width, j*this.pieceSizeHeight+margin.height, this.pieceSizeWidth, this.pieceSizeHeight);
-				
+
 				Image img;
 				try {
 					Piece p = board.getBoard()[i][j];
@@ -110,7 +82,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 									i*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
 									j*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
 									this);
-				
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -122,6 +94,32 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
 		drawGrid(g2);
+	}
+
+	private void calculatePieceSize(){
+		int boardSizeX = board.getSizeX(), 
+				boardSizeY = board.getSizeY();
+
+		int pieceSizeX = (this.canvasWidth - (boardSizeX*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeX;
+		int pieceSizeY = (this.canvasHeight - (boardSizeY*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeY;
+
+		if(pieceSizeX > pieceSizeY){
+			pieceSizeWidth = pieceSizeY;
+			pieceSizeHeight = pieceSizeY;
+		}else{
+			pieceSizeWidth = pieceSizeX;
+			pieceSizeHeight = pieceSizeX;
+		}
+
+		gridSize = new Dimension((boardSizeX*this.pieceSizeWidth), (boardSizeY*this.pieceSizeHeight));
+
+		int marginX = (this.canvasWidth - gridSize.width)/2;
+		int marginY = (this.canvasHeight - gridSize.height)/2;
+
+		margin = new Dimension(
+				(marginX > marginY ? marginX : 0),
+				(marginX > marginY ? 0 : marginY)
+				);
 	}
 	
 	private Image scaleImage(Image image, int width, int height) {
@@ -148,21 +146,24 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	private int[] getPiecePositionFromCoordinates(int x, int y){
 		int[] result = new int[2];
-		
+
 		if(x > gridSize.width || x < 0 || y < 0 || y > gridSize.height){
 			result[0] = -1;
 			result[1] = -1;
 			return result;
 		}
-		
+
 		result[0] = x/pieceSizeWidth;
 		result[1] = y/pieceSizeHeight;
-		
+
 		return result;
 	}
-	
+
 	public void setData(BoardObservable board){
 		this.board = board;
+		this.calculatePieceSize();
+		board.addObserver(this);
+		this.refreshView();
 	}
 
 	@Override
@@ -180,7 +181,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		int y = e.getY() - margin.height;
 
 		int[] pos = getPiecePositionFromCoordinates(x, y);
-		
+
 		if(SwingUtilities.isLeftMouseButton(e))
 			mouseEvent.onLeftMouseButtonPressed(pos[0], pos[1]);
 		else if(SwingUtilities.isRightMouseButton(e))
@@ -193,6 +194,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		refreshView();
-		System.out.println("refresh !!");
+		System.out.println("coucou!!");
 	}
 }

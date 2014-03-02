@@ -16,7 +16,6 @@ public class BoardObservable extends Observable implements Board {
 	private void notifierObservateurs() {
 		setChanged();
 		notifyObservers();
-		System.out.println("toto");
 	}
 	
 	@Override
@@ -56,9 +55,21 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setWhitePiece(i, j);
 		notifierObservateurs();
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.board.toString();
+	}
+
+	@Override
+	public void setPiecePlayable(int i, int j) {
+		this.board.setPiecePlayable(i, j);
+		notifierObservateurs();
+	}
+
+	@Override
+	public void setPieceNotPlayable(int i, int j) {
+		this.board.setPieceNotPlayable(i, j);
+		notifierObservateurs();
 	}
 }

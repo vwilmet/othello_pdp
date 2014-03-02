@@ -26,20 +26,27 @@ public class Piece implements Cloneable {
 
 	public Piece setWhitePiece() {
 		this.piece = new WhitePiece();
+		this.playable = false;
 		return this;
 	}
 	
 	public Piece setBlackPiece() {
 		this.piece = new BlackPiece();
+		this.playable = false;
 		return this;
 	}
 
+	public Piece setEmptyPiece() {
+		this.piece = new EmptyPiece();
+		return this;
+	}
+	
 	public void setPlayable(){
-		playable = true;
+		this.playable = true;
 	}
 	
 	public void setNotPlayable(){
-		playable = false;
+		this.playable = false;
 	}
 	
 	public boolean isPlayable(){

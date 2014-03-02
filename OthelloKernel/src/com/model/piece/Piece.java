@@ -15,10 +15,12 @@ public class Piece implements Cloneable {
 	 */
 	protected int posX, posY;
 	protected PieceColor piece;
+	private boolean playable;
 
 	public Piece(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;
+		playable = false;
 		this.piece = new EmptyPiece();
 	}
 
@@ -32,6 +34,18 @@ public class Piece implements Cloneable {
 		return this;
 	}
 
+	public void setPlayable(){
+		playable = true;
+	}
+	
+	public void setNotPlayable(){
+		playable = false;
+	}
+	
+	public boolean isPlayable(){
+		return this.playable;
+	}
+	
 	public void reverse() {
 		this.piece.reverse(this);
 	}

@@ -11,10 +11,10 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.piece.Piece;
-import com.view.ChoosePositionView;
+import com.view.GameView;
+import com.view.GameViewImpl;
 import com.view.InitGameView;
 import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.InitGameButtonEventListener;
 
 /**
  * @author Benjamin Letourneau
@@ -92,8 +92,8 @@ public class Main {
 			}
 		};
 		
-//		GameView message = new GameViewImpl(b, null, mouse);
-//		message.showFrame();
+		GameView message = new GameViewImpl(b, null, mouse);
+		message.showFrame();
 		/*message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");

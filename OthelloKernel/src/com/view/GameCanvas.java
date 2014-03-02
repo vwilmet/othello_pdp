@@ -97,6 +97,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
 					else if (p.getColor() instanceof BlackPiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
+					else if(p.isPlayable())
+						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
 					else
 						continue;
 					g.drawImage(

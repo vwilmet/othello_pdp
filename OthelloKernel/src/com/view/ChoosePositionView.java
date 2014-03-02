@@ -38,20 +38,20 @@ public class ChoosePositionView extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.CHOOSE_VIEW_TITLE_FR);
-
+		
 		this.currentChoosenPosition = currentBoard;
 		this.boards = boards;
-
+		
 		instantiation();
-
+		
 		setComponentSize();
-
+		
 		buttonPanel.add(valid, BorderLayout.NORTH);
 		buttonPanel.add(cancel, BorderLayout.SOUTH);
-
+		
 		if(boards.size()>1)
 			this.add(slider, BorderLayout.NORTH);
-
+		
 		this.add(game, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.EAST);
 		this.setVisible(true);

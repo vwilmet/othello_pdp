@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFormattedTextField;
-
+import jnt.BenchMarkResult;
 import utils.Application;
 import utils.FactoryHandlerException;
 
@@ -15,11 +14,12 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
+import com.view.BenchMarkView;
+import com.view.BenchMarkViewImpl;
 import com.view.GameView;
 import com.view.GameViewImpl;
-import com.view.InitGameView;
+import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.InitGameButtonEventListener;
 
 /**
  * @author Benjamin Letourneau
@@ -63,6 +63,7 @@ public class Main {
 			b1 = bFacto.getBoard(5, 8, pcs);
 			
 			b1.setBlackPiece(2,1);
+			
 			boards.add(b1);
 			boards.add(b1);
 			boards.add(b1);
@@ -80,7 +81,7 @@ public class Main {
 		
 		/*ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
 		c.showFrame();*/
-		InitGameView vi = new InitGameView();
+		/*InitGameView vi = new InitGameView();
 		vi.setButtonListener(new InitGameButtonEventListener() {
 			
 			@Override
@@ -101,9 +102,19 @@ public class Main {
 		});
 		
 		vi.showFrame();
+		*/
 		
-		
-		
+		final BenchMarkView bench = new BenchMarkViewImpl();
+		bench.setButtonListener(new BenchMarkViewButtonEventListener() {
+			
+			@Override
+			public void onOkButtonPressed(BenchMarkResult result) {
+				System.out.println(result.toString());
+				bench.hideFrame();
+			}
+		});
+		bench.showFrame();
+		bench.launchBenchMark();
 		
 		GameCanvasMouseEventListener mouse = new GameCanvasMouseEventListener() {
 			

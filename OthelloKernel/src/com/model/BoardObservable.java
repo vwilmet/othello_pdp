@@ -49,7 +49,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setBlackPiece(i, j);
 		notifierObservateurs();
 	}
-
+	
 	@Override
 	public void setWhitePiece(int i, int j) {
 		this.board.setWhitePiece(i, j);
@@ -66,7 +66,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setPiecePlayable(i, j);
 		notifierObservateurs();
 	}
-
+	
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.board.setPieceNotPlayable(i, j);

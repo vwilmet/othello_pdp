@@ -121,7 +121,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() throws FactoryHandlerException {
+	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.BOARD_FACTORY_REQUIRED_FR);

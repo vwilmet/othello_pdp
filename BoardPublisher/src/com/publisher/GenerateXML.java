@@ -136,7 +136,7 @@ public class GenerateXML implements BoardPublisher {
 		this.root.addContent(initial);
 		
 		FilesManager fmanager = new FilesManagerImpl();
-		if (fmanager.save(this.board.getBoardFileName(), ".", this.toString()) == false){
+		if (fmanager.save(this.board.getBoardFileName() + ".xml", ".", this.toString()) == false){
 			Log.error(PostsPublisher.SAVE_FATAL_ERROR_FR);
 		}
 	}

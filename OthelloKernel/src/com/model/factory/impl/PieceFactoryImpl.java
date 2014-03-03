@@ -106,7 +106,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() throws FactoryHandlerException {
+	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);

@@ -112,7 +112,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() throws FactoryHandlerException {
+	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);

@@ -12,5 +12,5 @@ import com.model.io.RestoreGame;
  * @version 1.0
  */
 public interface RestoreGameFactory {
-	public RestoreGame getRestoreGame() throws FactoryHandlerException;
+	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException;
 }

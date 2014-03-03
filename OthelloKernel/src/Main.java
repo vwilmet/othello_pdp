@@ -12,6 +12,8 @@ import com.model.BoardObservable;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.PieceFactory;
+import com.model.factory.interfaces.RestoreGameFactory;
+import com.model.io.RestoreGame;
 import com.model.piece.Piece;
 import com.view.GameView;
 import com.view.GameViewImpl;
@@ -152,6 +154,17 @@ public class Main {
 		 * System.out.println(joueur2.toString());
 		 * System.out.println(p1.toString());
 		 */
+		
+		System.out.println("test de la lecure de partie");
+		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
+		
+		try {
+			RestoreGame rg = rgFacto.getRestoreGame("toto.xml");
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 
 }

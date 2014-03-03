@@ -37,8 +37,8 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() {
-		return new RestoreGame();
+	public RestoreGame getRestoreGame(String gameFileName) {
+		return new RestoreGame(gameFileName);
 	}
 
 	@Override

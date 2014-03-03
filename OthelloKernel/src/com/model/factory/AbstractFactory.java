@@ -59,5 +59,5 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 
 	public abstract SaveGame getSaveGame() throws FactoryHandlerException;
 
-	public abstract RestoreGame getRestoreGame() throws FactoryHandlerException;
+	public abstract RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException;
 }

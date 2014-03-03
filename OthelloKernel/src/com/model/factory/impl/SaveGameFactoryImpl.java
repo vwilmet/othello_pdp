@@ -111,7 +111,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public RestoreGame getRestoreGame() throws FactoryHandlerException {
+	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.SAVE_GAME_FACTORY_REQUIRED_FR);

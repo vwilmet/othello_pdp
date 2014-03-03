@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import jnt.BenchMarkResult;
 import utils.Application;
 import utils.FactoryHandlerException;
 
@@ -14,11 +13,10 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
-import com.view.BenchMarkView;
-import com.view.BenchMarkViewImpl;
+import com.view.ChoosePositionView;
+import com.view.ChoosePositionViewImpl;
 import com.view.GameView;
 import com.view.GameViewImpl;
-import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.event.GameCanvasMouseEventListener;
 
 /**
@@ -79,8 +77,8 @@ public class Main {
 		
 		//System.out.println(b.toString());
 		
-		/*ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
-		c.showFrame();*/
+		ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
+		c.showFrame();
 		/*InitGameView vi = new InitGameView();
 		vi.setButtonListener(new InitGameButtonEventListener() {
 			
@@ -104,7 +102,7 @@ public class Main {
 		vi.showFrame();
 		*/
 		
-		final BenchMarkView bench = new BenchMarkViewImpl();
+		/*final BenchMarkView bench = new BenchMarkViewImpl();
 		bench.setButtonListener(new BenchMarkViewButtonEventListener() {
 			
 			@Override
@@ -115,7 +113,7 @@ public class Main {
 		});
 		bench.showFrame();
 		bench.launchBenchMark();
-		
+		*/
 		GameCanvasMouseEventListener mouse = new GameCanvasMouseEventListener() {
 			
 			@Override
@@ -132,11 +130,10 @@ public class Main {
 		};
 		
 		GameView message = new GameViewImpl(b, null);
-		//message.setBoard(b);
+		message.setBoard(b);
 		message.setGameMouseEventListener(mouse);
 		
-		
-		//message.showFrame();
+		message.showFrame();
 		/*message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");

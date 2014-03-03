@@ -26,6 +26,7 @@ public class Main{
 		time = new TimerManagerImpl(t);
 		time.enableDebug();
 		time.startTimer(2);
+		time.stopTimer();
 		time.startCountingElapsedTime();
 		
 	}

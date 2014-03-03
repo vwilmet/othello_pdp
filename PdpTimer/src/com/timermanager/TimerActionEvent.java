@@ -1,9 +1,12 @@
 package com.timermanager;
 
 /**
- * Interface contenant les évenements soulevés par le timer.
- * Elles doivent être implémentée par la classe qui lance le timer
- * @author Vincent Wilmet
+ * Interface contenant les évènements soulevés par le timer.
+ * Elles doivent être implémentées par la classe qui lance le timer
+ * @author <ul>
+ *         <li>Morgane Badré</li>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
  * @version 1.0
  */
 public interface TimerActionEvent {

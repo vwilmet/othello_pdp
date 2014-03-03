@@ -6,7 +6,10 @@ import java.util.TimerTask;
 /**
  * Classe gérant les différentes méthodes et comportements du timer
  * Celle-ci implémente l'interface {@link com.timermanager.TimerManager}
- * @author Vincent Wilmet
+ * @author  <ul>
+ *         <li>Morgane Badré</li>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
  * @version 1.0
  */
 public class TimerManagerImpl implements TimerManager{
@@ -17,10 +20,10 @@ public class TimerManagerImpl implements TimerManager{
 	private boolean DEBUG;
 	private boolean isRunning;
 	private long elapstedTime;
-	
+
 	/**
-	 * Constructeur qui initialise l'interface d'évenements et initialise le timer
-	 * @param timerInterface L'object interface qui seras appelé lors des évenements soulevés par le timer
+	 * Constructeur qui initialise l'interface d'évènements et initialise le timer
+	 * @param timerInterface L'object interface qui sera appelé lors des évènements soulevés par le timer
 	 */
 	public TimerManagerImpl(TimerActionEvent timerInterface) {
 		this.timer = new Timer();
@@ -29,15 +32,15 @@ public class TimerManagerImpl implements TimerManager{
 		this.DEBUG = false;
 		this.elapstedTime = 0;
 	}
-	
+
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisé !
-	 * <br>Utilisé l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
 	 * <br>Voir {@link com.timermanager.TimerManager#startTimer}
 	 */
 	@Override
 	public void startTimer(int time){
-		if(this.isRunning && this.DEBUG){ System.err.println("Erreur : Deux timer demandé en même temps! Timer ignoré."); return;}
+		if(this.isRunning && this.DEBUG){ System.err.println("Erreur : Deux timer demandés en même temps! Timer ignoré."); return;}
 
 		this.interval = time;
 		this.isRunning = true;
@@ -57,8 +60,8 @@ public class TimerManagerImpl implements TimerManager{
 	}
 	
 	/**
-	 * <b>Attention : </b>Cette classe ne doit pas être utilisé !
-	 * <br>Utilisé l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
 	 * <br>Voir {@link com.timermanager.TimerManager#stopTimer}
 	 */
 	@Override
@@ -67,10 +70,10 @@ public class TimerManagerImpl implements TimerManager{
 		this.isRunning = false;
 		this.timerInterface.onTimerStopped();
 	}
-	
+
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisé !
-	 * <br>Utilisé l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
 	 * <br>Voir {@link com.timermanager.TimerManager#enableDebug}
 	 */
 	@Override
@@ -78,13 +81,21 @@ public class TimerManagerImpl implements TimerManager{
 		this.DEBUG  = true;
 	}
 
-	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.timermanager.TimerManager#startCountingElapsedTime}
+	 */
 	@Override
 	public void startCountingElapsedTime() {
 		this.elapstedTime = System.currentTimeMillis();
 	}
 
-	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.timermanager.TimerManager#getElapsedTime}
+	 */
 	@Override
 	public long getElapsedTime() {
 		return System.currentTimeMillis() - this.elapstedTime;

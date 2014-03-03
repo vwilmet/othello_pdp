@@ -32,14 +32,7 @@ public class FilesManagerImpl implements FilesManager{
 	public boolean init(boolean enableVerification) {
 		this.verification = enableVerification;
 
-		try {
-			autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
-			autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
-			currentAutoSaveFile = autoSaveFile[0];
-		} catch (FileHandlingException e) {
-			Log.error(e.getMessage());
-			return false;
-		}
+
 		return true;
 	}
 
@@ -96,6 +89,17 @@ public class FilesManagerImpl implements FilesManager{
 	@Override
 	public boolean autoSave(Object data) {
 
+		if(autoSaveFile[0] == null){
+			try {
+				autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
+				autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
+				currentAutoSaveFile = autoSaveFile[0];
+			} catch (FileHandlingException e) {
+				Log.error(e.getMessage());
+				return false;
+			}
+		}
+		
 		try {
 			currentAutoSaveFile.write(data);
 		} catch (FileHandlingException e) {

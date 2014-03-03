@@ -6,6 +6,7 @@ import com.timermanager.TimerManagerImpl;
 public class Main{
 
 	static TimerActionEvent t;
+	static TimerManager time;
 	
 	public static void main(String[] args) {
 		
@@ -13,7 +14,7 @@ public class Main{
 			
 			@Override
 			public void onTimerEnded() {
-				System.out.println("timer ended !!");
+				System.out.println("timer ended !! : " + time.getElapsedTime());
 			}
 			
 			@Override
@@ -22,9 +23,10 @@ public class Main{
 			}
 		};
 		
-		TimerManager time = new TimerManagerImpl(t);
+		time = new TimerManagerImpl(t);
 		time.enableDebug();
 		time.startTimer(2);
+		time.startCountingElapsedTime();
 		
 	}
 }

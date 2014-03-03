@@ -5,6 +5,10 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import com.error_manager.Log;
+import com.manager.FilesManager;
+import com.manager.FilesManagerImpl;
+
 /**
  * Classe permettant de générer le nouvel Othellier formaté en XML.
  * @author Benjamin Letourneau
@@ -131,7 +135,9 @@ public class GenerateXML implements BoardPublisher {
 		
 		this.root.addContent(initial);
 		
-		// Faire appel au module d'export de fichier.
-		System.out.println(this.toString());
+		FilesManager fmanager = new FilesManagerImpl();
+		if (fmanager.save(this.board.getBoardFileName(), ".", this.toString()) == false){
+			Log.error(PostsPublisher.SAVE_FATAL_ERROR_FR);
+		}
 	}
 }

@@ -1,3 +1,5 @@
+import com.manager.FilesManager;
+import com.manager.FilesManagerImpl;
 import com.publisher.GenerateXML;
 
 public class Main {
@@ -8,7 +10,8 @@ public class Main {
 		
 		gxml.boardMaker();
 		
-		System.out.println(gxml.toString());
+		//System.out.println(gxml.toString());
+		
 	}
 
 }

@@ -3,9 +3,9 @@ package com.view.button;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.view.event.ButtonEventListener;
+import com.model.view.ViewSettings;
+import com.view.event.ButtonImageMenuEventListener;
 
-import utils.ViewSettings;
 
 /**
  * 
@@ -16,18 +16,26 @@ import utils.ViewSettings;
  */
 public class PositionButton extends ImageButton implements MouseListener {
 
-	public PositionButton(ButtonEventListener event) {
-		super(ViewSettings.POSITION_BUTTON_IMAGE, event,
-				ViewSettings.POSITION_BUTTON_CODE,
+	public PositionButton() {
+		super(ViewSettings.POSITION_BUTTON_IMAGE, ViewSettings.POSITION_BUTTON_CODE,
 				ViewSettings.POSITION_BUTTON_TEXT);
+	}
+
+	@Override
+	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+		this.listener = event;
 		this.addMouseListener(this);
+		return this;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		listener.onButtonCliked(this, code);
-		super.setImage(ViewSettings.POSITION_BUTTON_IMAGE);
-		listener.onPositionButtonCliked();
+		if(this.listener != null)
+		{
+			listener.onButtonCliked(this, code);
+			super.setImage(ViewSettings.POSITION_BUTTON_IMAGE);
+			listener.onPositionButtonCliked();
+		}
 	}
 
 	@Override

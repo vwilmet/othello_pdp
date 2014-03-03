@@ -3,9 +3,9 @@ package com.view.button;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.view.event.ButtonEventListener;
+import com.model.view.ViewSettings;
+import com.view.event.ButtonImageMenuEventListener;
 
-import utils.ViewSettings;
 
 /**
  * 
@@ -16,18 +16,25 @@ import utils.ViewSettings;
  */
 public class HelpIAButton extends ImageButton implements MouseListener {
 
-	public HelpIAButton(ButtonEventListener event) {
-		super(ViewSettings.HELP_IA_BUTTON_IMAGE, event,
-				ViewSettings.HELP_IA_BUTTON_CODE,
-				ViewSettings.HELP_IA_BUTTON_TEXT);
+	public HelpIAButton() {
+		super(ViewSettings.HELP_IA_BUTTON_IMAGE, ViewSettings.HELP_IA_BUTTON_CODE, ViewSettings.HELP_IA_BUTTON_TEXT);
+	}
+
+	@Override
+	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+		this.listener = event;
 		this.addMouseListener(this);
+		return this;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		listener.onButtonCliked(this, code);
-		super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);
-		listener.onHelpIAButtonCliked();
+		if(this.listener != null)
+		{
+			listener.onButtonCliked(this, code);
+			super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);
+			listener.onHelpIAButtonCliked();
+		}
 	}
 
 	@Override

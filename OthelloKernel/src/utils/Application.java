@@ -3,6 +3,8 @@ package utils;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import com.model.view.ViewSettings;
+
 /**
  * 
  * @author 	<ul>
@@ -33,10 +35,13 @@ public class Application {
 	}
 
 	public void calculateComponentSize(int boardSizeX, int boardSizeY){
-		
-		ViewSettings.FRAME_WIDTH = (int)this.width;
-		ViewSettings.FRAME_HEIGHT = (int)this.height;
-		
+
+		////////////////////////////////////////////////////////////
+		//////////////////// GAME VIEW /////////////////////////////
+		////////////////////////////////////////////////////////////
+		ViewSettings.GAME_FRAME_WIDTH = (int)this.width;
+		ViewSettings.GAME_FRAME_HEIGHT = (int)this.height;
+
 		ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH = (int)((float)(this.width*(float) (1.0/3.0)));
 		ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT = (int)this.height - ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT - ViewSettings.MENU_COMPONENT_VIEW_HEIGHT; 
 
@@ -45,34 +50,22 @@ public class Application {
 
 		ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH = (int)this.width - ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
 		ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT = ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT;
-	
-		int pieceSizeX = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH - (boardSizeX*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeX;
-		int pieceSizeY = (ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT - (boardSizeY*(ViewSettings.DRAW_LINE_SIZE*2))) / boardSizeY;
-		
-		if(pieceSizeX > pieceSizeY){
-			ViewSettings.PIECE_WIDTH = pieceSizeY;
-			ViewSettings.PIECE_HEIGHT = pieceSizeY;
-		}else{
-			ViewSettings.PIECE_HEIGHT = pieceSizeX;
-			ViewSettings.PIECE_WIDTH = pieceSizeX;
-		}
-		
-		System.out.println("Width : " + width);	
-		System.out.println("Height : " + height);	
-		
-		System.out.println("INFORMATION_COMPONENT_VIEW_WIDTH : " + ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH);	
-		System.out.println("INFORMATION_COMPONENT_VIEW_HEIGHT : " + ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT);	
 
-		System.out.println("MESSAGE_COMPONENT_VIEW_WIDTH : " + ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH);	
-		System.out.println("STATISTICS_COMPONENT_VIEW_WIDTH : " + ViewSettings.STATISTICS_COMPONENT_VIEW_WIDTH);
 		
-		System.out.println("GAMEVIEW_COMPONENT_VIEW_WIDTH : " + ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH);	
-		System.out.println("GAMEVIEW_COMPONENT_VIEW_HEIGHT : " + ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT);	
 
-		System.out.println("PIECE_WIDTH : " + ViewSettings.PIECE_WIDTH + " pour X (case):" + boardSizeX);	
-		System.out.println("PIECE_HEIGHT : " + ViewSettings.PIECE_HEIGHT + " pour Y (case):" + boardSizeY);	
+		////////////////////////////////////////////////////////////
+		///////////////CHOOSE POSITION VIEW ////////////////////////
+		////////////////////////////////////////////////////////////
+		
+		ViewSettings.CHOOSE_BOARD_FRAME_WIDTH = (int)((float)(this.width*(float) (9.0/10.0)));
+		ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT = (int)((float)(this.height*(float) (9.0/10.0)));
+		
+		ViewSettings.BUTTONS_COMPONENT_CHOOSE_VIEW_WIDTH = (int)((float)(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH*(float) (1.0/5.0)));
+		
+		ViewSettings.GAMEVIEW_COMPONENT_CHOOSE_VIEW_HEIGHT = ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT - ViewSettings.SLIDER_COMPONENT_CHOOSE_VIEW_HEIGHT;
+		ViewSettings.GAMEVIEW_COMPONENT_CHOOSE_VIEW_WIDTH = ViewSettings.CHOOSE_BOARD_FRAME_WIDTH - ViewSettings.BUTTONS_COMPONENT_CHOOSE_VIEW_WIDTH;
 	}
-	
+
 	public long getExecutionTime() {
 		return System.currentTimeMillis() - this.startTime;
 	}
@@ -80,7 +73,7 @@ public class Application {
 	public int getScreenWidth() {
 		return (int)this.width;
 	}
-	
+
 	public int getScreenHeight() {
 		return (int)this.height;
 	}

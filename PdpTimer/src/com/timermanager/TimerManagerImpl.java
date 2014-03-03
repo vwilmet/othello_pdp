@@ -16,6 +16,7 @@ public class TimerManagerImpl implements TimerManager{
 	private TimerActionEvent timerInterface;
 	private boolean DEBUG;
 	private boolean isRunning;
+	private long elapstedTime;
 	
 	/**
 	 * Constructeur qui initialise l'interface d'évenements et initialise le timer
@@ -26,6 +27,7 @@ public class TimerManagerImpl implements TimerManager{
 		this.timerInterface = timerInterface;
 		this.isRunning = false;
 		this.DEBUG = false;
+		this.elapstedTime = 0;
 	}
 	
 	/**
@@ -75,5 +77,17 @@ public class TimerManagerImpl implements TimerManager{
 	public void enableDebug() {
 		this.DEBUG  = true;
 	}
+
 	
+	@Override
+	public void startCountingElapsedTime() {
+		this.elapstedTime = System.currentTimeMillis();
+	}
+
+	
+	@Override
+	public long getElapsedTime() {
+		return System.currentTimeMillis() - this.elapstedTime;
+	}
+
 }

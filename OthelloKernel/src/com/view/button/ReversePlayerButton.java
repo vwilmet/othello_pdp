@@ -3,9 +3,9 @@ package com.view.button;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.view.event.ButtonEventListener;
+import com.model.view.ViewSettings;
+import com.view.event.ButtonImageMenuEventListener;
 
-import utils.ViewSettings;
 
 /**
  * 
@@ -16,18 +16,25 @@ import utils.ViewSettings;
  */
 public class ReversePlayerButton extends ImageButton implements MouseListener {
 
-	public ReversePlayerButton(ButtonEventListener event) {
-		super(ViewSettings.REVERSE_BUTTON_IMAGE, event,
-				ViewSettings.REVERSE_BUTTON_CODE,
-				ViewSettings.REVERSE_BUTTON_TEXT);
+	public ReversePlayerButton() {
+		super(ViewSettings.REVERSE_BUTTON_IMAGE, ViewSettings.REVERSE_BUTTON_CODE, ViewSettings.REVERSE_BUTTON_TEXT);
+	}
+
+	@Override
+	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+		this.listener = event;
 		this.addMouseListener(this);
+		return this;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		listener.onButtonCliked(this, code);
-		super.setImage(ViewSettings.REVERSE_BUTTON_IMAGE);
-		listener.onReversePlayerButtonCliked();
+		if(this.listener != null)
+		{
+			listener.onButtonCliked(this, code);
+			super.setImage(ViewSettings.REVERSE_BUTTON_IMAGE);
+			listener.onReversePlayerButtonCliked();
+		}
 	}
 
 	@Override

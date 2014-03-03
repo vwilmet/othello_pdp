@@ -6,7 +6,8 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 
-import com.model.Board;
+import com.model.BoardImpl;
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
@@ -41,21 +42,20 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getWhitePiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY))
-				.setPieceState(new WhitePiece());
+	public Piece getWhitePiece(int posX, int posY) {
+		return (new Piece(posX, posY))
+				.setWhitePiece();
 	}
 
 	@Override
-	public Piece getBlackPiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY))
-				.setPieceState(new BlackPiece());
+	public Piece getBlackPiece(int posX, int posY) {
+		return (new Piece(posX, posY))
+				.setBlackPiece();
 	}
 
 	@Override
-	public Piece getEmptyPiece(int width, int height, int posX, int posY) {
-		return (new Piece(width, height, posX, posY))
-				.setPieceState(new EmptyPiece());
+	public Piece getEmptyPiece(int posX, int posY) {
+		return (new Piece(posX, posY));
 	}
 
 	@Override
@@ -85,14 +85,14 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Board getBoard(int sizeX, int sizeY,	List<Piece> initiaPieces) throws FactoryHandlerException {
+	public BoardObservable getBoard(int sizeX, int sizeY,	List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				FactoryHandlerException.PIECE_FACTORY_REQUIRED_FR);

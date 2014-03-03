@@ -26,4 +26,8 @@ public interface TimerManager {
 	 * Cette méthode autorise l'affichage dans la console du debugging du timer
 	 */
 	public void enableDebug();
+	
+	public void startCountingElapsedTime();
+	
+	public long getElapsedTime();
 }

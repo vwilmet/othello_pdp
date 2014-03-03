@@ -5,7 +5,8 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 
-import com.model.Board;
+import com.model.BoardImpl;
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
@@ -29,13 +30,13 @@ import com.model.player.Player;
 public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 		BoardFactory, GameSettingsFactory, RestoreGameFactory, SaveGameFactory {
 
-	public abstract Piece getWhitePiece(int width, int height, int posX,
+	public abstract Piece getWhitePiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getBlackPiece(int width, int height, int posX,
+	public abstract Piece getBlackPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getEmptyPiece(int width, int height, int posX,
+	public abstract Piece getEmptyPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
 	public abstract Piece[][] getMatrixPiece(int i, int j)
@@ -50,10 +51,10 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	public abstract Player getMachinePlayer(String playerLogin, Color c)
 			throws FactoryHandlerException;
 
-	public abstract Board getBoard(int sizeX, int sizeY,
+	public abstract BoardObservable getBoard(int sizeX, int sizeY,
 			List<Piece> initiaPieces) throws FactoryHandlerException;
 
-	public abstract GameSettings getGameSettings(Player player1, Player player2, Board gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
+	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
 			throws FactoryHandlerException;
 
 	public abstract SaveGame getSaveGame() throws FactoryHandlerException;

@@ -4,19 +4,20 @@ import jnt.scimark2.Constants;
 import jnt.scimark2.Random;
 import jnt.scimark2.kernel;
 
-
 /**
  * @mainpage Module BenchMark
  *
  * SciMark 2.0 (http://math.nist.gov/scimark2/) is a Java benchmark for scientific and numerical computing. It measures several computational kernels and reports a composite score in approximate Mflops/s. This benchmark was developed at the US National Institute of Standards and Technology (NIST). Part of the benchmark can also be found in the Java Grande Forum Benchmark Suite (http://www.epcc.ed.ac.uk/javagrande/javag.html). This benchmark contains codes on FFT, SOR (Successive Over-Relaxation over a 2D grid), Monte-Carlo integration, Sparse matmult (Sparse matrix vector multiplications) and LU factorization. We have chosen this benchmark because the same benchmark is available both in Java and C, allowing us to compare the two languages. There are many other Java benchmarks available, see http://www.epcc.ed.ac.uk/javagrande/links.html.
  * 
- * <b>Exemple de BONNE utilisation du module : </b><br/>
+ * Ce module a pour but de lancer une batterie de calcul différent afin de pousser la machine à son max. A la suite de ces calculs un indice générale est calculé, correspondant à la moyenne de tous le autre calculs, permettant de connaitre les "caractéritiques/puissance" de la machine
  * 
- * BenchMarkResultEvent event = new BenchMarkResultEvent() {
+ * <b>Exemple de BONNE utilisation du module : </b>
+ * 
+ * 	BenchMarkResultEvent event = new BenchMarkResultEvent() {
  *			
  *			@Override
  *			public void onStart() {
- *				System.out.println("BenchMark démarre!");
+ *				System.out.println("BenchMark démarré!");
  *			}
  *			
  *			@Override
@@ -35,7 +36,6 @@ import jnt.scimark2.kernel;
  *		b.launch();
  */
 
-
 /**
 SciMark2: A Java numerical benchmark measuring performance
 of computational kernels for FFTs, Monte Carlo simulation,
@@ -47,7 +47,7 @@ http://math.nist.gov/scimark2/index.html
 
 /**
  * Ce module de BenchMark est une reprise de celui créée par Roldan Pozo et Bruce Miller
- * @see <a href="http://math.nist.gov/scimark2/</a>
+ * @see <a href="http://math.nist.gov/scimark2/">Site web</a>
  * <br/>
  * Classe qui va permettre de gérer le module de BenchMarking
  * @author <ul>

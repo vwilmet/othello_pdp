@@ -4,6 +4,34 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * @mainpage Module Timer
+ *
+ * 
+ * Ce module a pour but de proposer une gestion d'un chronomètre en milli-secondes ainsi que d'un minuteur en secondes
+ * 
+ * <b>Exemple de BONNE utilisation du module : </b>
+ * 
+ * 	TimerActionEvent t = new TimerActionEvent() {
+ *
+ *			@Override
+ *			public void onTimerEnded() {
+ *				System.out.println("timer ended !! : ");
+ *			}
+ *
+ *			@Override
+ *			public void onTimerStopped() {
+ *				System.out.println("timer stopped !!");
+ *			}
+ *		};
+ *
+ *		TimerManager time = new TimerManagerImpl(t);
+ *		time.enableDebug();
+ *		time.startTimer(2);
+ *		time.stopTimer();
+ *		time.startCountingElapsedTime();
+ */
+
+/**
  * Classe gérant les différentes méthodes et comportements du timer
  * Celle-ci implémente l'interface {@link com.timermanager.TimerManager}
  * @author  <ul>
@@ -77,7 +105,7 @@ public class TimerManagerImpl implements TimerManager{
 			}
 		}, 0, 1000);
 	}
-	
+
 	/**
 	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
@@ -120,4 +148,26 @@ public class TimerManagerImpl implements TimerManager{
 		return System.currentTimeMillis() - this.elapstedTime;
 	}
 
+	/*public static void main(String[] args) {
+
+
+		TimerActionEvent t = new TimerActionEvent() {
+
+			@Override
+			public void onTimerEnded() {
+				System.out.println("timer ended !! : ");
+			}
+
+			@Override
+			public void onTimerStopped() {
+				System.out.println("timer stopped !!");
+			}
+		};
+
+		TimerManager time = new TimerManagerImpl(t);
+		time.enableDebug();
+		time.startTimer(2);
+		time.stopTimer();
+		time.startCountingElapsedTime();
+	}*/
 }

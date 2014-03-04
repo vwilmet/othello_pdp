@@ -5,6 +5,7 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
+import utils.TextManager;
 
 import com.error_manager.Log;
 import com.model.factory.FactoryProducer;
@@ -97,7 +98,7 @@ public class BoardImpl implements Board{
 		if (this.gameBoard[p.getPosX()][p.getPosY()] != null)
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_POSITION,
-					GameHandlerException.WRONG_INITIAL_PIECE_POSITION_FR);
+					TextManager.WRONG_INITIAL_PIECE_POSITION_FR);
 		
 		this.initialPieces.add(p.clone());
 		this.gameBoard[p.getPosX()][p.getPosY()] = p;

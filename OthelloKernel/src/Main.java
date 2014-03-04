@@ -167,7 +167,7 @@ public class Main {
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		try {
-			RestoreGame rg = rgFacto.getRestoreGame("toto.xml");
+			RestoreGame rg = rgFacto.getRestoreGame("saveFile2.xml");
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();

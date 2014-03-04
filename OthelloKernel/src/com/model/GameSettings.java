@@ -12,10 +12,10 @@ import com.model.player.Player;
 public class GameSettings {
 
 	private Player player1, player2;
-	private BoardImpl gameBoard;
+	private BoardObservable gameBoard;
 	private int artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty;
 	
-	public GameSettings (Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
+	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
 		this.player1 = player1;
 		this.player2 = player2;
 				
@@ -33,7 +33,7 @@ public class GameSettings {
 		return this.player2;
 	}
 	
-	public BoardImpl getGameBoard(){
+	public BoardObservable getGameBoard(){
 		return this.gameBoard;
 	}
 	

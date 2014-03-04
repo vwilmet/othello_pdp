@@ -54,7 +54,7 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	public abstract BoardObservable getBoard(int sizeX, int sizeY,
 			List<Piece> initiaPieces) throws FactoryHandlerException;
 
-	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
+	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
 			throws FactoryHandlerException;
 
 	public abstract SaveGame getSaveGame() throws FactoryHandlerException;

@@ -9,17 +9,12 @@ import java.awt.Color;
  *         </ul>
  * @version 1.0
  */
-public class HumanPlayer extends Player {
+public class HumanPlayer implements  PlayerType {
 
-	public HumanPlayer(String login, Color c) {
-		super(login, c);
-		// TODO Auto-generated constructor stub
+	@Override
+	public void changeType(Player p) {
+		p.setMachine();
 	}
 
-	public String toString() {
-		String res = super.toString();
-		res += "Joueur humain.\n";
-		return res;
-	}
 
 }

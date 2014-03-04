@@ -1,10 +1,9 @@
 package AI;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -17,6 +16,8 @@ public class BruteForceAI implements ArtificialIntelligence {
 	Integer boardWidth;
 	Integer boardHeight;
 	private Set<Point> borderLine;
+	List<Integer> scoreArray;
+	Integer call;
 
 	@Override
 	public Point nextMove(Integer player) {
@@ -57,53 +58,119 @@ public class BruteForceAI implements ArtificialIntelligence {
 		tree = new Tree<Point>();
 		tree.setRootElement(new Node<Point>(new Point(-1,-1), 1,whitePiece,blackPiece,board,boardWidth,boardHeight));
 		tree.setSentinel(tree.getRootElement());
-		miniMax(10, tree.getSentinel(), 0, 0);
-		System.out.println("Fini!");
+		scoreArray = new ArrayList<Integer>();
+		call = 0;
+		//Integer finalScore = miniMax(9, tree.getSentinel());
+		Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;
+		Integer finalScore = alphaBeta(12, tree.getSentinel(), alpha, beta);
+		System.out.println("Call : " + call);
+		showBestMoveParty();
 		return true;
 	}
 
-	public void miniMax(Integer depth, Node<Point> node, Integer bestScoreJ1, Integer bestScoreJ2){
-		Node<Point> bestMoveJ1;
-		Node<Point> bestMoveJ2;
-		System.out.println(node.printBoard());
+	public Integer miniMax(Integer depth, Node<Point> node){
 		Stack<Point> playablePosition = calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer());
-		System.out.println(playablePosition.toString());
-		int i = 0;
-		if(!playablePosition.isEmpty() && depth >= 0){ // Prendre en charge la possibilitŽ qu'il n'y est pas de coup possible pour le prŽsent joueur
-			//while(!playablePosition.isEmpty() && depth >= 10){
-				if(i == 0){
-					System.out.println("Child : " + i );
-					System.out.println("depth : " + depth);
-				}
+		call += 1;
+		Integer i = 0;
+		Integer bestScore;
+		if(node.getPlayer() == 1)
+			bestScore = Integer.MIN_VALUE;
+		else
+			bestScore = Integer.MAX_VALUE;
+
+		if(!playablePosition.isEmpty() && depth > 0){ 
+			while(!playablePosition.isEmpty() && depth > 0){
 				Point p = playablePosition.pop();
 				Node<Point> n = calculateTurnResult(p, node.getCopyOfBoard(), node.getCopyOfWhitePiece(), node.getCopyOfBlackPiece(), node.getPlayer());
 				node.addChild(n);
-				if(bestScoreJ1 < n.getNbWhite()){
-					bestScoreJ1 = n.getNbWhite();
-					bestMoveJ1 = n;
-				}
-				if(bestScoreJ2 < n.getNbBlack()){
-					bestScoreJ2 = n.getNbWhite();
-					bestMoveJ2 = n;
-				}
-				if(i == 0){
-					//System.out.println(n.printBoard());
-					System.out.println("Pos : " + n.getData().toString());
-				}
-				miniMax(depth-1, n, bestScoreJ1, bestScoreJ2);
 
+				Integer score = miniMax(depth-1, n);
+				if(node.player == 1 && score > bestScore){
+					bestScore = score;
+					node.setBestMove(n.getData());
+				}
+				else if(node.player == 2 && score < bestScore){
+					bestScore = score;
+					node.setBestMove(n.getData());
+				}
 				i++;
 
 			}
-		else if(!calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer()%2+1).isEmpty()){
-			node.setPlayer(node.getPlayer()%2 + 1);
-			miniMax(depth, node, bestScoreJ1, bestScoreJ2);
 		}
-		else
-			System.out.println("Fin de branche -> Feuille atteinte");
+		else if(!calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer()%2+1).isEmpty() && depth > 0){
+			node.setPlayer(node.getPlayer()%2 + 1);
+			bestScore = miniMax(depth, node);
+		}
+		else{
+			bestScore = node.getNbWhite();
+		}
+		return bestScore;
+
+	}
+	
+	public Integer alphaBeta(Integer depth, Node<Point> node, Integer alpha, Integer beta){
+		Stack<Point> playablePosition = calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer());
+		Integer i = 0;
+		Integer bestScore=0;
+		call += 1;
+		if(!playablePosition.isEmpty() && depth > 0){ 
+			while(!playablePosition.isEmpty() && depth > 0){
+				Point p = playablePosition.pop();
+				Node<Point> n = calculateTurnResult(p, node.getCopyOfBoard(), node.getCopyOfWhitePiece(), node.getCopyOfBlackPiece(), node.getPlayer());
+				node.addChild(n);
+
+				Integer score = alphaBeta(depth-1, n, alpha, beta);
+				if(node.player == 1 && score > alpha){
+					alpha = score;
+					bestScore = alpha;
+					node.setBestMove(n.getData());
+					if(alpha>=beta)
+						break;
+				}
+				else if(node.player == 2 && score < beta){
+					beta = score;
+					bestScore = beta;
+					node.setBestMove(n.getData());
+					if(alpha>=beta)
+						break;
+				}
+				i++;
+
+			}
+		}
+		else if(!calculatePlayablePosition(node.getBoard(),node.getWhitePiece(),node.getBlackPiece(),node.getPlayer()%2+1).isEmpty() && depth > 0){
+			node.setPlayer(node.getPlayer()%2 + 1);
+			bestScore = alphaBeta(depth, node, alpha, beta);
+		}
+		else{
+			bestScore = node.getNbWhite();
+		}
+		return bestScore;
+
+	}
+	
+	public Node<Point> findNodeFromMove(Node<Point> node, Point p){
+		Node<Point> n = null;
+		for(Node<Point> child : node.getChildren()){
+			if(child.getData().equals(p)){
+				n = child;
+				break;
+			}
+		}
+		return n;
+	}
+	
+	public void showBestMoveParty(){
+		Node<Point> s = tree.getRootElement();
+		Point p = s.getBestMove();
+		while(p != null){
+			System.out.println("BestMove : " + p.toString());
+			printBoard(s.board);
+			s = findNodeFromMove(s, p);
+			p = s.getBestMove();
+		}
 			
-
-
 	}
 
 	@Override
@@ -191,11 +258,12 @@ public class BruteForceAI implements ArtificialIntelligence {
 		if(player == 1){
 			whitePiece.add(new Point(position.x,position.y));
 			newBoard[position.x][position.y].putP1Piece();
+			Set<Point> tmp = new HashSet<Point>();
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if((position.x+x) < boardWidth && (position.x + x) >= 0 && (position.y + y) < boardHeight && (position.y+ y) >= 0 && !(x == 0 && y == 0)){
 						if(newBoard[position.x + x][position.y + y].isP2Piece()){
-							Set<Point> tmp = new HashSet<Point>();
+							tmp.clear();
 							tmp.add(new Point(position.x+x,position.y+y));
 							Integer i = position.x + x + x;
 							Integer j = position.y + y + y;
@@ -223,11 +291,12 @@ public class BruteForceAI implements ArtificialIntelligence {
 		else if(player == 2){
 			newBoard[position.x][position.y].putP2Piece();
 			blackPiece.add(new Point(position.x,position.y));
+			Set<Point> tmp = new HashSet<Point>();
 			for(int x = - 1; x < 2; x++){
 				for(int y = -1; y < 2; y++){
 					if((position.x+x) < boardWidth && (position.x + x) >= 0 && (position.y + y) < boardHeight && (position.y+ y) >= 0 && !(x == 0 && y == 0)){
 						if(newBoard[position.x + x][position.y + y].isP1Piece()){
-							Set<Point> tmp = new HashSet<Point>();
+							tmp.clear();
 							tmp.add(new Point(position.x+x,position.y+y));
 							Integer i = position.x + x + x;
 							Integer j = position.y + y + y;

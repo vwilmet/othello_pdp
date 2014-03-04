@@ -18,10 +18,61 @@ public class Model {
 	{
 		myBoard = new Board();
 		myAI = new BruteForceAI();
+		//myAI = new RandomAI();
+		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		this.width = myBoard.width;
 		this.height = myBoard.height;
-
-		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		/*Point p = myAI.nextMove(1);
+		if(p != null)
+		myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);		
+		if(p != null)
+		myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);
+		if(p != null)
+			myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);		
+		if(p != null)
+		myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);
+		if(p != null)
+			myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);		
+		if(p != null)
+		myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);
+		if(p != null)
+			myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);		
+		if(p != null)
+		myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);
+		p = myAI.nextMove(2);
+		if(p != null)
+			myAI.notifyChosenMove(p, 2);
+		p = myAI.nextMove(1);
+		if(p != null)
+			myAI.notifyChosenMove(p, 1);*/
 		
 
 	}
@@ -32,7 +83,7 @@ public class Model {
 		myAI = new BruteForceAI();
 		this.width = myBoard.width;
 		this.height = myBoard.height;
-		//myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		
 	}
 

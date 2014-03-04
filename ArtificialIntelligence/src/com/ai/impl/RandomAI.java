@@ -1,4 +1,4 @@
-package AI;
+package com.ai.impl;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -6,6 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import com.ai.ArtificialIntelligence;
+import com.board.Box;
+import com.board.BoxImpl;
+import com.tree.Node;
+import com.tree.Tree;
+import com.utils.WrongPlayablePositionException;
 
 public class RandomAI implements ArtificialIntelligence {
 

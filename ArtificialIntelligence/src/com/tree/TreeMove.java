@@ -1,4 +1,4 @@
-package AI;
+package com.tree;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * pre-order traversal. It has several methods to allow easy updation of Nodes
  * in the Tree.
  */
-public class Tree<T> {
+public class TreeMove<T> {
  
     private Node<T> rootElement;
     private Node<T> sentinel;
@@ -18,7 +18,7 @@ public class Tree<T> {
     /**
      * Default ctor.
      */
-    public Tree() {
+    public TreeMove() {
         super();
     }
  

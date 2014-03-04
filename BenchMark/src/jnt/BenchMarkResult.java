@@ -252,7 +252,7 @@ public class BenchMarkResult {
 			public void onProgress(int progress) {
 				System.out.println("Pourcentage : " + progress + "%");
 			}
-
+	
 			@Override
 			public void onEnd(BenchMarkResult result) {
 				System.out.println("BenchMark Terminé!");

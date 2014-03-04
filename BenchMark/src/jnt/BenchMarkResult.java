@@ -1,7 +1,16 @@
 package jnt;
 
+/**
+ * 
+ * @author <ul>
+ *         <li>Morgane Badré</li>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ *
+ */
 public class BenchMarkResult {
-
+	
 	public FFT fft;
 	public SOR sor;
 	public MonteCarlo monteCarlo;

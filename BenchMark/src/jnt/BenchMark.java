@@ -1,9 +1,8 @@
 package jnt;
-import jnt.BenchMarkResult.MonteCarlo;
+
 import jnt.scimark2.Constants;
 import jnt.scimark2.Random;
 import jnt.scimark2.kernel;
-
 
 /**
 SciMark2: A Java numerical benchmark measuring performance
@@ -14,14 +13,33 @@ factorizations.
 http://math.nist.gov/scimark2/index.html
  */
 
+/**
+ * 
+ * @author <ul>
+ *         <li>Morgane Badré</li>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ *
+ */
 public class BenchMark {
 
+	/**
+	 * 
+	 */
 	private BenchMarkResultEvent event;
 	
+	/**
+	 * 
+	 * @param event
+	 */
 	public BenchMark(BenchMarkResultEvent event) {
 		this.event = event;
 	}
 	
+	/**
+	 * 
+	 */
 	public void launch(){
 		
 		event.onStart();

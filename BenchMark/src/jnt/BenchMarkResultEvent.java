@@ -12,17 +12,18 @@ package jnt;
 public interface BenchMarkResultEvent {
 
 	/**
-	 * 
-	 * @param progress
+	 * Méthode appelée à chaque étape majeur du calcul de la performance de la machine afin de prévenir de l'avancement<br/>
+	 * Cette méthode est appelée 9 fois maximum en tous
+	 * @param progress L'entier contenant le pourcentage d'avancement du calcul complet
 	 */
 	public void onProgress(int progress);
 	/**
-	 * 
+	 * Méthode soulevé dès le commencement du calcul
 	 */
 	public void onStart();
 	/**
-	 * 
-	 * @param result
+	 * Evènement soulevé dès que le calcul du BenchMark est terminé
+	 * @param result Le résultat du calcul du BenchMark de la machine
 	 */
 	public void onEnd(BenchMarkResult result);
 }

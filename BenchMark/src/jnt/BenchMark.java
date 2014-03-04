@@ -25,22 +25,28 @@ http://math.nist.gov/scimark2/index.html
 public class BenchMark {
 
 	/**
-	 * 
+	 * Interface qui permet la comuniquation ainsi que de d'informer de l'avancement des calculs du BenchMarking
 	 */
 	private BenchMarkResultEvent event;
 	
 	/**
-	 * 
-	 * @param event
+	 * Constructeur qui neccessite l'utilisation de l'interface afin de communiqué les résultats du calcul
+	 * <b>Attention : </b>Vous devez fournir une référence valide pour l'objet en paramètre sinon il seras impossible de connaitre l'avancement du calcul général et de récupèrer les valeurs finales
+	 * @param event L'interface de communication avec le BenchMark
 	 */
 	public BenchMark(BenchMarkResultEvent event) {
 		this.event = event;
 	}
 	
 	/**
-	 * 
+	 * Méthode à appeler afin de lancer le BenchMarking <br/>
+	 * Cette méthode renvoie à travers l'objet passé en paramètre du constructeur
+	 * de l'interface {@link jnt.BenchMarkResultEvent} <br/>
+	 * Si l'interface de communication n'est pas valide alors le BenchMarking ne se lance pas et s'arrète immédiatement
 	 */
 	public void launch(){
+		
+		if(event == null) return;
 		
 		event.onStart();
 		event.onProgress(0);

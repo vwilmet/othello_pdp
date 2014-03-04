@@ -14,6 +14,8 @@ public interface TimerManager {
 	 * Cette méthode lance le minuteur et déclenche au bout de "time" secondes la 
 	 * méthode {@link com.timermanager.TimerActionEvent#onTimerEnded} de 
 	 * l'interface {@link com.timermanager.TimerActionEvent}
+	 * <b>Attention : </b>Cette méthode ne peut être appelée qu'une seul fois en même temps ou après avoir 
+	 * arrété le timer à l'aide {@link com.timermanager.TimerManager#stopTimer}
 	 * @param time Le temps du timer en secondes
 	 */
 	public void startTimer(int time);

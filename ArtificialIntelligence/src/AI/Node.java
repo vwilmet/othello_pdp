@@ -21,6 +21,7 @@ public class Node<T> {
     public Box[][] board;
     public Integer width;
     public Integer height;
+    public T bestMove;
  
     /**
      * Default ctor.
@@ -36,6 +37,7 @@ public class Node<T> {
     public Node(T data) {
         this();
         setData(data);
+        bestMove = null;
     }
     
     public Node(T data, Integer player, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
@@ -44,7 +46,9 @@ public class Node<T> {
         setPlayer(player);
         setWhitePiece(white);
         setBlackPiece(black);
-        setBoard(board,width,height);
+        setBoard(board,width,height);      
+        bestMove = null;
+
     }
     
     public Node(T data, Integer player, Node<T> parent, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
@@ -55,6 +59,8 @@ public class Node<T> {
         setWhitePiece(white);
         setBlackPiece(black);
         setBoard(board,width,height);
+        bestMove = null;
+
     }
     
     /**
@@ -197,11 +203,7 @@ public class Node<T> {
 	}
 	
 	public Set<Point> getCopyOfWhitePiece(){
-		Set<Point> newWhitePiece = new HashSet<Point>();
-		for(Point p : this.whitePiece){
-			Point f = new Point(p.x,p.y);
-			newWhitePiece.add(f);
-		}
+		Set<Point> newWhitePiece = new HashSet<Point>(this.whitePiece);
 		return newWhitePiece;
 	}
 
@@ -214,12 +216,16 @@ public class Node<T> {
 	}
 	
 	public Set<Point> getCopyOfBlackPiece(){
-		Set<Point> newBlackPiece = new HashSet<Point>();
-		for(Point p : this.blackPiece){
-			Point f = new Point(p.x,p.y);
-			newBlackPiece.add(f);
-		}
+		Set<Point> newBlackPiece = new HashSet<Point>(this.blackPiece);
 		return newBlackPiece;
+	}
+
+	public T getBestMove() {
+		return bestMove;
+	}
+
+	public void setBestMove(T bestMove) {
+		this.bestMove = bestMove;
 	}
 
 	public String printBoard(){

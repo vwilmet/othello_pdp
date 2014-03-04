@@ -92,7 +92,7 @@ public class RandomAI implements ArtificialIntelligence {
 			Node<Point> myNode = new Node<Point>(pos,player,tree.getSentinel(), this.whitePiece, this.blackPiece, board, this.boardWidth, this.boardHeight);
 			tree.getSentinel().addChild(myNode);
 			tree.setSentinel(myNode);
-			System.out.println(tree.toString());
+			printBoard();
 		}
 	}
 

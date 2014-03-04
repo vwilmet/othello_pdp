@@ -9,7 +9,7 @@ package jnt;
  * @version 1.0
  */
 public class BenchMarkResult {
-	
+
 	/**
 	 * Objet de la classe : {@link jnt.BenchMarkResult.FFT}
 	 */
@@ -34,7 +34,7 @@ public class BenchMarkResult {
 	 * Réel qui va contenir le résultat finale. Celui ci est calculée en faiant la moyenne de tous les autres résultats
 	 */
 	public double globalScore;
-	
+
 	/**
 	 * Setter
 	 * @param fft 
@@ -42,7 +42,7 @@ public class BenchMarkResult {
 	public void setFFT(FFT fft){
 		this.fft = fft;
 	}
-	
+
 	/**
 	 * Setter
 	 * @param sor
@@ -50,7 +50,7 @@ public class BenchMarkResult {
 	public void setSOR(SOR sor){
 		this.sor = sor;
 	}
-	
+
 	/**
 	 * Setter
 	 * @param monteCarlo
@@ -114,7 +114,7 @@ public class BenchMarkResult {
 		 * Réel contenant le résultat de ce calcul
 		 */
 		public double value;
-		
+
 		/**
 		 * Constructeur permettant d'initialiser les champs de la classe
 		 * @param size La taille pour le calcul
@@ -155,7 +155,7 @@ public class BenchMarkResult {
 			this.value = value;
 		}
 	}
-	
+
 	/**
 	 * Classe contenant le résultat de la méthode de Monte-Carlo qui vise à calculer une valeur numérique en utilisant des procédés aléatoires
 	 * @see <a href="http://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo">Wikipedia</a>
@@ -240,26 +240,26 @@ public class BenchMarkResult {
 		}
 	}
 	/*public static void main(String[] args) {
-		
+
 		BenchMarkResultEvent event = new BenchMarkResultEvent() {
-			
+
 			@Override
 			public void onStart() {
 				System.out.println("BenchMark démarre!");
 			}
-			
+
 			@Override
 			public void onProgress(int progress) {
 				System.out.println("Pourcentage : " + progress + "%");
 			}
-	
+
 			@Override
 			public void onEnd(BenchMarkResult result) {
 				System.out.println("BenchMark Terminé!");
 				System.out.println(result.toString());
 			}
 		};
-		
+
 		BenchMark b = new BenchMark(event);
 		b.launch();
 	}*/

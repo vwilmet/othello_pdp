@@ -68,10 +68,10 @@ public class BruteForceAI implements ArtificialIntelligence {
 		tree.setSentinel(tree.getRootElement());
 		scoreArray = new ArrayList<Integer>();
 		call = 0;
-		Integer finalScore = miniMax(8, tree.getSentinel());
+		//Integer finalScore = miniMax(13, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
-		//Integer finalScore = alphaBeta(8, tree.getSentinel(), alpha, beta);
+		Integer finalScore = alphaBeta(8, tree.getSentinel(), alpha, beta);
 		System.out.println("Call : " + call);
 		showBestMoveParty();
 		return true;
@@ -127,7 +127,6 @@ public class BruteForceAI implements ArtificialIntelligence {
 				Point p = playablePosition.pop();
 				Node<Point> n = calculateTurnResult(p, node.getCopyOfBoard(), node.getCopyOfWhitePiece(), node.getCopyOfBlackPiece(), node.getPlayer());
 				node.addChild(n);
-
 				Integer score = alphaBeta(depth-1, n, alpha, beta);
 				if(node.player == 1 && score > alpha){
 					alpha = score;
@@ -142,6 +141,9 @@ public class BruteForceAI implements ArtificialIntelligence {
 					node.setBestMove(n.getData());
 					if(alpha>=beta)
 						break;
+				}
+				else if(node.getBestMove() == null){
+					node.setBestMove(n.getData());
 				}
 				i++;
 
@@ -173,11 +175,13 @@ public class BruteForceAI implements ArtificialIntelligence {
 		Node<Point> s = tree.getRootElement();
 		Point p = s.getBestMove();
 		while(p != null){
-			System.out.println("BestMove : " + p.toString());
 			printBoard(s.board);
+			System.out.println("BestMove : " + p.toString());
 			s = findNodeFromMove(s, p);
 			p = s.getBestMove();
 		}
+		printBoard(s.board);
+		System.out.println("End of game!");
 			
 	}
 

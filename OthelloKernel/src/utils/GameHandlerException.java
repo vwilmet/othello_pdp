@@ -16,7 +16,8 @@ public class GameHandlerException extends Exception {
 	
 	public static final int ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE = 4;
 	public static final int WARNING_ABOUT_NUMBER_OF_INITIAL_PIECES = 5;
-
+	public static final int ERROR_WRONG_FORMAT_SAVE_GAME_FILE = 6;
+	
 	private int error;
 	private String message;
 
@@ -40,6 +41,8 @@ public class GameHandlerException extends Exception {
 			return TextManager.WRONG_INITIAL_PIECE_POSITION_FR + this.message;
 		case ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE : 
 			return TextManager.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR + this.message;
+		case ERROR_WRONG_FORMAT_SAVE_GAME_FILE : 
+			return TextManager.ERROR_WRONG_FORMAT_SAVE_GAME_FILE_FR + this.getMessage();
 		case ERROR:
 		default:
 			return TextManager.ERROR_FR + this.message;

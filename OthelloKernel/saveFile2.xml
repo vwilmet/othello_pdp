@@ -40,6 +40,38 @@
 		<AILevel>1</AILevel>
 		<AIThinkingTime>240</AIThinkingTime>
 	</init>
+	<playedPcs>
+		<piece>
+			<x>1</x>
+			<y>1</y>
+			<c>1</c>
+		</piece>
+		<piece>
+			<x>1</x>
+			<y>2</y>
+			<c>2</c>
+		</piece>
+		<piece>
+			<x>1</x>
+			<y>3</y>
+			<c>1</c>
+		</piece>
+		<piece>
+			<x>1</x>
+			<y>4</y>
+			<c>2</c>
+		</piece>
+		<piece>
+			<x>1</x>
+			<y>5</y>
+			<c>1</c>
+		</piece>
+		<piece>
+			<x>1</x>
+			<y>6</y>
+			<c>2</c>
+		</piece>
+	</playedPcs>
 </board>
 
 		

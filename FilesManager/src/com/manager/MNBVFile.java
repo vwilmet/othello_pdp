@@ -26,7 +26,7 @@ public class MNBVFile {
 	 * <br> La lecture et l'écriture sont autorisées
 	 * Si le fichier n'existe pas, il est créé
 	 * Si le fichier existe alors on place le contenu dans content
-	 * Vérification de l'extension du fichier .mnbv
+	 * Vérification de l'extension du fichier .xml
 	 * @param name : nom du fichier
 	 * @param path : chemin du fichier sans le nom
 	 * @throws FileHandlingException : exception soulevée si le fichier ne possède pas la bonne extension
@@ -47,7 +47,7 @@ public class MNBVFile {
 				throw new FileHandlingException(FileHandlingException.IO_ERROR);
 			}
 		}
-
+		
 		open();
 
 		if(name.length() <= FilesManager.DEFAULT_FILENAME_EXTENSION.length())

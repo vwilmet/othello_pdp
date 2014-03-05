@@ -8,16 +8,17 @@ package com.manager;
  * @version 1.0
  */
 public interface FilesManager {
-	
+
 	/**
 	 * Constante qui contient le message d'erreur renvoyé lors de l'echec de lecture du fichier demandée
 	 */
-	public static final String ERROR_ON_LOAD = "Une erreur est survenue pendant la lecture du fichier";
+	public static final String ERROR_ON_LOAD_ON_READING = "Une erreur est survenue pendant la lecture du fichier";
+	public static final String ERROR_ON_LOAD_FILE_NOT_EXISTING = "Le fichier demandé n'existe pas";
 	public static final String ERROR_WRITING = "Une erreur est survenue pendant l'écriture dans le fichier";
 	public static final String ERROR_WRONG_EXTENSION = "L'extension du fichier demandée est mauvaise";
 	public static final String IO_ERROR = "Une opération d'entré-sortie à échoué!";
 	public static final String ERROR = "Une erreur inconnue est survenue!";
-	
+
 	/**
 	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde automatique demandé par le logiciel
 	 */
@@ -27,7 +28,7 @@ public interface FilesManager {
 	 * Constante qui représente le chemin par défault qui seras utilisé pour sauvegarder les fichiers de sauvegarde automatique
 	 */
 	public static final String DEFAULT_FILE_PATH = ".";
-	
+
 	/**
 	 * Méthode initialisant le module :<ul>
 	 * <li> préparation du fichier de sauvegarde automatique </li>
@@ -36,14 +37,15 @@ public interface FilesManager {
 	 * @return true si l'initilisation s'est effectué correctement
 	 */
 	public boolean init(boolean enableVerification);
-	
+
 	/**
 	 * Voir la documentation {@link com.manager.FilesManager#init}
 	 * @param autosaveFilename Le nom du fichier pour les sauvegardes automatiques. Par défaut le nom est othello_autosave-{date:AAAA-MM-JJ-HH-MM-SS}.mnbv
 	 * @param enableVerification Un booléen qui, si passé à true, autorise la vérification de l'intégrité du fichier
+	 * @return true si l'initilisation s'est effectué correctement
 	 */
 	public boolean init(String autosaveFilename, boolean enableVerification);
-	
+
 	/**
 	 * Méthode appelée lors d'une demande de sauvegarde utilisateur
 	 * <br><b>Attention : </b> Cette méthode efface complétement le fichier de sauvegarde où elle enregistre les données  
@@ -60,15 +62,19 @@ public interface FilesManager {
 	 * @return true si la sauvegarde automatique à réussi, false sinon
 	 */
 	public boolean autoSave(Object data);
-	
+
 	/**
 	 * Cette méthode lit le contenue d'un fichier et le retourne sous forme de String
 	 * @param name Le nom du fichier à charger
 	 * @param path Le chemin vers le fichier
-	 * @return Le contenu complet du fichier 
+	 * @return Le contenu complet du fichier ou un message d'erreur :
+	 * <ul>
+	 * <li>FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING : si le fichier demandé n'existe pas</li>
+	 * <li>FilesManager.ERROR_ON_LOAD_ON_READING : si un problème est survenue pendant la lecture</li>
+	 * </ul>
 	 */
 	public String load(String name, String path);
-	
+
 	/**
 	 * Méthode qui permet d'autoriser la vérification de la bonne écriture dans le fichier du contenue en se basant sur la longueur du contenue à écrire
 	 */

@@ -82,7 +82,7 @@ public class TimerManagerImpl implements TimerManager{
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
-	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 * <br>Utiliser l'interface {@link com.manager.TimerManager} pour stocker l'objet de la classe
 	 * <br>Voir {@link com.timermanager.TimerManager#startTimer}
 	 */
 	@Override

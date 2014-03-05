@@ -28,14 +28,22 @@ public class FilesManagerImpl implements FilesManager{
 		autoSaveFile = new MNBVFile[2];
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#init}
+	 */
 	@Override
 	public boolean init(boolean enableVerification) {
 		this.verification = enableVerification;
-
-
 		return true;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#init(String autosaveFilename, boolean enableVerification)}
+	 */
 	@Override
 	public boolean init(String autosaveFilename, boolean enableVerification) {
 		this.autoSaveFileName = autosaveFilename;
@@ -46,6 +54,11 @@ public class FilesManagerImpl implements FilesManager{
 		return new MNBVFile(name, path);
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#save}
+	 */
 	@Override
 	public boolean save(String name, String path, Object data) {
 
@@ -86,6 +99,11 @@ public class FilesManagerImpl implements FilesManager{
 		return true;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#autoSave}
+	 */
 	@Override
 	public boolean autoSave(Object data) {
 
@@ -99,7 +117,7 @@ public class FilesManagerImpl implements FilesManager{
 				return false;
 			}
 		}
-		
+
 		try {
 			currentAutoSaveFile.write(data);
 		} catch (FileHandlingException e) {
@@ -140,21 +158,41 @@ public class FilesManagerImpl implements FilesManager{
 		return true;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#load}
+	 */
 	@Override
 	public String load(String name, String path) {
+		File file = new File(path + File.separator + name);
+
+		if (!file.exists())
+			return FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING;
+
 		try {
 			return new MNBVFile(name, path).read();
 		} catch (FileHandlingException f) {
 			Log.error(f.getMessage());
-			return FilesManager.ERROR_ON_LOAD;
+			return FilesManager.ERROR_ON_LOAD_ON_READING;
 		}
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#enableVerification}
+	 */
 	@Override
 	public void enableVerification() {
 		this.verification = true;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.manager.FilesManager#disableVerification}
+	 */
 	@Override
 	public void disableVerification() {
 		this.verification = false;

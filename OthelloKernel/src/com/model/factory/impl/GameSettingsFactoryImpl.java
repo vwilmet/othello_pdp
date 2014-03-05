@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
+import utils.TextManager;
 
 import com.model.BoardImpl;
 import com.model.BoardObservable;
@@ -37,7 +38,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
 		return new GameSettings(player1, player2, gameBoard, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty);
 	}
 
@@ -46,7 +47,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -70,14 +71,14 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -101,20 +102,20 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 			List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public SaveGame getSaveGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.GAME_SETTINGS_FACTORY_REQUIRED_FR);
+				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);
 	}
 }

@@ -1,4 +1,4 @@
-package AI;
+package com.ai.impl;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -7,7 +7,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public class BruteForceAI implements ArtificialIntelligence {
+import com.ai.ArtificialIntelligence;
+import com.board.Board;
+import com.board.Box;
+import com.board.BoxImpl;
+import com.tree.Node;
+import com.tree.Tree;
+import com.utils.WrongPlayablePositionException;
+
+public class BruteForceAI2 implements ArtificialIntelligence {
 
 	Box[][] board;
 	Tree<Point> tree;
@@ -18,7 +26,8 @@ public class BruteForceAI implements ArtificialIntelligence {
 	private Set<Point> borderLine;
 	List<Integer> scoreArray;
 	Integer call;
-
+	Board initBoard;
+	
 	@Override
 	public Point nextMove(Integer player) {
 		// TODO Auto-generated method stub
@@ -40,32 +49,18 @@ public class BruteForceAI implements ArtificialIntelligence {
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
-		this.whitePiece = whitePiece;
-		this.blackPiece = blackPiece;
-		this.boardWidth = boardWidth;
-		this.boardHeight = boardHeight;
-		board = new Box[boardWidth][boardHeight];
-		for(Integer i = 0; i < this.boardWidth; i ++)
-			for(Integer j = 0; j < this.boardHeight; j++){
-				board[i][j] = new BoxImpl();
-				if(whitePiece.contains(new Point(i,j)))
-					board[i][j].putP1Piece();
-				else if(blackPiece.contains(new Point(i,j)))
-					board[i][j].putP2Piece();
-				else
-					board[i][j].removePiece();
-			}
+		initBoard = new Board(boardWidth, boardHeight, whitePiece, blackPiece);
 		tree = new Tree<Point>();
 		tree.setRootElement(new Node<Point>(new Point(-1,-1), 1,whitePiece,blackPiece,board,boardWidth,boardHeight));
 		tree.setSentinel(tree.getRootElement());
-		scoreArray = new ArrayList<Integer>();
+		/*scoreArray = new ArrayList<Integer>();
 		call = 0;
-		//Integer finalScore = miniMax(9, tree.getSentinel());
+		Integer finalScore = miniMax(8, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
-		Integer finalScore = alphaBeta(12, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBeta(8, tree.getSentinel(), alpha, beta);
 		System.out.println("Call : " + call);
-		showBestMoveParty();
+		showBestMoveParty();*/
 		return true;
 	}
 
@@ -253,7 +248,6 @@ public class BruteForceAI implements ArtificialIntelligence {
 		return possiblePosition;
 
 	}
-	//Problème dans cette fonction
 	public Node<Point> calculateTurnResult(Point position, Box[][] newBoard, Set<Point> whitePiece, Set<Point> blackPiece, Integer player){
 		if(player == 1){
 			whitePiece.add(new Point(position.x,position.y));

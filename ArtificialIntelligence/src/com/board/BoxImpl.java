@@ -1,4 +1,4 @@
-package AI;
+package com.board;
 
 public class BoxImpl implements Box {
 

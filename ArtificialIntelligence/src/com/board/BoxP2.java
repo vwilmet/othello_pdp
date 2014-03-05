@@ -1,4 +1,4 @@
-package AI;
+package com.board;
 
 public class BoxP2 implements BoxState {
 

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
+import utils.TextManager;
 
 import com.model.BoardImpl;
 import com.model.BoardObservable;
@@ -46,7 +47,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -70,14 +71,14 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
@@ -101,21 +102,21 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 			List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, BoardImpl gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 	@Override
 	public SaveGame getSaveGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
-				FactoryHandlerException.RESTORE_GAME_FACTORY_REQUIRED_FR);
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
 
 }

@@ -1,32 +1,32 @@
-package AI;
+package com.tree;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.board.Board;
+import com.board.Box;
+import com.board.BoxImpl;
+
 /**
  * Represents a node of the Tree<T> class. The Node<T> is also a container, and
  * can be thought of as instrumentation to determine the location of the type T
  * in the Tree<T>.
  */
-public class Node<T> {
+public class NodeMove<T> {
  
-    public T data;
-    public Integer player;
-    public Set<Point> whitePiece;
-    public Set<Point> blackPiece;
-    public Node<T> parent;
-    public List<Node<T>> children;
-    public Box[][] board;
-    public Integer width;
-    public Integer height;
-    public T bestMove;
+    private T data;
+    private Integer player;
+    private NodeMove<T> parent;
+    private List<NodeMove<T>> children;
+    private Board currentBoard;
+    private T bestMove;
  
     /**
      * Default ctor.
      */
-    public Node() {
+    public NodeMove() {
         super();
     }
  
@@ -34,31 +34,28 @@ public class Node<T> {
      * Convenience ctor to create a Node<T> with an instance of T.
      * @param data an instance of T.
      */
-    public Node(T data) {
+    public NodeMove(T data) {
         this();
         setData(data);
         bestMove = null;
     }
     
-    public Node(T data, Integer player, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
+    public NodeMove(T data, Integer player, Board board){
         this();
         setData(data);
         setPlayer(player);
-        setWhitePiece(white);
-        setBlackPiece(black);
-        setBoard(board,width,height);      
+        setBoard(board);      
         bestMove = null;
+        parent = null;
 
     }
     
-    public Node(T data, Integer player, Node<T> parent, Set<Point> white, Set<Point> black, Box[][] board, Integer width, Integer height){
+    public NodeMove(T data, Integer player, Board board, NodeMove<T> parent){
         this();
         setData(data);
         setPlayer(player);
         setParent(parent);
-        setWhitePiece(white);
-        setBlackPiece(black);
-        setBoard(board,width,height);
+        setBoard(board);      
         bestMove = null;
 
     }
@@ -70,9 +67,9 @@ public class Node<T> {
      * method will return the children of a Node<T>.
      * @return the children of Node<T>
      */
-    public List<Node<T>> getChildren() {
+    public List<NodeMove<T>> getChildren() {
         if (this.children == null) {
-            return new ArrayList<Node<T>>();
+            return new ArrayList<NodeMove<T>>();
         }
         return this.children;
     }
@@ -82,7 +79,7 @@ public class Node<T> {
      * more information.
      * @param children the List<Node<T>> to set.
      */
-    public void setChildren(List<Node<T>> children) {
+    public void setChildren(List<NodeMove<T>> children) {
         this.children = children;
     }
  
@@ -102,9 +99,9 @@ public class Node<T> {
      * the first child will create a new List<Node<T>>.
      * @param child a Node<T> object to set.
      */
-    public void addChild(Node<T> child) {
+    public void addChild(NodeMove<T> child) {
         if (children == null) {
-            children = new ArrayList<Node<T>>();
+            children = new ArrayList<NodeMove<T>>();
         }
         children.add(child);
     }
@@ -115,7 +112,7 @@ public class Node<T> {
      * @param child the Node<T> object to insert.
      * @throws IndexOutOfBoundsException if thrown.
      */
-    public void insertChildAt(int index, Node<T> child) throws IndexOutOfBoundsException {
+    public void insertChildAt(int index, NodeMove<T> child) throws IndexOutOfBoundsException {
         if (index == getNumberOfChildren()) {
             // this is really an append
             addChild(child);
@@ -151,74 +148,23 @@ public class Node<T> {
 		this.player = player;
 	}
 
-	public Node<T> getParent() {
+	public NodeMove<T> getParent() {
 		return parent;
 	}
 
-	public void setParent(Node<T> parent) {
+	public void setParent(NodeMove<T> parent) {
 		this.parent = parent;
 	}
 
-	public Integer getNbWhite() {
-		return whitePiece.size();
+
+	public Board getBoard() {
+		return currentBoard;
+	}
+
+	public void setBoard(Board board) {
+		this.currentBoard = board;
 	}
 	
-	public Integer getNbBlack() {
-		return blackPiece.size();
-	}
-
-
-	public Box[][] getBoard() {
-		return board;
-	}
-
-	public void setBoard(Box[][] board, Integer width, Integer height) {
-		this.width = width;
-		this.height = height;
-		this.board = new Box[width][height];
-		for(int i = 0; i < width; i++)
-			for(int j = 0 ; j < height; j++){
-				this.board[i][j] = new BoxImpl();
-				this.board[i][j].setState(board[i][j].getState());
-			}
-	}
-	
-	public Box[][] getCopyOfBoard(){
-		Box[][] newBoard = new Box[width][height];
-		for(int i = 0; i < width;i++)
-			for(int j = 0; j < height; j++){
-				newBoard[i][j] = new BoxImpl();
-				newBoard[i][j].setState(this.board[i][j].getState());
-			}
-		
-		return newBoard;
-	}
-	
-	public Set<Point> getWhitePiece() {
-		return whitePiece;
-	}
-
-	public void setWhitePiece(Set<Point> whitePiece) {
-		this.whitePiece = whitePiece;
-	}
-	
-	public Set<Point> getCopyOfWhitePiece(){
-		Set<Point> newWhitePiece = new HashSet<Point>(this.whitePiece);
-		return newWhitePiece;
-	}
-
-	public Set<Point> getBlackPiece() {
-		return blackPiece;
-	}
-
-	public void setBlackPiece(Set<Point> blackPiece) {
-		this.blackPiece = blackPiece;
-	}
-	
-	public Set<Point> getCopyOfBlackPiece(){
-		Set<Point> newBlackPiece = new HashSet<Point>(this.blackPiece);
-		return newBlackPiece;
-	}
 
 	public T getBestMove() {
 		return bestMove;
@@ -230,7 +176,7 @@ public class Node<T> {
 
 	public String printBoard(){
 		String res = new String("");
-		for(int i = 0; i < this.width; i++)
+		/*for(int i = 0; i < this.width; i++)
 			res = res +" _";
 		for(int j = 0; j < this.height; j++){
 			res = res + "\n";
@@ -247,7 +193,7 @@ public class Node<T> {
 			for(int i = 0; i < this.width; i++)
 				res += " _";
 		}
-		res += "\n";
+		res += "\n";*/
 		return res;
 
 	}
@@ -256,14 +202,14 @@ public class Node<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("{").append(getData().toString()).append(",[");
         int i = 0;
-        for (Node<T> e : getChildren()) {
+        for (NodeMove<T> e : getChildren()) {
             if (i > 0) {
                 sb.append(",");
             }
             sb.append(e.getData().toString());
-            sb.append("White : " +e.getNbWhite() + " , ");
-            sb.append("Black : " +e.getNbBlack() + " ");
-           // sb.append("Board : \n" + e.printBoard());
+            sb.append("White : " +e.getBoard().getNbWhitePiece() + " , ");
+            sb.append("Black : " +e.getBoard().getNbBlackPiece() + " ");
+            sb.append("Board : \n" + e.printBoard());
             i++;
         }
         sb.append("]").append("}");

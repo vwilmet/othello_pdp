@@ -1,1 +1,0 @@
-La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.

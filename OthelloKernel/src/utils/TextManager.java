@@ -66,7 +66,27 @@ public interface TextManager {
 	// /////////////////////////////////////////
 	// ////////////////Model////////////////////
 	// /////////////////////////////////////////
+	public static final String ERROR_FR = "Une erreur est survenue. ";
+	
+	// Factory Error
+	public static final String WRONG_FACTORY_REFERRED_FR = "Vous avez instancié la mauvaise fabrique. ";
+	public static final String PIECE_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"Piece\". ";
+	public static final String PLAYER_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"Player\". ";
+	public static final String BOARD_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"Board\". ";
+	public static final String GAME_SETTINGS_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"GameSettings\". ";
+	public static final String SAVE_GAME_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"SaveGame\". ";
+	public static final String RESTORE_GAME_FACTORY_REQUIRED_FR = "Vous êtes dans une fabrique de \"RestoreGame\". ";
 
+	// Game Errors
+	public static final String WRONG_BOARD_SIZE_FR = "La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. ";
+	public static final String WRONG_INITIAL_PIECE_COLOR_FR = "Vous ne pouvez ajouter qu'un pion réel à la liste des pions initiaux de votre jeu. ";
+	public static final String WRONG_INITIAL_PIECE_POSITION_FR = "Vous ne pouvez pas ajouter deux pions sur un même endroit de l'othellier. ";
+	public static final String ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR = "Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. ";
+	
+	// Player
+	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Vous êtes le premier joueur."; 
+	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Vous êtes le second joueur."; 
+	
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur 1";
 	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur 2";
 }

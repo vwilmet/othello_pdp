@@ -32,7 +32,7 @@ public class FileHandlingException extends Exception{
 		case WRITING_ERROR:
 			return FilesManager.ERROR_WRITING + message;
 		case READING_ERROR:
-			return FilesManager.ERROR_ON_LOAD + message;
+			return FilesManager.ERROR_ON_LOAD_ON_READING + message;
 		case WRONG_EXTENSION_FILENAME:
 			return FilesManager.ERROR_WRONG_EXTENSION + message;
 		case IO_ERROR:

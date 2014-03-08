@@ -1,8 +1,8 @@
-v# Doxyfile 1.8.1.2
+# Doxyfile 1.8.1.2
 
 DOXYFILE_ENCODING      = UTF-8
 
-PROJECT_NAME           = "Module de gestion d'erreur"
+PROJECT_NAME           = "Module BenchMark"
 
 PROJECT_NUMBER         = 1
 
@@ -10,7 +10,7 @@ PROJECT_NUMBER         = 1
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Ce module permet d'écrire dans un fichier les erreurs"
+PROJECT_BRIEF          = "BenchMark en Java de la machine exécutant le logiciel"
 
 OUTPUT_DIRECTORY       = doc
 

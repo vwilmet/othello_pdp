@@ -1,0 +1,72 @@
+\hypertarget{classcom_1_1error__manager_1_1Log}{\section{Référence de la classe com.\-error\-\_\-manager.\-Log}
+\label{classcom_1_1error__manager_1_1Log}\index{com.\-error\-\_\-manager.\-Log@{com.\-error\-\_\-manager.\-Log}}
+}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classcom_1_1error__manager_1_1Log_a166a04ee1ab46156746a99f2350103c6}{error} (String error)
+\item 
+static void \hyperlink{classcom_1_1error__manager_1_1Log_aec6d0b8d25d518ad666b2007fa7f6227}{reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Attributs privés statiques}
+\begin{DoxyCompactItemize}
+\item 
+static final String \hyperlink{classcom_1_1error__manager_1_1Log_a473629efcbd7c2b85456b8e80ab46cd3}{F\-I\-L\-E\-\_\-\-N\-A\-M\-E} = \char`\"{}log.\-txt\char`\"{}
+\item 
+static final String \hyperlink{classcom_1_1error__manager_1_1Log_ab7a0b23daad7f39e20de0dac67011b82}{E\-R\-R\-O\-R} = \char`\"{}Erreur lors de l'écriture dans le fichier d'erreur!\char`\"{}
+\item 
+static final String \hyperlink{classcom_1_1error__manager_1_1Log_a2b163327c26f9f62da88ef109f0300c3}{E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D} = \char`\"{}Le fichier demandé est introuvable!\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Classe qui contient les deux méthodes static qui permettent d'écrire et réinitialiser le fichier d'erreurs \begin{DoxyAuthor}{Auteur}
+
+\begin{DoxyItemize}
+\item Morgane Badré 
+\item Vincent Wilmet 
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0 
+\end{DoxyVersion}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{classcom_1_1error__manager_1_1Log_a166a04ee1ab46156746a99f2350103c6}{\index{com\-::error\-\_\-manager\-::\-Log@{com\-::error\-\_\-manager\-::\-Log}!error@{error}}
+\index{error@{error}!com::error_manager::Log@{com\-::error\-\_\-manager\-::\-Log}}
+\subsubsection[{error}]{\setlength{\rightskip}{0pt plus 5cm}static void com.\-error\-\_\-manager.\-Log.\-error (
+\begin{DoxyParamCaption}
+\item[{String}]{error}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classcom_1_1error__manager_1_1Log_a166a04ee1ab46156746a99f2350103c6}
+Ecrit dans le fichier en sortie le texte entré en paramètre 
+\begin{DoxyParams}{Paramètres}
+{\em error} & La chaîne de caractères contenant l'erreur à écrire dans le fichier \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1error__manager_1_1Log_aec6d0b8d25d518ad666b2007fa7f6227}{\index{com\-::error\-\_\-manager\-::\-Log@{com\-::error\-\_\-manager\-::\-Log}!reset@{reset}}
+\index{reset@{reset}!com::error_manager::Log@{com\-::error\-\_\-manager\-::\-Log}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}static void com.\-error\-\_\-manager.\-Log.\-reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classcom_1_1error__manager_1_1Log_aec6d0b8d25d518ad666b2007fa7f6227}
+Méthode réinitialisant le fichier d'erreur \par
+ {\bfseries Attention \-: } Cette méthode supprime complètement le contenu du fichier 
+
+\subsection{Documentation des données membres}
+\hypertarget{classcom_1_1error__manager_1_1Log_ab7a0b23daad7f39e20de0dac67011b82}{\index{com\-::error\-\_\-manager\-::\-Log@{com\-::error\-\_\-manager\-::\-Log}!E\-R\-R\-O\-R@{E\-R\-R\-O\-R}}
+\index{E\-R\-R\-O\-R@{E\-R\-R\-O\-R}!com::error_manager::Log@{com\-::error\-\_\-manager\-::\-Log}}
+\subsubsection[{E\-R\-R\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}final String com.\-error\-\_\-manager.\-Log.\-E\-R\-R\-O\-R = \char`\"{}Erreur lors de l'écriture dans le fichier d'erreur!\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classcom_1_1error__manager_1_1Log_ab7a0b23daad7f39e20de0dac67011b82}
+Variable contenant le message affiché dans la sortie d'erreur en cas d'échec \hypertarget{classcom_1_1error__manager_1_1Log_a2b163327c26f9f62da88ef109f0300c3}{\index{com\-::error\-\_\-manager\-::\-Log@{com\-::error\-\_\-manager\-::\-Log}!E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D@{E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D}}
+\index{E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D@{E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D}!com::error_manager::Log@{com\-::error\-\_\-manager\-::\-Log}}
+\subsubsection[{E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D}]{\setlength{\rightskip}{0pt plus 5cm}final String com.\-error\-\_\-manager.\-Log.\-E\-R\-R\-O\-R\-\_\-\-F\-I\-L\-E\-\_\-\-N\-O\-T\-\_\-\-F\-O\-U\-N\-D = \char`\"{}Le fichier demandé est introuvable!\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classcom_1_1error__manager_1_1Log_a2b163327c26f9f62da88ef109f0300c3}
+Variable contenant le message à afficher dans la sortie d'erreur si le fichier cible est introuvable \hypertarget{classcom_1_1error__manager_1_1Log_a473629efcbd7c2b85456b8e80ab46cd3}{\index{com\-::error\-\_\-manager\-::\-Log@{com\-::error\-\_\-manager\-::\-Log}!F\-I\-L\-E\-\_\-\-N\-A\-M\-E@{F\-I\-L\-E\-\_\-\-N\-A\-M\-E}}
+\index{F\-I\-L\-E\-\_\-\-N\-A\-M\-E@{F\-I\-L\-E\-\_\-\-N\-A\-M\-E}!com::error_manager::Log@{com\-::error\-\_\-manager\-::\-Log}}
+\subsubsection[{F\-I\-L\-E\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}final String com.\-error\-\_\-manager.\-Log.\-F\-I\-L\-E\-\_\-\-N\-A\-M\-E = \char`\"{}log.\-txt\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classcom_1_1error__manager_1_1Log_a473629efcbd7c2b85456b8e80ab46cd3}
+Variable contenant le nom du fichier où l'on va écrire les erreurs 
+
+La documentation de cette classe a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Log_8java}{Log.\-java}\end{DoxyCompactItemize}

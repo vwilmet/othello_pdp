@@ -8,17 +8,22 @@ package com.manager;
  * @version 1.0
  */
 public interface FilesManager {
-
+	
 	/**
 	 * Constante qui contient le message d'erreur renvoyé lors de l'echec de lecture du fichier demandée
 	 */
 	public static final String ERROR_ON_LOAD_ON_READING = "Une erreur est survenue pendant la lecture du fichier";
+	
 	public static final String ERROR_ON_LOAD_FILE_NOT_EXISTING = "Le fichier demandé n'existe pas";
+	
 	public static final String ERROR_WRITING = "Une erreur est survenue pendant l'écriture dans le fichier";
+	
 	public static final String ERROR_WRONG_EXTENSION = "L'extension du fichier demandée est mauvaise";
+	
 	public static final String IO_ERROR = "Une opération d'entré-sortie à échoué!";
+	
 	public static final String ERROR = "Une erreur inconnue est survenue!";
-
+	
 	/**
 	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde automatique demandé par le logiciel
 	 */

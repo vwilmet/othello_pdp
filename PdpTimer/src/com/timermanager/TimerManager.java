@@ -14,14 +14,14 @@ public interface TimerManager {
 	 * Cette méthode lance le minuteur et déclenche au bout de "time" secondes la 
 	 * méthode {@link com.timermanager.TimerActionEvent#onTimerEnded} de 
 	 * l'interface {@link com.timermanager.TimerActionEvent}
-	 * <b>Attention : </b>Cette méthode ne peut être appelée qu'une seul fois en même temps ou après avoir 
-	 * arrété le timer à l'aide {@link com.timermanager.TimerManager#stopTimer}
+	 * <b>Attention : </b>Cette méthode ne peut être appelée qu'une seule fois, en même temps ou après avoir 
+	 * arrêté le timer, à l'aide de la méthode {@link com.timermanager.TimerManager#stopTimer}
 	 * @param time Le temps du timer en secondes
 	 */
 	public void startTimer(int time);
 
 	/**
-	 * Cette méthode stop le minuteur et déclenche immédiatement la 
+	 * Cette méthode stoppe le minuteur et déclenche immédiatement la 
 	 * méthode {@link com.timermanager.TimerActionEvent#onTimerStopped} de 
 	 * l'interface {@link com.timermanager.TimerActionEvent}
 	 */

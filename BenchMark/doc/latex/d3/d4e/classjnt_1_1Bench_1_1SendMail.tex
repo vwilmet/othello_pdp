@@ -1,0 +1,54 @@
+\hypertarget{classjnt_1_1Bench_1_1SendMail}{\section{Référence de la classe jnt.\-Bench.\-Send\-Mail}
+\label{classjnt_1_1Bench_1_1SendMail}\index{jnt.\-Bench.\-Send\-Mail@{jnt.\-Bench.\-Send\-Mail}}
+}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classjnt_1_1Bench_1_1SendMail_a6514c64925df421389926727b16b40cf}{send} (String server, String sender, String recipient, String subject, String message)  throws Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+\hyperlink{classjnt_1_1Bench_1_1SendMail}{Send\-Mail} implements a simple S\-M\-T\-P client to send mail.
+
+N\-O\-T\-E\-: Since a socket connection is used, when executed from an \hyperlink{classjnt_1_1Bench_1_1Applet}{Applet}, the security model requires that the server be the same as the server from which the applet was loaded.
+
+\begin{DoxyAuthor}{Auteur}
+Bruce R. Miller (\href{mailto:bruce.miller@nist.gov}{\tt bruce.\-miller@nist.\-gov}) 
+
+Contribution of the National Institute of Standards and Technology, 
+
+not subject to copyright. 
+\end{DoxyAuthor}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{classjnt_1_1Bench_1_1SendMail_a6514c64925df421389926727b16b40cf}{\index{jnt\-::\-Bench\-::\-Send\-Mail@{jnt\-::\-Bench\-::\-Send\-Mail}!send@{send}}
+\index{send@{send}!jnt::Bench::SendMail@{jnt\-::\-Bench\-::\-Send\-Mail}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}static void jnt.\-Bench.\-Send\-Mail.\-send (
+\begin{DoxyParamCaption}
+\item[{String}]{server, }
+\item[{String}]{sender, }
+\item[{String}]{recipient, }
+\item[{String}]{subject, }
+\item[{String}]{message}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1SendMail_a6514c64925df421389926727b16b40cf}
+Send an email message. 
+\begin{DoxyParams}{Paramètres}
+{\em server} & The S\-M\-T\-P server \\
+\hline
+{\em sender} & the sender's email address. \\
+\hline
+{\em recipient} & the recipient's email address. \\
+\hline
+{\em subject} & the subject of the message. \\
+\hline
+{\em the} & message text. \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{SendMail_8java}{Send\-Mail.\-java}\end{DoxyCompactItemize}

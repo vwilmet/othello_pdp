@@ -1,0 +1,79 @@
+\hypertarget{classjnt_1_1Bench_1_1Formatter}{\section{Référence de la classe jnt.\-Bench.\-Formatter}
+\label{classjnt_1_1Bench_1_1Formatter}\index{jnt.\-Bench.\-Formatter@{jnt.\-Bench.\-Formatter}}
+}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classjnt_1_1Bench_1_1Formatter_af30bb48b07f34b681e21b37a9d766ecc}{pad} (char c, int n)
+\item 
+static String \hyperlink{classjnt_1_1Bench_1_1Formatter_ae3147e8836ccfa0eb5469ea45eadbb13}{format} (double num, int ndecs)
+\item 
+static String\mbox{[}$\,$\mbox{]} \hyperlink{classjnt_1_1Bench_1_1Formatter_a184715fab7b1e6ebeef5aed1ece39f4e}{format} (double nums\mbox{[}$\,$\mbox{]}, int ndecs)
+\item 
+static String\mbox{[}$\,$\mbox{]} \hyperlink{classjnt_1_1Bench_1_1Formatter_a1dac5b83a4871a9bda8ebfc1b877c68f}{conc} (String a\mbox{[}$\,$\mbox{]}, String b\mbox{[}$\,$\mbox{]})
+\item 
+static void \hyperlink{classjnt_1_1Bench_1_1Formatter_ac5046dd97ae66da89e0ce51bd67a8760}{add\-Column} (String table\mbox{[}$\,$\mbox{]}, String column\mbox{[}$\,$\mbox{]}, int justify)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+An E\-X\-T\-R\-E\-M\-E\-L\-Y Lame \& Minimal Number formatter. Only what is essential for the Benchmarker... I'll evolve it if necessary.
+
+Need to hack in some robustness !!!!
+
+\begin{DoxyAuthor}{Auteur}
+Bruce R. Miller (\href{mailto:bruce.miller@nist.gov}{\tt bruce.\-miller@nist.\-gov}) 
+
+Contribution of the National Institute of Standards and Technology, 
+
+not subject to copyright. 
+\end{DoxyAuthor}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{classjnt_1_1Bench_1_1Formatter_ac5046dd97ae66da89e0ce51bd67a8760}{\index{jnt\-::\-Bench\-::\-Formatter@{jnt\-::\-Bench\-::\-Formatter}!add\-Column@{add\-Column}}
+\index{add\-Column@{add\-Column}!jnt::Bench::Formatter@{jnt\-::\-Bench\-::\-Formatter}}
+\subsubsection[{add\-Column}]{\setlength{\rightskip}{0pt plus 5cm}static void jnt.\-Bench.\-Formatter.\-add\-Column (
+\begin{DoxyParamCaption}
+\item[{String}]{table\mbox{[}$\,$\mbox{]}, }
+\item[{String}]{column\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{justify}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1Formatter_ac5046dd97ae66da89e0ce51bd67a8760}
+Append an array of columns to another array of strings, aligning the new strings on left (justify=0) or right (justify=1). \hypertarget{classjnt_1_1Bench_1_1Formatter_a1dac5b83a4871a9bda8ebfc1b877c68f}{\index{jnt\-::\-Bench\-::\-Formatter@{jnt\-::\-Bench\-::\-Formatter}!conc@{conc}}
+\index{conc@{conc}!jnt::Bench::Formatter@{jnt\-::\-Bench\-::\-Formatter}}
+\subsubsection[{conc}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} jnt.\-Bench.\-Formatter.\-conc (
+\begin{DoxyParamCaption}
+\item[{String}]{a\mbox{[}$\,$\mbox{]}, }
+\item[{String}]{b\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1Formatter_a1dac5b83a4871a9bda8ebfc1b877c68f}
+Concatenate two arrays of strings returning a single longer array. \hypertarget{classjnt_1_1Bench_1_1Formatter_ae3147e8836ccfa0eb5469ea45eadbb13}{\index{jnt\-::\-Bench\-::\-Formatter@{jnt\-::\-Bench\-::\-Formatter}!format@{format}}
+\index{format@{format}!jnt::Bench::Formatter@{jnt\-::\-Bench\-::\-Formatter}}
+\subsubsection[{format}]{\setlength{\rightskip}{0pt plus 5cm}static String jnt.\-Bench.\-Formatter.\-format (
+\begin{DoxyParamCaption}
+\item[{double}]{num, }
+\item[{int}]{ndecs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1Formatter_ae3147e8836ccfa0eb5469ea45eadbb13}
+Simple number \hyperlink{classjnt_1_1Bench_1_1Formatter}{Formatter}, formats num with ndecs decimal places. \hypertarget{classjnt_1_1Bench_1_1Formatter_a184715fab7b1e6ebeef5aed1ece39f4e}{\index{jnt\-::\-Bench\-::\-Formatter@{jnt\-::\-Bench\-::\-Formatter}!format@{format}}
+\index{format@{format}!jnt::Bench::Formatter@{jnt\-::\-Bench\-::\-Formatter}}
+\subsubsection[{format}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} jnt.\-Bench.\-Formatter.\-format (
+\begin{DoxyParamCaption}
+\item[{double}]{nums\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{ndecs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1Formatter_a184715fab7b1e6ebeef5aed1ece39f4e}
+Format an array of numbers, returning an array of strings. \hypertarget{classjnt_1_1Bench_1_1Formatter_af30bb48b07f34b681e21b37a9d766ecc}{\index{jnt\-::\-Bench\-::\-Formatter@{jnt\-::\-Bench\-::\-Formatter}!pad@{pad}}
+\index{pad@{pad}!jnt::Bench::Formatter@{jnt\-::\-Bench\-::\-Formatter}}
+\subsubsection[{pad}]{\setlength{\rightskip}{0pt plus 5cm}static String jnt.\-Bench.\-Formatter.\-pad (
+\begin{DoxyParamCaption}
+\item[{char}]{c, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classjnt_1_1Bench_1_1Formatter_af30bb48b07f34b681e21b37a9d766ecc}
+Create a string of `padding' consisting of n copies of c. 
+
+La documentation de cette classe a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Formatter_8java}{Formatter.\-java}\end{DoxyCompactItemize}

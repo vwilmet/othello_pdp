@@ -47,24 +47,24 @@ public class TimerManagerImpl implements TimerManager{
 	 */
 	private int interval;
 	/**
-	 * Objet du package utils de java permettant de lancer une tache à intervalle régulier
+	 * Objet du package utils de java permettant de lancer une tâche à intervalle régulier
 	 */
 	private Timer timer;
 	/**
-	 * L'interface qui va permettre la communiquation pour connaitre les différentes étapes 
+	 * L'interface qui va permettre la communication pour connaître les différentes étapes 
 	 * des différentes méthodes. <br/> Exemple : Fin du minuteur.
 	 */
 	private TimerActionEvent timerInterface;
 	/**
-	 * Flag qui va permettre de controller l'affichage dans la sortie d'erreur lors d'éventuel erreurs
+	 * Flag qui va permettre de contrôler l'affichage dans la sortie d'erreur lors d'éventuelles erreurs
 	 */
 	private boolean DEBUG;
 	/**
-	 * Booléen qui permet de contrôler qu'une unique minuterie est lancée à l'instant donnée
+	 * Booléen qui permet de contrôler qu'une unique minuterie est lancée à l'instant donné
 	 */
 	private boolean isRunning;
 	/**
-	 * Variable qui va contenir, pour le mode chronomètre, l'heure actuelle en milli-seconde
+	 * Variable qui va contenir, pour le mode chronomètre, l'heure actuelle en milli-secondes
 	 */
 	private long elapstedTime;
 

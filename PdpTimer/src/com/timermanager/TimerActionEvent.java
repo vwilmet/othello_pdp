@@ -2,7 +2,7 @@ package com.timermanager;
 
 /**
  * Interface contenant les évènements soulevés par le timer.
- * Elles doivent être implémentées par la classe qui lance le timer
+ * Les méthodes doivent être implémentées par la classe qui lance le timer
  * @author <ul>
  *         <li>Morgane Badré</li>
  *         <li>Vincent Wilmet</li>

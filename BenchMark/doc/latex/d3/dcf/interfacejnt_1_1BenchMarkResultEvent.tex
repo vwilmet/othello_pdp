@@ -1,0 +1,65 @@
+\hypertarget{interfacejnt_1_1BenchMarkResultEvent}{\section{Référence de l'interface jnt.\-Bench\-Mark\-Result\-Event}
+\label{interfacejnt_1_1BenchMarkResultEvent}\index{jnt.\-Bench\-Mark\-Result\-Event@{jnt.\-Bench\-Mark\-Result\-Event}}
+}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{interfacejnt_1_1BenchMarkResultEvent_a7c2652a118e989cf3c8dbe7a9ad41d45}{on\-Progress} (int progress)
+\item 
+void \hyperlink{interfacejnt_1_1BenchMarkResultEvent_a2fdb77769ccd049e4c1e9baf17cb881f}{on\-Start} ()
+\item 
+void \hyperlink{interfacejnt_1_1BenchMarkResultEvent_a326de44d27feacaf59c72fa28e96eab8}{on\-End} (\hyperlink{classjnt_1_1BenchMarkResult}{Bench\-Mark\-Result} result)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Interface définissant les actions du module de \hyperlink{classjnt_1_1BenchMark}{Bench\-Mark} \begin{DoxyAuthor}{Auteur}
+
+\begin{DoxyItemize}
+\item Morgane Badré 
+\item Vincent Wilmet 
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0 
+\end{DoxyVersion}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{interfacejnt_1_1BenchMarkResultEvent_a326de44d27feacaf59c72fa28e96eab8}{\index{jnt\-::\-Bench\-Mark\-Result\-Event@{jnt\-::\-Bench\-Mark\-Result\-Event}!on\-End@{on\-End}}
+\index{on\-End@{on\-End}!jnt::BenchMarkResultEvent@{jnt\-::\-Bench\-Mark\-Result\-Event}}
+\subsubsection[{on\-End}]{\setlength{\rightskip}{0pt plus 5cm}void jnt.\-Bench\-Mark\-Result\-Event.\-on\-End (
+\begin{DoxyParamCaption}
+\item[{{\bf Bench\-Mark\-Result}}]{result}
+\end{DoxyParamCaption}
+)}}\label{interfacejnt_1_1BenchMarkResultEvent_a326de44d27feacaf59c72fa28e96eab8}
+Evènement soulevé dès que le calcul du \hyperlink{classjnt_1_1BenchMark}{Bench\-Mark} est terminé 
+\begin{DoxyParams}{Paramètres}
+{\em result} & Le résultat du calcul du \hyperlink{classjnt_1_1BenchMark}{Bench\-Mark} de la machine \\
+\hline
+\end{DoxyParams}
+\hypertarget{interfacejnt_1_1BenchMarkResultEvent_a7c2652a118e989cf3c8dbe7a9ad41d45}{\index{jnt\-::\-Bench\-Mark\-Result\-Event@{jnt\-::\-Bench\-Mark\-Result\-Event}!on\-Progress@{on\-Progress}}
+\index{on\-Progress@{on\-Progress}!jnt::BenchMarkResultEvent@{jnt\-::\-Bench\-Mark\-Result\-Event}}
+\subsubsection[{on\-Progress}]{\setlength{\rightskip}{0pt plus 5cm}void jnt.\-Bench\-Mark\-Result\-Event.\-on\-Progress (
+\begin{DoxyParamCaption}
+\item[{int}]{progress}
+\end{DoxyParamCaption}
+)}}\label{interfacejnt_1_1BenchMarkResultEvent_a7c2652a118e989cf3c8dbe7a9ad41d45}
+Méthode appelée à chaque étape majeur du calcul de la performance de la machine afin de prévenir de l'avancement\par
+ Cette méthode est appelée 9 fois maximum en tous 
+\begin{DoxyParams}{Paramètres}
+{\em progress} & L'entier contenant le pourcentage d'avancement du calcul complet \\
+\hline
+\end{DoxyParams}
+\hypertarget{interfacejnt_1_1BenchMarkResultEvent_a2fdb77769ccd049e4c1e9baf17cb881f}{\index{jnt\-::\-Bench\-Mark\-Result\-Event@{jnt\-::\-Bench\-Mark\-Result\-Event}!on\-Start@{on\-Start}}
+\index{on\-Start@{on\-Start}!jnt::BenchMarkResultEvent@{jnt\-::\-Bench\-Mark\-Result\-Event}}
+\subsubsection[{on\-Start}]{\setlength{\rightskip}{0pt plus 5cm}void jnt.\-Bench\-Mark\-Result\-Event.\-on\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacejnt_1_1BenchMarkResultEvent_a2fdb77769ccd049e4c1e9baf17cb881f}
+Méthode soulevé dès le commencement du calcul 
+
+La documentation de cette interface a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{BenchMarkResultEvent_8java}{Bench\-Mark\-Result\-Event.\-java}\end{DoxyCompactItemize}

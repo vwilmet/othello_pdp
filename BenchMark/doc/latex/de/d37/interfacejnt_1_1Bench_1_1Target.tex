@@ -1,0 +1,51 @@
+\hypertarget{interfacejnt_1_1Bench_1_1Target}{\section{Référence de l'interface jnt.\-Bench.\-Target}
+\label{interfacejnt_1_1Bench_1_1Target}\index{jnt.\-Bench.\-Target@{jnt.\-Bench.\-Target}}
+}
+Graphe d'héritage de jnt.\-Bench.\-Target\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{de/d37/interfacejnt_1_1Bench_1_1Target}
+\end{center}
+\end{figure}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+double\mbox{[}$\,$\mbox{]} \hyperlink{interfacejnt_1_1Bench_1_1Target_aa848f1ea6d28c6423b3b89d10482dabe}{execute} (\hyperlink{classjnt_1_1Bench_1_1Bench}{Bench} bench)  throws Exception
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Interface for a Benchmark \hyperlink{interfacejnt_1_1Bench_1_1Target}{Target}. Code to be measured by the \hyperlink{classjnt_1_1Bench_1_1Bench}{Bench} framework should provide a class implementing this interface. Place the code to be measured in the execute method.
+
+\begin{DoxyAuthor}{Auteur}
+Bruce R. Miller (\href{mailto:bruce.miller@nist.gov}{\tt bruce.\-miller@nist.\-gov}) 
+
+Contribution of the National Institute of Standards and Technology, 
+
+not subject to copyright. 
+\end{DoxyAuthor}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{interfacejnt_1_1Bench_1_1Target_aa848f1ea6d28c6423b3b89d10482dabe}{\index{jnt\-::\-Bench\-::\-Target@{jnt\-::\-Bench\-::\-Target}!execute@{execute}}
+\index{execute@{execute}!jnt::Bench::Target@{jnt\-::\-Bench\-::\-Target}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}double \mbox{[}$\,$\mbox{]} jnt.\-Bench.\-Target.\-execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bench}}]{bench}
+\end{DoxyParamCaption}
+) throws Exception}}\label{interfacejnt_1_1Bench_1_1Target_aa848f1ea6d28c6423b3b89d10482dabe}
+The code to be measured is placed in this method. \begin{DoxyReturn}{Renvoie}
+null lets \hyperlink{classjnt_1_1Bench_1_1Bench}{jnt.\-Bench.\-Bench} handle the timings. Otherwise, return an array containing the one or more measured values. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{Voir également}
+\hyperlink{classjnt_1_1Bench_1_1Bench}{jnt.\-Bench.\-Bench} \mbox{[}start$\vert$stop$\vert$reset\mbox{]}Timer methods for measurement tools. 
+\end{DoxySeeAlso}
+
+
+Implémenté dans \hyperlink{classjnt_1_1scimark2_1_1applet_acc1746e5980a10c23f6f91d74f8b6136}{jnt.\-scimark2.\-applet}.
+
+
+
+La documentation de cette interface a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Target_8java}{Target.\-java}\end{DoxyCompactItemize}

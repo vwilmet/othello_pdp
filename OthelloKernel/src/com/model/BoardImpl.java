@@ -5,14 +5,14 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
-import utils.TextManager;
 
 import com.error_manager.Log;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.PieceFactory;
+import com.model.piece.BlackPiece;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
-import com.model.view.ViewSettings;
+import com.model.piece.WhitePiece;
 
 /**
  * 
@@ -24,6 +24,8 @@ import com.model.view.ViewSettings;
  */
 public class BoardImpl implements Board{
 	
+	PieceFactory pieceFacto;
+	
 	private int sizeX, sizeY;
 
 	private Piece[][] gameBoard;
@@ -32,7 +34,7 @@ public class BoardImpl implements Board{
 
 	public BoardImpl(int sizeX, int sizeY, List<Piece> initiaPieces) throws GameHandlerException {
 
-		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
+		pieceFacto = FactoryProducer.getPieceFactory();
 
 		if (sizeX > 3 && sizeX < 51)
 			this.sizeX = sizeX;
@@ -62,12 +64,11 @@ public class BoardImpl implements Board{
 			e.printStackTrace();
 		}
 
+		this.initialiseBoardToPlay();
+		
 		for (Piece p : initiaPieces) {
 			addInitialPiece(p);
 		}
-
-		this.completeBoardToPlay();
-
 	}
 
 	@Override
@@ -95,23 +96,25 @@ public class BoardImpl implements Board{
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
 
-		if (this.gameBoard[p.getPosX()][p.getPosY()] != null)
+		if (this.gameBoard[p.getPosX()][p.getPosY()] == null)
 			throw new GameHandlerException(
-					GameHandlerException.WRONG_INITIAL_PIECE_POSITION,
-					TextManager.WRONG_INITIAL_PIECE_POSITION_FR);
+					GameHandlerException.WRONG_INITIAL_PIECE_POSITION);
 		
 		this.initialPieces.add(p.clone());
-		this.gameBoard[p.getPosX()][p.getPosY()] = p;
+		
+		if (p.getColor() instanceof WhitePiece)
+			this.gameBoard[p.getPosX()][p.getPosY()].setWhitePiece();
+		else if (p.getColor() instanceof BlackPiece)
+			this.gameBoard[p.getPosX()][p.getPosY()].setBlackPiece();
 	}
 
-	private void completeBoardToPlay() {
-		PieceFactory pFacto = FactoryProducer.getPieceFactory();
+	private void initialiseBoardToPlay() {
 
 		for (int i = 0; i < this.sizeX; i++) {
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = pFacto.getEmptyPiece(i, j);
+						Piece p = this.pieceFacto.getEmptyPiece(i, j);
 						this.gameBoard[i][j] = p;
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());

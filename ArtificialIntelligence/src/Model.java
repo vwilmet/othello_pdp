@@ -2,16 +2,15 @@ import java.awt.Point;
 import java.util.HashSet;
 import java.util.List;
 
-import com.ai.ArtificialIntelligence;
-import com.ai.impl.BruteForceAI;
-import com.ai.impl.BruteForceAI;
-import com.ai.impl.RandomAI;
+import com.aistrategy.ArtificialIntelligenceStrategy;
+import com.aistrategy.impl.BruteForceAI;
+import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
 public class Model {
 
 	public Board myBoard;
-	public ArtificialIntelligence myAI;
+	public ArtificialIntelligenceStrategy myAI;
 	public Integer width;
 	public Integer height;
 

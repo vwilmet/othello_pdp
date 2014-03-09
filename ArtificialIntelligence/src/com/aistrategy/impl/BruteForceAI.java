@@ -1,17 +1,17 @@
-package com.ai.impl;
+package com.aistrategy.impl;
 
 import java.awt.Point;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-import com.ai.ArtificialIntelligence;
+import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
-public class BruteForceAI implements ArtificialIntelligence {
+public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	TreeMove<Point> tree;
 	Set<Point> whitePiece;

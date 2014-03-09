@@ -1,4 +1,4 @@
-package com.ai.impl;
+package com.aistrategy.impl;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.ai.ArtificialIntelligence;
+import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
-public class RandomAI implements ArtificialIntelligence {
+public class RandomAI implements ArtificialIntelligenceStrategy {
 
 	Board initBoard;
 	TreeMove<Point> tree;

@@ -1,5 +1,9 @@
 package com.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.model.piece.Piece;
 import com.model.player.Player;
 
 /**
@@ -11,9 +15,25 @@ import com.model.player.Player;
  */
 public class GameSettings {
 
+	/**
+	 * Joueurs du jeu (machine ou humain). 
+	 */
 	private Player player1, player2;
+	
+	/**
+	 * Plateau de jeu.
+	 */
 	private BoardObservable gameBoard;
+	
+	/**
+	 * Variables permettant le paramètrage de l'intelligence artificielle. 
+	 */
 	private int artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty;
+	
+	/**
+	 * Variable stoquant l'historique des coups.
+	 */
+	private List <Piece> gameHistory;
 	
 	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
 		this.player1 = player1;
@@ -23,6 +43,9 @@ public class GameSettings {
 		
 		this.artificialIntelligenceThinkingTime = artificialIntelligenceThinkingTime;
 		this.artificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
+		
+		this.gameHistory = new ArrayList<Piece>();
+		
 	}
 	
 	public Player getFirstPlayer(){
@@ -45,10 +68,24 @@ public class GameSettings {
 		return this.artificialIntelligenceDifficulty;
 	}
 	
+	/**
+	 * 
+	 * @param p : Piece que l'utilisateur viens de jouer. 
+	 */
+	public void addPieceMove(Piece p){
+		this.gameHistory.add(p);
+	}
+	
 	public String toString() {
 		String res = "Nom joueur 1 : " + this.player1 + "\n";
 		res += "Nom joueur 2 : " + this.player2 + "\n";
 		res += "Plateau de jeu : \n" + this.gameBoard.toString();
+		
+		res +="Historique des Coups : " ;
+		for (Piece p : this.gameHistory){
+			res += "("+ p.getPosX() + ":" + p.getPosY() + p.getColor().toString() + ")";
+		}
+		
 		res += "Temps de réflexion de l'IA : " + this.artificialIntelligenceThinkingTime + "\n";
 		res += "Difficulté de l'IA : " + this.artificialIntelligenceDifficulty + "\n";
 		return res;

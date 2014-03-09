@@ -106,7 +106,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame() throws FactoryHandlerException {
+	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.GAME_SETTINGS_FACTORY_REQUIRED_FR);

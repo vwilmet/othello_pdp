@@ -119,8 +119,9 @@ public class Main {
 				bench.hideFrame();
 			}
 		});
-		bench.showFrame();
-		bench.launchBenchMark();
+		
+//		 bench.showFrame();
+//		 bench.launchBenchMark();
 		
 		GameCanvasMouseEventListener mouse = new GameCanvasMouseEventListener() {
 			
@@ -180,7 +181,5 @@ public class Main {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
-
 }

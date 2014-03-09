@@ -29,7 +29,7 @@ import com.model.piece.Piece;
 import com.model.player.Player;
 
 /**
- * 
+ * Gestion de la lecture de fichier de sauvegarde du jeu.
  * @author <ul>
  *         <li>Benjamin Letourneau</li>
  *         </ul>
@@ -38,11 +38,18 @@ import com.model.player.Player;
 public class RestoreGame {
 
 	/**
-	 * Attribut stoquant la racine du XML, en l'occurence notre balise
-	 * <board></board>.
+	 * Attribut stoquant la racine du de notre fichier de sauvegarde (format XML).
 	 */
 	private Element root;
-	private List<Piece> playedPieces;
+	
+	/**
+	 * Attribut stoquant la liste des coups initiaux du plateau.
+	 */
+	private List<Piece> initialPieces;
+	
+	/**
+	 * Variable stoquant l'historique de jeu de la partie sauvegardée.
+	 */
 	private List<Piece> history;
 
 	/**
@@ -79,20 +86,27 @@ public class RestoreGame {
 	/**
 	 * Constructeur de la Classe RestoreGame.
 	 * 
-	 * @param gameFileName
-	 *            : String contenant le nom du fichier sauvegarde à changer dans
-	 *            le jeu.
+	 * @param gameFileName : String contenant le nom du fichier sauvegarde à
+	 * changer dans le jeu.
 	 */
 	public RestoreGame(String gameFileName) {
-
+		this.gsFacto = FactoryProducer.getGameSettingsFactory();
+		this.bFacto = FactoryProducer.getBoardFactory();
+		this.pFacto = FactoryProducer.getPieceFactory();
 		this.gameFileName = gameFileName;
-
+	}
+	
+	/**
+	 * Méthode à appeler pour lancer le chargement de la sauvegarde.
+	 */
+	public void loadGameFromBackupFile(){
 		try {
 			loadXmlFile();
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
+		
 		try {
 			this.root = this.saveDoc.getRootElement();
 		} catch (IllegalStateException e) {
@@ -146,10 +160,7 @@ public class RestoreGame {
 	 * ficheier de sauvegarde.
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
-		this.gsFacto = FactoryProducer.getGameSettingsFactory();
-		this.bFacto = FactoryProducer.getBoardFactory();
-		this.pFacto = FactoryProducer.getPieceFactory();
-
+		
 		Element initPart = this.root.getChild("init");
 
 		if (initPart == null)
@@ -159,7 +170,7 @@ public class RestoreGame {
 		int[] gridSize = null;
 		int aILevel = 0, aIThinkingTime = 0;
 		Player p1 = null, p2 = null;
-		List<Piece> initialPieces = null;
+		List<Piece> playedPieces = null;
 		BoardObservable board = null;
 
 		/* BOARD SIZE */
@@ -198,11 +209,11 @@ public class RestoreGame {
 
 		/* INITIAL PIECES */
 		try {
-			initialPieces = xmlGetPiecesFromPart(initPart.getChild("pieces"),
+			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild("pieces"),
 					false);
 			// **********//
 			System.out.println("DEBUG  : pieces ");
-			for (Piece p : initialPieces)
+			for (Piece p : this.initialPieces)
 				System.out.println(p.toString());
 			// **********//
 		} catch (GameHandlerException e) {
@@ -220,11 +231,11 @@ public class RestoreGame {
 
 		/* PLAYED PIECES */
 		try {
-			this.playedPieces = xmlGetPiecesFromPart(
+			playedPieces = xmlGetPiecesFromPart(
 					this.root.getChild("playedPcs"), false);
 			// **********//
 			System.out.println("DEBUG  : playedPcs ");
-			for (Piece p : this.playedPieces)
+			for (Piece p : playedPieces)
 				System.out.println(p.toString());
 			// **********//
 		} catch (GameHandlerException e) {
@@ -248,8 +259,7 @@ public class RestoreGame {
 
 		/* Construction de la board */
 		try {
-			board = bFacto
-					.getBoard(gridSize[0], gridSize[1], this.playedPieces);
+			board = bFacto.getBoard(gridSize[0], gridSize[1], playedPieces);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -270,6 +280,12 @@ public class RestoreGame {
 
 	}
 
+	/**
+	 * Methode permettant de réccupérer les infoamations de la partie "Size" du fichier de sauvegarde de jeu.
+	 * @param initPart : Element Partie "init" du fichier de sauvegarde.
+	 * @return int[] : Taille de la grille de jeu.
+	 * @throws GameHandlerException
+	 */
 	private int[] xmlGetBoardSize(Element initPart) throws GameHandlerException {
 		Element sizePart = initPart.getChild("size");
 
@@ -297,6 +313,13 @@ public class RestoreGame {
 		return size;
 	}
 
+	/**
+	 * Methode permettant de réccupérer le contenu d'une partie contenant un ensemble de pion (Piece).
+	 * @param part : Ememnt la partie contenant les pions 
+	 * @param isHistoryPart : booléen indiquant si l'on est dans la partie Hystory (qui est facultative) dans le fichier de sauvegarde.
+	 * @return List \<Piece\> : La Liste des pieces contenues dans la partie.
+	 * @throws GameHandlerException
+	 */
 	private List<Piece> xmlGetPiecesFromPart(Element part, boolean isHistoryPart)
 			throws GameHandlerException {
 
@@ -326,6 +349,12 @@ public class RestoreGame {
 		return pcs;
 	}
 
+	/**
+	 * Methode permettant de réccupérer le contenu d'un pion (piece).
+	 * @param piece : Piece dont il faut récupérer les informations.
+	 * @return Piece : le pion créé à partir des informations.
+	 * @throws GameHandlerException
+	 */
 	private Piece xmlGetPiece(Element piece) throws GameHandlerException {
 		Piece p = null;
 
@@ -360,6 +389,7 @@ public class RestoreGame {
 		return p;
 	}
 
+	
 	private Player xmlGetFirstPlayer(Element initPart) {
 		Element firstPlayer = initPart.getChild("1stPlayer");
 		/*
@@ -376,6 +406,13 @@ public class RestoreGame {
 		return null;
 	}
 
+	/**
+	 * Méthode Permettant de récupérer la valeur d'un champ du fichier de sauvegarde.
+	 * @param part : Element, la partie dans laquelle il faut récupérer le contenu du champ.
+	 * @param xmlField : String, nom du champ dans lequel il faut récupérer la valeur. 
+	 * @return int : Contenu du champ. Si le champ n'existe pas, une exception est retournée.
+	 * @throws GameHandlerException
+	 */
 	private int xmlGetIntValueFromField(Element part, String xmlField)
 			throws GameHandlerException {
 		Element elemField = part.getChild(xmlField);

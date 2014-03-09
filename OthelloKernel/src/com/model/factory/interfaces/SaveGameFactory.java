@@ -2,6 +2,7 @@ package com.model.factory.interfaces;
 
 import utils.FactoryHandlerException;
 
+import com.model.GameSettings;
 import com.model.io.SaveGame;
 
 /**
@@ -12,6 +13,6 @@ import com.model.io.SaveGame;
  * @version 1.0
  */
 public interface SaveGameFactory {
-	public SaveGame getSaveGame() throws FactoryHandlerException;
+	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException;
 
 }

@@ -38,8 +38,8 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame() {
-		return new SaveGame();
+	public SaveGame getSaveGame(GameSettings gameSettings) {
+		return new SaveGame(gameSettings);
 	}
 
 	@Override

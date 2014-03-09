@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ai.ArtificialIntelligence;
 import com.ai.impl.BruteForceAI;
+import com.ai.impl.BruteForceAI;
 import com.ai.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 

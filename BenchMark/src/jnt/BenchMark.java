@@ -9,7 +9,8 @@ import jnt.scimark2.kernel;
  *
  * SciMark 2.0 (http://math.nist.gov/scimark2/) is a Java benchmark for scientific and numerical computing. It measures several computational kernels and reports a composite score in approximate Mflops/s. This benchmark was developed at the US National Institute of Standards and Technology (NIST). Part of the benchmark can also be found in the Java Grande Forum Benchmark Suite (http://www.epcc.ed.ac.uk/javagrande/javag.html). This benchmark contains codes on FFT, SOR (Successive Over-Relaxation over a 2D grid), Monte-Carlo integration, Sparse matmult (Sparse matrix vector multiplications) and LU factorization. We have chosen this benchmark because the same benchmark is available both in Java and C, allowing us to compare the two languages. There are many other Java benchmarks available, see http://www.epcc.ed.ac.uk/javagrande/links.html.
  * 
- * Ce module a pour but de lancer une batterie de calcul différent afin de pousser la machine à son max. A la suite de ces calculs un indice générale est calculé, correspondant à la moyenne de tous le autre calculs, permettant de connaitre les "caractéritiques/puissance" de la machine
+ * Ce module a pour but de lancer une batterie de calculs différents afin de pousser la machine à son max. 
+ * A la suite de ces calculs un indice général est calculé, correspondant à la moyenne de tous les autres calculs, permettant de connaître les "caractéristiques/puissance" de la machine
  * 
  * <b>Exemple de BONNE utilisation du module : </b>
  * 
@@ -46,7 +47,7 @@ http://math.nist.gov/scimark2/index.html
  */
 
 /**
- * Ce module de BenchMark est une reprise de celui créée par Roldan Pozo et Bruce Miller
+ * Ce module de BenchMark est une reprise de celui créé par Roldan Pozo et Bruce Miller
  * @see <a href="http://math.nist.gov/scimark2/">Site web</a>
  * <br/>
  * Classe qui va permettre de gérer le module de BenchMarking
@@ -59,13 +60,14 @@ http://math.nist.gov/scimark2/index.html
 public class BenchMark {
 
 	/**
-	 * Interface qui permet la comuniquation ainsi que de d'informer de l'avancement des calculs du BenchMarking
+	 * Interface qui permet la communication ainsi que d'informer de l'avancement des calculs du BenchMarking
 	 */
 	private BenchMarkResultEvent event;
 
 	/**
-	 * Constructeur qui neccessite l'utilisation de l'interface afin de communiqué les résultats du calcul
-	 * <b>Attention : </b>Vous devez fournir une référence valide pour l'objet en paramètre sinon il seras impossible de connaitre l'avancement du calcul général et de récupèrer les valeurs finales
+	 * Constructeur qui nécessite l'utilisation de l'interface afin de communiquer les résultats du calcul
+	 * <b>Attention : </b>Vous devez fournir une référence valide pour l'objet en paramètre sinon il sera 
+	 * impossible de connaître l'avancement du calcul général et de récupèrer les valeurs finales
 	 * @param event L'interface de communication avec le BenchMark
 	 */
 	public BenchMark(BenchMarkResultEvent event) {
@@ -74,11 +76,9 @@ public class BenchMark {
 
 	/**
 	 * Méthode à appeler afin de lancer le BenchMarking <br/>
-	 * Cette méthode renvoie à travers l'objet passé en paramètre du constructeur
+	 * Cette méthode renvoie le résultat à travers l'objet passé en paramètre de la méthode {@link jnt.BenchMarkResultEvent#onEnd(BenchMarkResult)}
 	 * de l'interface {@link jnt.BenchMarkResultEvent} <br/>
 	 * Si l'interface de communication n'est pas valide alors le BenchMarking ne se lance pas et s'arrète immédiatement
-	 * 
-	 * 
 	 * 
 	 */
 	public void launch(){

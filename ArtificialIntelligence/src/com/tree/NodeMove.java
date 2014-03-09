@@ -1,13 +1,9 @@
 package com.tree;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
+import java.util.Stack;
 import com.board.Board;
-import com.board.Box;
-import com.board.BoxImpl;
 
 /**
  * Represents a node of the Tree<T> class. The Node<T> is also a container, and
@@ -173,28 +169,18 @@ public class NodeMove<T> {
 	public void setBestMove(T bestMove) {
 		this.bestMove = bestMove;
 	}
+	
+	public Stack<Point> calculatePlayablePosition(){
+		return this.currentBoard.calculatePlayablePosition(this.player);
+	}
+	
+	public void calculateTurnResult(){
+		if(this.data != null && this.player != null)
+			this.currentBoard.calculateTurnResult((Point)this.data, this.player%2+1);
+	}
 
 	public String printBoard(){
-		String res = new String("");
-		/*for(int i = 0; i < this.width; i++)
-			res = res +" _";
-		for(int j = 0; j < this.height; j++){
-			res = res + "\n";
-			res = res + "|";
-			for(int i = 0; i < this.width; i++){
-				if(this.board[i][j].isP1Piece())
-					res += "1|";
-				else if(this.board[i][j].isP2Piece())
-					res += "2|";
-				else
-					res +=" |";
-			}
-			res +="\n" ;
-			for(int i = 0; i < this.width; i++)
-				res += " _";
-		}
-		res += "\n";*/
-		return res;
+		return this.currentBoard.printBoard();
 
 	}
 

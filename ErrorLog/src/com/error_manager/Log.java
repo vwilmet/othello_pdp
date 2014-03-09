@@ -6,6 +6,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
+ * @mainpage Module d'erreurs
+ * 
+ * Ce module a pour but d'écrire les erreurs dans un fichier "log.txt" afin d'en garder une trace si on veut les consulter. 
+ * 
+ * <b>Exemple de BONNE utilisation du module : </b>
+ *  
+ *		Log.error("l'erreur");
+ *		Log.reset();
+ */
+
+/**
  * Classe qui contient les deux méthodes static qui permettent d'écrire et réinitialiser le fichier d'erreurs
  * @author <ul>
  *         <li>Morgane Badré</li>
@@ -15,8 +26,17 @@ import java.io.PrintWriter;
  */
 public class Log {
 	
+	/**
+	 * Variable contenant le nom du fichier où l'on va écrire les erreurs
+	 */
 	private static final String FILE_NAME = "log.txt";
+	/**
+	 * Variable contenant le message affiché dans la sortie d'erreur en cas d'échec
+	 */
 	private static final String ERROR = "Erreur lors de l'écriture dans le fichier d'erreur!";
+	/**
+	 * Variable contenant le message à afficher dans la sortie d'erreur si le fichier cible est introuvable
+	 */
 	private static final String ERROR_FILE_NOT_FOUND = "Le fichier demandé est introuvable!";
 	
 	/**
@@ -36,7 +56,7 @@ public class Log {
 	}
 	
 	/**
-	 * Méthode réinitialisant le fichier d'erreur
+	 * Méthode réinitialisant le fichier d'erreur <br/>
 	 * <b>Attention : </b> Cette méthode supprime complètement le contenu du fichier
 	 */
 	public static void reset(){

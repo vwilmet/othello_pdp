@@ -86,7 +86,7 @@ public class Main {
 		//System.out.println(b.toString());
 		
 		ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
-		//c.showFrame();
+		c.showFrame();
 		InitGameView vi = new InitGameView();
 		vi.setButtonListener(new InitGameButtonEventListener() {
 			
@@ -107,7 +107,7 @@ public class Main {
 			}
 		});
 		
-		//vi.showFrame();
+		vi.showFrame();
 		
 		
 		final BenchMarkView bench = new BenchMarkViewImpl();
@@ -142,7 +142,7 @@ public class Main {
 		message.setBoard(b);
 		message.setGameMouseEventListener(mouse);
 		
-		//message.showFrame();
+		message.showFrame();
 		/*message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");
 		message.addMessageToMessageList("toto");

@@ -9,7 +9,5 @@ public class AIModule {
 	 */
 	public static void main(String[] args) throws WrongPlayablePositionException {
 		Model myModel = new Model();
-		
-
 	}
 }

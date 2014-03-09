@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class TreeMove<T> {
  
-    private Node<T> rootElement;
-    private Node<T> sentinel;
+    private NodeMove<T> rootElement;
+    private NodeMove<T> sentinel;
      
     /**
      * Default ctor.
@@ -26,7 +26,7 @@ public class TreeMove<T> {
      * Return the root Node of the tree.
      * @return the root element.
      */
-    public Node<T> getRootElement() {
+    public NodeMove<T> getRootElement() {
         return this.rootElement;
     }
  
@@ -34,15 +34,15 @@ public class TreeMove<T> {
      * Set the root Element for the tree.
      * @param rootElement the root element to set.
      */
-    public void setRootElement(Node<T> rootElement) {
+    public void setRootElement(NodeMove<T> rootElement) {
         this.rootElement = rootElement;
     }
      
-    public Node<T> getSentinel() {
+    public NodeMove<T> getSentinel() {
 		return sentinel;
 	}
 
-	public void setSentinel(Node<T> sentinel) {
+	public void setSentinel(NodeMove<T> sentinel) {
 		this.sentinel = sentinel;
 	}
 
@@ -51,8 +51,8 @@ public class TreeMove<T> {
      * List are generated from a pre-order traversal of the tree.
      * @return a List<Node<T>>.
      */
-    public List<Node<T>> toList() {
-        List<Node<T>> list = new ArrayList<Node<T>>();
+    public List<NodeMove<T>> toList() {
+        List<NodeMove<T>> list = new ArrayList<NodeMove<T>>();
         walk(rootElement, list);
         return list;
     }
@@ -73,9 +73,9 @@ public class TreeMove<T> {
      * @param element the starting element.
      * @param list the output of the walk.
      */
-    private void walk(Node<T> element, List<Node<T>> list) {
+    private void walk(NodeMove<T> element, List<NodeMove<T>> list) {
         list.add(element);
-        for (Node<T> data : element.getChildren()) {
+        for (NodeMove<T> data : element.getChildren()) {
             walk(data, list);
         }
     }

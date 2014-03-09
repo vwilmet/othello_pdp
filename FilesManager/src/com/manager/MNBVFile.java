@@ -9,21 +9,45 @@ import java.io.PrintWriter;
 
 import utils.FileHandlingException;
 
+/**
+ * Classe qui utilise les méthodes Java afin d'écrire, de réinitialiser et de lire un fichier
+ * 
+ * @author <ul><li>Morgane Badré</li><li>Vincent Wilmet</li></ul>
+ * @version 1.0
+ */
 public class MNBVFile {
 	/**
 	 * Attribut qui contient le nom du fichier
 	 */
 	public String name;
-
+	/**
+	 * Le chemin vers le fichier
+	 */
 	private String path;
+	/**
+	 * Fichier de la classe Java qui va gérer le fichier à créer
+	 */
 	private File file;
+	/**
+	 * L'objet qui va permettre de lire le fichier pour la méthode load
+	 */
 	private FileReader fileReader; 
-	private boolean canWrite, canRead;
+	/**
+	 * Booléen contenant l'autorisation d'écriture
+	 */
+	private boolean canWrite;
+	/**
+	 * Booléen contenant l'autorisation de lecture
+	 */
+	private boolean canRead;
+	/**
+	 * L'objet qui va permettre d'écrire dans le fichier pour les sauvegardes
+	 */
 	private PrintWriter writer;
 
 	/**
 	 * Constructeur qui initialise le fichier
-	 * <br> La lecture et l'écriture sont autorisées
+	 * <br/> La lecture et l'écriture sont autorisées
 	 * Si le fichier n'existe pas, il est créé
 	 * Si le fichier existe alors on place le contenu dans content
 	 * Vérification de l'extension du fichier .xml
@@ -66,8 +90,8 @@ public class MNBVFile {
 	}
 
 	/**
-	 * Méthode qui écrit le contenu dans le fichier à la fin
-	 * <br><b>Attention : </b> il faut posséder les droits en écriture
+	 * Méthode qui écrit le contenu dans le fichier 
+	 * <br/><b>Attention : </b> il faut posséder les droits en écriture
 	 * @param content : contenu du fichier
 	 * @return true si l'écriture a réussi, false sinon
 	 */
@@ -88,7 +112,7 @@ public class MNBVFile {
 
 	/**
 	 * Méthode qui ferme le fichier à la suite d'une lecture, écriture
-	 * <br><b>Attention : </b> cette méthode <b>doit</b> être appelé afin de fermer correctement le fichier
+	 * <br/><b>Attention : </b> cette méthode <b>doit</b> être appelée afin de fermer correctement le fichier
 	 * @return true si la fermeture du fichier a réussi, false sinon
 	 * @throws IOException : exception soulevée si une erreur survient lors de la fermeture d'un des deux fichiers 
 	 */
@@ -132,6 +156,9 @@ public class MNBVFile {
 		this.canRead = false;
 	}
 
+	/**
+	 * Méthode qui permet de supprimer le fichier du disque
+	 */
 	public void deleteFile(){
 		file.delete();
 	}

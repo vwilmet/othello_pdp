@@ -31,7 +31,7 @@ public class BenchMarkResult {
 	 */
 	public LU lu;
 	/**
-	 * Réel qui va contenir le résultat finale. Celui ci est calculée en faiant la moyenne de tous les autres résultats
+	 * Réel qui va contenir le résultat final. Celui ci est calculé en faisant la moyenne de tous les autres résultats
 	 */
 	public double globalScore;
 
@@ -76,7 +76,7 @@ public class BenchMarkResult {
 	}
 
 	/**
-	 * Setter du score maximale
+	 * Setter du score maximal
 	 * @param score Le score global final
 	 */
 	public void setScrore(double score){
@@ -84,7 +84,7 @@ public class BenchMarkResult {
 	}
 
 	/**
-	 * Méthode pour retourner en chaîne de caractères les résultats de chaques calculs
+	 * Méthode pour retourner en chaîne de caractères les résultats de chaque calcul
 	 */
 	public String toString(){
 		return 	"SciMark 2.0a" + "\n\n" +
@@ -97,7 +97,7 @@ public class BenchMarkResult {
 	}
 
 	/**
-	 * Classe contenant le résultat de la transformée de Fourier rapide
+	 * Classe contenant le résultat de la "transformée de Fourier rapide"
 	 * @see <a href="http://fr.wikipedia.org/wiki/Transform%C3%A9e_de_Fourier_rapide">Wikipedia</a>
 	 * @author <ul>
 	 *         <li>Morgane Badré</li>
@@ -107,7 +107,7 @@ public class BenchMarkResult {
 	 */
 	public static class FFT{
 		/**
-		 * Entier contenant la taille qui est necessaire pour le calcul
+		 * Entier contenant la taille qui est nécessaire pour le calcul
 		 */
 		public int size;
 		/**
@@ -137,7 +137,7 @@ public class BenchMarkResult {
 	 */
 	public static class SOR{
 		/**
-		 * Entier contenant la taille qui est necessaire pour le calcul
+		 * Entier contenant la taille qui est nécessaire pour le calcul
 		 */
 		public int size;
 		/**
@@ -190,7 +190,7 @@ public class BenchMarkResult {
 	 */
 	public static class SparseMatmult{
 		/**
-		 * Entiers contenant la taille qui est necessaire pour le calcul
+		 * Entiers contenant la taille qui sont nécessaires pour le calcul
 		 */
 		public int size_N, size_nz;
 		/**
@@ -222,7 +222,7 @@ public class BenchMarkResult {
 	 */
 	public static class LU{
 		/**
-		 * Entier contenant la taille qui est necessaire pour le calcul
+		 * Entier contenant la taille qui est nécessaire pour le calcul
 		 */
 		public int size;
 		/**
@@ -239,28 +239,4 @@ public class BenchMarkResult {
 			this.value = value;
 		}
 	}
-	/*public static void main(String[] args) {
-
-		BenchMarkResultEvent event = new BenchMarkResultEvent() {
-
-			@Override
-			public void onStart() {
-				System.out.println("BenchMark démarre!");
-			}
-
-			@Override
-			public void onProgress(int progress) {
-				System.out.println("Pourcentage : " + progress + "%");
-			}
-
-			@Override
-			public void onEnd(BenchMarkResult result) {
-				System.out.println("BenchMark Terminé!");
-				System.out.println(result.toString());
-			}
-		};
-
-		BenchMark b = new BenchMark(event);
-		b.launch();
-	}*/
 }

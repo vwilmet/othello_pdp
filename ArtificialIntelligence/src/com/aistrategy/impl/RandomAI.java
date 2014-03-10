@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
+import com.error_manager.Log;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
@@ -71,8 +72,11 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 
 	@Override
 	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException {
-		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos))
-			throw new WrongPlayablePositionException(pos);
+		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos)){
+			WrongPlayablePositionException e = new WrongPlayablePositionException(pos);
+			Log.error(e.getMessage());
+			throw e;
+		}
 		else{
 			Board newBoard = new Board(initBoard);
 			newBoard.calculateTurnResult(pos, player);

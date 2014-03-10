@@ -1,12 +1,14 @@
 package com.aistrategy.impl;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
+import com.error_manager.Log;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
@@ -25,20 +27,42 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	
 	@Override
 	public Point nextMove(Integer player) {
-		// TODO Auto-generated method stub
-		return null;
+		return tree.getSentinel().getBestMove();
 	}
 
 	@Override
 	public List<Point> nextMoves(Integer player) {
-		// TODO Auto-generated method stub
-		return null;
+		NodeMove<Point> s = tree.getSentinel();
+		List<Point> nextMoves = new ArrayList<Point>();
+		Point p = s.getBestMove();
+		while(p != null){
+			nextMoves.add(p);
+			s = findNodeFromMove(s, p);
+			p = s.getBestMove();
+		}
+		return nextMoves;
 	}
 
 	@Override
 	public Integer winStatus(Integer player) {
-		// TODO Auto-generated method stub
-		return null;
+		NodeMove<Point> s = tree.getSentinel();
+		List<Point> nextMoves = new ArrayList<Point>();
+		Point p = s.getBestMove();
+		while(p != null){
+			nextMoves.add(p);
+			s = findNodeFromMove(s, p);
+			p = s.getBestMove();
+		}
+		Integer i = 0;
+		if(s.getBoard().getNbWhitePiece() == s.getBoard().getNbBlackPiece())
+			i = 2;
+		else if(player == 1 && s.getBoard().getNbWhitePiece() > s.getBoard().getNbBlackPiece())
+			i = 1;
+		else if(player == 2 && s.getBoard().getNbWhitePiece() < s.getBoard().getNbBlackPiece())
+			i = 1;
+		else
+			i = 0;
+		return i;
 	}
 
 	@Override
@@ -52,7 +76,7 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		//Integer finalScore = miniMax(8, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
-		Integer finalScore = alphaBeta(12, tree.getSentinel(), alpha, beta);
+		Integer finalScore = alphaBeta(11, tree.getSentinel(), alpha, beta);
 		System.out.println("Call : " + call);
 		showBestMoveParty();
 		return true;
@@ -174,8 +198,15 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public void notifyChosenMove(Point pos, Integer player)
 			throws WrongPlayablePositionException {
-		// TODO Auto-generated method stub
-
+		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos)){
+			WrongPlayablePositionException e = new WrongPlayablePositionException(pos);
+			Log.error(e.getMessage());
+			throw e;
+		}
+		else{
+			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
+			tree.setSentinel(newSentinel);
+		}
 	}
 
 	@Override

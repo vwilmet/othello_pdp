@@ -36,7 +36,7 @@ public class GenerateXML implements BoardPublisher {
 	 */
 	public GenerateXML (){
 		this.board = null;
-		this.root = new Element("board");
+		this.root = new Element(PostsPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
 	}
 	
@@ -45,9 +45,9 @@ public class GenerateXML implements BoardPublisher {
 	 * @return Element, la taille de l'Othellier en XML.
 	 */
 	private Element boardSizeInXML(){
-		Element size = new Element("size");
-		Element x = new Element ("x");
-		Element y = new Element ("y");
+		Element size = new Element(PostsPublisher.SIZE_PART);
+		Element x = new Element (PostsPublisher.X_PART);
+		Element y = new Element (PostsPublisher.Y_PART);
 		
 		x.setText(String.valueOf(this.board.getNbPieceX()));
 		y.setText(String.valueOf(this.board.getNbPieceY()));
@@ -63,7 +63,7 @@ public class GenerateXML implements BoardPublisher {
 	 * @return Element : Les pièces en XML.
 	 */
 	private Element boardPiecesInXML (){
-		Element initialPieces = new Element("pieces");
+		Element initialPieces = new Element(PostsPublisher.PIECES_PART);
 		
 		for (int i = 0 ; i < this.board.getNbPieceX() ; i++){
 			for(int j = 0 ; j < this.board.getNbPieceY() ; j++){
@@ -84,10 +84,10 @@ public class GenerateXML implements BoardPublisher {
 	 */
 	private Element boardPieceAtInXML(int i, int j){
 			
-		Element x = new Element("x");
-		Element y = new Element("y");
-		Element rgb = new Element("rgb"); 
-		Element piece = new Element ("piece");
+		Element x = new Element(PostsPublisher.X_PART);
+		Element y = new Element(PostsPublisher.Y_PART);
+		Element rgb = new Element(PostsPublisher.COLOR_PART); 
+		Element piece = new Element (PostsPublisher.PIECE_PART);
 		
 		x.setText(String.valueOf(i));
 		y.setText(String.valueOf(j));
@@ -105,10 +105,31 @@ public class GenerateXML implements BoardPublisher {
 	 * @return Element : l'objet contenant les informations du premier joueur.
 	 */
 	private Element boardFirstPlayerInXML (){
-		Element player = new Element("player");
+		Element player = new Element(PostsPublisher.PLAYER_PART);
 		player.setText(String.valueOf(this.board.getFirstPlayer()));
 		return player;
 	}
+
+	/**
+	 * Méthode permettant de générer un Othellier.
+	 */
+	@Override
+	public void boardMaker() {
+		this.board = new Board();
+		Element initial = new Element (PostsPublisher.INIT_PART);
+		
+		initial.addContent(boardSizeInXML());
+		initial.addContent(boardPiecesInXML());
+		initial.addContent(boardFirstPlayerInXML());
+		
+		this.root.addContent(initial);
+		
+		FilesManager fmanager = new FilesManagerImpl();
+		if (fmanager.save(this.board.getBoardFileName() + PostsPublisher.DOT_XML, PostsPublisher.DOT, this.toString()) == false){
+			Log.error(PostsPublisher.SAVE_FATAL_ERROR_FR);
+		}
+	}
+	
 	
 	/**
 	 * Méthode permettant de générer le plateau sous forme de XML (dans une String).
@@ -119,25 +140,5 @@ public class GenerateXML implements BoardPublisher {
 		XMLOutputter outputXML = new XMLOutputter(Format.getCompactFormat());
 		resXML = outputXML.outputString(this.saveDoc);
 		return resXML;
-	}
-
-	/**
-	 * Méthode permettant de générer un Othellier.
-	 */
-	@Override
-	public void boardMaker() {
-		this.board = new Board();
-		Element initial = new Element ("initial");
-		
-		initial.addContent(boardSizeInXML());
-		initial.addContent(boardPiecesInXML());
-		initial.addContent(boardFirstPlayerInXML());
-		
-		this.root.addContent(initial);
-		
-		FilesManager fmanager = new FilesManagerImpl();
-		if (fmanager.save(this.board.getBoardFileName() + ".xml", ".", this.toString()) == false){
-			Log.error(PostsPublisher.SAVE_FATAL_ERROR_FR);
-		}
 	}
 }

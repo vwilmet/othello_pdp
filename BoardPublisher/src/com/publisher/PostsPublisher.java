@@ -108,4 +108,25 @@ public interface PostsPublisher {
 	
 	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde.";
 	
+	public static final String BOARD_PART = "board";
+	public static final String INIT_PART = "init";
+	public static final String SIZE_PART = "size";
+	public static final String X_PART = "x";
+	public static final String Y_PART = "y";
+	public static final String COLOR_PART = "c";
+	public static final String PIECES_PART = "pieces";
+	public static final String PIECE_PART = "piece";
+	
+	public static final String PLAYER_PART = "player";
+	public static final String PLAYER_LOGIN_PART = "name";
+	public static final String PLAYER_COLOR_PART = "rgb";
+	public static final String PLAYER_TYPE_PART = "type";
+	public static final String PLAYER_NUMBER_PART = "num";
+	
+	public static final String AI_LEVEL_PART = "AILevel";
+	public static final String AI_THINKING_TIME_PART = "AIThinkingTime";
+	
+	// Utils
+	public static final String DOT_XML = ".xml";
+	public static final String DOT = ".";
 }

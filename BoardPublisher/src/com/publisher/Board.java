@@ -11,6 +11,13 @@ import com.error_manager.Log;
  * @version 1.0
  */
 public class Board {
+	private static final int BAD_USER_INPUT = 999;
+	private static final int ONE = 1;
+	private static final int ZERO = 0;
+	private static final int EMPTY_COLOR_VALUE = 0;
+	private static final int BOUND_FOUR = 4;
+	private static final int BOUND_TEN = 10;
+	private static final int BOUND_FIFTY = 50;
 	
 	/**
 	 * Attributs indiquant la taille de l'Othellier
@@ -39,21 +46,21 @@ public class Board {
 	 * Constructeur de la structure. <br/> Il demande à l'utilisateur de renseigner les différentes informations nécessaires à la génération de l'Othellier.
 	 */
 	public Board (){
-		int nbInitialPieces = 0;
+		int nbInitialPieces = ZERO;
 		
 		this.sc = new Scanner(System.in);
 		
 		this.nbPieceX = initializeBoardSize(PostsPublisher.LENGTH_CAPITAL_FR);
 		this.nbPieceY = initializeBoardSize(PostsPublisher.WIDTH_CAPIAL_FR);
 
-		this.firstPlayer = 1;
+		this.firstPlayer = ONE;
 
 		this.gameBoard = new int[this.nbPieceX][this.nbPieceY];
 
 		System.out.println(PostsPublisher.INITIALIZATION_POST_FR);
 		System.out.println(PostsPublisher.INITIALIZATION_RULES_POST_FR);
 		
-		while (nbInitialPieces < 4){
+		while (nbInitialPieces < BOUND_FOUR){
 			nbInitialPieces += putAPieceOnBoard();
 		}
 		
@@ -110,13 +117,13 @@ public class Board {
 	 * @return int : Le résultat correct de l'utilisateur.
 	 */
 	private int getUserEntries(){
-		int tmp = 999;
+		int tmp = BAD_USER_INPUT;
 		try {
 			tmp = this.sc.nextInt();
 		} catch (InputMismatchException e){
 			Log.error(PostsPublisher.ERROR_RECOVERY_RESULT_FR);
 			this.sc.nextLine();
-			tmp = 999;
+			tmp = BAD_USER_INPUT;
 		} catch (NoSuchElementException e){
 			Log.error(PostsPublisher.INPUT_FATAL_ERROR_FR);
 			e.printStackTrace();
@@ -133,7 +140,7 @@ public class Board {
 	 * @return int : La taille de plateau saisie par l'utilisateur.
 	 */
 	private int initializeBoardSize(String widthOrLength){
-		return getUserChoice (PostsPublisher.INITIALIZE_BOARD_POST_1_FR + widthOrLength + PostsPublisher.INITIALIZE_BOARD_POST_2_FR, PostsPublisher.INITIALIZE_BOARD_POST_1_FR + widthOrLength + PostsPublisher.INITIALIZE_BOARD_POST_2_FR, 4, 50);
+		return getUserChoice (PostsPublisher.INITIALIZE_BOARD_POST_1_FR + widthOrLength + PostsPublisher.INITIALIZE_BOARD_POST_2_FR, PostsPublisher.INITIALIZE_BOARD_POST_1_FR + widthOrLength + PostsPublisher.INITIALIZE_BOARD_POST_2_FR, BOUND_FOUR, BOUND_FIFTY);
 	}
 	
 	/**
@@ -167,20 +174,20 @@ public class Board {
 		
 		System.out.println(this.toString());
 			
-		color = getUserChoice (PostsPublisher.COLOR_QUESTION_1_FR, PostsPublisher.COLOR_QUESTION_2_FR, 1, 2 );
+		color = getUserChoice (PostsPublisher.COLOR_QUESTION_1_FR, PostsPublisher.COLOR_QUESTION_2_FR, ONE, 2 );
 		
 		System.out.println(PostsPublisher.PIECE_POSITION_QUESTION_FR);
 	
-		tmpX = getUserChoice (PostsPublisher.PIECE_POSITION_LENGTH_HINT_FR + (this.nbPieceX - 1) + PostsPublisher.COLON_FR, null, 0, this.nbPieceX - 1 );
-		tmpY = getUserChoice (PostsPublisher.PIECE_POSITION_WIDTH_HINT_FR + (this.nbPieceY - 1) + PostsPublisher.COLON_FR, null, 0, this.nbPieceY - 1 );
+		tmpX = getUserChoice (PostsPublisher.PIECE_POSITION_LENGTH_HINT_FR + (this.nbPieceX - ONE) + PostsPublisher.COLON_FR, null, ZERO, this.nbPieceX - ONE );
+		tmpY = getUserChoice (PostsPublisher.PIECE_POSITION_WIDTH_HINT_FR + (this.nbPieceY - ONE) + PostsPublisher.COLON_FR, null, ZERO, this.nbPieceY - ONE );
 	
-		if (this.gameBoard[tmpX][tmpY] != 0){
+		if (this.gameBoard[tmpX][tmpY] != EMPTY_COLOR_VALUE){
 			System.out.println(PostsPublisher.WARNING_PIECE_POSITION_POST_FR);
-			return 0;
+			return ZERO;
 		}
 		else{
 			this.gameBoard[tmpX][tmpY] = color;
-			return 1;
+			return ONE;
 		}
 	}
 
@@ -189,8 +196,8 @@ public class Board {
 	 * @return boolean : Le choix de l'utilisateur.
 	 */
 	private boolean putOtherPiece(){
-		int tmp = getUserChoice (PostsPublisher.PUT_NEW_PIECE_POST_1_FR, PostsPublisher.PUT_NEW_PIECE_POST_2_FR, 0, 1);
-		return (tmp == 1)? true: false;
+		int tmp = getUserChoice (PostsPublisher.PUT_NEW_PIECE_POST_1_FR, PostsPublisher.PUT_NEW_PIECE_POST_2_FR, ZERO, ONE);
+		return (tmp == ONE)? true: false;
 	}
 	
 	private String initializeBoardFileName() {
@@ -209,15 +216,15 @@ public class Board {
 	public String toString(){
 		String res = PostsPublisher.BOARD_SIZE_POST_FR + this.nbPieceX + "x" + this.nbPieceY + PostsPublisher.EOF_FR ;
 		res += "   ";
-		for (int k = 0; k < this.nbPieceX; k++)
-			res += (k<10)? " " + k + " " :" " + k ;
+		for (int k = ZERO; k < this.nbPieceX; k++)
+			res += (k<BOUND_TEN)? " " + k + " " :" " + k ;
 		res += PostsPublisher.EOF_FR;
-		for (int i = 0; i < this.nbPieceY; i++){
-			res += i + ((i<10)?"  |":" |");
-			for (int j = 0; j < this.nbPieceX; j++){
-				if (this.gameBoard[j][i] == 0)
+		for (int i = ZERO; i < this.nbPieceY; i++){
+			res += i + ((i<BOUND_TEN)?"  |":" |");
+			for (int j = ZERO; j < this.nbPieceX; j++){
+				if (this.gameBoard[j][i] == ZERO)
 					res += "  |";
-				else if (this.gameBoard[j][i] == 1)
+				else if (this.gameBoard[j][i] == ONE)
 					res += "()|"; 
 				else
 					res +="##|"; 

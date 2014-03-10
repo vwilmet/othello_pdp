@@ -82,14 +82,14 @@ public class BenchMark {
 	 * 
 	 */
 	public void launch(){
-
+		
 		if(event == null) return;
-
+		
 		event.onStart();
 		event.onProgress(0);
 		double min_time = Constants.RESOLUTION_DEFAULT;
 		Random R = new Random(Constants.RANDOM_SEED);
-
+		
 		int FFT_size = Constants.FFT_SIZE;
 		int SOR_size =  Constants.SOR_SIZE;
 		int Sparse_size_M = Constants.SPARSE_SIZE_M;
@@ -97,7 +97,7 @@ public class BenchMark {
 		int LU_size = Constants.LU_SIZE;
 		double res[] = new double[6];
 		BenchMarkResult result = new BenchMarkResult();
-
+		
 		event.onProgress(12);
 		res[1] = kernel.measureFFT( FFT_size, min_time, R);
 		event.onProgress(25);

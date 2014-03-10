@@ -136,7 +136,6 @@ public class FilesManagerImpl implements FilesManager{
 		try {
 			if(this.verification)
 				if(data.toString().length() != saveFile.read().length()){
-					saveFile.deleteFile();
 					return false;
 				}
 		}catch(FileHandlingException e){
@@ -179,7 +178,6 @@ public class FilesManagerImpl implements FilesManager{
 		try {
 			if(this.verification)
 				if(data.toString().length() != saveFile.read().length()){
-					saveFile.deleteFile();
 					return false;
 				}
 		}catch(FileHandlingException e){

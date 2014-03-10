@@ -147,27 +147,4 @@ public class TimerManagerImpl implements TimerManager{
 	public long getElapsedTime() {
 		return System.currentTimeMillis() - this.elapstedTime;
 	}
-
-	/*public static void main(String[] args) {
-
-
-		TimerActionEvent t = new TimerActionEvent() {
-
-			@Override
-			public void onTimerEnded() {
-				System.out.println("timer ended !! : ");
-			}
-
-			@Override
-			public void onTimerStopped() {
-				System.out.println("timer stopped !!");
-			}
-		};
-
-		TimerManager time = new TimerManagerImpl(t);
-		time.enableDebug();
-		time.startTimer(2);
-		time.stopTimer();
-		time.startCountingElapsedTime();
-	}*/
 }

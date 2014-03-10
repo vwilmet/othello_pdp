@@ -157,13 +157,6 @@ public class MNBVFile {
 	}
 
 	/**
-	 * Méthode qui permet de supprimer le fichier du disque
-	 */
-	public void deleteFile(){
-		file.delete();
-	}
-
-	/**
 	 * Méthode permettant la lecture du contenu dans le fichier
 	 * @return content : le contenu du fichier
 	 * @throws FileHandlingException : exception soulevée si la lecture n'a pas pu aboutir

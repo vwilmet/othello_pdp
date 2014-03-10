@@ -37,14 +37,18 @@
 				<c>2</c>
 			</piece>
 		</pieces>
-		<1stPlayer>
-			<name>1</name>
+		<player>
+			<name>TITI</name>
 			<color>1</color>
-		</1stPlayer>
-		<2ndPlayer>
-			<name>1</name>
+			<type>"huaman"</type>
+			<num>1</num>
+		</player>
+		<player>
+			<name>TOTO</name>
 			<color>1</color>
-		</2ndPlayer>
+			<playerType>machine</playerType>
+			<num>2</num>
+		</player>
 		<AILevel>
 			1
 		</AILevel>

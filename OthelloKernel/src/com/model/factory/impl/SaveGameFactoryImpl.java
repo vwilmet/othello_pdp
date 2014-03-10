@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
+import utils.GameHandlerException;
 import utils.TextManager;
 
+import com.error_manager.Log;
 import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -38,8 +40,17 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame(GameSettings gameSettings) {
-		return new SaveGame(gameSettings);
+	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) {
+		SaveGame sg = null;
+		
+		try {
+			sg =  new SaveGame(gameSettings, saveFileName);
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return sg;
 	}
 
 	@Override
@@ -82,7 +93,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, Color c)
+	public Player getHumanPlayer(String playerLogin, String c)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -90,7 +101,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, Color c)
+	public Player getMachinePlayer(String playerLogin, String c)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,

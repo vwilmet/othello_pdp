@@ -148,6 +148,9 @@ public class RestoreGame {
 					GameHandlerException.ERROR_WRONG_FORMAT_SAVE_GAME_FILE,
 					e.getMessage());
 		} catch (IOException e) {
+			/*
+			 * DEBUG
+			 */
 			System.out.println("33333333");
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -161,7 +164,7 @@ public class RestoreGame {
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
 		
-		Element initPart = this.root.getChild("init");
+		Element initPart = this.root.getChild(TextManager.INIT_PART);
 
 		if (initPart == null)
 			throw new GameHandlerException(
@@ -187,10 +190,12 @@ public class RestoreGame {
 
 		/* AI LEVEL */
 		try {
-			aILevel = xmlGetIntValueFromField(initPart, "AILevel");
-			// **********//
+			aILevel = xmlGetIntValueFromField(initPart, TextManager.AI_LEVEL_PART);
+			/*
+			 * DEBUG
+			 */
 			System.out.println("DEBUG  : AILevel " + aILevel);
-			// **********//
+			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -198,10 +203,11 @@ public class RestoreGame {
 
 		/* AI THINKING TIME */
 		try {
-			aIThinkingTime = xmlGetIntValueFromField(initPart, "AIThinkingTime");
-			// **********//
+			aIThinkingTime = xmlGetIntValueFromField(initPart, TextManager.AI_THINKING_TIME_PART);
+			/*
+			 * DEBUG
+			 */
 			System.out.println("DEBUG  : aIThinkingTime " + aIThinkingTime);
-			// **********//
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -209,13 +215,13 @@ public class RestoreGame {
 
 		/* INITIAL PIECES */
 		try {
-			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild("pieces"),
-					false);
-			// **********//
+			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(TextManager.PIECES_PART), false);
+			/*
+			 * DEBUG
+			 */
 			System.out.println("DEBUG  : pieces ");
 			for (Piece p : this.initialPieces)
 				System.out.println(p.toString());
-			// **********//
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -231,13 +237,13 @@ public class RestoreGame {
 
 		/* PLAYED PIECES */
 		try {
-			playedPieces = xmlGetPiecesFromPart(
-					this.root.getChild("playedPcs"), false);
-			// **********//
+			playedPieces = xmlGetPiecesFromPart(this.root.getChild(TextManager.PLAYED_PIECES_PART), false);
+			/*
+			 * DEBUG 
+			 */
 			System.out.println("DEBUG  : playedPcs ");
 			for (Piece p : playedPieces)
 				System.out.println(p.toString());
-			// **********//
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -245,16 +251,18 @@ public class RestoreGame {
 
 		/* HISTORY -> FACULTATIF */
 		try {
-			this.history = xmlGetPiecesFromPart(this.root.getChild("history"),
-					false);
-			// **********//
+			this.history = xmlGetPiecesFromPart(this.root.getChild(TextManager.HISTORY_PART),false);
+			/*
+			 * DEBUG
+			 */
 			System.out.println("DEBUG  : History ");
 			for (Piece p : this.history)
 				System.out.println(p.toString());
-			// **********//
+
 		} catch (GameHandlerException e) {
-			// Log.error(e.getMessage());
-			// e.printStackTrace();
+			/*
+			 * ON NE FAIT RIEN COMME CETTE BALISE EST FACULTATIVE
+			 */			
 		}
 
 		/* Construction de la board */
@@ -287,7 +295,7 @@ public class RestoreGame {
 	 * @throws GameHandlerException
 	 */
 	private int[] xmlGetBoardSize(Element initPart) throws GameHandlerException {
-		Element sizePart = initPart.getChild("size");
+		Element sizePart = initPart.getChild(TextManager.SIZE_PART);
 
 		if (sizePart == null)
 			throw new GameHandlerException(
@@ -299,8 +307,8 @@ public class RestoreGame {
 		size[1] = -1;
 
 		try {
-			size[0] = Integer.decode(sizePart.getChild("x").getText());
-			size[1] = Integer.decode(sizePart.getChild("y").getText());
+			size[0] = Integer.decode(sizePart.getChild(TextManager.X_PART).getText());
+			size[1] = Integer.decode(sizePart.getChild(TextManager.Y_PART).getText());
 		} catch (NumberFormatException e) {
 			Log.error(TextManager.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR);
 			e.printStackTrace();
@@ -329,7 +337,7 @@ public class RestoreGame {
 
 		ArrayList<Piece> pcs = new ArrayList<Piece>();
 
-		List<Element> listePieces = part.getChildren("piece");
+		List<Element> listePieces = part.getChildren(TextManager.PIECE_PART);
 
 		Iterator<Element> i = listePieces.iterator();
 
@@ -360,9 +368,9 @@ public class RestoreGame {
 
 		int c = -1, x = -1, y = -1;
 		try {
-			x = xmlGetIntValueFromField(piece, "x");
-			y = xmlGetIntValueFromField(piece, "y");
-			c = xmlGetIntValueFromField(piece, "c");
+			x = xmlGetIntValueFromField(piece, TextManager.X_PART);
+			y = xmlGetIntValueFromField(piece, TextManager.Y_PART);
+			c = xmlGetIntValueFromField(piece, TextManager.COLOR_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -390,18 +398,10 @@ public class RestoreGame {
 	}
 
 	
-	private Player xmlGetFirstPlayer(Element initPart) {
-		Element firstPlayer = initPart.getChild("1stPlayer");
+	private Player xmlGetPlayer(Element initPart) {
+		Element firstPlayer = initPart.getChild(TextManager.PLAYER_PART);
 		/*
-		 * TODO ...
-		 */
-		return null;
-	}
-
-	private Player xmlGetSecondPlayer(Element initPart) {
-		Element secondPlayer = initPart.getChild("2ndPlayer");
-		/*
-		 * TODO ..
+		 * TODO ... comme pour les pieces
 		 */
 		return null;
 	}

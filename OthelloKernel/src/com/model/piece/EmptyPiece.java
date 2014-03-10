@@ -22,4 +22,9 @@ public class EmptyPiece implements PieceColor {
 	public void reverse(Piece piece) {
 		// TODO
 	}
+
+	@Override
+	public int getColor() {
+		return 0;
+	}
 }

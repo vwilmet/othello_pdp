@@ -5,8 +5,10 @@ import java.awt.font.TextLayout;
 import java.util.List;
 
 import utils.FactoryHandlerException;
+import utils.GameHandlerException;
 import utils.TextManager;
 
+import com.error_manager.Log;
 import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -42,13 +44,31 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, Color c) {
-		return new Player(playerLogin, c).setHuman();
+	public Player getHumanPlayer(String playerLogin, String c) {
+		Player p = null;
+		
+		try {
+			p = new Player(playerLogin, c).setHuman();
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, Color c) {
-		return new Player(playerLogin, c).setMachine();
+	public Player getMachinePlayer(String playerLogin, String c) {
+		Player p = null;
+		
+		try {
+			 p = new Player(playerLogin, c).setMachine();
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override
@@ -101,7 +121,7 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException {
+	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PLAYER_FACTORY_REQUIRED_FR);

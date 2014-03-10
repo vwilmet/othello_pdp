@@ -2,6 +2,7 @@ package com.model.player;
 
 import java.awt.Color;
 
+import utils.GameHandlerException;
 import utils.TextManager;
 
 /**
@@ -13,10 +14,12 @@ import utils.TextManager;
  */
 public class Player {
 
+	private static int pNumber = 0;
+	
 	private String login;
-	private Color color;
+	private String color;
 	private int piecesNumber;
-	private boolean isFirstPlayer;
+	private int playerNumber;
 	private PlayerType type;
 
 	/**
@@ -25,11 +28,16 @@ public class Player {
 	 * @param login
 	 * @param c
 	 */
-	public Player(String login, Color c) {
+	public Player(String login, String c) throws GameHandlerException{
 		this.login = login;
-		this.color = c;
+		
+		if ((c.equals(TextManager.WHITE_PLAYER)) || (c.equals(TextManager.BLACK_PLAYER)))
+			this.color = c;
+		else {
+			throw new GameHandlerException(GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
+		}
 		this.piecesNumber = 0;
-		this.isFirstPlayer = true;
+		this.playerNumber = ++pNumber;
 		this.type = new HumanPlayer();
 	}
 
@@ -37,7 +45,7 @@ public class Player {
 		return this.login;
 	}
 
-	public Color getColor() {
+	public String getColor() {
 		return this.color;
 	}
 
@@ -49,16 +57,12 @@ public class Player {
 		this.piecesNumber = piecesNumber;
 	}
 	
-	public boolean getIsFirstPlayer(){
-		return this.isFirstPlayer;
+	public int getPlayerNumber(){
+		return this.playerNumber;
 	}
 	
-	public void setAsFirstPlayer(){
-		this.isFirstPlayer = true;
-	}
-	
-	public void setAsSecondPlayer(){
-		this.isFirstPlayer = false;
+	public PlayerType getPlayerType(){
+		return this.type;
 	}
 	
 	public Player setHuman(){
@@ -73,9 +77,14 @@ public class Player {
 
 	public String toString() {
 		String res = "Pseudonyme du joueur : " + this.login + ".\n";
-		res += "Couleur du joueur : " + this.color.toString() + ".\n";
+		res += "Couleur du joueur : " + this.color + ".\n";
 		res += "Pions sur le plateau : " + this.piecesNumber + ".\n";
-		res += (this.isFirstPlayer)?TextManager.PLAYER_INFORMATION_1ST_PLAYER_FR:TextManager.PLAYER_INFORMATION_2ND_PLAYER_FR;
+		if (this.playerNumber == 1){
+			res += TextManager.PLAYER_INFORMATION_1ST_PLAYER_FR;
+		}
+		else if (this.playerNumber == 2){
+			res += TextManager.PLAYER_INFORMATION_2ND_PLAYER_FR;
+		}
 		return res;
 	}
 }

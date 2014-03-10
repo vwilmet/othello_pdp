@@ -2,6 +2,10 @@ package com.model.player;
 
 import java.awt.Color;
 
+import javax.xml.soap.Text;
+
+import utils.TextManager;
+
 /**
  * 
  * @author <ul>
@@ -14,5 +18,10 @@ public class MachinePlayer implements PlayerType {
 	@Override
 	public void changeType(Player p) {
 		p.setHuman();
-	}	
+	}
+	
+	@Override
+	public String getPlayerType(){
+		return TextManager.MACHINE_PLAYER;	
+	}
 }

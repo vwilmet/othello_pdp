@@ -177,9 +177,12 @@ public class Main {
 		
 		try {
 			RestoreGame rg = rgFacto.getRestoreGame("saveFile2.xml");
+			rg.loadGameFromBackupFile();
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
+		
+		
 	}
 }

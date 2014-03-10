@@ -68,6 +68,10 @@ public class GameSettings {
 		return this.artificialIntelligenceDifficulty;
 	}
 	
+	public List<Piece> getGameHistory(){
+		return this.gameHistory;
+	}
+	
 	/**
 	 * 
 	 * @param p : Piece que l'utilisateur viens de jouer. 
@@ -77,8 +81,8 @@ public class GameSettings {
 	}
 	
 	public String toString() {
-		String res = "Nom joueur 1 : " + this.player1 + "\n";
-		res += "Nom joueur 2 : " + this.player2 + "\n";
+		String res = "Joueur 1 : " + this.player1.toString() + "\n";
+		res += "Joueur 2 : " + this.player2.toString() + "\n";
 		res += "Plateau de jeu : \n" + this.gameBoard.toString();
 		
 		res +="Historique des Coups : " ;

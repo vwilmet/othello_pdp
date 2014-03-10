@@ -8,6 +8,16 @@ package com.model.player;
  */
 public interface PlayerType {
 	
+	/**
+	 * Permet de changer le type de joueur.
+	 * @param p : Player, joueur à changer.
+	 */
 	public void changeType(Player p);
+	
+	/**
+	 * Methode retournant le type de joueur.
+	 * @return String : "machine" su le joueur est l'IA, "human" si le joueur est humain.
+	 */
+	public String getPlayerType();
 
 }

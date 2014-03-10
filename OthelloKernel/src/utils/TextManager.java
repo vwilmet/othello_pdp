@@ -8,7 +8,10 @@ package utils;
  * @version 1.0
  */
 public interface TextManager {
-
+	// Utils
+	public static final String DOT_XML = ".xml";
+	public static final String DOT = ".";
+	
 	// /////////////////////////////////////////
 	// ////////////////View/////////////////////
 	// /////////////////////////////////////////
@@ -80,13 +83,44 @@ public interface TextManager {
 	// Game Errors
 	public static final String WRONG_BOARD_SIZE_FR = "La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. ";
 	public static final String WRONG_INITIAL_PIECE_COLOR_FR = "Vous ne pouvez ajouter qu'un pion réel à la liste des pions initiaux de votre jeu. ";
+	public static final String WRONG_PIECE_COLOR_FR = "Vous ne pouvez ajouter qu'un pion réel à la liste des pions de votre jeu. ";
 	public static final String WRONG_INITIAL_PIECE_POSITION_FR = "Vous ne pouvez pas ajouter deux pions sur un même endroit de l'othellier. ";
 	public static final String ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR = "Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. ";
+	public static final String ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE_FR = "Une erreur est survenue pendant l'écriture du fichier de sauvegarde de jeu. ";
 	public static final String ERROR_WRONG_FORMAT_SAVE_GAME_FILE_FR = "Il y a une erreur dans le formattage du fichier de sauvegarde.";
 	
 	// Player
 	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Vous êtes le premier joueur."; 
 	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Vous êtes le second joueur."; 
+	
+	public static final String HUMAN_PLAYER = "human";
+	public static final String MACHINE_PLAYER = "machine";
+	public static final String WHITE_PLAYER = "white";
+	public static final String BLACK_PLAYER = "black";
+	
+	
+	//Save/RestoreGame
+	public static final String BOARD_PART = "board";
+	public static final String INIT_PART = "init";
+	public static final String SIZE_PART = "size";
+	public static final String X_PART = "x";
+	public static final String Y_PART = "y";
+	public static final String COLOR_PART = "c";
+	public static final String PIECES_PART = "pieces";
+	public static final String PIECE_PART = "piece";
+	
+	public static final String PLAYER_PART = "player";
+	public static final String PLAYER_LOGIN_PART = "name";
+	public static final String PLAYER_COLOR_PART = "rgb";
+	public static final String PLAYER_TYPE_PART = "type";
+	public static final String PLAYER_NUMBER_PART = "num";
+	
+	public static final String AI_LEVEL_PART = "AILevel";
+	public static final String AI_THINKING_TIME_PART = "AIThinkingTime";
+	public static final String PLAYED_PIECES_PART = "playedPcs";
+	public static final String HISTORY_PART = "history";
+	
+	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
 	
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur 1";
 	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur 2";

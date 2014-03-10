@@ -70,7 +70,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, Color c)
+	public Player getHumanPlayer(String playerLogin, String c)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -78,7 +78,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, Color c)
+	public Player getMachinePlayer(String playerLogin, String c)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -100,7 +100,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException {
+	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PIECE_FACTORY_REQUIRED_FR);

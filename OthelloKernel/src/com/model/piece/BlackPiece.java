@@ -22,4 +22,9 @@ public class BlackPiece implements PieceColor {
 	public void reverse(Piece piece) {
 		piece.setWhitePiece();
 	}
+
+	@Override
+	public int getColor() {
+		return 2;
+	}
 }

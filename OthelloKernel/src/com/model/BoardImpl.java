@@ -24,14 +24,33 @@ import com.model.piece.WhitePiece;
  */
 public class BoardImpl implements Board{
 	
+	/**
+	 * Factory pour la création des pièces.
+	 */
 	PieceFactory pieceFacto;
 	
+	/**
+	 * Taille de la Board suivant les Abscisses / Ordonnées
+	 */
 	private int sizeX, sizeY;
 
+	/**
+	 * Structure représentant le plateau de jeu.
+	 */
 	private Piece[][] gameBoard;
 
+	/**
+	 * Liste contenant les pions initiaux d'une partie.
+	 */
 	private List<Piece> initialPieces;
 
+	/**
+	 * Constructeur de la classe.
+	 * @param sizeX : int, taille de la grille suivant les abscisses.
+	 * @param sizeY : int, taille de la grille suivant les ordonnées.
+	 * @param initiaPieces : List<Piece>, liste des pions initiaux du jeu.
+	 * @throws GameHandlerException
+	 */
 	public BoardImpl(int sizeX, int sizeY, List<Piece> initiaPieces) throws GameHandlerException {
 
 		pieceFacto = FactoryProducer.getPieceFactory();
@@ -91,40 +110,6 @@ public class BoardImpl implements Board{
 		return Collections.unmodifiableList(this.initialPieces);
 	}
 
-	private void addInitialPiece(Piece p) throws GameHandlerException {
-		if (p.getColor() instanceof EmptyPiece)
-			throw new GameHandlerException(
-					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
-
-		if (this.gameBoard[p.getPosX()][p.getPosY()] == null)
-			throw new GameHandlerException(
-					GameHandlerException.WRONG_INITIAL_PIECE_POSITION);
-		
-		this.initialPieces.add(p.clone());
-		
-		if (p.getColor() instanceof WhitePiece)
-			this.gameBoard[p.getPosX()][p.getPosY()].setWhitePiece();
-		else if (p.getColor() instanceof BlackPiece)
-			this.gameBoard[p.getPosX()][p.getPosY()].setBlackPiece();
-	}
-
-	private void initialiseBoardToPlay() {
-
-		for (int i = 0; i < this.sizeX; i++) {
-			for (int j = 0; j < this.sizeY; j++) {
-				if (this.gameBoard[i][j] == null) {
-					try {
-						Piece p = this.pieceFacto.getEmptyPiece(i, j);
-						this.gameBoard[i][j] = p;
-					} catch (FactoryHandlerException e) {
-						Log.error(e.getMessage());
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-
 	@Override
 	public String toString() {
 		String res = "Taille de l'othellier (nombre de pions sur le plateau) : "
@@ -170,5 +155,46 @@ public class BoardImpl implements Board{
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.gameBoard[i][j].setNotPlayable();
+	}
+	
+	/**
+	 * Méthode de classe permettant de mettre en place le jeu. Il pose le pion sur le plateau et l'ajoute à la liste des pieces initiales du jeu.
+	 * @param p : Piece,  pion à ajouter sur le plateau pour jouer.
+	 * @throws GameHandlerException
+	 */
+	private void addInitialPiece(Piece p) throws GameHandlerException {
+		if (p.getColor() instanceof EmptyPiece)
+			throw new GameHandlerException(
+					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
+
+		if (this.gameBoard[p.getPosX()][p.getPosY()] == null)
+			throw new GameHandlerException(
+					GameHandlerException.WRONG_INITIAL_PIECE_POSITION);
+		
+		this.initialPieces.add(p.clone());
+		
+		if (p.getColor() instanceof WhitePiece)
+			this.gameBoard[p.getPosX()][p.getPosY()].setWhitePiece();
+		else if (p.getColor() instanceof BlackPiece)
+			this.gameBoard[p.getPosX()][p.getPosY()].setBlackPiece();
+	}
+
+	/**
+	 * Methode de classe initialisant le plateau avec des EmptyPieces. A appeler avant de placer les pions initaux (blanc et noir).
+	 */
+	private void initialiseBoardToPlay() {
+		for (int i = 0; i < this.sizeX; i++) {
+			for (int j = 0; j < this.sizeY; j++) {
+				if (this.gameBoard[i][j] == null) {
+					try {
+						Piece p = this.pieceFacto.getEmptyPiece(i, j);
+						this.gameBoard[i][j] = p;
+					} catch (FactoryHandlerException e) {
+						Log.error(e.getMessage());
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 }

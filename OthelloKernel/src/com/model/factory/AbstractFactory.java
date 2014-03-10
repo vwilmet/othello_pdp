@@ -45,10 +45,10 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	public abstract List<Piece> getArrayListOfPiece()
 			throws FactoryHandlerException;
 
-	public abstract Player getHumanPlayer(String playerLogin, Color c)
+	public abstract Player getHumanPlayer(String playerLogin, String c)
 			throws FactoryHandlerException;
 
-	public abstract Player getMachinePlayer(String playerLogin, Color c)
+	public abstract Player getMachinePlayer(String playerLogin, String c)
 			throws FactoryHandlerException;
 
 	public abstract BoardObservable getBoard(int sizeX, int sizeY,
@@ -57,7 +57,7 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
 			throws FactoryHandlerException;
 
-	public abstract SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException;
+	public abstract SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException;
 
 	public abstract RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException;
 }

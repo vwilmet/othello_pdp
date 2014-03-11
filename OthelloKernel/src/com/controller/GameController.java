@@ -11,6 +11,8 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PlayerFactory;
+import com.model.factory.interfaces.RestoreGameFactory;
+import com.model.io.RestoreGame;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
 import com.view.event.ButtonImageMenuEventListener;
@@ -31,7 +33,18 @@ public class GameController implements NotifyGameController, GameCanvasMouseEven
 		
 		BoardObservable board = null;
 		try {
-			board = bFacto.getInitialBoard(8,8);
+			//board = bFacto.getInitialBoard(8,8);
+			RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
+			
+			RestoreGame rg = rgFacto.getRestoreGame("saveFilebis");
+			
+			rg.loadGameFromBackupFile();
+			
+			
+			gameSettings = rg.getGameSettings();
+			board = gameSettings.getGameBoard();
+	
+			
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();

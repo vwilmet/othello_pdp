@@ -94,6 +94,10 @@ public class RestoreGame {
 		this.gameFileName = gameFileName;
 	}
 	
+	public GameSettings getGameSettings(){
+		return this.gameSettings;
+	}
+	
 	/**
 	 * Méthode à appeler pour lancer le chargement de la sauvegarde.
 	 */

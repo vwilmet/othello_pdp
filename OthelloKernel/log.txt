@@ -1,1 +1,2 @@
 La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.
+Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. Le fichier de sauvegarde "saveFilebis" n'existe pas.

@@ -34,6 +34,19 @@ public class GameSettings {
 	 */
 	public static final int DEFAULT_IA_DIFFICULTY = 0;
 	
+	public static final int AI_THINKING_TIME_LIMIT_MAX = 900000;
+	public static final int AI_THINKING_TIME_LIMIT_MIN = 2000;
+	public static final int BOARD_MIN_SIZE_X = 4;
+	public static final int BOARD_MIN_SIZE_Y = 4;
+	
+	public static final int BOARD_MAX_SIZE_X = 50;
+	public static final int BOARD_MAX_SIZE_Y = 50;
+	
+	//public static final int  = 60;
+	//public static final int  = 60;
+	
+	
+	
 	/**
 	 * Joueurs du jeu (machine ou humain). 
 	 */

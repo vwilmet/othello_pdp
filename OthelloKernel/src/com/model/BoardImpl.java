@@ -5,6 +5,7 @@ import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
+import utils.TextManager;
 
 import com.error_manager.Log;
 import com.model.factory.FactoryProducer;
@@ -55,19 +56,18 @@ public class BoardImpl implements Board{
 
 		pieceFacto = FactoryProducer.getPieceFactory();
 
-		if (sizeX > 3 && sizeX < 51)
+		if (sizeX >= GameSettings.BOARD_MIN_SIZE_X && sizeX <= GameSettings.BOARD_MAX_SIZE_X)
 			this.sizeX = sizeX;
 		else
 			throw new GameHandlerException(
-					GameHandlerException.WRONG_BOARD_SIZE,
-					"La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.");
+					GameHandlerException.WRONG_BOARD_SIZE, TextManager.WRONG_SIZE_X_FR);
 
-		if (sizeY > 3 && sizeY < 51)
+		if (sizeY >= GameSettings.BOARD_MIN_SIZE_Y && sizeY <= GameSettings.BOARD_MAX_SIZE_X)
 			this.sizeY = sizeY;
 		else
 			throw new GameHandlerException(
-					GameHandlerException.WRONG_BOARD_SIZE,
-					"La taille de votre othellier sur l'axe des ordonnées doit être comprise entre 4 et 50.");
+					GameHandlerException.WRONG_BOARD_SIZE, TextManager.WRONG_SIZE_Y_FR);
+
 
 		try {
 			this.gameBoard = pieceFacto.getMatrixPiece(this.sizeX, this.sizeY);
@@ -112,7 +112,7 @@ public class BoardImpl implements Board{
 
 	@Override
 	public String toString() {
-		String res = "Taille de l'othellier (nombre de pions sur le plateau) : "
+		String res = TextManager.PIECE_NUMBER_ON_BOARD_FR
 				+ this.sizeX + "x" + this.sizeY + "\n";
 
 		res += "   ";

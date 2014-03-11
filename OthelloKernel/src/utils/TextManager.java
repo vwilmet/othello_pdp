@@ -104,6 +104,10 @@ public interface TextManager {
 	public static final String WHITE_PLAYER = "white";
 	public static final String BLACK_PLAYER = "black";
 	
+	// Board
+	public static final String WRONG_SIZE_X_FR = "La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.";
+	public static final String WRONG_SIZE_Y_FR = "La taille de votre othellier sur l'axe des ordonnées doit être comprise entre 4 et 50.";
+	public static final String PIECE_NUMBER_ON_BOARD_FR = "Taille de l'othellier (nombre de pions sur le plateau) : ";
 	//Save/RestoreGame
 	public static final String BOARD_PART = "board";
 	public static final String INIT_PART = "init";

@@ -1,6 +1,6 @@
 package com.model.factory.impl;
 
-import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import utils.FactoryHandlerException;
@@ -12,6 +12,8 @@ import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
+import com.model.factory.FactoryProducer;
+import com.model.factory.interfaces.PieceFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
@@ -45,6 +47,32 @@ public class BoardFactoryImpl extends AbstractFactory {
 		
 		try {
 			b = new BoardObservable(new BoardImpl(sizeX, sizeY, initiaPieces));
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return b;
+	}
+	
+	@Override
+	public BoardObservable getInitialBoard(int sizeX, int sizeY) throws FactoryHandlerException {	
+		BoardObservable b = null;
+		
+		PieceFactory pFacto = FactoryProducer.getPieceFactory();
+		
+		List<Piece> initialPieces = new ArrayList<Piece>();
+		
+		for (int i = 0; i < 2; i++){
+			for (int j = 0; j < 2; j ++){
+				if (i == 0)
+					initialPieces.add(pFacto.getWhitePiece((sizeX - i) /2, (sizeY - j) /2));
+				else
+					initialPieces.add(pFacto.getBlackPiece((sizeX - i) /2, (sizeY - j) /2));
+			}
+		}
+		
+		try {
+			b = new BoardObservable(new BoardImpl(sizeX, sizeY, initialPieces));
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();

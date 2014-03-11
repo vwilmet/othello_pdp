@@ -16,4 +16,6 @@ import com.model.piece.Piece;
  */
 public interface BoardFactory {
 	public BoardObservable getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException;
+	
+	public BoardObservable getInitialBoard(int sizeX, int sizeY) throws FactoryHandlerException;
 }

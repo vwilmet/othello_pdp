@@ -25,6 +25,11 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	Integer call;
 	Board initBoard;
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
+	 */
 	@Override
 	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
@@ -36,6 +41,11 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		return tree.getSentinel().getBestMove();
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMoves}
+	 */
 	@Override
 	public List<Point> nextMoves(Integer player) {
 		NodeMove<Point> s = tree.getSentinel();
@@ -54,6 +64,11 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		return nextMoves;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#winStatus}
+	 */
 	@Override
 	public Integer winStatus(Integer player) {
 		NodeMove<Point> s = tree.getSentinel();
@@ -76,6 +91,11 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		return i;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
@@ -94,6 +114,37 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		showBestMoveParty();
 		return true;
 	}
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#notifyChosenMove}
+	 */
+	@Override
+	public void notifyChosenMove(Point pos, Integer player)
+			throws WrongPlayablePositionException {
+		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos)){
+			WrongPlayablePositionException e = new WrongPlayablePositionException(pos);
+			Log.error(e.getMessage());
+			throw e;
+		}
+		else{
+			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
+			tree.setSentinel(newSentinel);
+		}
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#completeReflexion}
+	 */
+	@Override
+	public Boolean completeReflexion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	public Integer miniMax(Integer depth, NodeMove<Point> node){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
@@ -330,27 +381,8 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		System.out.println("End of game!");
 
 	}
-
-	@Override
-	public void notifyChosenMove(Point pos, Integer player)
-			throws WrongPlayablePositionException {
-		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos)){
-			WrongPlayablePositionException e = new WrongPlayablePositionException(pos);
-			Log.error(e.getMessage());
-			throw e;
-		}
-		else{
-			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
-			tree.setSentinel(newSentinel);
-		}
-	}
-
-	@Override
-	public Boolean completeReflexion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
+	
 
 
 

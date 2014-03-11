@@ -24,6 +24,11 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	Integer boardHeight;
 	private Set<Point> borderLine;
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
+	 */
 	@Override
 	public Point nextMove(Integer player) {
 		Point[] arrayPoint = tree.getSentinel().getBoard().calculatePlayablePosition(player).toArray(new Point[0]);
@@ -35,14 +40,24 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		else
 			return null;
 	}
-
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMoves}
+	 */
 	@Override
 	public List<Point> nextMoves(Integer player) {
 		List<Point> l = new ArrayList<Point>();
 		l.add(nextMove(player));
 		return l;
 	}
-
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#winStatus}
+	 */
 	@Override
 	public Integer winStatus(Integer player) {
 		if(this.whitePiece.size() == this.blackPiece.size())
@@ -55,7 +70,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			return 0;
 
 	}
-
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
@@ -69,7 +89,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		tree.setSentinel(tree.getRootElement());
 		return true;
 	}
-
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#notifyChosenMove}
+	 */
 	@Override
 	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException {
 		if(!this.tree.getSentinel().getBoard().calculatePlayablePosition(player).contains(pos)){
@@ -86,16 +111,15 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		}
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#completeReflexion}
+	 */
 	@Override
 	public Boolean completeReflexion() {
 		return true;
 	}
 
-	public Set<Point> getBorderLine() {
-		return borderLine;
-	}
 
-	public void setBorderLine(Set<Point> borderLine) {
-		this.borderLine = borderLine;
-	}
 }

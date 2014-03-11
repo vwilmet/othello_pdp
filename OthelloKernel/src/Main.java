@@ -1,33 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFormattedTextField;
-
-import jnt.BenchMarkResult;
 import utils.Application;
-import utils.FactoryHandlerException;
 
-import com.error_manager.Log;
-import com.model.Board;
+import com.controller.GameController;
 import com.model.BoardObservable;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.BoardFactory;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.io.RestoreGame;
-import com.model.piece.Piece;
-import com.view.BenchMarkViewImpl;
-import com.view.ChoosePositionViewImpl;
-import com.view.GameViewImpl;
-import com.view.InitGameViewImpl;
-import com.view.SelectFileViewImpl;
-import com.view.event.BenchMarkViewButtonEventListener;
-import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.InitGameButtonEventListener;
-import com.view.interfaces.BenchMarkView;
-import com.view.interfaces.ChoosePositionView;
-import com.view.interfaces.GameView;
-import com.view.interfaces.SelectFileView;
 
 /**
  * @author Benjamin Letourneau
@@ -41,10 +15,13 @@ public class Main {
 		Application app = Application.getInstance();
 		app.calculateComponentSize(5, 8);
 		
+		GameController game = new GameController();
+		
+		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
 		//////////////////////////////////////////////////////////////
-		System.out.println("Othello Kernel");
+		/*System.out.println("Othello Kernel");
 		System.out.println("Test de la factory : ");
 
 		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
@@ -172,7 +149,7 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		System.out.println("test de la lecure de partie");
+		/*System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		try {
@@ -182,7 +159,7 @@ public class Main {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+		*/
 		
 	}
 }

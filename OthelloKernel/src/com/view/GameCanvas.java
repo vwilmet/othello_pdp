@@ -93,7 +93,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
-		drawGrid(g2);
+		if(board != null) drawGrid(g2);
 	}
 
 	private void calculatePieceSize(){
@@ -160,9 +160,11 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	}
 
 	public void setData(BoardObservable board){
+		if(board != null){
 		this.board = board;
 		this.calculatePieceSize();
 		board.addObserver(this);
+		}
 		this.refreshView();
 	}
 

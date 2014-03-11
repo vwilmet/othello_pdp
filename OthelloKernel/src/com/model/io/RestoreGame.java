@@ -9,8 +9,6 @@ import java.util.List;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 import utils.FactoryHandlerException;
 import utils.GameHandlerException;
@@ -135,10 +133,15 @@ public class RestoreGame {
 		FilesManager fmanager = new FilesManagerImpl();
 		fmanager.init(false);
 
-		gameGrid = fmanager.load(this.gameFileName, "./");
-		/*
-		 * TODO Vérifier LE MESSAGE d'ERREUR if (gameGrid.equals(FilesManager.))
-		 */
+		gameGrid = fmanager.load(this.gameFileName, TextManager.DOT_SLASH);
+		
+		if (gameGrid.equals(FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING)){
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE, 
+					TextManager.FILE_NOT_EXISTING_1_FR + this.gameFileName + TextManager.FILE_NOT_EXISTING_2_FR );
+		}
+		else if (gameGrid.equals(FilesManager.ERROR_ON_LOAD_ON_READING)){
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+		}
 
 		try {
 			this.saveDoc = sbx.build(new ByteArrayInputStream(gameGrid
@@ -172,17 +175,17 @@ public class RestoreGame {
 
 		int[] gridSize = null;
 		int aILevel = 0, aIThinkingTime = 0;
-		Player p1 = null, p2 = null;
+		List<Player> players = null;
 		List<Piece> playedPieces = null;
 		BoardObservable board = null;
 
 		/* BOARD SIZE */
 		try {
 			gridSize = xmlGetBoardSize(initPart);
-			// **********//
-			System.out.println("DEBUG  : size de la grille " + gridSize[0]
-					+ " : " + gridSize[1]);
-			// **********//
+			/*
+			 * DEBUG ...
+			 */
+			System.out.println("DEBUG  : size de la grille " + gridSize[0] + " : " + gridSize[1]);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -227,13 +230,18 @@ public class RestoreGame {
 			e.printStackTrace();
 		}
 
-		/****
-		 * A garder mais pour le moment je connait pas la structure du XML donc
-		 * on va le faire plus tard
-		 * 
-		 * p1 = xmlGetFirstPlayer(initPart); p2 = xmlGetSecondPlayer(initPart);
-		 * 
+		/* PLAYERS */
+		players = xmlGetPlayers(initPart);
+		
+		if (((ArrayList<Player>)(players)).size() < 2)
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE, TextManager.ERROR_ABOUT_PLAYER_NUMBER_FR);
+		/*
+		 * DEBUG
 		 */
+		System.out.println("DEBUG  : Players");
+		for (Player p : players)
+			System.out.println(p.toString());
+		 
 
 		/* PLAYED PIECES */
 		try {
@@ -397,13 +405,72 @@ public class RestoreGame {
 		return p;
 	}
 
+	/**
+	 * Méthode permettant de réccupérer les deux utilisateurs dans le fichier de sauvegarde.
+	 * @param initPart : Element, partie du fichier de sauvegarde dans lequel se trouve la partie player.
+	 * @return List<Player> : Une liste de deux éléments correspondant aux deux joueurs.
+	 */
+	private List<Player> xmlGetPlayers(Element initPart) {
+		
+		ArrayList<Player> players = new ArrayList<Player>();
+
+		List<Element> listePlayers = initPart.getChildren(TextManager.PLAYER_PART);
+
+		Iterator<Element> i = listePlayers.iterator();
+
+		while (i.hasNext()) {
+			try {
+				players.add(xmlGetPlayer((Element) i.next()));
+			} catch (GameHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+		}	
+		
+		return players;
+	}
 	
-	private Player xmlGetPlayer(Element initPart) {
-		Element firstPlayer = initPart.getChild(TextManager.PLAYER_PART);
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 * @throws GameHandlerException
+	 */
+	private Player xmlGetPlayer(Element player) throws GameHandlerException {
+		Player p = null;
+
 		/*
-		 * TODO ... comme pour les pieces
+		 * TODO 
 		 */
-		return null;
+//		int c = -1, x = -1, y = -1;
+//		try {
+//			x = xmlGetIntValueFromField(piece, TextManager.X_PART);
+//			y = xmlGetIntValueFromField(piece, TextManager.Y_PART);
+//			c = xmlGetIntValueFromField(piece, TextManager.COLOR_PART);
+//		} catch (GameHandlerException e) {
+//			Log.error(e.getMessage());
+//			e.printStackTrace();
+//		}
+//
+//		if (c == 1) {
+//			try {
+//				p = this.pFacto.getWhitePiece(x, y);
+//			} catch (FactoryHandlerException e) {
+//				Log.error(e.getMessage());
+//				e.printStackTrace();
+//			}
+//		} else if (c == 2) {
+//			try {
+//				p = this.pFacto.getBlackPiece(x, y);
+//			} catch (FactoryHandlerException e) {
+//				Log.error(e.getMessage());
+//				e.printStackTrace();
+//			}
+//		} else {
+//			throw new GameHandlerException(
+//					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
+//		}
+		return p;
 	}
 
 	/**
@@ -413,13 +480,11 @@ public class RestoreGame {
 	 * @return int : Contenu du champ. Si le champ n'existe pas, une exception est retournée.
 	 * @throws GameHandlerException
 	 */
-	private int xmlGetIntValueFromField(Element part, String xmlField)
-			throws GameHandlerException {
+	private int xmlGetIntValueFromField(Element part, String xmlField) throws GameHandlerException {
 		Element elemField = part.getChild(xmlField);
 
 		if (elemField == null)
-			throw new GameHandlerException(
-					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 
 		int fieldValue = -1;
 

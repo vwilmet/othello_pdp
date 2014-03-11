@@ -11,6 +11,7 @@ public interface TextManager {
 	// Utils
 	public static final String DOT_XML = ".xml";
 	public static final String DOT = ".";
+	public static final String DOT_SLASH = "./";
 	
 	// /////////////////////////////////////////
 	// ////////////////View/////////////////////
@@ -89,10 +90,14 @@ public interface TextManager {
 	public static final String ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR = "Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. ";
 	public static final String ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE_FR = "Une erreur est survenue pendant l'écriture du fichier de sauvegarde de jeu. ";
 	public static final String ERROR_WRONG_FORMAT_SAVE_GAME_FILE_FR = "Il y a une erreur dans le formattage du fichier de sauvegarde.";
+	public static final String FILE_NOT_EXISTING_1_FR = "Le fichier de sauvegarde \"";
+	public static final String FILE_NOT_EXISTING_2_FR = "\" n'existe pas.";
 	
 	// Player
 	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Vous êtes le premier joueur."; 
 	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Vous êtes le second joueur."; 
+	
+	public static final String ERROR_ABOUT_PLAYER_NUMBER_FR = "Deux joueurs (humain ou machine) sont nécessaires pour le jeu."; 
 	
 	public static final String HUMAN_PLAYER = "human";
 	public static final String MACHINE_PLAYER = "machine";

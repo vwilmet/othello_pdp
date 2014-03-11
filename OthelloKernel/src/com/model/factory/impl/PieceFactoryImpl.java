@@ -91,6 +91,15 @@ public class PieceFactoryImpl extends AbstractFactory {
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
+	
+	@Override
+	public BoardObservable getInitialBoard(int sizeX, int sizeY)
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				TextManager.PIECE_FACTORY_REQUIRED_FR);
+	}
+
 
 	@Override
 	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
@@ -112,5 +121,4 @@ public class PieceFactoryImpl extends AbstractFactory {
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
-
 }

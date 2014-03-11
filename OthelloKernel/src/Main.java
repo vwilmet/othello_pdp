@@ -20,14 +20,12 @@ import com.view.BenchMarkViewImpl;
 import com.view.ChoosePositionViewImpl;
 import com.view.GameViewImpl;
 import com.view.InitGameViewImpl;
-import com.view.SelectFileViewImpl;
 import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.InitGameButtonEventListener;
 import com.view.interfaces.BenchMarkView;
 import com.view.interfaces.ChoosePositionView;
 import com.view.interfaces.GameView;
-import com.view.interfaces.SelectFileView;
 
 /**
  * @author Benjamin Letourneau

@@ -5,42 +5,53 @@ import java.util.Set;
 
 import com.utils.WrongPlayablePositionException;
 
+/**
+ * Interface de gestion des différentes intelligences artificielles
+ * Cette interface contient les méthodes afin d'utiliser les 
+ * différentes intelligences artificielles.
+ * Par exemple : le choix de l'intelligence artficielle à utiliser grâce 
+ * à la fonction chooseDifficulty...
+ * 
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
+
 public interface ArtificialIntelligence {
 
 		 /**
-	     * Calcule le prochain mouvement gr�ce aux algorithmes de l'IA.
-	     * @param player est un entier repr�sentant le joueur effectuant le prochain mouvement.
-	     * @return le prochain mouvement calcul� par l'IA et s'il n'y a pas de prochain mouvement, null.
+	     * Calcule le prochain mouvement grâce aux algorithmes de l'IA.
+	     * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+	     * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
 	     */
 		public Point nextMove(Integer player);
 
 		 /**
-	     * Calcule une liste enti�re de mouvement qui permettrait au joueur de gagner.
-	     * @param player est un entier repr�sentant le joueur effectuant le prochain mouvement.
-	     * @return une liste de mouvement amenant le joueur � gagner le jeu.
+	     * Calcule une liste entière de mouvement (limitée par l'arbre de solution) qui permettrait au joueur de gagner.
+	     * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+	     * @return une liste de mouvement amenant le joueur à gagner le jeu.
 	     */
 		public List<Point> nextMoves(Integer player);
 		
 		
 		/**
-	     * Renvoie un entier repr�sentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
-	     * @param player est un entier repr�sentant le joueur demandant le statut de la partie de son point de vue.
+	     * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
+	     * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	     * @return un entier repr�sentant le statut.
 	     */
 		public Integer winStatus(Integer player);
 		
 		/**
 	     * Initialise l'IA dans le but de calculer les mouvements
-	     * @param whitePiece une liste de toutes les pi�ces du joueur 1 d�j� sur le plateau.
-	     * @param blackPiece une liste de toutes les pi�ces du joueur 2 d�j� sur le plateau.
-	     * @param boardWidth un entier repr�sentant la largeur du plateau
-	     * @param boardHeight un entier repr�sentant la hauteur du plateau
-	     * @return un bool�en, vrai si l'initialisation a fini sans erreur, sinon faux.
+	     * @param whitePiece une liste de toutes les pièces du joueur 1 déjà sur le plateau.
+	     * @param blackPiece une liste de toutes les pièces du joueur 2 déjà sur le plateau.
+	     * @param boardWidth un entier représentant la largeur du plateau
+	     * @param boardHeight un entier représentant la hauteur du plateau
+	     * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	     */
 		public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 		
 		/**
-		 * Pas s�r d'�tre impl�menter donc pas encore retraduit
+		 * Pas sûr d'être implémenter donc pas encore retraduit
 	     * Actualize the informations in order to recalculate moves
 	     * @param whitePiece a list of all the pieces of the player 1.
 	     * @param blackPiece a list of all the pieces of the player 2.
@@ -51,9 +62,9 @@ public interface ArtificialIntelligence {
 		//public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight); Pas sûr de l'utilisté encore
 		
 		/**
-	     * Notifie � l'IA le mouvement que le joueur a choisi.
+	     * Notifie à l'IA le mouvement que le joueur a choisi.
 	     * @param pos la position choisie par le joueur.
-	     * @param player le joueur qui a effectu� le mouvement.
+	     * @param player le joueur qui a effectué le mouvement.
 		 * @throws WrongPlayablePositionException 
 	     */
 		public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException;
@@ -65,8 +76,8 @@ public interface ArtificialIntelligence {
 		public Boolean completeReflexion();
 		
 		/**
-	     * Choisit la difficult� de l'IA, c'est-�-dire, l'algorithme utilis�
-	     * @param difficulty un entier repr�sentant la difficult� choisie pour le joueur
+	     * Choisit la difficulté de l'IA, c'est-à-dire, l'algorithme utilisé
+	     * @param difficulty un entier représentant la difficulté choisie pour le joueur
 	     */
 		public void chooseDifficulty(Integer difficulty);
 				

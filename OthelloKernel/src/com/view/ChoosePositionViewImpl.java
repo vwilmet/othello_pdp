@@ -19,6 +19,7 @@ import com.model.Board;
 import com.model.BoardObservable;
 import com.model.view.ViewSettings;
 import com.view.event.ChoosePositionButtonEventListener;
+import com.view.interfaces.ChoosePositionView;
 
 
 public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView{

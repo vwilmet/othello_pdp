@@ -19,8 +19,9 @@ import utils.TextManager;
 
 import com.model.view.ViewSettings;
 import com.view.event.InitGameButtonEventListener;
+import com.view.interfaces.InitGameView;
 
-public class InitGameView extends JFrame {
+public class InitGameViewImpl extends JFrame implements InitGameView{
 
 	private InitGameButtonEventListener event;
 	private JButton valid, cancel, benchmark;
@@ -30,7 +31,7 @@ public class InitGameView extends JFrame {
 	private JComboBox<String> AIDifficulty;
 	private JPanel gridPanel, AIPanel, playerPanel;
 
-	public InitGameView() {
+	public InitGameViewImpl() {
 
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,14 +59,17 @@ public class InitGameView extends JFrame {
 		this.pack();
 	}
 
+	@Override
 	public void setButtonListener(InitGameButtonEventListener event) {
 		this.event = event;
 	}
 
+	@Override
 	public void showFrame(){
 		this.setVisible(true);
 	}
 
+	@Override
 	public void hideFrame(){
 		this.dispose();
 	}

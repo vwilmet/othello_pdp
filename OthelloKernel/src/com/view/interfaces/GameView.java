@@ -1,4 +1,4 @@
-package com.view;
+package com.view.interfaces;
 
 import com.model.BoardObservable;
 import com.view.event.GameCanvasMouseEventListener;

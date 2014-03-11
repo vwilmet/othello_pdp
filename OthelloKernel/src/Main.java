@@ -16,16 +16,18 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
-import com.view.BenchMarkView;
 import com.view.BenchMarkViewImpl;
-import com.view.ChoosePositionView;
 import com.view.ChoosePositionViewImpl;
-import com.view.GameView;
 import com.view.GameViewImpl;
-import com.view.InitGameView;
+import com.view.InitGameViewImpl;
+import com.view.SelectFileViewImpl;
 import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.InitGameButtonEventListener;
+import com.view.interfaces.BenchMarkView;
+import com.view.interfaces.ChoosePositionView;
+import com.view.interfaces.GameView;
+import com.view.interfaces.SelectFileView;
 
 /**
  * @author Benjamin Letourneau
@@ -77,17 +79,15 @@ public class Main {
 			boards.add(b1);
 			for(int i = 0; i < 50; i++) 
 				boards.add(b1);
-			
+		
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		
-		//System.out.println(b.toString());
-		
 		ChoosePositionView c = new ChoosePositionViewImpl(0, boards);
 		c.showFrame();
-		InitGameView vi = new InitGameView();
+		InitGameViewImpl vi = new InitGameViewImpl();
 		vi.setButtonListener(new InitGameButtonEventListener() {
 			
 			@Override

@@ -20,6 +20,7 @@ import jnt.BenchMarkResultEvent;
 import utils.TextManager;
 
 import com.view.event.BenchMarkViewButtonEventListener;
+import com.view.interfaces.BenchMarkView;
 
 public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 	

@@ -50,6 +50,7 @@ public interface TextManager {
 	public static final String  CHOOSE_VIEW_TITLE_FR = "Choix de la position de reprise";
 	public static final String  GAME_VIEW_TITLE_FR = "Othello";
 	public static final String  INITGAME_VIEW_TITLE_FR = "Initialisation du jeu";
+	public static final String  SELECT_FILE_VIEW_TITLE_FR = "Choisir un fichier";
 	public static final String  BENCHMARK_VIEW_TITLE_FR = "Lancement du benchmark ...";
 	
 	//button title

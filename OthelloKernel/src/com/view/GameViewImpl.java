@@ -33,6 +33,7 @@ import com.view.button.ReversePlayerButton;
 import com.view.event.ButtonImageMenuEventListener;
 import com.view.event.GameViewMenuEventListener;
 import com.view.event.GameCanvasMouseEventListener;
+import com.view.interfaces.GameView;
 
 /**
  * 

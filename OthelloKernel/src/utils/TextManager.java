@@ -1,5 +1,7 @@
 package utils;
 
+import com.model.GameSettings;
+
 /**
  * 
  * @author 	<ul>
@@ -42,9 +44,13 @@ public interface TextManager {
 	public static final String AI_DIFFICULTY_LABEL_TEXT_FR = "Difficulté : ";
 	public static final String[] AI_DIFFICULTY_VALUE_TEXT_FR = {"Facile", "Moyen", "Difficile"};
 	public static final String PLAYER_LABEL_TEXT_FR = "Joueur";
-	public static final String PLAYER_1_NAME_TEXT_FR = "Nom du joueur 1 : ";
-	public static final String PLAYER_2_NAME_TEXT_FR = "Nom du joueur 2 : ";
+	public static final String PLAYER_1_NAME_TEXT_FR = "Nom du joueur Blanc : ";
+	public static final String PLAYER_2_NAME_TEXT_FR = "Nom du joueur Noir : ";
 	
+	public static final String ERROR_INIT_ROW_OUT_OF_LIMIT = "Le nombre de colonne doit être compris entre " + GameSettings.BOARD_MIN_SIZE_X + " et " + GameSettings.BOARD_MAX_SIZE_X + " !";
+	public static final String ERROR_INIT_LIGNE_OUT_OF_LIMIT = "Le nombre de ligne doit être compris entre " + GameSettings.BOARD_MIN_SIZE_Y + " et " + GameSettings.BOARD_MAX_SIZE_Y + " !";
+	public static final String ERROR_INIT_IA_THINKING_TIME_OUT_OF_LIMIT = "La durée de réflexion de l'IA doit être compris entre " + GameSettings.AI_THINKING_TIME_LIMIT_MIN + " et " + GameSettings.AI_THINKING_TIME_LIMIT_MAX + " !";
+	public static final String ERROR_INIT_TITLE_POPUP = "Erreur de paramètrage ...";
 	
 	//Other
 	//frame title

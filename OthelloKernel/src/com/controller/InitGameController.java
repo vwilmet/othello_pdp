@@ -1,10 +1,11 @@
 package com.controller;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 
+import jnt.BenchMarkResult;
 import utils.FactoryHandlerException;
 import utils.TextManager;
-import jnt.BenchMarkResult;
 
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
@@ -40,7 +41,7 @@ public class InitGameController implements InitGameButtonEventListener, BenchMar
 		this.view = new InitGameViewImpl();
 		this.view.setButtonListener(this);
 	}
-
+	
 	public void showView(){
 		this.view.showFrame();
 	}
@@ -48,36 +49,61 @@ public class InitGameController implements InitGameButtonEventListener, BenchMar
 	@Override
 	public void onValidButtonPressed(int row, int ligne, int IATime,
 			int IADifficulty, String player1Name, String player2Name) {
-
+		
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		GameSettings gameSetts = null;
 		BoardObservable board = null;
 		
-		
-		
-		try {
-			board = bFacto.getInitialBoard(row, ligne);
-		} catch (FactoryHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
+		if(this.verifyFields(row, ligne, IATime)){
+			try {
+				board = bFacto.getInitialBoard(row, ligne);
+			} catch (FactoryHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+			
+			try {
+				gameSetts = gsFacto.getGameSettings(
+						pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER), 
+						pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER),
+						board,
+						IATime,
+						IADifficulty);
+			} catch (FactoryHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+			
+			this.event.initGameFinished(true, gameSetts);
+			this.view.hideFrame();
 		}
-
-		try {
-			gameSetts = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER), 
-					pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER),
-					board,
-					IATime,
-					IADifficulty);
-		} catch (FactoryHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
+	}
+	
+	private boolean verifyFields(int row, int ligne, int IATime){
+		boolean result = true;
+		String message = "";
+		
+		if(row > GameSettings.BOARD_MAX_SIZE_X || row < GameSettings.BOARD_MIN_SIZE_X){
+			result = false;
+			message += TextManager.ERROR_INIT_ROW_OUT_OF_LIMIT + "\n";
 		}
-
-		this.event.initGameFinished(true, gameSetts);
-		this.view.hideFrame();
+		
+		if(ligne > GameSettings.BOARD_MAX_SIZE_Y || ligne < GameSettings.BOARD_MIN_SIZE_Y){
+			result = false;
+			message += TextManager.ERROR_INIT_LIGNE_OUT_OF_LIMIT + "\n";
+		}
+		
+		if(IATime > GameSettings.AI_THINKING_TIME_LIMIT_MAX || IATime < GameSettings.AI_THINKING_TIME_LIMIT_MIN){
+			result = false;
+			message += TextManager.ERROR_INIT_IA_THINKING_TIME_OUT_OF_LIMIT + "\n";
+		}
+		
+		if(message.length() > 0)
+			JOptionPane.showMessageDialog((InitGameViewImpl)this.view, message, TextManager.ERROR_INIT_TITLE_POPUP, JOptionPane.INFORMATION_MESSAGE);
+		
+		return result;
 	}
 
 	@Override

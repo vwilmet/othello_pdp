@@ -64,8 +64,8 @@ public class BoardFactoryImpl extends AbstractFactory {
 		
 		initialPieces.add(pFacto.getWhitePiece((sizeX/2), (sizeY/2)));
 		initialPieces.add(pFacto.getBlackPiece(sizeX/2, sizeY/2 +1));
-		initialPieces.add(pFacto.getWhitePiece(sizeX/2 +1, sizeY/2));
-		initialPieces.add(pFacto.getBlackPiece(sizeX/2 +1, sizeY/2 +1));
+		initialPieces.add(pFacto.getBlackPiece(sizeX/2 +1, sizeY/2));
+		initialPieces.add(pFacto.getWhitePiece(sizeX/2 +1, sizeY/2 +1));
 		
 		try {
 			b = new BoardObservable(new BoardImpl(sizeX, sizeY, initialPieces));

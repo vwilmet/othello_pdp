@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import utils.TextManager;
 
+import com.model.GameSettings;
 import com.model.view.ViewSettings;
 import com.view.event.InitGameButtonEventListener;
 import com.view.interfaces.InitGameView;
@@ -87,22 +88,22 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		cancel = new JButton(TextManager.INIT_GAMEVIEW_CANCEL_BUTTON_FR);
 		benchmark = new JButton(TextManager.INIT_GAMEVIEW_BENCHMARK_BUTTON_FR);
 		benchmark.setToolTipText(TextManager.INIT_GAMEVIEW_BENCHMARK_TITLE_BUTTON_FR);
-
+		
 		valid.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(event != null) 
 					event.onValidButtonPressed(
-							Integer.valueOf(row.getText()),
-							Integer.valueOf(ligne.getText()),
-							Integer.valueOf(AItime.getText()),
-							(String)AIDifficulty.getSelectedItem(),
+							((Number) InitGameViewImpl.this.row.getValue()).intValue(),
+							((Number) InitGameViewImpl.this.ligne.getValue()).intValue(),
+							((Number) InitGameViewImpl.this.AItime.getValue()).intValue(),
+							AIDifficulty.getSelectedIndex(),
 							player1.getText(), 
 							player2.getText());
 			}
 		});
-
+		
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
@@ -110,7 +111,7 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 				if(event != null) event.onCancelButtonPressed();
 			}
 		});
-
+		
 		benchmark.addActionListener(new ActionListener() {
 
 			@Override
@@ -118,17 +119,17 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 				if(event != null) event.onBenchMarkButtonPressed(AItime);
 			}
 		});
-
+		
 		player1 = new JTextField(TextManager.DEFAULT_PLAYER1_NAME_FR);
 		player2 = new JTextField(TextManager.DEFAULT_PLAYER2_NAME_FR);
-
+		
 		row = new JFormattedTextField(NumberFormat.getNumberInstance());
-		row.setValue(ViewSettings.DEFAULT_ROW_SIZE);
+		row.setValue(GameSettings.DEFAULT_ROW_SIZE);
 		ligne = new JFormattedTextField(NumberFormat.getNumberInstance());
-		ligne.setValue(ViewSettings.DEFAULT_LIGNE_SIZE);
-
+		ligne.setValue(GameSettings.DEFAULT_LIGNE_SIZE);
+		
 		AItime = new JFormattedTextField(NumberFormat.getNumberInstance());
-		AItime.setValue(ViewSettings.DEFAULT_IA_THINKING_TIME);
+		AItime.setValue(GameSettings.DEFAULT_IA_THINKING_TIME);
 
 		AIDifficulty = new JComboBox<String>();
 

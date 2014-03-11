@@ -96,11 +96,4 @@ public class ViewSettings {
 	public static final String POSSIBLE_PIECE_IMG = "possible_position.png";
 	
 	///////////////////////////////////////////////////////////////////////////
-	
-	public static final int DEFAULT_ROW_SIZE = 4;
-	public static final int DEFAULT_LIGNE_SIZE = 4;
-	
-	//mili-seconde
-	public static final int DEFAULT_IA_THINKING_TIME = 2000;
-	public static final int DEFAULT_IA_DIFFICULTY = 0;
 }

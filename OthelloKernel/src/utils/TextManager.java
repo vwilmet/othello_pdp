@@ -104,7 +104,6 @@ public interface TextManager {
 	public static final String WHITE_PLAYER = "white";
 	public static final String BLACK_PLAYER = "black";
 	
-	
 	//Save/RestoreGame
 	public static final String BOARD_PART = "board";
 	public static final String INIT_PART = "init";
@@ -128,6 +127,6 @@ public interface TextManager {
 	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
 	
-	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur 1";
-	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur 2";
+	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur Blanc :";
+	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur Noir :";
 }

@@ -2,25 +2,7 @@ import utils.Application;
 
 import com.controller.GameController;
 import com.model.BoardObservable;
-<<<<<<< HEAD
-=======
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.BoardFactory;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.io.RestoreGame;
-import com.model.piece.Piece;
-import com.view.BenchMarkViewImpl;
-import com.view.ChoosePositionViewImpl;
-import com.view.GameViewImpl;
-import com.view.InitGameViewImpl;
-import com.view.event.BenchMarkViewButtonEventListener;
-import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.InitGameButtonEventListener;
-import com.view.interfaces.BenchMarkView;
-import com.view.interfaces.ChoosePositionView;
-import com.view.interfaces.GameView;
->>>>>>> 9aead43c9b9aad3b424215dd54d8944a7cb611be
+
 
 /**
  * @author Benjamin Letourneau
@@ -32,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Application app = Application.getInstance();
-		app.calculateComponentSize(5, 8);
+		app.calculateComponentSize();
 		
 		GameController game = new GameController();
 		

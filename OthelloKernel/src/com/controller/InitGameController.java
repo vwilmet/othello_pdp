@@ -2,12 +2,18 @@ package com.controller;
 
 import javax.swing.JFormattedTextField;
 
+import utils.FactoryHandlerException;
+import utils.TextManager;
 import jnt.BenchMarkResult;
 
 import com.controller.interfaces.NotifyGameController;
+import com.error_manager.Log;
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
+import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
+import com.model.factory.interfaces.PlayerFactory;
 import com.view.BenchMarkViewImpl;
 import com.view.InitGameViewImpl;
 import com.view.event.BenchMarkViewButtonEventListener;
@@ -21,7 +27,7 @@ public class InitGameController implements InitGameButtonEventListener, BenchMar
 	private NotifyGameController event;
 	private BenchMarkView benchMark;
 	private static InitGameController instance;
-	
+
 	public static InitGameController getInstance(NotifyGameController event){
 		if(instance == null)
 			instance = new InitGameController(event);
@@ -38,23 +44,47 @@ public class InitGameController implements InitGameButtonEventListener, BenchMar
 	public void showView(){
 		this.view.showFrame();
 	}
-
+	
 	@Override
 	public void onValidButtonPressed(int row, int ligne, int IATime,
-			String IADifficulty, String player1Name, String player2Name) {
-		this.view.hideFrame();
-		
-		//GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
-		//GameSettings gameSetts = gsFacto.getGameSettings(player1, player2, gameBoard, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty)
+			int IADifficulty, String player1Name, String player2Name) {
 
-		this.event.initGameFinished(true, );
+		BoardFactory bFacto = FactoryProducer.getBoardFactory();
+		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
+		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
+		GameSettings gameSetts = null;
+		BoardObservable board = null;
+		
+		
+		
+		try {
+			board = bFacto.getInitialBoard(row, ligne);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+
+		try {
+			gameSetts = gsFacto.getGameSettings(
+					pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER), 
+					pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER),
+					board,
+					IATime,
+					IADifficulty);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+
+		this.event.initGameFinished(true, gameSetts);
+		this.view.hideFrame();
 	}
 
 	@Override
 	public void onCancelButtonPressed() {
 		this.view.hideFrame();
 	}
-	
+
 	@Override
 	public void onBenchMarkButtonPressed(JFormattedTextField AITime) {
 		this.benchMark.showFrame();

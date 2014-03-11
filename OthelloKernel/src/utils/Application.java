@@ -34,7 +34,7 @@ public class Application {
 		return Application.instance;
 	}
 
-	public void calculateComponentSize(int boardSizeX, int boardSizeY){
+	public void calculateComponentSize(){
 
 		////////////////////////////////////////////////////////////
 		//////////////////// GAME VIEW /////////////////////////////

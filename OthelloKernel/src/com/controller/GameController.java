@@ -1,11 +1,16 @@
 package com.controller;
 
+import utils.FactoryHandlerException;
+import utils.TextManager;
+
 import com.controller.interfaces.NotifyGameController;
+import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
+import com.model.factory.interfaces.PlayerFactory;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
 import com.view.event.ButtonImageMenuEventListener;
@@ -15,18 +20,36 @@ import com.view.interfaces.GameView;
 
 public class GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
 
-	private GameCanvasMouseEventListener mouseEvent;
 	private InitGameController initGameController;
 	private GameView gameView;
 	private GameSettings gameSettings;
 
 	public GameController() {
-		BoardFactory bFacto = FactoryProducer.getBoardFactory();
-		BoardObservable board = bFacto.getInitialBoard(8,8);
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
-		GameSettings gameSetts = gsFacto.getGameSettings(player1, player2, board, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty)
+		BoardFactory bFacto = FactoryProducer.getBoardFactory();
+		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		
-		this.gameView = new GameViewImpl(this.board, this);
+		BoardObservable board = null;
+		try {
+			board = bFacto.getInitialBoard(8,8);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		try {
+			this.gameSettings = gsFacto.getGameSettings(
+					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER), 
+					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER),
+					board,
+					GameSettings.DEFAULT_IA_THINKING_TIME, 
+					GameSettings.DEFAULT_IA_DIFFICULTY);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		this.gameView = new GameViewImpl(this.gameSettings.getGameBoard(), this);
 		this.gameView.setMenuListener(this);
 		this.gameView.showFrame();
 	}

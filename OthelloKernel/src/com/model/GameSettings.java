@@ -10,11 +10,30 @@ import com.model.player.Player;
  * 
  * @author <ul>
  *         <li>Benjamin Letourneau</li>
+ *         <li>Vincent Wilmet</li>
  *         </ul>
  * @version 1.0
  */
 public class GameSettings {
 
+	/**
+	 * La taille par défaut de la grille en colonne
+	 */
+	public static final int DEFAULT_ROW_SIZE = 4;
+	/**
+	 * La taille par défaut de la grille en ligne
+	 */
+	public static final int DEFAULT_LIGNE_SIZE = 4;
+	
+	/**
+	 * Le temps donnée à l'IA pour donner une solution par défaut : 2 secondes
+	 */
+	public static final int DEFAULT_IA_THINKING_TIME = 2000;
+	/**
+	 * La difficulté de l'IA par défaut [0, 1 ou 2 avec 0 le plus facile et 2 le plus compliqué] 
+	 */
+	public static final int DEFAULT_IA_DIFFICULTY = 0;
+	
 	/**
 	 * Joueurs du jeu (machine ou humain). 
 	 */

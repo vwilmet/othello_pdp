@@ -148,6 +148,12 @@ public class BoardImpl implements Board{
 	}
 
 	@Override
+	public void setEmptyPiece(int i, int j) {
+		if(!(this.gameBoard[i][j].getColor() instanceof EmptyPiece))
+			this.gameBoard[i][j].setEmptyPiece();
+	}
+	
+	@Override
 	public void setPiecePlayable(int i, int j) {
 		this.gameBoard[i][j].setPlayable();
 	}

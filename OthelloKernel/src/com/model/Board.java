@@ -64,6 +64,13 @@ public interface Board {
 	 * @param i
 	 * @param j
 	 */
+	public void setEmptyPiece(int i, int j);
+	
+	/**
+	 * 
+	 * @param i
+	 * @param j
+	 */
 	public void setPiecePlayable(int i, int j);
 	
 	/**

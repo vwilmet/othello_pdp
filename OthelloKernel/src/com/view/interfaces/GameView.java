@@ -11,6 +11,8 @@ public interface GameView {
 	public void setBoard(BoardObservable board);
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent);
 	
+	public void setOnPause(boolean onPause);
+	
 	public void addMessageToMessageList(String element);
 	public void changeStatViewMessage(String message);
 	public void changeMessageViewContent(String content);

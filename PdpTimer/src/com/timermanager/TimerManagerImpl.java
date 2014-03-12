@@ -2,6 +2,7 @@ package com.timermanager;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @mainpage Module Timer
@@ -69,15 +70,24 @@ public class TimerManagerImpl implements TimerManager{
 	private long elapstedTime;
 
 	/**
-	 * Constructeur qui initialise l'interface d'évènements et initialise le timer
-	 * @param timerInterface L'object interface qui sera appelé lors des évènements soulevés par le timer
+	 * Constructeur qui initialise le timer
+	 * @param timerInterface 
 	 */
-	public TimerManagerImpl(TimerActionEvent timerInterface) {
+	public TimerManagerImpl() {
 		this.timer = new Timer();
-		this.timerInterface = timerInterface;
 		this.isRunning = false;
 		this.DEBUG = false;
 		this.elapstedTime = 0;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.manager.TimerManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.timermanager.TimerManager#setTimerActionEvent}
+	 */
+	@Override
+	public void setTimerActionEvent(TimerActionEvent timerInterface){
+		this.timerInterface = timerInterface;
 	}
 
 	/**
@@ -146,5 +156,33 @@ public class TimerManagerImpl implements TimerManager{
 	@Override
 	public long getElapsedTime() {
 		return System.currentTimeMillis() - this.elapstedTime;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br>Utiliser l'interface {@link com.timermanager.TimerManager} pour stocker l'objet de la classe
+	 * <br>Voir {@link com.timermanager.TimerManager#getElepsedTimeInMinAndSeconde}
+	 */
+	@Override
+	public String getElepsedTimeInMinAndSeconde(){
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(getElapsedTime());
+		long secondes = TimeUnit.MILLISECONDS.toSeconds(getElapsedTime()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getElapsedTime())); 
+		String format = "",
+				result = "";
+		if(minutes > 0 && secondes > 0)
+			result = String.format("%d min, %d sec", 
+					minutes,
+					secondes
+					);
+		else if (minutes == 0)
+			result = String.format("%d sec", 
+					secondes
+					);
+		else if(minutes > 0)
+			result = String.format("%d min", 
+					minutes
+					);
+
+		return result;
 	}
 }

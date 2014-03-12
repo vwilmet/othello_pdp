@@ -23,7 +23,7 @@ public class Piece implements Cloneable {
 		playable = false;
 		this.piece = new EmptyPiece();
 	}
-
+	
 	public Piece setWhitePiece() {
 		this.piece = new WhitePiece();
 		this.playable = false;

@@ -55,6 +55,12 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setWhitePiece(i, j);
 		notifierObservateurs();
 	}
+
+	@Override
+	public void setEmptyPiece(int i, int j) {
+		this.board.setEmptyPiece(i, j);
+		notifierObservateurs();
+	}
 	
 	@Override
 	public String toString() {
@@ -72,4 +78,5 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setPieceNotPlayable(i, j);
 		notifierObservateurs();
 	}
+
 }

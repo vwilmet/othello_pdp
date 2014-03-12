@@ -20,6 +20,8 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
+import utils.TextManager;
+
 
 import com.model.Board;
 import com.model.BoardObservable;
@@ -44,11 +46,13 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private Board board;
 	private int canvasWidth, canvasHeight;
 	private int pieceSizeWidth, pieceSizeHeight;
-
+	private boolean onPause;
+	
 	public GameCanvas(int canvasWidth, int canvasHeight){
 		setBackground (Color.white);
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
+		this.onPause = false;
 	}
 
 	public void setMouseListener(GameCanvasMouseEventListener event){
@@ -90,10 +94,21 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		}
 	}
 
+	private void drawPauseScreen(Graphics2D g){
+		g.drawString(TextManager.PAUSE_TEXT_VUE, gridSize.width/2, gridSize.height/2);
+	}
+	
+	public void setOnPause(boolean onPause){
+		this.onPause = onPause;
+		refreshView();
+	}
+	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
-		if(board != null) drawGrid(g2);
+		
+		if(onPause) drawPauseScreen(g2);
+		else if(board != null) drawGrid(g2);
 	}
 
 	private void calculatePieceSize(){
@@ -196,6 +211,5 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		refreshView();
-		System.out.println("coucou!!");
 	}
 }

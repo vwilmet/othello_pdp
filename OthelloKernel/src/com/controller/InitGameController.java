@@ -22,7 +22,7 @@ import com.view.event.InitGameButtonEventListener;
 import com.view.interfaces.BenchMarkView;
 import com.view.interfaces.InitGameView;
 
-public class InitGameController implements InitGameButtonEventListener, BenchMarkViewButtonEventListener{
+public class InitGameController implements InitGameButtonEventListener {
 
 	private InitGameView view;
 	private NotifyGameController event;
@@ -105,20 +105,25 @@ public class InitGameController implements InitGameButtonEventListener, BenchMar
 		
 		return result;
 	}
-
+	
 	@Override
 	public void onCancelButtonPressed() {
 		this.view.hideFrame();
 	}
-
+	
 	@Override
-	public void onBenchMarkButtonPressed(JFormattedTextField AITime) {
+	public void onBenchMarkButtonPressed(final JFormattedTextField AITime) {
 		this.benchMark.showFrame();
-		this.benchMark.launchBenchMark();	
-	}
-
-	@Override
-	public void onOkButtonPressed(BenchMarkResult result) {
-		this.benchMark.hideFrame();
+		this.benchMark.setButtonListener(new BenchMarkViewButtonEventListener() {
+			
+			@Override
+			public void onOkButtonPressed(BenchMarkResult result) {
+				AITime.setValue(result.globalScore);
+				benchMark.hideFrame();
+				
+				//on écrit dans un fichier annexe le résultat TODO
+			}
+		});
+		this.benchMark.launchBenchMark();
 	}
 }

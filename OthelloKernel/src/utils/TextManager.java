@@ -137,6 +137,11 @@ public interface TextManager {
 	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
 	
+	
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur Blanc :";
 	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur Noir :";
+
+	public static final String PAUSE_TEXT_VUE = "Jeu en pause !! Appuyer sur le bouton play pour reprendre";
+	public static final String PAUSE_MESSAGE_LIST_VUE = "Jeu mis en pause";
+	public static final String PLAY_MESSAGE_LIST_VUE = "Jeu démarée";
 }

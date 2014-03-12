@@ -35,20 +35,20 @@ public class Application {
 	}
 
 	public void calculateComponentSize(){
-
+		
 		////////////////////////////////////////////////////////////
 		//////////////////// GAME VIEW /////////////////////////////
 		////////////////////////////////////////////////////////////
-		ViewSettings.GAME_FRAME_WIDTH = (int)this.width;
-		ViewSettings.GAME_FRAME_HEIGHT = (int)this.height;
-
-		ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH = (int)((float)(this.width*(float) (1.0/3.0)));
-		ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT = (int)this.height - ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT - ViewSettings.MENU_COMPONENT_VIEW_HEIGHT; 
-
-		ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH = (int)this.width - ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
+		ViewSettings.GAME_FRAME_WIDTH = (int)this.width-10;
+		ViewSettings.GAME_FRAME_HEIGHT = (int)this.height-50;
+		
+		ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH = (int)((float)(ViewSettings.GAME_FRAME_WIDTH*(float) (1.0/3.0)));
+		ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT = (int)ViewSettings.GAME_FRAME_HEIGHT - ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT - ViewSettings.MENU_COMPONENT_VIEW_HEIGHT; 
+		
+		ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH = (int)ViewSettings.GAME_FRAME_WIDTH - ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
 		ViewSettings.STATISTICS_COMPONENT_VIEW_WIDTH = ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
-
-		ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH = (int)this.width - ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
+		
+		ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH = (int)ViewSettings.GAME_FRAME_WIDTH - ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH;
 		ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT = ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT;
 
 		
@@ -57,8 +57,8 @@ public class Application {
 		///////////////CHOOSE POSITION VIEW ////////////////////////
 		////////////////////////////////////////////////////////////
 		
-		ViewSettings.CHOOSE_BOARD_FRAME_WIDTH = (int)((float)(this.width*(float) (9.0/10.0)));
-		ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT = (int)((float)(this.height*(float) (9.0/10.0)));
+		ViewSettings.CHOOSE_BOARD_FRAME_WIDTH = (int)((float)(ViewSettings.GAME_FRAME_WIDTH*(float) (9.0/10.0)));
+		ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT = (int)((float)(ViewSettings.GAME_FRAME_HEIGHT*(float) (9.0/10.0)));
 		
 		ViewSettings.BUTTONS_COMPONENT_CHOOSE_VIEW_WIDTH = (int)((float)(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH*(float) (1.0/5.0)));
 		

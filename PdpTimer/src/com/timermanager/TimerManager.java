@@ -44,4 +44,17 @@ public interface TimerManager {
 	 * @return le temps calculé par le chronomètre
 	 */
 	public long getElapsedTime();
+	
+	/**
+	 * Méthode qui initialise l'interface de communication
+	 * @param timerInterface L'object interface qui sera appelé lors des évènements soulevés par le timer
+	 */
+	public void setTimerActionEvent(TimerActionEvent timerInterface);
+	
+	/**
+	 * Cette méthode renvoie la valeur du chronomètre sous la formes "X min, Y sec"<br/>
+	 * Celui ci doit être lancé par la méthode : {@link com.timermanager.TimerActionEvent#startCountingElapsedTime}
+	 * @return Le temps calculé par le chronomètre en minutes et secondes
+	 */
+	public String getElepsedTimeInMinAndSeconde();
 }

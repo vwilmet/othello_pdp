@@ -125,6 +125,11 @@ public class GameViewImpl extends JFrame implements GameView{
 	}
 
 	@Override
+	public void setOnPause(boolean onPause){
+		this.game.setOnPause(onPause);
+	}
+	
+	@Override
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent){
 		this.game.setMouseListener(mouseEvent);
 	}
@@ -272,13 +277,6 @@ public class GameViewImpl extends JFrame implements GameView{
 			@Override
 			public void menuSelected(MenuEvent arg0) {
 				if(menuEvent != null)menuEvent.onHelpItemMenuPressed();
-				/*try {
-					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
-				} catch (IOException  e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}*/	
 			}
 
 			@Override
@@ -295,9 +293,9 @@ public class GameViewImpl extends JFrame implements GameView{
 		actionBar.add(new ResetButton().setMouseListener(buttonEvent));
 		actionBar.add(new BackButton().setMouseListener(buttonEvent));
 		actionBar.add(new ForwardButton().setMouseListener(buttonEvent));
+		actionBar.add(new ReversePlayerButton().setMouseListener(buttonEvent));
 		actionBar.add(new HelpIAButton().setMouseListener(buttonEvent));
 		actionBar.add(new PositionButton().setMouseListener(buttonEvent));
-		actionBar.add(new ReversePlayerButton().setMouseListener(buttonEvent));
 	}
 
 	@Override

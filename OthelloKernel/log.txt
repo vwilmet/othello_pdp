@@ -1,2 +1,7 @@
 La taille de votre othellier est incorrecte, veuillez vous référer au manuel de jeu. La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.
 Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. Le fichier de sauvegarde "saveFilebis" n'existe pas.
+Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. Le fichier de sauvegarde "saveFilebis" n'existe pas.
+Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. Le fichier de sauvegarde "C:\Users\Vince\Documents\GitHub\othello_pdp\OthelloKernel\saveFile2.xml;saveFile2.xml" n'existe pas.
+Une erreur est survenue pendant la lecture du fichier de sauvegarde de jeu. Le fichier de sauvegarde "C:\Users\Vince\Documents\GitHub\othello_pdp\OthelloKernel\saveFile2.xml" n'existe pas.
+Failed to open ./resources/website/index.html. Error message: Le fichier spécifié est introuvable.
+

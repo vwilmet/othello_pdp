@@ -148,6 +148,7 @@ public interface TextManager {
 	public static final String BACK_PIECE_MESSAGE_LIST_VUE = "Retrait d'une pièce dans l'othellier";
 	public static final String FORWARD_PIECE_MESSAGE_LIST_VUE = "Rajout de la dernière pièce jouée dans l'othellier";
 
-	public static final String RESET_PIECE_MESSAGE_LIST_VUE = "Partie recommencer";
+	public static final String RESET_PIECE_MESSAGE_LIST_VUE = "Partie recommencée";
+	public static final String REVERSE_PLAYER_MESSAGE_LIST_VUE = "Joueurs inversés";
 
 }

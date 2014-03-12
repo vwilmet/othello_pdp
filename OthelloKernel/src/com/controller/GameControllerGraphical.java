@@ -137,7 +137,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onResetButtonCliked() {
 		this.gameSettings.resetHistoryAndRestartGame();
-		this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
+		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 	}
 
 	@Override
@@ -155,6 +155,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onReversePlayerButtonCliked() {
 		this.gameSettings.reversePlayer();
+		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
 	}
 
 	@Override

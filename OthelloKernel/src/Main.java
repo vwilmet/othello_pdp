@@ -1,6 +1,8 @@
 import utils.Application;
 
-import com.controller.GameController;
+import com.controller.test.GC;
+import com.controller.test.GCShell;
+import com.controller.test.GCView;
 import com.model.BoardObservable;
 
 
@@ -16,8 +18,12 @@ public class Main {
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
 		
-		GameController game = new GameController();
+		//GameController game = new GameController();
+		GC g = new GCShell();
+		g.test();
 		
+		GC h = new GCView();
+		h.test();
 		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//

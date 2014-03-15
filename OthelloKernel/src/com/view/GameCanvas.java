@@ -26,7 +26,7 @@ import utils.TextManager;
 import com.model.Board;
 import com.model.BoardObservable;
 import com.model.piece.BlackPiece;
-import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.piece.WhitePiece;
 import com.model.view.ViewSettings;
 import com.view.event.GameCanvasMouseEventListener;
@@ -47,7 +47,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private int canvasWidth, canvasHeight;
 	private int pieceSizeWidth, pieceSizeHeight;
 	private boolean onPause;
-	
+
 	public GameCanvas(int canvasWidth, int canvasHeight){
 		setBackground (Color.white);
 		this.canvasWidth = canvasWidth;
@@ -68,15 +68,17 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 				Image img;
 				try {
-					Piece p = board.getBoard()[i][j];
+					PieceImpl p = board.getBoard()[i][j];
 					if(p.getColor() instanceof WhitePiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
 					else if (p.getColor() instanceof BlackPiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
 					else if(p.isPlayable())
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
-					else
+					else{
+						g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
 						continue;
+					}
 					g.drawImage(
 							scaleImage(
 									img,
@@ -90,6 +92,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
 			}
 		}
 	}
@@ -97,16 +100,16 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private void drawPauseScreen(Graphics2D g){
 		g.drawString(TextManager.PAUSE_TEXT_VUE, gridSize.width/2, gridSize.height/2);
 	}
-	
+
 	public void setOnPause(boolean onPause){
 		this.onPause = onPause;
 		refreshView();
 	}
-	
+
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(ViewSettings.DRAW_LINE_SIZE));
-		
+
 		if(onPause) drawPauseScreen(g2);
 		else if(board != null) drawGrid(g2);
 	}
@@ -136,7 +139,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 				(marginX > marginY ? 0 : marginY)
 				);
 	}
-	
+
 	private Image scaleImage(Image image, int width, int height) {
 		int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -176,9 +179,9 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	public void setData(BoardObservable board){
 		if(board != null){
-		this.board = board;
-		this.calculatePieceSize();
-		board.addObserver(this);
+			this.board = board;
+			this.calculatePieceSize();
+			board.addObserver(this);
 		}
 		this.refreshView();
 	}

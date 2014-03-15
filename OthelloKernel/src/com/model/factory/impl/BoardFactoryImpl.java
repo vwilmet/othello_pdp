@@ -17,6 +17,7 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -42,7 +43,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public BoardObservable getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) {
+	public BoardObservable getBoard(int sizeX, int sizeY, List<PieceImpl> initiaPieces) {
 		BoardObservable b = null;
 		
 		try {
@@ -60,7 +61,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 		
 		PieceFactory pFacto = FactoryProducer.getPieceFactory();
 		
-		List<Piece> initialPieces = new ArrayList<Piece>();
+		List<PieceImpl> initialPieces = new ArrayList<PieceImpl>();
 		
 		initialPieces.add(pFacto.getWhitePiece((sizeX/2)-1, (sizeY/2)-1));
 		initialPieces.add(pFacto.getBlackPiece(sizeX/2 -1, sizeY/2));
@@ -77,7 +78,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getWhitePiece(int posX, int posY)
+	public PieceImpl getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -85,7 +86,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getBlackPiece(int posX, int posY)
+	public PieceImpl getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -93,7 +94,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getEmptyPiece(int posX, int posY)
+	public PieceImpl getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -101,7 +102,7 @@ public class BoardFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece[][] getMatrixPiece(int i, int j)
+	public PieceImpl[][] getMatrixPiece(int i, int j)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,

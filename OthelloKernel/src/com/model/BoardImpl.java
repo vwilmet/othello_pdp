@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.piece.BlackPiece;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.piece.WhitePiece;
 
 /**
@@ -24,12 +26,12 @@ import com.model.piece.WhitePiece;
  * @version 1.0
  */
 public class BoardImpl implements Board{
-	
+
 	/**
 	 * Factory pour la création des pièces.
 	 */
 	PieceFactory pieceFacto;
-	
+
 	/**
 	 * Taille de la Board suivant les Abscisses / Ordonnées
 	 */
@@ -38,12 +40,16 @@ public class BoardImpl implements Board{
 	/**
 	 * Structure représentant le plateau de jeu.
 	 */
-	private Piece[][] gameBoard;
-
+	private PieceImpl[][] gameBoard;
+	
 	/**
 	 * Liste contenant les pions initiaux d'une partie.
 	 */
 	private List<Piece> initialPieces;
+
+	private ArrayList<Piece> playablePiece;
+	private ArrayList<Piece> blackPiece;
+	private ArrayList<Piece> whitePiece;
 
 	/**
 	 * Constructeur de la classe.
@@ -52,10 +58,13 @@ public class BoardImpl implements Board{
 	 * @param initiaPieces : List<Piece>, liste des pions initiaux du jeu.
 	 * @throws GameHandlerException
 	 */
-	public BoardImpl(int sizeX, int sizeY, List<Piece> initiaPieces) throws GameHandlerException {
+	public BoardImpl(int sizeX, int sizeY, List<PieceImpl> initiaPieces) throws GameHandlerException {
 
-		pieceFacto = FactoryProducer.getPieceFactory();
-
+		this.pieceFacto = FactoryProducer.getPieceFactory();
+		this.playablePiece = new ArrayList<Piece>();
+		this.whitePiece = new ArrayList<Piece>();
+		this.blackPiece = new ArrayList<Piece>();
+		
 		if (sizeX >= GameSettings.BOARD_MIN_SIZE_X && sizeX <= GameSettings.BOARD_MAX_SIZE_X)
 			this.sizeX = sizeX;
 		else
@@ -67,7 +76,6 @@ public class BoardImpl implements Board{
 		else
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_BOARD_SIZE, TextManager.WRONG_SIZE_Y_FR);
-
 
 		try {
 			this.gameBoard = pieceFacto.getMatrixPiece(this.sizeX, this.sizeY);
@@ -84,8 +92,8 @@ public class BoardImpl implements Board{
 		}
 
 		this.initialiseBoardToPlay();
-		
-		for (Piece p : initiaPieces) {
+
+		for (PieceImpl p : initiaPieces) {
 			addInitialPiece(p);
 		}
 	}
@@ -101,7 +109,7 @@ public class BoardImpl implements Board{
 	}
 
 	@Override
-	public Piece[][] getBoard() {
+	public PieceImpl[][] getBoard() {
 		return this.gameBoard;
 	}
 
@@ -119,7 +127,7 @@ public class BoardImpl implements Board{
 		for (int k = 0; k < this.sizeX; k++)
 			res += (k < 10) ? " " + k + " " : " " + k;
 		res += "\n";
-		
+
 		for (int i = 0; i < this.sizeY; i++) {
 			res += i + ((i < 10) ? "  |" : " |");
 			for (int j = 0; j < this.sizeX; j++) {
@@ -129,22 +137,38 @@ public class BoardImpl implements Board{
 		}
 		return res;
 	}
-	
+
 	@Override
 	public void reverse(int i, int j) {
+		if(this.gameBoard[i][j].getColor() instanceof WhitePiece){
+			this.whitePiece.remove(this.gameBoard[i][j]);
+			this.blackPiece.add(this.gameBoard[i][j]);
+		}else{
+			this.blackPiece.remove(this.gameBoard[i][j]);
+			this.whitePiece.add(this.gameBoard[i][j]);
+		}
+
 		this.gameBoard[i][j].reverse();
 	}
-	
+
 	@Override
 	public void setBlackPiece(int i, int j) {
-		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece)
+		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece){
 			this.gameBoard[i][j].setBlackPiece();
+			
+			this.blackPiece.add(this.gameBoard[i][j]);
+			this.playablePiece.remove(this.gameBoard[i][j]);
+		}
 	}
 
 	@Override
 	public void setWhitePiece(int i, int j) {
-		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece)
+		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece){
 			this.gameBoard[i][j].setWhitePiece();
+			
+			this.whitePiece.add(this.gameBoard[i][j]);
+			this.playablePiece.remove(this.gameBoard[i][j]);
+		}
 	}
 
 	@Override
@@ -152,23 +176,47 @@ public class BoardImpl implements Board{
 		if(!(this.gameBoard[i][j].getColor() instanceof EmptyPiece))
 			this.gameBoard[i][j].setEmptyPiece();
 	}
-	
+
 	@Override
 	public void setPiecePlayable(int i, int j) {
 		this.gameBoard[i][j].setPlayable();
+		this.playablePiece.add(this.gameBoard[i][j]);
 	}
 
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.gameBoard[i][j].setNotPlayable();
+		playablePiece.remove(this.gameBoard[i][j]);
 	}
-	
+
+	@Override
+	public ArrayList<Piece> getWhitePieces(){
+		return this.whitePiece;
+	}
+
+	@Override
+	public ArrayList<Piece> getBlackPieces(){
+		return this.blackPiece;
+	}
+
+	@Override
+	public ArrayList<Piece> getPlayablePieces(){
+		return this.playablePiece;
+	}
+
+	@Override
+	public void resetPlayablePosition(){
+		for(Piece p : playablePiece)
+			this.gameBoard[p.getPosX()][p.getPosY()].setNotPlayable();
+				playablePiece.clear();
+	}
+
 	/**
 	 * Méthode de classe permettant de mettre en place le jeu. Il pose le pion sur le plateau et l'ajoute à la liste des pieces initiales du jeu.
 	 * @param p : Piece,  pion à ajouter sur le plateau pour jouer.
 	 * @throws GameHandlerException
 	 */
-	private void addInitialPiece(Piece p) throws GameHandlerException {
+	private void addInitialPiece(PieceImpl p) throws GameHandlerException {
 		if (p.getColor() instanceof EmptyPiece)
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
@@ -176,13 +224,16 @@ public class BoardImpl implements Board{
 		if (this.gameBoard[p.getPosX()][p.getPosY()] == null)
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_POSITION);
-		
+
 		this.initialPieces.add(p.clone());
-		
-		if (p.getColor() instanceof WhitePiece)
+
+		if (p.getColor() instanceof WhitePiece){
 			this.gameBoard[p.getPosX()][p.getPosY()].setWhitePiece();
-		else if (p.getColor() instanceof BlackPiece)
+			this.whitePiece.add(p);
+		}else if (p.getColor() instanceof BlackPiece){
 			this.gameBoard[p.getPosX()][p.getPosY()].setBlackPiece();
+			this.blackPiece.add(p);
+		}
 	}
 
 	/**
@@ -193,8 +244,7 @@ public class BoardImpl implements Board{
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {
 					try {
-						Piece p = this.pieceFacto.getEmptyPiece(i, j);
-						this.gameBoard[i][j] = p;
+						this.gameBoard[i][j] = this.pieceFacto.getEmptyPiece(i, j);
 					} catch (FactoryHandlerException e) {
 						Log.error(e.getMessage());
 						e.printStackTrace();

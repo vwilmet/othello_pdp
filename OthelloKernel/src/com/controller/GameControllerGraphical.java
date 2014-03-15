@@ -16,6 +16,7 @@ import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
+import com.model.piece.Piece;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
 import com.view.event.ButtonImageMenuEventListener;
@@ -73,12 +74,17 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
-		//System.out.println("Left button Position x:y =>" + i + ":" + j);
-
 		if(i!=-1 && j != -1){
-			this.gameSettings.setPiece(i, j);
 
-			this.gameSettings.changePlayer();
+			System.out.println("pion jouable :" + this.gameSettings.getGameBoard().getPlayablePieces().size() + " : " + this.gameSettings.getGameBoard().getPlayablePieces());
+			for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
+				if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
+					this.gameSettings.setPiece(i, j);
+					this.reverseInbetweenPieceAfterPlaying(i, j);
+					this.gameSettings.changePlayer();
+					this.setPlayablePiece();
+					break;
+				}
 		}
 	}
 

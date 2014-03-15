@@ -6,6 +6,7 @@ import java.util.List;
 import utils.TextManager;
 
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.piece.WhitePiece;
 import com.model.player.Player;
 
@@ -189,7 +190,7 @@ public class GameSettings {
 	 * 
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
-	public void addPieceMove(Piece p){
+	public void addPieceMove(PieceImpl p){
 		this.sentinel++;
 
 		if(this.gameHistory.size()-1 > this.sentinel){

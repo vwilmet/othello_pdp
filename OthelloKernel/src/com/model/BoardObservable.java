@@ -1,9 +1,11 @@
 package com.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 
 public class BoardObservable extends Observable implements Board {
 
@@ -29,7 +31,7 @@ public class BoardObservable extends Observable implements Board {
 	}
 
 	@Override
-	public Piece[][] getBoard() {
+	public PieceImpl[][] getBoard() {
 		return this.board.getBoard();
 	}
 
@@ -76,6 +78,27 @@ public class BoardObservable extends Observable implements Board {
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.board.setPieceNotPlayable(i, j);
+		notifierObservateurs();
+	}
+
+	@Override
+	public ArrayList<Piece> getBlackPieces() {
+		return this.board.getBlackPieces();
+	}
+
+	@Override
+	public ArrayList<Piece> getWhitePieces() {
+		return this.board.getWhitePieces();
+	}
+
+	@Override
+	public ArrayList<Piece> getPlayablePieces() {
+		return this.board.getPlayablePieces();
+	}
+
+	@Override
+	public void resetPlayablePosition() {
+		this.board.resetPlayablePosition();
 		notifierObservateurs();
 	}
 

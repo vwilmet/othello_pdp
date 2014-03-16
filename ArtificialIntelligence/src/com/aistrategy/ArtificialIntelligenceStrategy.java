@@ -64,6 +64,11 @@ public interface ArtificialIntelligenceStrategy {
      * @return un booléen, vrai si l'algorithme a été stoppé, faux sinon
      */
 	public Boolean completeReflexion();
-			
+	
+	
+	/**
+     * Annule le dernier coup jouer.
+     */
+	public void undoMove();
 	
 }

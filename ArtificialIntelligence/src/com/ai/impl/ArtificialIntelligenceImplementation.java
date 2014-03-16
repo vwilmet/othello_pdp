@@ -7,6 +7,7 @@ import java.util.Set;
 import com.ai.ArtificialIntelligence;
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.aistrategy.impl.BruteForceAI;
+import com.aistrategy.impl.NextBestMoveAI;
 import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
@@ -83,6 +84,9 @@ public class ArtificialIntelligenceImplementation implements
 				ai = new RandomAI();
 				break;
 			case 1:
+				ai = new NextBestMoveAI();
+				break;
+			case 2:
 				ai = new BruteForceAI();
 				break;
 			default:

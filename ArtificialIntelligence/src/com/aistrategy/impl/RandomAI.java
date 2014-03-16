@@ -22,8 +22,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	Set<Point> blackPiece;
 	Integer boardWidth;
 	Integer boardHeight;
-	private Set<Point> borderLine;
-
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -119,6 +118,16 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean completeReflexion() {
 		return true;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#undoMove}
+	 */
+	@Override
+	public void undoMove() {
+		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 
 

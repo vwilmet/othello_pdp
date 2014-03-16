@@ -20,9 +20,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	Set<Point> blackPiece;
 	Integer boardWidth;
 	Integer boardHeight;
-	private Set<Point> borderLine;
-	List<Integer> scoreArray;
-	Integer call;
 	Board initBoard;
 
 	/**
@@ -103,14 +100,12 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1),1,initBoard));
 		tree.setSentinel(tree.getRootElement());
-		call = 0;
 		//Integer finalScore = miniMax(8, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
 		//Integer finalScore = alphaBeta(8, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(9, tree.getSentinel(), alpha, beta);
 		Integer finalScore = alphaBetaPVS(9, tree.getSentinel(), alpha, beta);
-		System.out.println("Call : " + call);
 		showBestMoveParty();
 		return true;
 	}
@@ -148,7 +143,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	public Integer miniMax(Integer depth, NodeMove<Point> node){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
-		call += 1;
 		Integer bestScore;
 		Integer opponent = node.getPlayer()%2+1;
 		if(node.getPlayer() == 1)
@@ -190,7 +184,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public Integer alphaBeta(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore=0;
-		call += 1;
 		Integer opponent = node.getPlayer()%2+1;
 		if(!playablePosition.isEmpty() && depth > 0){ 
 			while(!playablePosition.isEmpty() && depth > 0){
@@ -232,7 +225,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public Integer alphaBetaNegaMax(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore=0;
-		call += 1;
 		Integer opponent = node.getPlayer()%2+1;
 		if(!playablePosition.isEmpty() && depth > 0){ 
 			while(!playablePosition.isEmpty() && depth > 0){
@@ -268,7 +260,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public Integer failSoftAlphaBeta(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore=0;
-		call += 1;
 		Integer current = Integer.MIN_VALUE;
 		Integer opponent = node.getPlayer()%2+1;
 		if(!playablePosition.isEmpty() && depth > 0){ 
@@ -309,7 +300,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public Integer alphaBetaPVS(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore=0;
-		call += 1;
 		Integer opponent = node.getPlayer()%2+1;
 		if(!playablePosition.isEmpty() && depth > 0){ 
 			Point firstMove = playablePosition.pop();
@@ -382,7 +372,14 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	}
 	
-	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#undoMove}
+	 */
+	public void undoMove() {
+		this.tree.setSentinel(this.tree.getSentinel().getParent());
+	}
 
 
 

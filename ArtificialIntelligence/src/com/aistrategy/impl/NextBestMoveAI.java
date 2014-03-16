@@ -13,6 +13,12 @@ import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
+/**
+ * Classe qui implémente les méthodes de la stratégie / Intelligence Artificielle avec une approche "prochain meilleur" (calcule du meilleur prochain coup jouable).
+ * Elle implémente l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy}.
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 
 	Board initBoard;

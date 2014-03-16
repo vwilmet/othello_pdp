@@ -14,6 +14,13 @@ import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
+
+/**
+ * Classe qui implémente les méthodes de la stratégie / Intelligence Artificielle avec une approche "au hasard" (calcule des coups jouables et renvoie d'un coup au hasard).
+ * </br>Elle implémente l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy}.
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 public class RandomAI implements ArtificialIntelligenceStrategy {
 
 	Board initBoard;

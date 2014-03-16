@@ -13,6 +13,12 @@ import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
+/**
+ * Classe qui implémente les méthodes de la stratégie / Intelligence Artificielle avec une approche BruteForce (calcule totale de l'arbre de partie).
+ * </br>Elle implémente l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy}.
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	TreeMove<Point> tree;
@@ -138,6 +144,15 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public Boolean completeReflexion() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#undoMove}
+	 */
+	public void undoMove() {
+		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 
 
@@ -372,15 +387,7 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	}
 	
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
-	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
-	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#undoMove}
-	 */
-	public void undoMove() {
-		this.tree.setSentinel(this.tree.getSentinel().getParent());
-	}
-
+	
 
 
 }

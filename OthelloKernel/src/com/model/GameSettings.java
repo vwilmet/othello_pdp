@@ -160,9 +160,13 @@ public class GameSettings {
 			
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
 			this.gameBoard.notifyObservers();
+			
+			//TODO Debug pour tester si adresses différentes
 			showBordHistory();
 			this.gameBoardHistory.get(0).setBlackPiece(0, 0);
 			showBordHistory();
+			//TODO FIN Debug
+			
 			this.sentinel--;
 			return true;
 		}
@@ -185,17 +189,15 @@ public class GameSettings {
 	}
 	
 	public boolean getForwardInHistory(){
-		/*if(this.sentinel < this.gameHistory.size()-1){
-
-			Piece p = this.gameHistory.get(this.sentinel + 1);
-
-			this.setPiece(p.getPosX(), p.getPosY());
-
+		if(this.sentinel < this.gameHistory.size()-1){
+			
+			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
+			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
+			this.sentinel++;
 			this.changePlayer();
-
 			return true;
 		}
-*/
+
 		return false;
 	}
 

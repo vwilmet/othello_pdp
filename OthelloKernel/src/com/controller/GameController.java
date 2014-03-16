@@ -77,7 +77,7 @@ public abstract class GameController{
 
 				if(posX == origin.getPosX() && posY == origin.getPosY())
 					continue;
-				
+
 				if(!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
 						!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
 					neighbours.add(this.gameSettings.getGameBoard().getBoard()[posX][posY]);
@@ -91,41 +91,57 @@ public abstract class GameController{
 	 * => cette méthode fait partie des regles du jeu! du coup elle pourrait etre modifier pour changer le jeu alors que le comportement de back and forwrd seras tjr le même et dépend de la board 
 	 */
 	protected void setPlayablePiece(){
-		
+
 		this.gameSettings.getGameBoard().resetPlayablePosition();
 		ArrayList<Piece> origins;
 		int longestCombinaisonSize = (this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ? this.gameSettings.getGameBoard().getSizeX() : this.gameSettings.getGameBoard().getSizeY());
 		Piece target = null;
-		int posX = 0, posY = 0;
-		
+		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
+
 		if(this.gameSettings.getCurrentPlayer().getColor().equals(TextManager.WHITE_PLAYER))
-			origins = this.gameSettings.getGameBoard().getWhitePieces();
+			origins = new ArrayList<Piece>(gameSettings.getGameBoard().getWhitePieces());
 		else
-			origins = this.gameSettings.getGameBoard().getBlackPieces();
-		
+			origins = new ArrayList<Piece>(this.gameSettings.getGameBoard().getBlackPieces());
+
 		for(Piece origin : origins){
 
 			for(Piece intermediatePiece : getReversePieceAround(origin)){
+				System.out.println("================================");
+				System.out.println("Pour le pion origin : " + origin);
+
+				previousIntermediatePosX = origin.getPosX();
+				previousIntermediatePosy = origin.getPosY();
+
 				//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
 				for(int i = 0; i < longestCombinaisonSize; i++){
-					posX = 2*intermediatePiece.getPosX()-origin.getPosX();
-					posY = 2*intermediatePiece.getPosY()- origin.getPosY();
-					
+					System.out.println("--------------"); 
+					posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
+					posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
+
 					if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
 						break;
-					
+
 					target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-					
+
+					System.out.println("Intermediate : " + intermediatePiece);
+					System.out.println("Target : " + target);
+
 					if(target.getColor().getClass().equals(origin.getColor().getClass())){
+						System.out.println("on sort du premier if : target == origin | not playable");
 						break;
 					}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
+						System.out.println("on sort du second if : target == intermediatePiece | ont continue");
+						previousIntermediatePosX = intermediatePiece.getPosX();
+						previousIntermediatePosy = intermediatePiece.getPosY();
+						intermediatePiece = target;
 						continue;
 					}else if(target.getColor() instanceof EmptyPiece){
+						System.out.println("géniale c'est jouable en :" + target);
 						this.gameSettings.getGameBoard().setPiecePlayable(posX, posY);
 						break;
 					}
-					intermediatePiece = target;
 				}
+				System.out.println("================================");
 			}
 
 		}
@@ -134,38 +150,46 @@ public abstract class GameController{
 	protected void reverseInbetweenPieceAfterPlaying(int originPosX, int originPosY){
 
 		ArrayList<Piece> inBetween = new ArrayList<Piece>();
-		int longestCombinaisonSize = (this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ? this.gameSettings.getGameBoard().getSizeX() : this.gameSettings.getGameBoard().getSizeY());
+		int longestCombinaisonSize = 
+				(this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ?
+						this.gameSettings.getGameBoard().getSizeX() :
+							this.gameSettings.getGameBoard().getSizeY());
+		
 		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
 		Piece target = null;
-		int posX = 0, posY = 0;
-		
+		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
+
 		for(Piece intermediatePiece : getReversePieceAround(origin)){
 			inBetween.add(intermediatePiece);
+			previousIntermediatePosX = origin.getPosX();
+			previousIntermediatePosy = origin.getPosY();
 			//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
 			for(int i = 0; i < longestCombinaisonSize; i++){
-				
-				posX = 2 * intermediatePiece.getPosX() - origin.getPosX();
-				posY = 2 * intermediatePiece.getPosY() - origin.getPosY();
-				
+
+				posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
+				posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
+
 				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0  || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0){
 					inBetween.clear();
 					break;
 				}
-				
+
 				target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-				
+
 				if(target.getColor().getClass().equals(origin.getColor().getClass())){
 					break;
 				}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
 					inBetween.add(target);
+					previousIntermediatePosX = intermediatePiece.getPosX();
+					previousIntermediatePosy = intermediatePiece.getPosY();
+					intermediatePiece = target;
 					continue;
 				}else if(target.getColor() instanceof EmptyPiece){
 					inBetween.clear();
 					break;
 				}
-				intermediatePiece = target;
 			}
-			
+
 			for(Piece p : inBetween){
 				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
 			}

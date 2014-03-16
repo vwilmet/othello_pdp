@@ -47,9 +47,9 @@ public class BoardImpl implements Board, Cloneable{
 	 */
 	private List<Piece> initialPieces;
 
-	private ArrayList<Piece> playablePiece;
-	private ArrayList<Piece> blackPiece;
-	private ArrayList<Piece> whitePiece;
+	private List<Piece> playablePiece;
+	private List<Piece> blackPiece;
+	private List<Piece> whitePiece;
 
 	/**
 	 * Constructeur de la classe.
@@ -190,18 +190,18 @@ public class BoardImpl implements Board, Cloneable{
 	}
 
 	@Override
-	public ArrayList<Piece> getWhitePieces(){
-		return this.whitePiece;
+	public List<Piece> getWhitePieces(){
+		return Collections.unmodifiableList(this.whitePiece);
 	}
 
 	@Override
-	public ArrayList<Piece> getBlackPieces(){
-		return this.blackPiece;
+	public List<Piece> getBlackPieces(){
+		return Collections.unmodifiableList(this.blackPiece);
 	}
 
 	@Override
-	public ArrayList<Piece> getPlayablePieces(){
-		return this.playablePiece;
+	public List<Piece> getPlayablePieces(){
+		return Collections.unmodifiableList(this.playablePiece);
 	}
 
 	@Override

@@ -82,11 +82,11 @@ public interface Board {
 	 */
 	public void setPieceNotPlayable(int i, int j);
 
-	public ArrayList<Piece> getBlackPieces();
+	public List<Piece> getBlackPieces();
 
-	public ArrayList<Piece> getWhitePieces();
+	public List<Piece> getWhitePieces();
 
-	public ArrayList<Piece> getPlayablePieces();
+	public List<Piece> getPlayablePieces();
 
 	public void resetPlayablePosition();
 

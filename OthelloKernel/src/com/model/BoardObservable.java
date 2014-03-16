@@ -7,7 +7,7 @@ import java.util.Observable;
 import com.model.piece.Piece;
 
 public class BoardObservable extends Observable implements Board {
-
+	
 	private Board board;
 	
 	public BoardObservable(Board board) {
@@ -81,17 +81,17 @@ public class BoardObservable extends Observable implements Board {
 	}
 
 	@Override
-	public ArrayList<Piece> getBlackPieces() {
+	public List<Piece> getBlackPieces() {
 		return this.board.getBlackPieces();
 	}
 
 	@Override
-	public ArrayList<Piece> getWhitePieces() {
+	public List<Piece> getWhitePieces() {
 		return this.board.getWhitePieces();
 	}
 
 	@Override
-	public ArrayList<Piece> getPlayablePieces() {
+	public List<Piece> getPlayablePieces() {
 		return this.board.getPlayablePieces();
 	}
 

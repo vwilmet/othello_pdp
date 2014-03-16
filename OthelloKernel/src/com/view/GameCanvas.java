@@ -212,7 +212,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("[GameCanvas][update] refreshView");
+		//System.out.println("[GameCanvas][update] refreshView");
 		refreshView();
 	}
 }

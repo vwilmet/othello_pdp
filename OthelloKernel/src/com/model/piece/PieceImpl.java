@@ -59,17 +59,17 @@ public class PieceImpl implements Cloneable, Piece {
 	public PieceColor getColor() {
 		return piece;
 	}
-
+	
 	@Override
 	public int getPosX() {
 		return this.posX;
 	}
-
+	
 	@Override
 	public int getPosY() {
 		return this.posY;
 	}
-
+	
 	@Override
 	public String toString() {
 		/*String res = "Position dans la grille : " + this.posX + " : " + this.posY

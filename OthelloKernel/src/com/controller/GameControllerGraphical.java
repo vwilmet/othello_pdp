@@ -82,7 +82,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 					this.reverseInbetweenPieceAfterPlaying(i, j);
 					this.gameSettings.changePlayer();
 					this.setPlayablePiece();
-					
+					this.writeMessageToUser(this.gameSettings.getCurrentPlayer().toString());
 					break;
 				}
 		}

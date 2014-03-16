@@ -25,7 +25,7 @@ import com.model.piece.WhitePiece;
  *         </ul>
  * @version 1.0
  */
-public class BoardImpl implements Board{
+public class BoardImpl implements Board, Cloneable{
 
 	/**
 	 * Factory pour la création des pièces.
@@ -143,7 +143,7 @@ public class BoardImpl implements Board{
 		if(this.gameBoard[i][j].getColor() instanceof WhitePiece){
 			this.whitePiece.remove(this.gameBoard[i][j]);
 			this.blackPiece.add(this.gameBoard[i][j]);
-		}else{
+		}else if(this.gameBoard[i][j].getColor() instanceof BlackPiece){
 			this.blackPiece.remove(this.gameBoard[i][j]);
 			this.whitePiece.add(this.gameBoard[i][j]);
 		}
@@ -251,6 +251,15 @@ public class BoardImpl implements Board{
 					}
 				}
 			}
+		}
+	}
+	
+	@Override
+	public Board clone() {
+		try {
+			return (Board) super.clone();
+		} catch (Exception e) {
+			return null;
 		}
 	}
 }

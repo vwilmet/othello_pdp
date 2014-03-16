@@ -71,23 +71,23 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(gameSettings.getGameBoard());
 		}
 	}
-
+	
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 		if(i!=-1 && j != -1){
-
-			System.out.println("pion jouable :" + this.gameSettings.getGameBoard().getPlayablePieces().size() + " : " + this.gameSettings.getGameBoard().getPlayablePieces());
+			
 			for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 				if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
 					this.gameSettings.setPiece(i, j);
 					this.reverseInbetweenPieceAfterPlaying(i, j);
 					this.gameSettings.changePlayer();
 					this.setPlayablePiece();
+					
 					break;
 				}
 		}
 	}
-
+	
 	@Override
 	public void onRightMouseButtonPressed(int i, int j) {}
 
@@ -142,10 +142,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onResetButtonCliked() {
-		this.gameSettings.resetHistoryAndRestartGame();
+		this.gameSettings.restartGame();
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 	}
-
+	
 	@Override
 	public void onHelpIAButtonCliked() {
 		// TODO Auto-generated method stub

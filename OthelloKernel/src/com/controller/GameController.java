@@ -63,8 +63,8 @@ public abstract class GameController{
 
 	protected abstract void loadFileForGame();
 
-	private ArrayList<PieceImpl> getReversePieceAround(Piece origin){
-		ArrayList<PieceImpl> neighbours = new ArrayList<PieceImpl>();
+	private ArrayList<Piece> getReversePieceAround(Piece origin){
+		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;
 
 		for(int i = 0; i < 3; i++)
@@ -77,7 +77,7 @@ public abstract class GameController{
 
 				if(posX == origin.getPosX() && posY == origin.getPosY())
 					continue;
-
+				
 				if(!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
 						!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
 					neighbours.add(this.gameSettings.getGameBoard().getBoard()[posX][posY]);
@@ -103,36 +103,18 @@ public abstract class GameController{
 		else
 			origins = this.gameSettings.getGameBoard().getBlackPieces();
 		
-		System.out.println("*--------------------------------------------------------------------------------*");
-		System.out.println("Longest combination : " + longestCombinaisonSize);
-		System.out.println("Joueur : " + this.gameSettings.getCurrentPlayer().getColor());
-		System.out.println("Origins pieces : " + origins);
-		System.out.println("*--------------------------------------------------------------------------*");
 		for(Piece origin : origins){
 
-			System.out.println("*-------------origin------------------------------------*");
-			System.out.println("origin : " + origin);
-			
-			System.out.println("Nombre de voisin de couleur opposés : " + getReversePieceAround(origin).size());
-			
-			for(PieceImpl intermediatePiece : getReversePieceAround(origin)){
-				System.out.println("*-------------Voisin--------------*");
-				System.out.println("Voisin : " +  intermediatePiece);
-
+			for(Piece intermediatePiece : getReversePieceAround(origin)){
 				//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
 				for(int i = 0; i < longestCombinaisonSize; i++){
-					System.out.println("Recherche de combinaison | i : " + i);
-					System.out.println("Inetermediaire : " + intermediatePiece);
-					
 					posX = 2*intermediatePiece.getPosX()-origin.getPosX();
 					posY = 2*intermediatePiece.getPosY()- origin.getPosY();
-
+					
 					if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
 						break;
 					
 					target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-					
-					System.out.println("Target : " + target);
 					
 					if(target.getColor().getClass().equals(origin.getColor().getClass())){
 						break;
@@ -142,38 +124,36 @@ public abstract class GameController{
 						this.gameSettings.getGameBoard().setPiecePlayable(posX, posY);
 						break;
 					}
+					intermediatePiece = target;
 				}
-				System.out.println("*---------Fin Voisin------*");
 			}
 
-			System.out.println("*-------------fin origin----------------------------------*");
 		}
 	}
 
 	protected void reverseInbetweenPieceAfterPlaying(int originPosX, int originPosY){
 
-		ArrayList<PieceImpl> inBetween = new ArrayList<PieceImpl>();
+		ArrayList<Piece> inBetween = new ArrayList<Piece>();
 		int longestCombinaisonSize = (this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ? this.gameSettings.getGameBoard().getSizeX() : this.gameSettings.getGameBoard().getSizeY());
-		PieceImpl origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
-		PieceImpl target = null;
+		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
+		Piece target = null;
 		int posX = 0, posY = 0;
-
-
-		for(PieceImpl intermediatePiece : getReversePieceAround(origin)){
+		
+		for(Piece intermediatePiece : getReversePieceAround(origin)){
 			inBetween.add(intermediatePiece);
 			//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
 			for(int i = 0; i < longestCombinaisonSize; i++){
-
+				
 				posX = 2 * intermediatePiece.getPosX() - origin.getPosX();
 				posY = 2 * intermediatePiece.getPosY() - origin.getPosY();
-
+				
 				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0  || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0){
 					inBetween.clear();
 					break;
 				}
-
+				
 				target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-
+				
 				if(target.getColor().getClass().equals(origin.getColor().getClass())){
 					break;
 				}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
@@ -185,11 +165,10 @@ public abstract class GameController{
 				}
 				intermediatePiece = target;
 			}
-
-			for(PieceImpl p : inBetween){
-				this.gameSettings.getGameBoard().getBoard()[p.getPosX()][p.getPosY()].reverse();
+			
+			for(Piece p : inBetween){
+				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
 			}
 		}
 	}
-
 }

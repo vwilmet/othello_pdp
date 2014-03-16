@@ -8,5 +8,5 @@ public interface Piece {
 	public int getPosY();
 	public String toString();
 	public PieceImpl clone();
-	
+	public boolean equals(Object obj);
 }

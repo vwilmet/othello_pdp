@@ -2,6 +2,7 @@ import utils.Application;
 
 import com.controller.GameController;
 import com.controller.GameControllerGraphical;
+import com.error_manager.Log;
 import com.model.BoardObservable;
 
 
@@ -14,9 +15,9 @@ public class Main {
 	static BoardObservable b, b1;
 
 	public static void main(String[] args) {
+		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		
 		GameController game = new GameControllerGraphical();
 		
 		//////////////////////////////////////////////////////////////

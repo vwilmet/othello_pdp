@@ -87,4 +87,13 @@ public class PieceImpl implements Cloneable, Piece {
 			return null;
 		}
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		PieceImpl piece = (PieceImpl)obj;
+	    if(piece.getPosX() == this.posX && piece.getPosY() == this.posY)
+	    	return true;
+	    	
+	    return false;
+	}
 }

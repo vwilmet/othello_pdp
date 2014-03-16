@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Observable;
 
 import com.model.piece.Piece;
-import com.model.piece.PieceImpl;
 
 public class BoardObservable extends Observable implements Board {
 
@@ -31,7 +30,7 @@ public class BoardObservable extends Observable implements Board {
 	}
 
 	@Override
-	public PieceImpl[][] getBoard() {
+	public Piece[][] getBoard() {
 		return this.board.getBoard();
 	}
 
@@ -102,4 +101,8 @@ public class BoardObservable extends Observable implements Board {
 		notifierObservateurs();
 	}
 
+	@Override
+	public Board clone() {
+		return new BoardObservable(this.board.clone());
+	}
 }

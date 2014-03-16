@@ -32,7 +32,7 @@ public interface Board {
 	 * Accesseur sur la matrice représentant l'othellier à un instant de jeu.
 	 * @return int [][] : La matrice remplie de pièces.
 	 */
-	public PieceImpl[][] getBoard();
+	public Piece[][] getBoard();
 
 	/**
 	 * Accesseur sur la liste des pions initials l'une partie.
@@ -95,4 +95,6 @@ public interface Board {
 	 * @return String : Une chaine de caractère prête pour l'affichage en console.
 	 */
 	public String toString();	
+	
+	public Board clone();
 }

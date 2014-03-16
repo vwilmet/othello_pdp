@@ -22,11 +22,10 @@ import javax.swing.SwingUtilities;
 
 import utils.TextManager;
 
-
 import com.model.Board;
 import com.model.BoardObservable;
 import com.model.piece.BlackPiece;
-import com.model.piece.PieceImpl;
+import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
 import com.model.view.ViewSettings;
 import com.view.event.GameCanvasMouseEventListener;
@@ -68,7 +67,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 				Image img;
 				try {
-					PieceImpl p = board.getBoard()[i][j];
+					Piece p = board.getBoard()[i][j];
 					if(p.getColor() instanceof WhitePiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
 					else if (p.getColor() instanceof BlackPiece)
@@ -213,6 +212,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("[GameCanvas][update] refreshView");
 		refreshView();
 	}
 }

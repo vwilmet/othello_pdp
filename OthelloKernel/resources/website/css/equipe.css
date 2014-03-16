@@ -1,0 +1,42 @@
+table.titre_onglet tr td 
+{
+	text-align: center;
+}
+
+table.titre_onglet img.photo
+{
+	height: 200px;
+}
+
+/* Onglet */
+.onglet
+{
+	display: inline-block;
+	margin-left: 3px;
+	margin-right: 3px;
+	padding: 3px;
+	cursor: pointer;
+	height: 240px;
+	background-color: #ffffff;
+	-webkit-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	-moz-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	margin-right: 20px;
+}
+
+.onglet_1
+{
+	padding-bottom: 4px;
+}
+
+.contenu_onglet
+{
+	background-color: #ffffff;
+	margin: 20px 0px 20px 3px;
+	padding: 5px 10px 5px 20px;
+	display: none; 
+	width: 889px;
+	-webkit-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	-moz-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+}

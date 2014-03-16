@@ -23,7 +23,7 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
-import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -43,12 +43,12 @@ public class RestoreGame {
 	/**
 	 * Attribut stoquant la liste des coups initiaux du plateau.
 	 */
-	private List<Piece> initialPieces;
+	private List<PieceImpl> initialPieces;
 	
 	/**
 	 * Variable stoquant l'historique de jeu de la partie sauvegardée.
 	 */
-	private List<Piece> history;
+	private List<PieceImpl> history;
 
 	/**
 	 * Attribut permettant la génération du XML avec la librairie JDOM.
@@ -180,7 +180,7 @@ public class RestoreGame {
 		int[] gridSize = null;
 		int aILevel = 0, aIThinkingTime = 0;
 		List<Player> players = null;
-		List<Piece> playedPieces = null;
+		List<PieceImpl> playedPieces = null;
 		BoardObservable board = null;
 
 		/* BOARD SIZE */
@@ -227,7 +227,7 @@ public class RestoreGame {
 			 * DEBUG
 			 */
 			System.out.println("DEBUG  : pieces ");
-			for (Piece p : this.initialPieces)
+			for (PieceImpl p : this.initialPieces)
 				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
@@ -254,7 +254,7 @@ public class RestoreGame {
 			 * DEBUG 
 			 */
 			System.out.println("DEBUG  : playedPcs ");
-			for (Piece p : playedPieces)
+			for (PieceImpl p : playedPieces)
 				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
@@ -268,7 +268,7 @@ public class RestoreGame {
 			 * DEBUG
 			 */
 			System.out.println("DEBUG  : History ");
-			for (Piece p : this.history)
+			for (PieceImpl p : this.history)
 				System.out.println(p.toString());
 
 		} catch (GameHandlerException e) {
@@ -340,14 +340,14 @@ public class RestoreGame {
 	 * @return List \<Piece\> : La Liste des pieces contenues dans la partie.
 	 * @throws GameHandlerException
 	 */
-	private List<Piece> xmlGetPiecesFromPart(Element part, boolean isHistoryPart)
+	private List<PieceImpl> xmlGetPiecesFromPart(Element part, boolean isHistoryPart)
 			throws GameHandlerException {
 
 		if (part == null)
 			throw new GameHandlerException(
 					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 
-		ArrayList<Piece> pcs = new ArrayList<Piece>();
+		ArrayList<PieceImpl> pcs = new ArrayList<PieceImpl>();
 
 		List<Element> listePieces = part.getChildren(TextManager.PIECE_PART);
 
@@ -375,8 +375,8 @@ public class RestoreGame {
 	 * @return Piece : le pion créé à partir des informations.
 	 * @throws GameHandlerException
 	 */
-	private Piece xmlGetPiece(Element piece) throws GameHandlerException {
-		Piece p = null;
+	private PieceImpl xmlGetPiece(Element piece) throws GameHandlerException {
+		PieceImpl p = null;
 
 		int c = -1, x = -1, y = -1;
 		try {

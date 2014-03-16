@@ -1,0 +1,160 @@
+html, body
+{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+/* HEADER */
+@font-face 
+{ 	
+	font-family: "Othello_Fonte"; 	
+	src: url('../font/PlayAlong.ttf'); 
+}
+
+header
+{
+	margin-top: -34px;
+	height: 80px;
+	background-color: #3A3A3A;
+}
+
+header #entete
+{
+	width: 1024px;
+	margin: auto;
+}
+
+header #entete h1
+{
+	text-align: center;
+	vertical-align: middle;
+	color: #3DBFD9;
+	font-family: "Othello_Fonte", arial;
+	font-size: 50px;
+}
+
+header img#pion_b
+{
+	float: left;
+	margin-top: -45px;
+}
+
+header img#pion_n
+{
+	float: left;
+	margin-left: -30px;
+	margin-top: -15px;
+}
+
+/* MENU */
+nav
+{
+	width: 1024px;
+	margin: auto;
+}
+
+nav ul#menu
+{
+	width: 765px;
+	float: left;
+	margin-top: -26px;
+}
+
+nav #menu a 
+{  
+    display: block;  
+    color: #fff;  
+    text-decoration: none;  
+	text-align: center;
+}  
+
+nav #menu > li, #menu > li li 
+{  
+    position: relative;  
+    display: inline-block;  
+    width: 110px;  
+    padding: 6px 15px;  
+    background-color: #777;  
+    background-image: linear-gradient(#aaa, #888 50%, #777 50%,#999);  
+} 
+ 
+nav #menu > li li { background: transparent none; }  
+nav #menu > li li a { color: #444; }  
+nav #menu > li li:hover { background:#eee; } 
+ 
+nav #menu > li:first-child 
+{  
+    border-right: 1px solid #777;  
+    border-radius: 8px 0 0 8px;  
+}
+  
+nav #menu > li + li 
+{  
+    border-left: 1px solid #aaa;  
+    border-right: 1px solid #777;  
+}
+  
+nav #menu > li:last-child 
+{  
+    border-right:0;  
+    border-left: 1px solid #aaa;  
+    border-radius: 0 8px 8px 0 ;  
+}
+  
+nav #menu > li:hover 
+{  
+    background-color: #999;  
+    background-image: linear-gradient(#ccc, #aaa 50%, #999 50%,#bbb);  
+}  
+
+nav #menu ul
+{  
+    position: absolute;  
+    top: 2em; 
+	left: 0;  
+    max-height: 0em;
+    margin: 0; 
+	padding: 0;  
+    background-color: #ddd;  
+    background-image: linear-gradient(#fff,#ddd);  
+    overflow:hidden;  
+    transition: 1s max-height 0.3s;  
+    border-radius: 0 0 8px 8px;  
+}  
+ 
+nav #menu > li:hover ul { max-height: 13em; } 
+
+/* CONTENT */
+#content 
+{
+	background-image: url("../images/texture.jpg");
+	background-repeat;
+	height: 100%;
+	padding-top: 90px;
+}
+
+/* CONTENU */ 
+#corps
+{
+	width: 994px;
+	padding: 20px 15px 20px 15px;
+	margin: auto;
+	background-color: #ffffff;
+	-webkit-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	-moz-box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+	box-shadow: -8px -6px 7px 0px rgba(50, 50, 50, 0.42);
+}
+
+#corps_eq
+{
+	width: 994px;
+	padding: 20px 15px 20px 15px;
+	margin: auto;
+}
+
+#corps p, #corps_eq p
+{
+	text-align: justify;
+}
+

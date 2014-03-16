@@ -1,8 +1,8 @@
 import utils.Application;
 
-import com.controller.test.GC;
-import com.controller.test.GCShell;
-import com.controller.test.GCView;
+import com.controller.GameController;
+import com.controller.GameControllerGraphical;
+import com.error_manager.Log;
 import com.model.BoardObservable;
 
 
@@ -15,22 +15,17 @@ public class Main {
 	static BoardObservable b, b1;
 
 	public static void main(String[] args) {
+		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		
-		//GameController game = new GameController();
-		GC g = new GCShell();
-		g.test();
-		
-		GC h = new GCView();
-		h.test();
+		GameController game = new GameControllerGraphical();
 		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
 		//////////////////////////////////////////////////////////////
 		/*System.out.println("Othello Kernel");
 		System.out.println("Test de la factory : ");
-
+		
 		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null;
 		

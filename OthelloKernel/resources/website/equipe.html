@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Othello</title>
+		<link rel="stylesheet" href="css/design.css">
+		<link rel="stylesheet" href="css/equipe.css">
+		<script type="text/javascript">
+			//<!--
+			function change_onglet(name)
+			{
+				document.getElementById('onglet_'+anc_onglet).className = 'onglet_0 onglet';
+				document.getElementById('onglet_'+name).className = 'onglet_1 onglet';
+				document.getElementById('contenu_onglet_'+anc_onglet).style.display = 'none';
+				document.getElementById('contenu_onglet_'+name).style.display = 'block';
+				anc_onglet = name;
+			}
+			//-->
+		</script>
+    </head>
+    <body>
+		<header>
+			<div id="entete">
+				<h1>Projet Othello</h1>
+				<img id="pion_b" src="images/b.png" />
+				<img id="pion_n" src="images/n.png" />
+			</div>
+			<nav>
+				<ul id="menu">
+					<li><a href="presentation.html">Présentation</a></li>
+					<li><a href="#">Documentation</a>  
+						<ul>  
+							<li><a href="documentation_simple.html">Documentation simple</a></li>  
+							<li><a href="documentation_expert.html">Documentation expert</a></li>   
+						</ul>  
+					</li>
+					<li><a href="jouer.html">Comment jouer</a></li>
+					<li><a href="documents.html">Documents</a></li>  
+					<li><a href="equipe.html">Equipe</a></li>  
+				</ul>
+			</nav>
+		</header>
+		<div id="content">
+			<div id="corps_eq">
+				<h1>Equipe</h1>
+				<p>
+					L'équipe est composée de quatre membres :
+				</p>
+				<div class="systeme_onglets">
+					<div class="onglets">
+						<span class="onglet_0 onglet" id="onglet_quoi" onclick="javascript:change_onglet('quoi');">
+							<table class="titre_onglet">
+								<tr><td><img class="photo" src="images/portraits/morgane.jpg" /></td></tr>
+								<tr><td>Morgane</td></tr>
+							</table>	
+						</span>
+						<span class="onglet_0 onglet" id="onglet_qui" onclick="javascript:change_onglet('qui');">
+							<table class="titre_onglet">
+								<tr><td><img class="photo" src="images/portraits/benji.jpg" /></td></tr>
+								<tr><td>Benjamin</td></tr>
+							</table>
+						</span>
+						<span class="onglet_0 onglet" id="onglet_pourquoi" onclick="javascript:change_onglet('pourquoi');">
+							<table class="titre_onglet">
+								<tr><td><img class="photo" src="images/portraits/nico.jpg" /></td></tr>
+								<tr><td>Nicolas</td></tr>
+							</table>
+						</span>
+						<span class="onglet_0 onglet" id="onglet_quand" onclick="javascript:change_onglet('quand');">
+							<table class="titre_onglet">
+								<tr><td><img class="photo" src="images/portraits/vincent.jpg" /></td></tr>
+								<tr><td>Vincent</td></tr>
+							</table>
+						</span>
+					</div>
+					<div class="contenu_onglets">
+						<div class="contenu_onglet" id="contenu_onglet_quoi">
+							<h2>Morgane Badré</h2>
+							<h3>Parcours</h3>
+							<p>
+								<ul>
+									<li>DUT Informatique</li>
+									<li>Licence professionnelle Développement Web</li>
+									<li>Licence 3 Informatique</li>
+									<li>Master 1 Informatique spécialité Génie Logiciel</li>
+								</ul>
+							</p>
+							<h3>Spécialités</h3>
+							<p>
+								<ul>
+									<li>Site web pour présentation du projet et de l'aide</li>
+									<li>Module FilesManager pour la gestion de lecture et d'écriture de fichiers</li>
+									<li>Module PdpTimer pour la gestion du temps</li>
+									<li>Module BenchMark pour calculer les performances machines</li>
+									<li>Ecriture des tests JUnit</li>
+								</ul>
+							</p>
+						</div>
+						<div class="contenu_onglet" id="contenu_onglet_qui">
+							<h2>Benjamin Letourneau</h2>
+							<h3>Parcours</h3>
+							<p>
+								<ul>
+									<li>DUT Informatique</li>
+									<li>Licence 3 Informatique</li>
+									<li>Master 1 Informatique spécialité Génie Logiciel</li>
+								</ul>
+							</p>
+							<h3>Spécialités</h3>
+							<p>
+								<ul>
+									<li>Module OthelloKernel pour la gestion du jeu</li>
+									<li>Ecriture des tests JUnit</li>
+								</ul>
+							</p>
+						</div>
+						<div class="contenu_onglet" id="contenu_onglet_pourquoi">
+							<h2>Nicolas Yvon</h2>
+							<h3>Parcours</h3>
+							<p>
+								<ul>
+									<li>DUT Informatique</li>
+									<li>Licence 3 Informatique</li>
+									<li>Master 1 Informatique spécialité Génie Logiciel</li>
+								</ul>
+							</p>
+							<h3>Spécialités</h3>
+							<p>
+								<ul>
+									<li>Module ArtificialIntelligence</li>
+									<li>Ecriture des tests JUnit</li>
+								</ul>
+							</p>
+						</div>
+						<div class="contenu_onglet" id="contenu_onglet_quand">
+							<h2>Vincent Wilmet</h2>
+							<h3>Parcours</h3>
+							<p>
+								<ul>
+									<li>DUT Informatique</li>
+									<li>Licence 3 Informatique</li>
+									<li>Master 1 Informatique spécialité Génie Logiciel</li>
+								</ul>
+							</p>
+							<h3>Spécialités</h3>
+							<p>
+								<ul>
+									<li>Module FilesManager pour la gestion de lecture et d'écriture de fichiers</li>
+									<li>Module PdpTimer pour la gestion du temps</li>
+									<li>Module BenchMark pour calculer les performances machines</li>
+									<li>Module OthelloKernel pour la gestion du jeu</li>
+									<li>Ecriture des tests JUnit</li>
+								</ul>
+							</p>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					//<!--
+					var anc_onglet = 'quoi';
+					change_onglet(anc_onglet);
+					//-->
+				</script>
+			</div>
+		</div>
+    </body>
+</html>

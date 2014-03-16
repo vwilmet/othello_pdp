@@ -5,6 +5,7 @@ import java.util.List;
 import utils.FactoryHandlerException;
 
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 
 /**
  * 
@@ -14,16 +15,16 @@ import com.model.piece.Piece;
  * @version 1.0
  */
 public interface PieceFactory {
-	public Piece getWhitePiece(int posX, int posY)
+	public PieceImpl getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException;
 
-	public Piece getBlackPiece(int posX, int posY)
+	public PieceImpl getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException;
 
-	public Piece getEmptyPiece(int posX, int posY)
+	public PieceImpl getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException;
 
-	public Piece[][] getMatrixPiece(int i, int j)
+	public PieceImpl[][] getMatrixPiece(int i, int j)
 			throws FactoryHandlerException;
 
 	public List<Piece> getArrayListOfPiece() throws FactoryHandlerException;

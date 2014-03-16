@@ -136,12 +136,19 @@ public interface TextManager {
 	public static final String HISTORY_PART = "history";
 	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
-	
-	
+		
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur Blanc :";
 	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur Noir :";
 
 	public static final String PAUSE_TEXT_VUE = "Jeu en pause !! Appuyer sur le bouton play pour reprendre";
 	public static final String PAUSE_MESSAGE_LIST_VUE = "Jeu mis en pause";
 	public static final String PLAY_MESSAGE_LIST_VUE = "Jeu démarée";
+	public static final String NEM_GAME_START_MESSAGE_LIST_VUE = "Nouvelle partie démarée!";
+	
+	public static final String BACK_PIECE_MESSAGE_LIST_VUE = "Retrait d'une pièce dans l'othellier";
+	public static final String FORWARD_PIECE_MESSAGE_LIST_VUE = "Rajout de la dernière pièce jouée dans l'othellier";
+
+	public static final String RESET_PIECE_MESSAGE_LIST_VUE = "Partie recommencée";
+	public static final String REVERSE_PLAYER_MESSAGE_LIST_VUE = "Joueurs inversés";
+
 }

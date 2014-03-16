@@ -1,6 +1,5 @@
 package com.model.factory.impl;
 
-import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
@@ -8,13 +7,13 @@ import utils.GameHandlerException;
 import utils.TextManager;
 
 import com.error_manager.Log;
-import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -54,7 +53,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getWhitePiece(int posX, int posY)
+	public PieceImpl getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -62,7 +61,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getBlackPiece(int posX, int posY)
+	public PieceImpl getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -70,7 +69,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getEmptyPiece(int posX, int posY)
+	public PieceImpl getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -78,7 +77,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece[][] getMatrixPiece(int i, int j)
+	public PieceImpl[][] getMatrixPiece(int i, int j)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -109,7 +108,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public BoardObservable getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException {
+	public BoardObservable getBoard(int sizeX, int sizeY, List<PieceImpl> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.SAVE_GAME_FACTORY_REQUIRED_FR);

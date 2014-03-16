@@ -1,16 +1,10 @@
 package com.controller;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.ArrayList;
 
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
-import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -18,25 +12,18 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PlayerFactory;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.io.RestoreGame;
+import com.model.piece.EmptyPiece;
+import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
-import com.view.GameViewImpl;
-import com.view.button.ImageButton;
-import com.view.event.ButtonImageMenuEventListener;
-import com.view.event.GameCanvasMouseEventListener;
-import com.view.event.GameViewMenuEventListener;
-import com.view.interfaces.GameView;
 
-public class GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
+public abstract class GameController{
 
-	private InitGameController initGameController;
-	private GameView gameView;
-	private GameSettings gameSettings;
-	private TimerManager timer;
+	protected GameSettings gameSettings;
+	protected TimerManager timer;
 
-	public GameController() {
+	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
@@ -45,8 +32,8 @@ public class GameController implements NotifyGameController, GameCanvasMouseEven
 		timer = new TimerManagerImpl();
 
 		try {
-			board = bFacto.getInitialBoard(8,8);
 
+			board = bFacto.getInitialBoard(8,8);
 
 
 		} catch (FactoryHandlerException e) {
@@ -61,183 +48,151 @@ public class GameController implements NotifyGameController, GameCanvasMouseEven
 					board,
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY);
+
+			this.setPlayablePiece();
+
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 
-		this.gameView = new GameViewImpl(this.gameSettings.getGameBoard(), this);
-		this.gameView.setMenuListener(this);
-		this.gameView.setGameMouseEventListener(this);
-		this.gameView.showFrame();
 		timer.startCountingElapsedTime();
 	}
 
-	private void initializeNewGame(){
-		this.initGameController = InitGameController.getInstance(this);
-		this.initGameController.showView();
-	}
+	protected abstract void initializeNewGame();
 
-	private void loadFileForGame(){
+	protected abstract void loadFileForGame();
 
-		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
-		RestoreGame rg = null;
-		int returnVal;
+	private ArrayList<Piece> getReversePieceAround(Piece origin){
+		ArrayList<Piece> neighbours = new ArrayList<Piece>();
+		int posX, posY;
 
-		JFileChooser chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Fichiers XML", "xml");
-		chooser.setFileFilter(filter);
+		for(int i = 0; i < 3; i++)
+			for(int j = 0; j < 3; j++){
+				posX = origin.getPosX()+j-1;
+				posY = origin.getPosY()+i-1;
 
-		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
+				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
+					continue;
 
-		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
+				if(posX == origin.getPosX() && posY == origin.getPosY())
+					continue;
 
-			try {
-				rg = rgFacto.getRestoreGame(chooser.getSelectedFile().getPath());
-			} catch (FactoryHandlerException e) {
-				Log.error(e.getMessage());
-				e.printStackTrace();
+				if(!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
+						!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
+					neighbours.add(this.gameSettings.getGameBoard().getBoard()[posX][posY]);
+
 			}
-			rg.loadGameFromBackupFile();
+		return neighbours;
+	}
 
-			gameSettings = rg.getGameSettings();
-			this.gameView.setBoard(gameSettings.getGameBoard());
+	/**
+	 * Pk ici dans controller et pas comme les méthode history dans le model 
+	 * => cette méthode fait partie des regles du jeu! du coup elle pourrait etre modifier pour changer le jeu alors que le comportement de back and forwrd seras tjr le même et dépend de la board 
+	 */
+	protected void setPlayablePiece(){
+
+		this.gameSettings.getGameBoard().resetPlayablePosition();
+		ArrayList<Piece> origins;
+		int longestCombinaisonSize = (this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ? this.gameSettings.getGameBoard().getSizeX() : this.gameSettings.getGameBoard().getSizeY());
+		Piece target = null;
+		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
+
+		if(this.gameSettings.getCurrentPlayer().getColor().equals(TextManager.WHITE_PLAYER))
+			origins = new ArrayList<Piece>(gameSettings.getGameBoard().getWhitePieces());
+		else
+			origins = new ArrayList<Piece>(this.gameSettings.getGameBoard().getBlackPieces());
+
+		for(Piece origin : origins){
+
+			for(Piece intermediatePiece : getReversePieceAround(origin)){
+				System.out.println("================================");
+				System.out.println("Pour le pion origin : " + origin);
+
+				previousIntermediatePosX = origin.getPosX();
+				previousIntermediatePosy = origin.getPosY();
+
+				//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
+				for(int i = 0; i < longestCombinaisonSize; i++){
+					System.out.println("--------------"); 
+					posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
+					posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
+
+					if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
+						break;
+
+					target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
+
+					System.out.println("Intermediate : " + intermediatePiece);
+					System.out.println("Target : " + target);
+
+					if(target.getColor().getClass().equals(origin.getColor().getClass())){
+						System.out.println("on sort du premier if : target == origin | not playable");
+						break;
+					}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
+						System.out.println("on sort du second if : target == intermediatePiece | ont continue");
+						previousIntermediatePosX = intermediatePiece.getPosX();
+						previousIntermediatePosy = intermediatePiece.getPosY();
+						intermediatePiece = target;
+						continue;
+					}else if(target.getColor() instanceof EmptyPiece){
+						System.out.println("géniale c'est jouable en :" + target);
+						this.gameSettings.getGameBoard().setPiecePlayable(posX, posY);
+						break;
+					}
+				}
+				System.out.println("================================");
+			}
+
 		}
 	}
 
-	@Override
-	public void initGameFinished(boolean valid, GameSettings game) {
+	protected void reverseInbetweenPieceAfterPlaying(int originPosX, int originPosY){
 
-		if(valid){
-			this.gameSettings = game;
-			this.gameView.setBoard(this.gameSettings.getGameBoard());
-		}
-	}
+		ArrayList<Piece> inBetween = new ArrayList<Piece>();
+		int longestCombinaisonSize = 
+				(this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ?
+						this.gameSettings.getGameBoard().getSizeX() :
+							this.gameSettings.getGameBoard().getSizeY());
+		
+		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
+		Piece target = null;
+		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
 
-	@Override
-	public void onLeftMouseButtonPressed(int i, int j) {
-		System.out.println("Left button Position x:y =>" + i + ":" + j);
+		for(Piece intermediatePiece : getReversePieceAround(origin)){
+			inBetween.add(intermediatePiece);
+			previousIntermediatePosX = origin.getPosX();
+			previousIntermediatePosy = origin.getPosY();
+			//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
+			for(int i = 0; i < longestCombinaisonSize; i++){
 
-		if(i!=-1 && j != -1){
-			this.gameSettings.setPiece(i, j);
+				posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
+				posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
 
-			this.gameSettings.changePlayer();
-		}
-	}
+				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0  || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0){
+					inBetween.clear();
+					break;
+				}
 
-	@Override
-	public void onRightMouseButtonPressed(int i, int j) {
-		//	System.out.println("Right button Position x:y =>" + i + ":" + j);
+				target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
 
-	}
+				if(target.getColor().getClass().equals(origin.getColor().getClass())){
+					break;
+				}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
+					inBetween.add(target);
+					previousIntermediatePosX = intermediatePiece.getPosX();
+					previousIntermediatePosy = intermediatePiece.getPosY();
+					intermediatePiece = target;
+					continue;
+				}else if(target.getColor() instanceof EmptyPiece){
+					inBetween.clear();
+					break;
+				}
+			}
 
-	@Override
-	public void onButtonCliked(ImageButton button, int code) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onPlayButtonCliked() {
-		this.gameView.setOnPause(false);
-		this.addMessageToListForUser(TextManager.PLAY_MESSAGE_LIST_VUE + " : " + timer.getElepsedTimeInMinAndSeconde());
-	}
-
-	@Override
-	public void onPauseButtonCliked() {
-		this.gameView.setOnPause(true);
-		this.addMessageToListForUser(TextManager.PAUSE_MESSAGE_LIST_VUE + " : " + timer.getElepsedTimeInMinAndSeconde());
-	}
-
-	@Override
-	public void onForwardButtonCliked() {
-		this.gameSettings.getForwardInHistory();
-	}
-
-	@Override
-	public void onBackButtonCliked() {
-		this.gameSettings.getBackInHistory();
-	}
-
-	@Override
-	public void onResetButtonCliked() {
-		this.gameSettings.resetHistoryAndRestartGame();
-	}
-
-	@Override
-	public void onHelpIAButtonCliked() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onPositionButtonCliked() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onReversePlayerButtonCliked() {
-		this.gameSettings.reversePlayer();
-	}
-
-	private void addMessageToListForUser(String message){
-		this.gameView.addMessageToMessageList(message);
-	}
-
-	private void writeStatMessage(String stat){
-		this.gameView.changeStatViewMessage(stat);
-	}
-
-	private void writeMessageToUser(String message){
-		this.gameView.changeMessageViewContent(message);
-	}
-
-	@Override
-	public void onNewGameItemMenuPressed() {
-		this.initializeNewGame();
-	}
-
-	@Override
-	public void onSaveGameUnderItemMenuPressed() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onOpenFileAndContinueItemMenuPressed() {
-		this.loadFileForGame();
-	}
-
-	@Override
-	public void onOpenFileAndChoosePositionItemMenuPressed() {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public void onOpenPreConfFileItemMenuPressed() {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public void onOptionItemMenuPressed() {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public void onHelpItemMenuPressed() {
-		try {
-			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
-		} catch (IOException  e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
+			for(Piece p : inBetween){
+				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
+			}
 		}
 	}
 }

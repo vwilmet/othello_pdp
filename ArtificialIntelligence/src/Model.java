@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.aistrategy.impl.BruteForceAI;
+import com.aistrategy.impl.NextBestMoveAI;
 import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
@@ -17,12 +18,12 @@ public class Model {
 	public Model() throws WrongPlayablePositionException
 	{
 		myBoard = new Board();
-		myAI = new BruteForceAI();
-		//myAI = new RandomAI();
+		//myAI = new BruteForceAI();
+		myAI = new NextBestMoveAI();
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		this.width = myBoard.width;
 		this.height = myBoard.height;
-		/*Point p = myAI.nextMove(1);
+		Point p = myAI.nextMove(1);
 		if(p != null)
 		myAI.notifyChosenMove(p, 1);
 		p = myAI.nextMove(2);		
@@ -72,7 +73,7 @@ public class Model {
 			myAI.notifyChosenMove(p, 2);
 		p = myAI.nextMove(1);
 		if(p != null)
-			myAI.notifyChosenMove(p, 1);*/
+			myAI.notifyChosenMove(p, 1);
 		
 
 	}

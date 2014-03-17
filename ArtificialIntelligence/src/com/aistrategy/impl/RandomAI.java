@@ -14,6 +14,13 @@ import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
 
+
+/**
+ * Classe qui implémente les méthodes de la stratégie / Intelligence Artificielle avec une approche "au hasard" (calcule des coups jouables et renvoie d'un coup au hasard).
+ * </br>Elle implémente l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy}.
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 public class RandomAI implements ArtificialIntelligenceStrategy {
 
 	Board initBoard;
@@ -22,8 +29,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	Set<Point> blackPiece;
 	Integer boardWidth;
 	Integer boardHeight;
-	private Set<Point> borderLine;
-
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -119,6 +125,16 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean completeReflexion() {
 		return true;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#undoMove}
+	 */
+	@Override
+	public void undoMove() {
+		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 
 

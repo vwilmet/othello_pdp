@@ -6,10 +6,10 @@ import java.util.Set;
 import com.utils.WrongPlayablePositionException;
 
 /**
- * Interface de gestion des différentes intelligences artificielles
- * Cette interface contient les méthodes afin d'utiliser les 
+ * Interface de gestion des différentes intelligences artificielles.
+ * </br>Cette interface contient les méthodes afin d'utiliser les 
  * différentes intelligences artificielles.
- * Par exemple : le choix de l'intelligence artficielle à utiliser grâce 
+ * </br>Par exemple : le choix de l'intelligence artficielle à utiliser grâce 
  * à la fonction chooseDifficulty...
  * 
  * @author <ul><li>Nicolas Yvon</li></ul>
@@ -81,6 +81,11 @@ public interface ArtificialIntelligence {
 	     */
 		public void chooseDifficulty(Integer difficulty);
 				
+		/**
+	     * Annule le dernier coup jouer.
+	     */
+		public void undoMove();
+		
 		
 	}
 

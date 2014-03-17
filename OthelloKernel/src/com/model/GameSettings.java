@@ -46,7 +46,7 @@ public class GameSettings {
 	public static final int BOARD_MAX_SIZE_X = 50;
 	public static final int BOARD_MAX_SIZE_Y = 50;
 
-	public static final String HELP_WEBSITE_PATH = "/resources/website/index.html";
+	public static final String HELP_WEBSITE_PATH = "resources/website/index.html";
 
 	/**
 	 * Joueurs du jeu (machine ou humain). 

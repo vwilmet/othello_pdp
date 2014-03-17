@@ -1,9 +1,8 @@
 package com.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,7 +12,6 @@ import utils.TextManager;
 
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
-import com.model.Board;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
@@ -220,11 +218,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onHelpItemMenuPressed() {
 		try {
-			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
+//			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
+			java.awt.Desktop.getDesktop().browse(new File(GameSettings.HELP_WEBSITE_PATH).toURI());
 		} catch (IOException  e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}

@@ -3,6 +3,7 @@ package com.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,6 +13,7 @@ import utils.TextManager;
 
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
+import com.model.Board;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
@@ -29,6 +31,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	protected GameView gameView;
 	protected InitGameController initGameController;
+	protected ChoosePositionController chooseGameBoardController;
 	
 	
 	
@@ -46,6 +49,11 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.initGameController.showView();
 	}
 
+	protected void chooseHistoryBoardPosition(){
+		chooseGameBoardController = ChoosePositionController.getInstance(this, this.gameSettings.getHistoryPosition(), this.gameSettings.getGameBoardHistory());
+		chooseGameBoardController.showView();
+	}
+	
 	protected void loadFileForGame(){
 
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
@@ -167,8 +175,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onPositionButtonCliked() {
-		// TODO Auto-generated method stub
-
+		chooseHistoryBoardPosition();
 	}
 
 	@Override
@@ -222,11 +229,13 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			e.printStackTrace();
 		}
 	}
-	
-	public void resetHistory(){
-		this.gameHistory.clear();
-		this.gameBoardHistory.clear();
-		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
-		this.sentinel = -1;
+
+	@Override
+	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
+			int position) {
+		
+		this.gameSettings.setHistoryPosition(position);
+		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
+		this.setPlayablePiece();
 	}
 }

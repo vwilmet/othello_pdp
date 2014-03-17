@@ -130,6 +130,18 @@ public class GameSettings {
 		return this.gameHistory;
 	}
 
+	public int getHistoryPosition(){
+		return this.sentinel;
+	}
+	
+	public void setHistoryPosition(int sentinel){
+		this.sentinel = sentinel;
+	}
+	
+	public BoardObservable getHistoryBoard(int position){
+		return this.gameBoardHistory.get(position);
+	}
+	
 	public List<BoardObservable> getGameBoardHistory(){
 		return this.gameBoardHistory;
 	}

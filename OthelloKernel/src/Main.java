@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import utils.Application;
 import utils.FactoryHandlerException;
+import utils.GameHandlerException;
 
 import com.error_manager.Log;
+import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.factory.interfaces.SaveGameFactory;
-import com.model.io.RestoreGame;
-import com.model.io.SaveGame;
+import com.model.factory.interfaces.PieceFactory;
+import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 
 
 /**
@@ -18,10 +23,59 @@ public class Main {
 	static BoardObservable b, b1;
 
 	public static void main(String[] args) {
-	/*	Log.reset();
+		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		GameController game = new GameControllerGraphical();*/
+		//GameController game = new GameControllerGraphical();
+		
+		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
+		Piece p1 = null, p2 = null,  p3 = null, p4 = null;
+		List<Piece> pcs = new ArrayList<Piece>();
+		
+		try {
+			p1 = pieceFactory.getWhitePiece(1, 1);
+			p2 = pieceFactory.getBlackPiece(1, 2);
+			p3 = pieceFactory.getWhitePiece(2, 2);
+			p4 = pieceFactory.getBlackPiece(2, 1);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+		}
+		
+		pcs.add(p1);
+		pcs.add(p2);
+		pcs.add(p3);
+		pcs.add(p4);
+		
+		try {
+			
+			BoardImpl b = new BoardImpl(4,4, pcs);
+			BoardImpl bclone = (BoardImpl)b.clone();
+			PieceImpl [][] b1 = (PieceImpl[][]) b.getBoard().clone();
+			System.out.println(b.getBoard().hashCode());
+			System.out.println(b1.hashCode());
+			
+		
+			bclone.setBoard(b1);
+			
+			
+			System.out.println(b.getBoard().hashCode());
+			System.out.println(bclone.getBoard().hashCode());
+			
+			System.out.println("========================");
+			bclone.setBlackPiece(0, 0);
+			
+			System.out.println(b.getBoard()[0][0].hashCode());
+			System.out.println(bclone.getBoard()[0][0].hashCode());
+			
+			System.out.println("b" + b);
+			System.out.println("bclone" + bclone);
+		} catch (GameHandlerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
 		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
@@ -154,7 +208,7 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		System.out.println("test de la lecure de partie");
+		/*System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		RestoreGame rg = null;
@@ -180,5 +234,5 @@ public class Main {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-	}
+*/	}
 }

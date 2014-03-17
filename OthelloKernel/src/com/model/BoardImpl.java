@@ -254,10 +254,14 @@ public class BoardImpl implements Board, Cloneable{
 		}
 	}
 	
+	public void setBoard(PieceImpl[][] b){
+		this.gameBoard = b;
+	}
+	
 	@Override
 	public Board clone() {
 		try {
-			return (Board) super.clone();
+			return (BoardImpl) super.clone();
 		} catch (Exception e) {
 			return null;
 		}

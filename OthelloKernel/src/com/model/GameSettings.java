@@ -46,7 +46,7 @@ public class GameSettings {
 	public static final int BOARD_MAX_SIZE_X = 50;
 	public static final int BOARD_MAX_SIZE_Y = 50;
 
-	public static final String HELP_WEBSITE_PATH = "./resources/website/index.html";
+	public static final String HELP_WEBSITE_PATH = "/resources/website/index.html";
 
 	/**
 	 * Joueurs du jeu (machine ou humain). 
@@ -88,8 +88,12 @@ public class GameSettings {
 		this.gameHistory = history;
 		
 		this.gameBoardHistory = new ArrayList<BoardObservable>();
-		this.gameBoardHistory.add(gameBoard);
+		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
+		
+		if((BoardObservable)gameBoard.clone() == null)
+			System.out.println("tototototototototottoto==========================================================");
+		
 		this.currentPlayer = player1;
 	}
 
@@ -158,7 +162,7 @@ public class GameSettings {
 				this.setCurrentPlayer(this.player1);
 			else
 				this.setCurrentPlayer(this.player2);
-			
+			System.out.println("value sentinel " + this.sentinel );
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
 			this.gameBoard.notifyObservers();
 			

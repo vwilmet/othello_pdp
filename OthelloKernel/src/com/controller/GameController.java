@@ -160,11 +160,7 @@ public abstract class GameController{
 		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
 		Piece target = null;
 		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
-		
-		// Le bug provient surement de l'appel à la fonction dans le for faire l'appel avant le for sinon recalcul à chaque fois 
-		/***
-		 * TODO
-		 */
+
 		for(Piece intermediatePiece : getReversePieceAround(origin)){
 			inBetween.add(intermediatePiece);
 			previousIntermediatePosX = origin.getPosX();
@@ -199,10 +195,7 @@ public abstract class GameController{
 			for(Piece p : inBetween){
 				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
 			}
-			/**
-			 * TODO
-			 */
-			// Ajout du inBetween.clear();
+			inBetween.clear();
 		}
 	}
 }

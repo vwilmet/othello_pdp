@@ -11,10 +11,10 @@ import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
+import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
-import com.model.piece.PieceImpl;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
 
@@ -27,6 +27,7 @@ public abstract class GameController{
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
+		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 
 		BoardObservable board = null;
 		timer = new TimerManagerImpl();
@@ -43,11 +44,12 @@ public abstract class GameController{
 
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER), 
-					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER),
+					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER,1), 
+					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER,2),
 					board,
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
-					GameSettings.DEFAULT_IA_DIFFICULTY);
+					GameSettings.DEFAULT_IA_DIFFICULTY,
+					pieceFacto.getArrayListOfPiece());
 
 			this.setPlayablePiece();
 
@@ -158,7 +160,11 @@ public abstract class GameController{
 		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
 		Piece target = null;
 		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
-
+		
+		// Le bug provient surement de l'appel à la fonction dans le for faire l'appel avant le for sinon recalcul à chaque fois 
+		/***
+		 * TODO
+		 */
 		for(Piece intermediatePiece : getReversePieceAround(origin)){
 			inBetween.add(intermediatePiece);
 			previousIntermediatePosX = origin.getPosX();
@@ -187,12 +193,16 @@ public abstract class GameController{
 				}else if(target.getColor() instanceof EmptyPiece){
 					inBetween.clear();
 					break;
-				}
+				} 
 			}
 
 			for(Piece p : inBetween){
 				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
 			}
+			/**
+			 * TODO
+			 */
+			// Ajout du inBetween.clear();
 		}
 	}
 }

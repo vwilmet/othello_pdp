@@ -5,7 +5,7 @@ import java.util.List;
 import utils.FactoryHandlerException;
 
 import com.model.BoardObservable;
-import com.model.piece.PieceImpl;
+import com.model.piece.Piece;
 
 /**
  * 
@@ -15,7 +15,7 @@ import com.model.piece.PieceImpl;
  * @version 1.0
  */
 public interface BoardFactory {
-	public BoardObservable getBoard(int sizeX, int sizeY, List<PieceImpl> initiaPieces) throws FactoryHandlerException;
+	public BoardObservable getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException;
 	
 	public BoardObservable getInitialBoard(int sizeX, int sizeY) throws FactoryHandlerException;
 }

@@ -58,7 +58,7 @@ public class BoardImpl implements Board, Cloneable{
 	 * @param initiaPieces : List<Piece>, liste des pions initiaux du jeu.
 	 * @throws GameHandlerException
 	 */
-	public BoardImpl(int sizeX, int sizeY, List<PieceImpl> initiaPieces) throws GameHandlerException {
+	public BoardImpl(int sizeX, int sizeY, List<Piece> initiaPieces) throws GameHandlerException {
 
 		this.pieceFacto = FactoryProducer.getPieceFactory();
 		this.playablePiece = new ArrayList<Piece>();
@@ -93,7 +93,7 @@ public class BoardImpl implements Board, Cloneable{
 
 		this.initialiseBoardToPlay();
 
-		for (PieceImpl p : initiaPieces) {
+		for (Piece p : initiaPieces) {
 			addInitialPiece(p);
 		}
 	}
@@ -109,7 +109,7 @@ public class BoardImpl implements Board, Cloneable{
 	}
 
 	@Override
-	public PieceImpl[][] getBoard() {
+	public Piece[][] getBoard() {
 		return this.gameBoard;
 	}
 
@@ -216,7 +216,7 @@ public class BoardImpl implements Board, Cloneable{
 	 * @param p : Piece,  pion à ajouter sur le plateau pour jouer.
 	 * @throws GameHandlerException
 	 */
-	private void addInitialPiece(PieceImpl p) throws GameHandlerException {
+	private void addInitialPiece(Piece p) throws GameHandlerException {
 		if (p.getColor() instanceof EmptyPiece)
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);

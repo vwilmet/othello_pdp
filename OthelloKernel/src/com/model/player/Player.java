@@ -13,8 +13,6 @@ import utils.TextManager;
  * @version 1.0
  */
 public class Player {
-
-	private static int pNumber = 0;
 	
 	private String login;
 	private String color;
@@ -28,7 +26,7 @@ public class Player {
 	 * @param login
 	 * @param c
 	 */
-	public Player(String login, String c) throws GameHandlerException{
+	public Player(String login, String c, int playerNumber) throws GameHandlerException{
 		this.login = login;
 		
 		if ((c.equals(TextManager.WHITE_PLAYER)) || (c.equals(TextManager.BLACK_PLAYER)))
@@ -37,8 +35,10 @@ public class Player {
 			throw new GameHandlerException(GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
 		}
 		this.piecesNumber = 0;
-		this.playerNumber = ++pNumber;
+		this.playerNumber = playerNumber;
 		this.type = new HumanPlayer();
+		
+		System.out.println(this.toString());
 	}
 
 	public String getLogin() {

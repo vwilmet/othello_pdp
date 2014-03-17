@@ -92,7 +92,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, String c)
+	public Player getHumanPlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -100,7 +100,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, String c)
+	public Player getMachinePlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -108,7 +108,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public BoardObservable getBoard(int sizeX, int sizeY, List<PieceImpl> initiaPieces) throws FactoryHandlerException {
+	public BoardObservable getBoard(int sizeX, int sizeY, List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.SAVE_GAME_FACTORY_REQUIRED_FR);
@@ -123,7 +123,7 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.SAVE_GAME_FACTORY_REQUIRED_FR);

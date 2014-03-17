@@ -76,7 +76,7 @@ public class GameSettings {
 	 */
 	private int sentinel;
 
-	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
+	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) {
 		this.player1 = player1;
 		this.player2 = player2;
 
@@ -84,8 +84,9 @@ public class GameSettings {
 
 		this.artificialIntelligenceThinkingTime = artificialIntelligenceThinkingTime;
 		this.artificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
-
-		this.gameHistory = new ArrayList<Piece>();
+		
+		this.gameHistory = history;
+		
 		this.gameBoardHistory = new ArrayList<BoardObservable>();
 		this.gameBoardHistory.add(gameBoard);
 		this.sentinel = -1;

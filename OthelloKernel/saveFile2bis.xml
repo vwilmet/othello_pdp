@@ -39,22 +39,18 @@
 		</pieces>
 		<player>
 			<name>TITI</name>
-			<color>1</color>
-			<type>"huaman"</type>
+			<rgb>white</rgb>
+			<type>human</type>
 			<num>1</num>
 		</player>
 		<player>
 			<name>TOTO</name>
-			<color>1</color>
-			<playerType>machine</playerType>
+			<rgb>black</rgb>
+			<type>machine</type>
 			<num>2</num>
 		</player>
-		<AILevel>
-			1
-		</AILevel>
-		<AIThinkingTime>
-			240
-		</AIThinkingTime>
+		<AILevel>1</AILevel>
+		<AIThinkingTime>240</AIThinkingTime>
 	</init>
 	<playedPcs>
 		<piece>

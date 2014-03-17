@@ -1,9 +1,12 @@
-import utils.Application;
+import utils.FactoryHandlerException;
 
-import com.controller.GameController;
-import com.controller.GameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
+import com.model.factory.FactoryProducer;
+import com.model.factory.interfaces.RestoreGameFactory;
+import com.model.factory.interfaces.SaveGameFactory;
+import com.model.io.RestoreGame;
+import com.model.io.SaveGame;
 
 
 /**
@@ -15,10 +18,10 @@ public class Main {
 	static BoardObservable b, b1;
 
 	public static void main(String[] args) {
-		Log.reset();
+	/*	Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		GameController game = new GameControllerGraphical();
+		GameController game = new GameControllerGraphical();*/
 		
 		//////////////////////////////////////////////////////////////
 		//TOUS CE QUI SUIT DOIT ÊTRE DANS LE CONTROLEUR (OU PRESQUE)//
@@ -151,17 +154,31 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		/*System.out.println("test de la lecure de partie");
+		System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
+		RestoreGame rg = null;
+		
 		try {
-			RestoreGame rg = rgFacto.getRestoreGame("saveFile2.xml");
+			rg = rgFacto.getRestoreGame("saveFile2bis.xml");
 			rg.loadGameFromBackupFile();
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		*/
 		
+		
+		System.out.println("test de la Ecriture de partie");
+		SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
+		SaveGame sg = null;
+		
+		try {
+			sg = sgFacto.getSaveGame(rg.getGameSettings(),"fileTest");
+			System.out.println("toto");
+			sg.saveGameToBackupFile();
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 }

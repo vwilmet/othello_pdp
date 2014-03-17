@@ -23,6 +23,8 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
+import com.model.factory.interfaces.PlayerFactory;
+import com.model.piece.Piece;
 import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
@@ -43,12 +45,7 @@ public class RestoreGame {
 	/**
 	 * Attribut stoquant la liste des coups initiaux du plateau.
 	 */
-	private List<PieceImpl> initialPieces;
-	
-	/**
-	 * Variable stoquant l'historique de jeu de la partie sauvegardée.
-	 */
-	private List<PieceImpl> history;
+	private List<Piece> initialPieces;
 
 	/**
 	 * Attribut permettant la génération du XML avec la librairie JDOM.
@@ -79,7 +76,12 @@ public class RestoreGame {
 	/**
 	 * Fabrique de Piece.
 	 */
-	PieceFactory pFacto;
+	PieceFactory pieceFacto;
+	
+	/**
+	 * Fabrique de Piece.
+	 */
+	PlayerFactory playerFacto;
 
 	/**
 	 * Constructeur de la Classe RestoreGame.
@@ -90,7 +92,8 @@ public class RestoreGame {
 	public RestoreGame(String gameFileName) {
 		this.gsFacto = FactoryProducer.getGameSettingsFactory();
 		this.bFacto = FactoryProducer.getBoardFactory();
-		this.pFacto = FactoryProducer.getPieceFactory();
+		this.pieceFacto = FactoryProducer.getPieceFactory();
+		this.playerFacto = FactoryProducer.getPlayerFactory();
 		this.gameFileName = gameFileName;
 	}
 	
@@ -180,7 +183,8 @@ public class RestoreGame {
 		int[] gridSize = null;
 		int aILevel = 0, aIThinkingTime = 0;
 		List<Player> players = null;
-		List<PieceImpl> playedPieces = null;
+		List<Piece> playedPieces = null;
+		List<Piece> history = null;
 		BoardObservable board = null;
 
 		/* BOARD SIZE */
@@ -227,7 +231,7 @@ public class RestoreGame {
 			 * DEBUG
 			 */
 			System.out.println("DEBUG  : pieces ");
-			for (PieceImpl p : this.initialPieces)
+			for (Piece p : this.initialPieces)
 				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
@@ -235,8 +239,9 @@ public class RestoreGame {
 		}
 
 		/* PLAYERS */
+		System.out.println(initPart.toString());
 		players = xmlGetPlayers(initPart);
-		
+		System.out.println(((ArrayList<Player>)(players)).size());
 		if (((ArrayList<Player>)(players)).size() < 2)
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE, TextManager.ERROR_ABOUT_PLAYER_NUMBER_FR);
 		/*
@@ -254,7 +259,7 @@ public class RestoreGame {
 			 * DEBUG 
 			 */
 			System.out.println("DEBUG  : playedPcs ");
-			for (PieceImpl p : playedPieces)
+			for (Piece p : playedPieces)
 				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
@@ -263,12 +268,12 @@ public class RestoreGame {
 
 		/* HISTORY -> FACULTATIF */
 		try {
-			this.history = xmlGetPiecesFromPart(this.root.getChild(TextManager.HISTORY_PART),false);
+			history = xmlGetPiecesFromPart(this.root.getChild(TextManager.HISTORY_PART),false);
 			/*
 			 * DEBUG
 			 */
 			System.out.println("DEBUG  : History ");
-			for (PieceImpl p : this.history)
+			for (Piece p : history)
 				System.out.println(p.toString());
 
 		} catch (GameHandlerException e) {
@@ -285,19 +290,17 @@ public class RestoreGame {
 			e.printStackTrace();
 		}
 
-		System.out.println(board.toString());
-
-		/******************************************************************************/
-		// System.exit(0);
-		/******************************************************************************/
+		//System.out.println(board.toString());
 
 		// Construction de GameSettings
-		/*
-		 * try { this.gameSettings = gsFacto.getGameSettings(p1, p2, board,
-		 * aIThinkingTime, aILevel); } catch (FactoryHandlerException e) {
-		 * Log.error(e.getMessage()); e.printStackTrace(); }
-		 */
-
+		 try { 
+			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aILevel, history);
+		 } catch (FactoryHandlerException e) {
+			 Log.error(e.getMessage()); 
+			 e.printStackTrace(); 
+		 }
+		 
+		 System.out.println(this.gameSettings.toString());
 	}
 
 	/**
@@ -340,14 +343,14 @@ public class RestoreGame {
 	 * @return List \<Piece\> : La Liste des pieces contenues dans la partie.
 	 * @throws GameHandlerException
 	 */
-	private List<PieceImpl> xmlGetPiecesFromPart(Element part, boolean isHistoryPart)
+	private List<Piece> xmlGetPiecesFromPart(Element part, boolean isHistoryPart)
 			throws GameHandlerException {
 
 		if (part == null)
 			throw new GameHandlerException(
 					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 
-		ArrayList<PieceImpl> pcs = new ArrayList<PieceImpl>();
+		ArrayList<Piece> pcs = new ArrayList<Piece>();
 
 		List<Element> listePieces = part.getChildren(TextManager.PIECE_PART);
 
@@ -375,8 +378,8 @@ public class RestoreGame {
 	 * @return Piece : le pion créé à partir des informations.
 	 * @throws GameHandlerException
 	 */
-	private PieceImpl xmlGetPiece(Element piece) throws GameHandlerException {
-		PieceImpl p = null;
+	private Piece xmlGetPiece(Element piece) throws GameHandlerException {
+		Piece p = null;
 
 		int c = -1, x = -1, y = -1;
 		try {
@@ -390,14 +393,14 @@ public class RestoreGame {
 
 		if (c == 1) {
 			try {
-				p = this.pFacto.getWhitePiece(x, y);
+				p = this.pieceFacto.getWhitePiece(x, y);
 			} catch (FactoryHandlerException e) {
 				Log.error(e.getMessage());
 				e.printStackTrace();
 			}
 		} else if (c == 2) {
 			try {
-				p = this.pFacto.getBlackPiece(x, y);
+				p = this.pieceFacto.getBlackPiece(x, y);
 			} catch (FactoryHandlerException e) {
 				Log.error(e.getMessage());
 				e.printStackTrace();
@@ -423,13 +426,16 @@ public class RestoreGame {
 		Iterator<Element> i = listePlayers.iterator();
 
 		while (i.hasNext()) {
+			System.out.println("Dans While");
 			try {
 				players.add(xmlGetPlayer((Element) i.next()));
 			} catch (GameHandlerException e) {
 				Log.error(e.getMessage());
 				e.printStackTrace();
 			}
-		}	
+		}
+		
+		System.out.println("Dans xmlGetPlayers : " + players.size());
 		
 		return players;
 	}
@@ -443,37 +449,46 @@ public class RestoreGame {
 	private Player xmlGetPlayer(Element player) throws GameHandlerException {
 		Player p = null;
 
-		/*
-		 * TODO 
-		 */
-//		int c = -1, x = -1, y = -1;
-//		try {
-//			x = xmlGetIntValueFromField(piece, TextManager.X_PART);
-//			y = xmlGetIntValueFromField(piece, TextManager.Y_PART);
-//			c = xmlGetIntValueFromField(piece, TextManager.COLOR_PART);
-//		} catch (GameHandlerException e) {
-//			Log.error(e.getMessage());
-//			e.printStackTrace();
-//		}
-//
-//		if (c == 1) {
-//			try {
-//				p = this.pFacto.getWhitePiece(x, y);
-//			} catch (FactoryHandlerException e) {
-//				Log.error(e.getMessage());
-//				e.printStackTrace();
-//			}
-//		} else if (c == 2) {
-//			try {
-//				p = this.pFacto.getBlackPiece(x, y);
-//			} catch (FactoryHandlerException e) {
-//				Log.error(e.getMessage());
-//				e.printStackTrace();
-//			}
-//		} else {
-//			throw new GameHandlerException(
-//					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
-//		}
+		String name = null, color = null, type = null; 
+		int number = -1;
+		try {
+			name = xmlGetStringValueFromField(player, TextManager.PLAYER_LOGIN_PART);
+			color = xmlGetStringValueFromField(player, TextManager.PLAYER_COLOR_PART);
+			type = xmlGetStringValueFromField(player, TextManager.PLAYER_TYPE_PART);
+			number = xmlGetIntValueFromField(player, TextManager.PLAYER_NUMBER_PART);
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		if (name == null)
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+		
+		if (!color.equalsIgnoreCase(TextManager.WHITE_PLAYER) && !color.equalsIgnoreCase(TextManager.BLACK_PLAYER))
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+		
+		if (!type.equalsIgnoreCase(TextManager.HUMAN_PLAYER) && !type.equalsIgnoreCase(TextManager.MACHINE_PLAYER))
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+		
+		if (number < 1 || number > 2 )
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+			
+		if (type.equalsIgnoreCase(TextManager.HUMAN_PLAYER)){
+			try {
+				p = this.playerFacto.getHumanPlayer(name, color, number);
+			} catch (FactoryHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		else if (type.equalsIgnoreCase(TextManager.MACHINE_PLAYER)){
+			try {
+				p = this.playerFacto.getMachinePlayer(name, color, number);
+			} catch (FactoryHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+		}		
 		return p;
 	}
 
@@ -500,6 +515,35 @@ public class RestoreGame {
 		}
 
 		if (fieldValue == -1)
+			throw new GameHandlerException(
+					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+
+		return fieldValue;
+	}
+	
+	/**
+	 * 
+	 * @param part
+	 * @param xmlField
+	 * @return
+	 * @throws GameHandlerException
+	 */
+	private String xmlGetStringValueFromField(Element part, String xmlField) throws GameHandlerException {
+		Element elemField = part.getChild(xmlField);
+
+		if (elemField == null)
+			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
+
+		String fieldValue = null;
+
+		try {
+			fieldValue = elemField.getText();
+		} catch (NumberFormatException e) {
+			Log.error(TextManager.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR);
+			e.printStackTrace();
+		}
+
+		if (fieldValue == null)
 			throw new GameHandlerException(
 					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 

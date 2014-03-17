@@ -1,6 +1,7 @@
 package com.model.io;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -71,8 +72,10 @@ public class SaveGame {
 			e.printStackTrace();
 		}
 		
+		
+		System.out.println(this.gameSettings.getGameHistory().size());
 		if (this.gameSettings.getGameHistory().size() > 0)
-			this.root.addContent(makePiecesPartFromList((ArrayList<Piece>)this.gameSettings.getGameHistory(), TextManager.HISTORY_PART));
+			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), TextManager.HISTORY_PART));
 		
 		FilesManager fmanager = new FilesManagerImpl();
 		if (fmanager.save(this.saveFileName + TextManager.DOT_XML, TextManager.DOT, this.toString()) == false){
@@ -84,7 +87,7 @@ public class SaveGame {
 		
 		Element init = new Element (TextManager.INIT_PART);
 		init.addContent(makeBardSizeInXML());
-		init.addContent(makePiecesPartFromList((ArrayList<Piece>)this.gameSettings.getGameBoard().getInitialPiece(), TextManager.INIT_PART));
+		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), TextManager.INIT_PART));
 		init.addContent(makePlayerInXML(this.gameSettings.getFirstPlayer()));
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
 		
@@ -105,9 +108,13 @@ public class SaveGame {
 		return init; 
 	}
 	
-	private Element makePiecesPartFromList(ArrayList<Piece> pcs, String part){
+	private Element makePiecesPartFromList(List<Piece> pcs, String part){
 		Element pieces = new Element(part);
-		for (Piece p : pcs){
+		List<Piece> tmp = new ArrayList<Piece>();
+		
+		tmp.addAll(pcs);
+		
+		for (Piece p : tmp){
 			pieces.addContent(makePieceInXML(p));
 		}		
 		return pieces;
@@ -132,9 +139,8 @@ public class SaveGame {
 		
 		for (int i = 0; i < this.gameSettings.getGameBoard().getSizeX(); i++){
 			for (int j = 0; j < this.gameSettings.getGameBoard().getSizeY(); j++){
-				if (this.gameSettings.getGameBoard().getBoard()[i][j].getColor().getColor() == 0)
-					throw new GameHandlerException(GameHandlerException.WRONG_PIECE_COLOR);
-				playedPieces.addContent(makePieceInXML(this.gameSettings.getGameBoard().getBoard()[i][j]));
+				if (this.gameSettings.getGameBoard().getBoard()[i][j].getColor().getColor() > 0)
+					playedPieces.addContent(makePieceInXML(this.gameSettings.getGameBoard().getBoard()[i][j]));
 			}
 		}
 		

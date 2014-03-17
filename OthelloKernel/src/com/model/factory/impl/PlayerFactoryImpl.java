@@ -40,11 +40,11 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, String c) {
+	public Player getHumanPlayer(String playerLogin, String c, int playerNumber) {
 		Player p = null;
 		
 		try {
-			p = new Player(playerLogin, c).setHuman();
+			p = new Player(playerLogin, c, playerNumber).setHuman();
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -54,11 +54,11 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, String c) {
+	public Player getMachinePlayer(String playerLogin, String c, int playerNumber) {
 		Player p = null;
 		
 		try {
-			 p = new Player(playerLogin, c).setMachine();
+			 p = new Player(playerLogin, c, playerNumber).setMachine();
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public BoardObservable getBoard(int sizeX, int sizeY,	List<PieceImpl> initiaPieces) throws FactoryHandlerException {
+	public BoardObservable getBoard(int sizeX, int sizeY,	List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PLAYER_FACTORY_REQUIRED_FR);
@@ -118,7 +118,7 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) throws FactoryHandlerException {
+	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PLAYER_FACTORY_REQUIRED_FR);

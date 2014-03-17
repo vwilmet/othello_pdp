@@ -41,7 +41,7 @@ public class BoardImpl implements Board, Cloneable{
 	 * Structure représentant le plateau de jeu.
 	 */
 	private PieceImpl[][] gameBoard;
-	
+
 	/**
 	 * Liste contenant les pions initiaux d'une partie.
 	 */
@@ -64,7 +64,7 @@ public class BoardImpl implements Board, Cloneable{
 		this.playablePiece = new ArrayList<Piece>();
 		this.whitePiece = new ArrayList<Piece>();
 		this.blackPiece = new ArrayList<Piece>();
-		
+
 		if (sizeX >= GameSettings.BOARD_MIN_SIZE_X && sizeX <= GameSettings.BOARD_MAX_SIZE_X)
 			this.sizeX = sizeX;
 		else
@@ -155,7 +155,7 @@ public class BoardImpl implements Board, Cloneable{
 	public void setBlackPiece(int i, int j) {
 		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece){
 			this.gameBoard[i][j].setBlackPiece();
-			
+
 			this.blackPiece.add(this.gameBoard[i][j]);
 			this.playablePiece.remove(this.gameBoard[i][j]);
 		}
@@ -165,7 +165,7 @@ public class BoardImpl implements Board, Cloneable{
 	public void setWhitePiece(int i, int j) {
 		if(this.gameBoard[i][j].getColor() instanceof EmptyPiece){
 			this.gameBoard[i][j].setWhitePiece();
-			
+
 			this.whitePiece.add(this.gameBoard[i][j]);
 			this.playablePiece.remove(this.gameBoard[i][j]);
 		}
@@ -192,6 +192,22 @@ public class BoardImpl implements Board, Cloneable{
 	@Override
 	public List<Piece> getWhitePieces(){
 		return Collections.unmodifiableList(this.whitePiece);
+	}
+
+	public void setInitialPieces(List<Piece> piece){
+		this.initialPieces = piece;
+	}
+
+	public void setPlayablePieces(List<Piece> piece){
+		this.playablePiece = piece;
+	}
+
+	public void setBlackPieces(List<Piece> piece){
+		this.blackPiece = piece;
+	}
+
+	public void setWhitePieces(List<Piece> piece){
+		this.whitePiece = piece;
 	}
 
 	@Override
@@ -253,15 +269,51 @@ public class BoardImpl implements Board, Cloneable{
 			}
 		}
 	}
-	
-	public void setBoard(PieceImpl[][] b){
-		this.gameBoard = b;
+
+	public void setBoard(PieceImpl[][] board){
+		this.gameBoard = board;
 	}
-	
+
 	@Override
 	public Board clone() {
 		try {
-			return (BoardImpl) super.clone();
+			BoardImpl board = (BoardImpl) super.clone();
+
+			List<Piece> _initialPieces = new ArrayList<Piece>(),
+					_playablePiece = new ArrayList<Piece>(),
+					_blackPiece = new ArrayList<Piece>(),
+					_whitePiece = new ArrayList<Piece>();
+
+			for(Piece p : this.initialPieces){
+				_initialPieces.add(p.clone());
+			}
+
+			for(Piece p : this.playablePiece){
+				_playablePiece.add(p.clone());
+			}
+			
+			for(Piece p : this.blackPiece){
+				_blackPiece.add(p.clone());
+			}
+			
+			for(Piece p : this.whitePiece){
+				_whitePiece.add(p.clone());
+			}
+			
+			board.setInitialPieces(_initialPieces);
+			board.setPlayablePieces(_playablePiece);
+			board.setBlackPieces(_blackPiece);
+			board.setWhitePieces(_whitePiece);
+			
+			PieceImpl[][] gameBoard = new PieceImpl[this.sizeX][this.sizeY];
+
+			for(int i = 0; i < this.sizeX; i++)
+				for(int j = 0; j < this.sizeY; j++)
+					gameBoard[i][j] = this.gameBoard[i][j].clone();
+
+			board.setBoard(gameBoard);
+
+			return board;
 		} catch (Exception e) {
 			return null;
 		}

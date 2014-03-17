@@ -12,6 +12,7 @@ import utils.TextManager;
 
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
@@ -28,7 +29,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	protected GameView gameView;
 	protected InitGameController initGameController;
-
+	
+	
+	
 	public GameControllerGraphical() {
 		super();
 
@@ -79,6 +82,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 				if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
 					this.gameSettings.setPiece(i, j);
+					
 					this.reverseInbetweenPieceAfterPlaying(i, j);
 					this.gameSettings.changePlayer();
 					this.setPlayablePiece();
@@ -109,6 +113,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(valid){
 			this.gameSettings = game;
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.setPlayablePiece();
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 		}
 	}
@@ -130,20 +135,28 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onForwardButtonCliked() {
-		if(this.gameSettings.getForwardInHistory())
+		if(this.gameSettings.getForwardInHistory()){
 			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
+			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.setPlayablePiece();	
+		}
 	}
 
 	@Override
 	public void onBackButtonCliked() {
-		if(this.gameSettings.getBackInHistory())
+		if(this.gameSettings.getBackInHistory()){
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
+			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.setPlayablePiece();
+		}
 	}
 
 	@Override
 	public void onResetButtonCliked() {
 		this.gameSettings.restartGame();
+		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
+		this.setPlayablePiece();
 	}
 	
 	@Override
@@ -208,5 +221,12 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void resetHistory(){
+		this.gameHistory.clear();
+		this.gameBoardHistory.clear();
+		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
+		this.sentinel = -1;
 	}
 }

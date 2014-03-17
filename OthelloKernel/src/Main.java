@@ -1,17 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import utils.Application;
-import utils.FactoryHandlerException;
-import utils.GameHandlerException;
 
+import com.controller.GameController;
+import com.controller.GameControllerGraphical;
 import com.error_manager.Log;
-import com.model.BoardImpl;
 import com.model.BoardObservable;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.PieceFactory;
-import com.model.piece.Piece;
-import com.model.piece.PieceImpl;
 
 
 /**
@@ -26,9 +18,9 @@ public class Main {
 		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		//GameController game = new GameControllerGraphical();
+		GameController game = new GameControllerGraphical();
 		
-		PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
+		/*PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null,  p3 = null, p4 = null;
 		List<Piece> pcs = new ArrayList<Piece>();
 		
@@ -50,31 +42,51 @@ public class Main {
 			
 			BoardImpl b = new BoardImpl(4,4, pcs);
 			BoardImpl bclone = (BoardImpl)b.clone();
-			PieceImpl [][] b1 = (PieceImpl[][]) b.getBoard().clone();
-			System.out.println(b.getBoard().hashCode());
-			System.out.println(b1.hashCode());
-			
-		
-			bclone.setBoard(b1);
-			
-			
 			System.out.println(b.getBoard().hashCode());
 			System.out.println(bclone.getBoard().hashCode());
 			
-			System.out.println("========================");
+			System.out.println(b);
+			System.out.println(bclone);
+			
+			System.out.println("============On modifie bclone============");
 			bclone.setBlackPiece(0, 0);
 			
 			System.out.println(b.getBoard()[0][0].hashCode());
 			System.out.println(bclone.getBoard()[0][0].hashCode());
 			
-			System.out.println("b" + b);
-			System.out.println("bclone" + bclone);
+			System.out.println("========================");
+			
+			System.out.println("b : " + b);
+			System.out.println("bclone : " + bclone);
+
+			System.out.println("============List=OK===========");
+
+			System.out.println(b.getInitialPiece().get(0).hashCode());
+			System.out.println(bclone.getInitialPiece().get(0).hashCode());
+			
+			System.out.println("============Piece=OK===========");
+			
+			PieceImpl p = new PieceImpl(0, 0);
+			p.setBlackPiece();
+			
+			PieceImpl pclone = p.clone();
+			
+			System.out.println(p);
+			System.out.println(pclone);
+			
+			System.out.println("=====modif de p===");
+			
+			p.setWhitePiece();
+			
+			System.out.println(p);
+			System.out.println(pclone);
+			
 		} catch (GameHandlerException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		
+		*/
 		
 		
 		//////////////////////////////////////////////////////////////

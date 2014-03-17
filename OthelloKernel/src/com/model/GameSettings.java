@@ -84,16 +84,13 @@ public class GameSettings {
 
 		this.artificialIntelligenceThinkingTime = artificialIntelligenceThinkingTime;
 		this.artificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
-		
+
 		this.gameHistory = history;
-		
+
 		this.gameBoardHistory = new ArrayList<BoardObservable>();
 		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
-		
-		if((BoardObservable)gameBoard.clone() == null)
-			System.out.println("tototototototototottoto==========================================================");
-		
+
 		this.currentPlayer = player1;
 	}
 
@@ -132,7 +129,7 @@ public class GameSettings {
 	public List<Piece> getGameHistory(){
 		return this.gameHistory;
 	}
-	
+
 	public List<BoardObservable> getGameBoardHistory(){
 		return this.gameBoardHistory;
 	}
@@ -140,13 +137,14 @@ public class GameSettings {
 	public void resetHistory(){
 		this.gameHistory.clear();
 		this.gameBoardHistory.clear();
+		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
 	}
-	
+
 	public void restartGame(){
 		//TODO tester l'affectation sans le clone voir si sa marche
 		if(this.gameBoardHistory.size() > 0)
-			this.gameBoard = (BoardObservable)this.gameBoardHistory.get(this.gameBoardHistory.size()-1).clone();
+			this.gameBoard = (BoardObservable)this.gameBoardHistory.get(0).clone();
 		resetHistory();
 		this.currentPlayer = this.player1;
 	}
@@ -156,7 +154,7 @@ public class GameSettings {
 		System.out.println("Sentinel : " + this.sentinel);
 		System.out.println("gameHistorySize: " + this.gameHistory.size());
 		System.out.println("Board history size: " + this.gameBoardHistory.size());
-		
+
 		if(this.sentinel >= 0){
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
 				this.setCurrentPlayer(this.player1);
@@ -165,40 +163,23 @@ public class GameSettings {
 			System.out.println("value sentinel " + this.sentinel );
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
 			this.gameBoard.notifyObservers();
-			
-			//TODO Debug pour tester si adresses différentes
-			showBordHistory();
-			this.gameBoardHistory.get(0).setBlackPiece(0, 0);
-			showBordHistory();
-			//TODO FIN Debug
-			
+
 			this.sentinel--;
 			return true;
 		}
-		
+
 		return false;
 	}
 	
-	//TODO supprimer cette fonction qui sert a debugger!
-	private void showBordHistory(){
-
-		System.out.println("________________current board___________________");
-		System.out.println(this.gameBoard);
-		System.out.println("______________________________________");
-		
-		for(int i = 0; i < this.gameBoardHistory.size(); i ++){
-			System.out.println("Indices i : " + i);
-			System.out.println(this.gameBoardHistory.get(i));
-			System.out.println("=========================");
-		}
-	}
-	
 	public boolean getForwardInHistory(){
+		System.out.println("[getForwardInHistory]");
 		if(this.sentinel < this.gameHistory.size()-1){
+			System.out.println("sentinel : " + sentinel);
+			System.out.println("size  : " +  this.gameBoardHistory.size());
 			
 			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
-			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
 			this.sentinel++;
+			this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
 			this.changePlayer();
 			return true;
 		}
@@ -210,7 +191,7 @@ public class GameSettings {
 		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
 			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
 				this.gameBoard.reverse(i, j);
-		
+
 		//TODO change la couleur du joueur et non le joueur!
 		changePlayer();
 	}
@@ -230,7 +211,7 @@ public class GameSettings {
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
 	private void addPieceMove(Piece p){
-		
+	
 		if(this.gameHistory.size()-1 > this.sentinel){
 			this.sentinel++;
 			if(!this.gameHistory.get(this.sentinel).equals(p)){

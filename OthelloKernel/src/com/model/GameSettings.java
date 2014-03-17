@@ -6,7 +6,6 @@ import java.util.List;
 import utils.TextManager;
 
 import com.model.piece.Piece;
-import com.model.piece.PieceImpl;
 import com.model.piece.WhitePiece;
 import com.model.player.Player;
 

@@ -31,6 +31,9 @@ import com.utils.WrongPlayablePositionException;
  */
 public class ArtificialIntelligenceImplementation implements ArtificialIntelligence {
 
+	/**
+	 * Stratégie utilisée par l'intelligence artificielle
+	 */
 	ArtificialIntelligenceStrategy ai;
 
 	/**

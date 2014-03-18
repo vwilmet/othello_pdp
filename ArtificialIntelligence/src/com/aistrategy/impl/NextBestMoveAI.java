@@ -21,12 +21,35 @@ import com.utils.WrongPlayablePositionException;
  */
 public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 
-	Board initBoard;
+	/**
+	 * Arbre de coup représentant l'ensemble d'une partie
+	 */
 	TreeMove<Point> tree;
+	
+	/**
+	 * Ensemble des pions blanc
+	 */
 	Set<Point> whitePiece;
+	
+	/**
+	 * Ensemble des pions noir
+	 */
 	Set<Point> blackPiece;
+	
+	/**
+	 * Taille en largeur du plateau
+	 */
 	Integer boardWidth;
+	
+	/**
+	 * Taille en hauteur du plateau
+	 */
 	Integer boardHeight;
+	
+	/**
+	 * Plateau initial au début du lancement de l'IA
+	 */
+	Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -152,7 +175,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p){
 		NodeMove<Point> n = null;
 		for(NodeMove<Point> child : node.getChildren()){
-			if(child.getData().equals(p)){
+			if(child.getLastMove().equals(p)){
 				n = child;
 				break;
 			}

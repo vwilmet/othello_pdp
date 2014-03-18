@@ -23,12 +23,35 @@ import com.utils.WrongPlayablePositionException;
  */
 public class RandomAI implements ArtificialIntelligenceStrategy {
 
-	Board initBoard;
+	/**
+	 * Arbre de coup représentant l'ensemble d'une partie
+	 */
 	TreeMove<Point> tree;
+	
+	/**
+	 * Ensemble des pions blanc
+	 */
 	Set<Point> whitePiece;
+	
+	/**
+	 * Ensemble des pions noir
+	 */
 	Set<Point> blackPiece;
+	
+	/**
+	 * Taille en largeur du plateau
+	 */
 	Integer boardWidth;
+	
+	/**
+	 * Taille en hauteur du plateau
+	 */
 	Integer boardHeight;
+	
+	/**
+	 * Plateau initial au début du lancement de l'IA
+	 */
+	Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !

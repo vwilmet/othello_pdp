@@ -21,11 +21,33 @@ import com.utils.WrongPlayablePositionException;
  */
 public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
+	/**
+	 * Arbre de coup représentant l'ensemble d'une partie
+	 */
 	TreeMove<Point> tree;
+	/**
+	 * Ensemble des pions blanc
+	 */
 	Set<Point> whitePiece;
+	
+	/**
+	 * Ensemble des pions noir
+	 */
 	Set<Point> blackPiece;
+	
+	/**
+	 * Taille en largeur du plateau
+	 */
 	Integer boardWidth;
+	
+	/**
+	 * Taille en hauteur du plateau
+	 */
 	Integer boardHeight;
+	
+	/**
+	 * Plateau initial au début du lancement de l'IA
+	 */
 	Board initBoard;
 
 	/**
@@ -176,11 +198,11 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 				Integer score = miniMax(depth-1, n);
 				if(node.getPlayer() == 1 && score > bestScore){
 					bestScore = score;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 				}
 				else if(node.getPlayer() == 2 && score < bestScore){
 					bestScore = score;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 				}
 
 			}
@@ -210,19 +232,19 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 				if(node.getPlayer() == 1 && score > alpha){
 					alpha = score;
 					bestScore = alpha;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 					if(alpha>=beta)
 						break;
 				}
 				else if(node.getPlayer() == 2 && score < beta){
 					beta = score;
 					bestScore = beta;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 					if(alpha>=beta)
 						break;
 				}
 				else if(node.getBestMove() == null){
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 				}
 			}
 		}
@@ -251,12 +273,12 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 				if(score >= alpha){
 					alpha = score;
 					bestScore = alpha;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 					if(alpha>=beta)
 						break;
 				}
 				else if(node.getBestMove() == null){
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 				}
 
 			}
@@ -287,17 +309,17 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 				if(score >= current){
 					current = score;
 					bestScore = current;
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 					if(score >= alpha){
 						alpha = score;
 						bestScore = alpha;
-						node.setBestMove(n.getData());
+						node.setBestMove(n.getLastMove());
 						if(score >= beta)
 							break;
 					}
 				}
 				else if(node.getBestMove() == null){
-					node.setBestMove(n.getData());
+					node.setBestMove(n.getLastMove());
 				}
 
 			}
@@ -337,17 +359,17 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 					if(score >= current){
 						current = score;
 						bestScore = current;
-						node.setBestMove(n.getData());
+						node.setBestMove(n.getLastMove());
 						if(score >= alpha){
 							alpha = score;
 							bestScore = alpha;
-							node.setBestMove(n.getData());
+							node.setBestMove(n.getLastMove());
 							if(score >= beta)
 								break;
 						}
 					}
 					else if(node.getBestMove() == null){
-						node.setBestMove(n.getData());
+						node.setBestMove(n.getLastMove());
 					}
 				}
 			}
@@ -365,7 +387,7 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p){
 		NodeMove<Point> n = null;
 		for(NodeMove<Point> child : node.getChildren()){
-			if(child.getData().equals(p)){
+			if(child.getLastMove().equals(p)){
 				n = child;
 				break;
 			}

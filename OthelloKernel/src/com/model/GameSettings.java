@@ -45,11 +45,7 @@ public class GameSettings {
 	public static final int BOARD_MAX_SIZE_X = 50;
 	public static final int BOARD_MAX_SIZE_Y = 50;
 
-	public static final String HELP_WEBSITE_PATH = "./resources/website/index.html";
-	//public static final int  = 60;
-	//public static final int  = 60;
-
-
+	public static final String HELP_WEBSITE_PATH = "resources/website/index.html";
 
 	/**
 	 * Joueurs du jeu (machine ou humain). 
@@ -72,9 +68,14 @@ public class GameSettings {
 	 * Variable stoquant l'historique des coups.
 	 */
 	private List <Piece> gameHistory;
+	private List <BoardObservable> gameBoardHistory;
+	/**
+	 * Sentinel utilisée pour se repérer dans l'historique! Les deux listes gameHistory et gameBoardHistory 
+	 * l'utilise mais gameBoardHistory à une case de plus car il contient la partie initial
+	 */
 	private int sentinel;
 
-	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
+	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) {
 		this.player1 = player1;
 		this.player2 = player2;
 
@@ -83,8 +84,12 @@ public class GameSettings {
 		this.artificialIntelligenceThinkingTime = artificialIntelligenceThinkingTime;
 		this.artificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
 
-		this.gameHistory = new ArrayList<Piece>();
+		this.gameHistory = history;
+
+		this.gameBoardHistory = new ArrayList<BoardObservable>();
+		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
+
 		this.currentPlayer = player1;
 	}
 
@@ -124,44 +129,69 @@ public class GameSettings {
 		return this.gameHistory;
 	}
 
-	public void resetHistoryAndRestartGame(){
-		for(int i = 1, j = this.gameHistory.size(); i <= j; i++){
-			this.gameBoard.setEmptyPiece(
-					this.gameHistory.get(j-i).getPosX(),
-					this.gameHistory.get(j-i).getPosY());
-			this.gameHistory.remove(j-i);
-		}
+	public int getHistoryPosition(){
+		return this.sentinel;
+	}
+	
+	public void setHistoryPosition(int sentinel){
+		this.sentinel = sentinel;
+	}
+	
+	public BoardObservable getHistoryBoard(int position){
+		return this.gameBoardHistory.get(position);
+	}
+	
+	public List<BoardObservable> getGameBoardHistory(){
+		return this.gameBoardHistory;
+	}
+
+	public void resetHistory(){
+		this.gameHistory.clear();
+		this.gameBoardHistory.clear();
+		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
+	}
+
+	public void restartGame(){
+		//TODO tester l'affectation sans le clone voir si sa marche
+		if(this.gameBoardHistory.size() > 0)
+			this.gameBoard = (BoardObservable)this.gameBoardHistory.get(0).clone();
+		resetHistory();
 		this.currentPlayer = this.player1;
 	}
 
 	public boolean getBackInHistory(){
 
-		if(this.sentinel >= 0){
+		System.out.println("Sentinel : " + this.sentinel);
+		System.out.println("gameHistorySize: " + this.gameHistory.size());
+		System.out.println("Board history size: " + this.gameBoardHistory.size());
 
-			Piece p = this.gameHistory.get(this.sentinel);
-			if(p.getColor() instanceof WhitePiece)
+		if(this.sentinel >= 0){
+			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
 				this.setCurrentPlayer(this.player1);
 			else
 				this.setCurrentPlayer(this.player2);
+			System.out.println("value sentinel " + this.sentinel );
+			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
+			this.gameBoard.notifyObservers();
 
-			this.gameBoard.setEmptyPiece(p.getPosX(), p.getPosY());
 			this.sentinel--;
-
 			return true;
 		}
+
 		return false;
 	}
-
+	
 	public boolean getForwardInHistory(){
+		System.out.println("[getForwardInHistory]");
 		if(this.sentinel < this.gameHistory.size()-1){
-
-			Piece p = this.gameHistory.get(this.sentinel + 1);
-
-			this.setPiece(p.getPosX(), p.getPosY());
-
+			System.out.println("sentinel : " + sentinel);
+			System.out.println("size  : " +  this.gameBoardHistory.size());
+			
+			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
+			this.sentinel++;
+			this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
 			this.changePlayer();
-
 			return true;
 		}
 
@@ -172,6 +202,8 @@ public class GameSettings {
 		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
 			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
 				this.gameBoard.reverse(i, j);
+
+		//TODO change la couleur du joueur et non le joueur!
 		changePlayer();
 	}
 
@@ -184,23 +216,27 @@ public class GameSettings {
 
 		this.addPieceMove(this.gameBoard.getBoard()[i][j]);
 	}
-
+	
 	/**
 	 * 
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
-	public void addPieceMove(Piece p){
-		this.sentinel++;
-
+	private void addPieceMove(Piece p){
+	
 		if(this.gameHistory.size()-1 > this.sentinel){
+			this.sentinel++;
 			if(!this.gameHistory.get(this.sentinel).equals(p)){
-				for(int i = this.sentinel; i < this.gameHistory.size(); i++){
+				for(int i = this.sentinel, bordI = this.sentinel+1; i < this.gameHistory.size(); i++, bordI++){
 					System.out.println( "Remove piece : " + this.gameHistory.remove(i));
+					System.out.println( "Remove Board : " + this.gameBoardHistory.remove(bordI));
 				}
 				this.gameHistory.add(this.sentinel, p);
+				this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
 			}
 		}else{
+			this.sentinel++;
 			this.gameHistory.add(this.sentinel, p);
+			this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
 		}
 	}
 

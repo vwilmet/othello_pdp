@@ -1,11 +1,9 @@
 package com.model.factory;
 
-import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
 
-import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.interfaces.BoardFactory;
@@ -17,6 +15,7 @@ import com.model.factory.interfaces.SaveGameFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -30,25 +29,25 @@ import com.model.player.Player;
 public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 		BoardFactory, GameSettingsFactory, RestoreGameFactory, SaveGameFactory {
 
-	public abstract Piece getWhitePiece(int posX,
+	public abstract PieceImpl getWhitePiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getBlackPiece(int posX,
+	public abstract PieceImpl getBlackPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece getEmptyPiece(int posX,
+	public abstract PieceImpl getEmptyPiece(int posX,
 			int posY) throws FactoryHandlerException;
 
-	public abstract Piece[][] getMatrixPiece(int i, int j)
+	public abstract PieceImpl[][] getMatrixPiece(int i, int j)
 			throws FactoryHandlerException;
 
 	public abstract List<Piece> getArrayListOfPiece()
 			throws FactoryHandlerException;
 
-	public abstract Player getHumanPlayer(String playerLogin, String c)
+	public abstract Player getHumanPlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException;
 
-	public abstract Player getMachinePlayer(String playerLogin, String c)
+	public abstract Player getMachinePlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException;
 
 	public abstract BoardObservable getBoard(int sizeX, int sizeY,
@@ -56,7 +55,7 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	
 	public abstract BoardObservable getInitialBoard(int sizeX, int sizeY) throws FactoryHandlerException;
 
-	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty)
+	public abstract GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history)
 			throws FactoryHandlerException;
 
 	public abstract SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException;

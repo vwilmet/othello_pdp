@@ -5,14 +5,50 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+
+/**
+ * Classe qui représente un plateau de jeu.
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 public class Board {
+	/**
+	 * Grille de PiecEnum représentant le plateau de jeu 
+	 */
 	private PieceEnum[][] grid;
+	
+	/**
+	 * Taille du plateau en largeur
+	 */
 	private Integer width;
+	
+	/**
+	 * Taille du plateau en hauteur
+	 */
 	private Integer height;
+	
+	/**
+	 * Ensemble des pions blanc
+	 */
 	private Set<Point> whitePiece;
+	
+	/** 
+	 * Ensemble des pions noir
+	 */
 	private Set<Point> blackPiece;
+	
+	/**
+	 * Frontière de case vide entre les pions joués et le reste des cases vides
+	 */
 	private Set<Point> borderLine;
 	
+	/**
+	 * Constructeur de la classe.
+	 * @param boardWidth : int, taille de la grille en largeur.
+	 * @param boardHeight : int, taille de la grille en hauteur.
+	 * @param boardWhitePiece : Set<Piece>, ensemble des pions blanc.
+	 * @param boardBlackPiece : Set<Piece>, ensemble des pions noir.
+	 */
 	public Board(Integer boardWidth, Integer boardHeight, Set<Point> boardWhitePiece, Set<Point> boardBlackPiece){
 		this.width = boardWidth;
 		this.height = boardHeight;
@@ -30,6 +66,10 @@ public class Board {
 
 	}
 	
+	/**
+	 * Constructeur par copie de la classe.
+	 * @param otherBoard : Board, un autre plateau.
+	 */
 	public Board(Board otherBoard){
 		this.width = otherBoard.width;
 		this.height = otherBoard.height;
@@ -43,7 +83,11 @@ public class Board {
 	}
 	
 
-	
+	/**
+	 * Calcule la frontière définissant la zone entre les cases vides et les cases avec pion.
+	 * @param player : Integer, le joueur jouant le coup.
+	 * @return l'ensemble des points représentant la frontière
+	 */
 	public Set<Point> calculateBorderLine(Integer player){
 		Set<Point> borderLine = new HashSet<Point>();
 		if(player == 1){
@@ -80,6 +124,11 @@ public class Board {
 		return this.borderLine;
 	}
 	
+	/**
+	 * Calcule les cases jouable par le joueur.
+	 * @param player : Integer, le joueur jouant le coup.
+	 * @return la pile de cases jouables.
+	 */
 	public Stack<Point> calculatePlayablePosition(Integer player){
 		calculateBorderLine(player);
 		Set<Point> nodeBorderline = this.borderLine;
@@ -114,6 +163,12 @@ public class Board {
 
 	}
 	
+	/**
+	 * Calcule le plateau résultant de la pose d'un pion.
+	 * @param Position : Point, la position jouée.
+	 * @param player : Integer, le joueur jouant le coup.
+	 * @return la pile de cases jouables.
+	 */
 	public void calculateTurnResult(Point position, Integer player){
 		Set<Point> tmp = new HashSet<Point>();
 		Integer opponent = player%2 + 1; // player%2+1 donne le joueur adverse
@@ -186,42 +241,87 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Vérifie si la case est vide.
+	 * @param x : Integer, la position en abscisse de la case.
+	 * @param y : Integer, la position en ordonnée de la case.
+	 * @return un booléen, true si la case est vide, false sinon..
+	 */
 	public boolean isEmpty(Integer x, Integer y){
 		return isEmpty(new Point(x,y));
 	}
 	
+	/**
+	 * Vérifie si la case est rempli par le joueur passé en paramètre.
+	 * @param x : Integer, la position en abscisse de la case.
+	 * @param y : Integer, la position en ordonnée de la case.
+	 * @param player : Integer, le joueur.
+	 * @return un booléen, true si la case est vide, false sinon..
+	 */
 	public boolean isPlayer(Integer x, Integer y, Integer player){
 		return isPlayer(new Point(x,y), player);
 	}
 	
+	/**
+	 * Vérifie si la case est vide.
+	 * @param p : Point, la position de la case sur le plateau.
+	 * @return un booléen, true si la case est vide, false sinon..
+	 */
 	public boolean isEmpty(Point p){
 		return grid[p.x][p.y].getValue() == 0? true :false;
 	}
 	
+	/**
+	 * Vérifie si la case est rempli par le joueur passé en paramètre.
+	 * @param p : Point, la position de la case sur le plateau.
+	 * @param player : Integer, le joueur.
+	 * @return un booléen, true si la case est vide, false sinon..
+	 */
 	public boolean isPlayer(Point p, Integer player){
 		return grid[p.x][p.y].getValue() == player? true :false;
 	}
 	
-	
+	/**
+	 * Ajoute un pion noir à l'emplacement donné
+	 * @param x : Integer, la position en abscisse.
+	 * @param y : Integer, la position en ordonnée.
+	 */
 	public void putBlackPiece(Integer x, Integer y){
 		if(grid[x][y] == PieceEnum.EMPTYPIECE)
 			grid[x][y] = PieceEnum.BLACKPIECE;
 	}
 	
+	/**
+	 * Ajoute un pion blanc à l'emplacement donné
+	 * @param x : Integer, la position en abscisse.
+	 * @param y : Integer, la position en ordonnée.
+	 */
 	public void putWhitePiece(Integer x, Integer y){
 		if(grid[x][y] == PieceEnum.EMPTYPIECE)
 			grid[x][y] = PieceEnum.WHITEPIECE;
 	}
 	
+	/**
+	 * Ajoute un pion noir à l'emplacement donné
+	 * @param p : Point, la position de la case sur le plateau.
+	 */
 	public void putBlackPiece(Point p){
 		putBlackPiece(p.x,p.y);
 	}
 	
+	/**
+	 * Ajoute un pion blanc à l'emplacement donné
+	 * @param p : Point, la position de la case sur le plateau.
+	 */
 	public void putWhitePiece(Point p){
 		putWhitePiece(p.x,p.y);
 	}
 	
-	
+	/**
+	 * Retourne la pièce sur la case donnée en paramètre
+	 * @param i : Integer, la position de la case en abscisse.
+	 * @param j : Integer, la position de la case en ordonnée.
+	 */
 	public void turnPiece(Integer i, Integer j){
 		switch (grid[i][j]){
 		case WHITEPIECE :
@@ -235,27 +335,50 @@ public class Board {
 		}
 	}
 	
-	
+	/**
+	 * Retourne la pièce sur la case donnée en paramètre
+	 * @param p : Point, la position de la case.
+	 */
 	public void turnPiece(Point p){
 		turnPiece(p.x,p.y);
 	}
 	
+	/**
+	 * Retourne l'ensemble des pions blancs du plateau
+	 * @return l'ensemble des pions blancs
+	 */
 	public Set<Point> getWhitePiece() {
 		return whitePiece;
 	}
 
+	/**
+	 * Retourne l'ensemble des pions noirs du plateau
+	 * @return l'ensemble des pions noirs
+	 */
 	public Set<Point> getBlackPiece() {
 		return blackPiece;
 	}
 	
+	/**
+	 * Retourne le nombre de pions blancs.
+	 * @return le nombre de pions blancs.
+	 */
 	public Integer getNbWhitePiece(){
 		return whitePiece.size();
 	}
 	
+	/**
+	 * Retourne le nombre de pions noirs.
+	 * @return le nombre de pions noirs.
+	 */
 	public Integer getNbBlackPiece(){
 		return blackPiece.size();
 	}
 	
+	/**
+	 * Méthode permettant de créer une chaîne de  caractère représentant le plateau.
+	 * @return la chaîne de caractère représentant le plateau.
+	 */
 	public String printBoard(){
 		String res = new String("");
 		for(int i = 0; i < this.width; i++)

@@ -26,13 +26,13 @@ public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView
 
 	private int currentChoosenPosition = 0;
 	private JSlider slider;
-	private ArrayList<Board> boards;
+	private ArrayList<BoardObservable> boards;
 	private JButton valid, cancel;
 	private JPanel buttonPanel;
 	private GameCanvas game;
 	private ChoosePositionButtonEventListener buttonEvent;
 
-	public ChoosePositionViewImpl(int currentBoard, ArrayList<Board> boards) {
+	public ChoosePositionViewImpl(int currentBoard, ArrayList<BoardObservable> boards) {
 		
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,7 +116,7 @@ public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(buttonEvent != null)
-					buttonEvent.onValidButtonPressed(boards.get(currentChoosenPosition));
+					buttonEvent.onValidButtonPressed(boards.get(currentChoosenPosition), currentChoosenPosition);
 			}
 		});
 

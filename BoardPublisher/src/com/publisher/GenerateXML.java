@@ -11,7 +11,7 @@ import com.manager.FilesManagerImpl;
 
 /**
  * Classe permettant de générer le nouvel Othellier formaté en XML.
- * @author Benjamin Letourneau
+ * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
 public class GenerateXML implements BoardPublisher {
@@ -62,8 +62,8 @@ public class GenerateXML implements BoardPublisher {
 	 * Methode récupérant les pièces de l'Othellier afin de générer le XML associé.
 	 * @return Element : Les pièces en XML.
 	 */
-	private Element boardPiecesInXML (){
-		Element initialPieces = new Element(PostsPublisher.PIECES_PART);
+	private Element boardPiecesInXML (String part){
+		Element initialPieces = new Element(part);
 		
 		for (int i = 0 ; i < this.board.getNbPieceX() ; i++){
 			for(int j = 0 ; j < this.board.getNbPieceY() ; j++){
@@ -101,29 +101,48 @@ public class GenerateXML implements BoardPublisher {
 	}
 	
 	/**
-	 * Méthode permettant de générer la partie du XML correspondant au premier joueur (Balises XML + contenu de la balise). 
-	 * @return Element : l'objet contenant les informations du premier joueur.
+	 * Methode permettant de générer un joueur sous forme XML.
+	 * @param p : Player, Joueur à formater en XML.
+	 * @return Element : Player formaté en XML.
 	 */
-	private Element boardFirstPlayerInXML (){
+	private Element playerInXML(Player p){
 		Element player = new Element(PostsPublisher.PLAYER_PART);
-		player.setText(String.valueOf(this.board.getFirstPlayer()));
+		
+		Element login = new Element(PostsPublisher.PLAYER_LOGIN_PART);
+		login.setText(p.getName());
+		
+		Element rgb = new Element(PostsPublisher.PLAYER_COLOR_PART);
+		rgb.setText(p.getColor());
+		
+		Element type = new Element(PostsPublisher.PLAYER_TYPE_PART);
+		type.setText(p.getType());
+		
+		Element num = new Element(PostsPublisher.PLAYER_NUMBER_PART);
+		num.setText(String.valueOf(p.getNumber()));
+		
+		player.addContent(login);
+		player.addContent(rgb);
+		player.addContent(type);
+		player.addContent(num);
+		
 		return player;
 	}
 
-	/**
-	 * Méthode permettant de générer un Othellier.
-	 */
 	@Override
 	public void boardMaker() {
 		this.board = new Board();
 		Element initial = new Element (PostsPublisher.INIT_PART);
 		
 		initial.addContent(boardSizeInXML());
-		initial.addContent(boardPiecesInXML());
-		initial.addContent(boardFirstPlayerInXML());
+		initial.addContent(boardPiecesInXML(PostsPublisher.PIECES_PART));
+		initial.addContent(playerInXML(this.board.getPlayer1()));
+		initial.addContent(playerInXML(this.board.getPlayer2()));
+		initial.addContent(Utils.xmlSetIntValueToField(PostsPublisher.AI_LEVEL_PART, this.board.getAILevel()));
+		initial.addContent(Utils.xmlSetIntValueToField(PostsPublisher.AI_THINKING_TIME_PART, this.board.getAIThinkingTime()));
 		
 		this.root.addContent(initial);
-		
+		this.root.addContent(boardPiecesInXML(PostsPublisher.PLAYED_PIECES_PART));
+				
 		FilesManager fmanager = new FilesManagerImpl();
 		if (fmanager.save(this.board.getBoardFileName() + PostsPublisher.DOT_XML, PostsPublisher.DOT, this.toString()) == false){
 			Log.error(PostsPublisher.SAVE_FATAL_ERROR_FR);

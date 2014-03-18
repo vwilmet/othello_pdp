@@ -7,6 +7,7 @@ import java.util.Set;
 import com.ai.ArtificialIntelligence;
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.aistrategy.impl.BruteForceAI;
+import com.aistrategy.impl.NextBestMoveAI;
 import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
@@ -20,43 +21,62 @@ import com.utils.WrongPlayablePositionException;
  * <li>calcule du/des prochain(s) meilleur(s) coup(s) selon l'algorithme</li>
  * </ul>
  * 
- * Le nom du fichier généré automatiquement est sous la forme : 
- * <i>nom</i>-<i>N°</i>-<i>AAAA</i>-<i>MM</i>-<i>JJ</i>-<i>HH</i>-<i>MM</i>-<i>SS</i>.<i>extension</i>
- * <br/><b>Exemple de BONNE utilisation du module : </b>
- * 
- *		FilesManager files = new FilesManagerImpl();
- *		files.init(false);
- *		
- *		if(files.autoSave("Texte 1"))
- *			System.out.println("OK!!");
  */
 
 /**
- * Classe qui implémente les méthodes de gestion des Intelligences Artificielles
- * Elle implémente l'interface {@link com.manager.ArtifcialIntelligence}
+ * Classe qui implémente les méthodes de gestion des Intelligences Artificielles.
+ * </br>Elle implémente l'interface {@link com.ai.ArtificialIntelligence}.
  * @author <ul><li>Nicolas Yvon</li></ul>
  * @version 1.0
  */
-public class ArtificialIntelligenceImplementation implements
-		ArtificialIntelligence {
-	
+public class ArtificialIntelligenceImplementation implements ArtificialIntelligence {
+
+	/**
+	 * Stratégie utilisée par l'intelligence artificielle
+	 */
 	ArtificialIntelligenceStrategy ai;
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#nextMove}
+	 */
 	@Override
 	public Point nextMove(Integer player) {
-		return ai.nextMove(player);
+		if(ai != null)
+			return ai.nextMove(player);
+		return null;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#nextMoves}
+	 */
 	@Override
 	public List<Point> nextMoves(Integer player) {
-		return ai.nextMoves(player);
+		if(ai != null)
+			return ai.nextMoves(player);
+		return null;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#winStatus}
+	 */
 	@Override
 	public Integer winStatus(Integer player) {
-		return ai.winStatus(player);
+		if(ai != null)
+			return ai.winStatus(player);
+		return 2;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#initialize}
+	 */
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
@@ -65,30 +85,63 @@ public class ArtificialIntelligenceImplementation implements
 		return ai.initialize(whitePiece, blackPiece, boardWidth, boardHeight);
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#notifyChosenMove}
+	 */
 	@Override
 	public void notifyChosenMove(Point pos, Integer player)
 			throws WrongPlayablePositionException {
-		ai.notifyChosenMove(pos, player);
+		if(ai != null)
+			ai.notifyChosenMove(pos, player);
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#completeReflexion}
+	 */
 	@Override
 	public Boolean completeReflexion() {
-		return ai.completeReflexion();
+		if(ai != null)
+			return ai.completeReflexion();
+		return false;
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#chooseDifficulty}
+	 */
 	@Override
 	public void chooseDifficulty(Integer difficulty) {
 		switch(difficulty){
-			case 0:
-				ai = new RandomAI();
-				break;
-			case 1:
-				ai = new BruteForceAI();
-				break;
-			default:
-					break;
+		case 0:
+			ai = new RandomAI();
+			break;
+		case 1:
+			ai = new NextBestMoveAI();
+			break;
+		case 2:
+			ai = new BruteForceAI();
+			break;
+		default:
+			break;
 		}
 
+	}
+
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#undoMove}
+	 */
+	@Override
+	public void undoMove() {
+		if(ai != null)
+			ai.undoMove();
 	}
 
 }

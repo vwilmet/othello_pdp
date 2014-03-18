@@ -1,8 +1,10 @@
 package com.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 
 /**
  * Interface d'utilisation de la classe board.
@@ -25,26 +27,26 @@ public interface Board {
 	 * @return : int la taille de l'othellier suivant l'axe des ordonnées.
 	 */
 	public int getSizeY();
-	
+
 	/**
 	 * Accesseur sur la matrice représentant l'othellier à un instant de jeu.
 	 * @return int [][] : La matrice remplie de pièces.
 	 */
 	public Piece[][] getBoard();
-	
+
 	/**
 	 * Accesseur sur la liste des pions initials l'une partie.
 	 * @return List<Piece> : liste chainée des pions initiaux de la partie.
 	 */
 	public List<Piece> getInitialPiece();
-	
+
 	/**
 	 * 
 	 * @param i
 	 * @param j
 	 */
 	public void reverse(int i, int j);
-	
+
 	/**
 	 * 
 	 * @param i
@@ -58,31 +60,41 @@ public interface Board {
 	 * @param j
 	 */
 	public void setWhitePiece(int i, int j);
-	
+
 	/**
 	 * 
 	 * @param i
 	 * @param j
 	 */
 	public void setEmptyPiece(int i, int j);
-	
+
 	/**
 	 * 
 	 * @param i
 	 * @param j
 	 */
 	public void setPiecePlayable(int i, int j);
-	
+
 	/**
 	 * 
 	 * @param i
 	 * @param j
 	 */
 	public void setPieceNotPlayable(int i, int j);
-	
+
+	public List<Piece> getBlackPieces();
+
+	public List<Piece> getWhitePieces();
+
+	public List<Piece> getPlayablePieces();
+
+	public void resetPlayablePosition();
+
 	/**
 	 * Permet l'affichge de l'othellier dans la console.
 	 * @return String : Une chaine de caractère prête pour l'affichage en console.
 	 */
 	public String toString();	
+	
+	public Board clone();
 }

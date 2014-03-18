@@ -14,9 +14,9 @@ import com.model.player.Player;
  * @version 1.0
  */
 public interface PlayerFactory {
-	public Player getHumanPlayer(String playerLogin, String c)
+	public Player getHumanPlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException;
 
-	public Player getMachinePlayer(String playerLogin, String c)
+	public Player getMachinePlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException;
 }

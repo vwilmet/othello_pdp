@@ -5,6 +5,15 @@ import java.util.Set;
 
 import com.utils.WrongPlayablePositionException;
 
+/**
+ * Interface permettant d'implémenter les différentes stratégies/intelligences artificielles
+ * </br>Cette interface contient les méthodes afin d'utiliser les 
+ * différentes intelligences artificielles.
+ * </br>Par exemple : la fonction nextMove permet de retourner le prochain mouvement calculer par l'IA...
+ * 
+ * @author <ul><li>Nicolas Yvon</li></ul>
+ * @version 1.0
+ */
 
 public interface ArtificialIntelligenceStrategy {
 
@@ -64,6 +73,11 @@ public interface ArtificialIntelligenceStrategy {
      * @return un booléen, vrai si l'algorithme a été stoppé, faux sinon
      */
 	public Boolean completeReflexion();
-			
+	
+	
+	/**
+     * Annule le dernier coup jouer.
+     */
+	public void undoMove();
 	
 }

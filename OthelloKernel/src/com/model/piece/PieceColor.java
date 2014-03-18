@@ -14,7 +14,7 @@ public interface PieceColor {
 	 * Méthode utilisée pour retourner un pion du plateau.
 	 * @param piece : Piece, pion à retourner.
 	 */
-	public void reverse(Piece piece);
+	public void reverse(PieceImpl piece);
 
 	/**
 	 * Méthode utile pour l'affichage en terminal.

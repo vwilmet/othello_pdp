@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -8,16 +9,16 @@ import com.model.piece.Piece;
 public class BoardObservable extends Observable implements Board {
 
 	private Board board;
-	
+
 	public BoardObservable(Board board) {
 		this.board = board;
 	}
-	
+
 	private void notifierObservateurs() {
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	@Override
 	public int getSizeX() {
 		return this.board.getSizeX();
@@ -49,7 +50,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setBlackPiece(i, j);
 		notifierObservateurs();
 	}
-	
+
 	@Override
 	public void setWhitePiece(int i, int j) {
 		this.board.setWhitePiece(i, j);
@@ -61,7 +62,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setEmptyPiece(i, j);
 		notifierObservateurs();
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.board.toString();
@@ -72,11 +73,36 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setPiecePlayable(i, j);
 		notifierObservateurs();
 	}
-	
+
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.board.setPieceNotPlayable(i, j);
 		notifierObservateurs();
 	}
 
+	@Override
+	public List<Piece> getBlackPieces() {
+		return this.board.getBlackPieces();
+	}
+
+	@Override
+	public List<Piece> getWhitePieces() {
+		return this.board.getWhitePieces();
+	}
+
+	@Override
+	public List<Piece> getPlayablePieces() {
+		return this.board.getPlayablePieces();
+	}
+
+	@Override
+	public void resetPlayablePosition() {
+		this.board.resetPlayablePosition();
+		notifierObservateurs();
+	}
+
+	@Override
+	public Board clone() {
+		return new BoardObservable(this.board.clone());
+	}
 }

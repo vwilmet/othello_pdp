@@ -1,18 +1,17 @@
 package com.model.factory.impl;
 
-import java.awt.Color;
 import java.util.List;
 
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
-import com.model.BoardImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.AbstractFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.Piece;
+import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -38,12 +37,12 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty) {
-		return new GameSettings(player1, player2, gameBoard, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty);
+	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) {
+		return new GameSettings(player1, player2, gameBoard, artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty, history);
 	}
 
 	@Override
-	public Piece getWhitePiece(int posX, int posY)
+	public PieceImpl getWhitePiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -51,7 +50,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getBlackPiece(int posX, int posY)
+	public PieceImpl getBlackPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -59,7 +58,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece getEmptyPiece(int posX, int posY)
+	public PieceImpl getEmptyPiece(int posX, int posY)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -67,7 +66,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Piece[][] getMatrixPiece(int i, int j)
+	public PieceImpl[][] getMatrixPiece(int i, int j)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -82,7 +81,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getHumanPlayer(String playerLogin, String c)
+	public Player getHumanPlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
@@ -90,7 +89,7 @@ public class GameSettingsFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public Player getMachinePlayer(String playerLogin, String c)
+	public Player getMachinePlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,

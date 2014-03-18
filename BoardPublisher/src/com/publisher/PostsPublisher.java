@@ -5,16 +5,77 @@ package com.publisher;
  * @version 1.0
  */
 public interface PostsPublisher {
+	
 	/**
 	 * Constante pour afficher ":".
 	 */
-	public static final String COLON_FR = " : ";
+	public static final String COLON = " : ";
+
+	/**
+	 * Constante permettant de donner l'extension du fichier de sauvegarde.
+	 */
+	public static final String DOT_XML = ".xml", DOT = ".";
 	
 	/**
 	 * Constante pour effectuer un saut de ligne dans la contruction d'une String.
 	 */
-	public static final String EOF_FR = "\n";
+	public static final String EOF = "\n";
 	
+	/**
+	 * Constante qui affiche le signe de la multiplication.
+	 */
+	public static final String MULT_SIGN = "x";
+	
+	/**
+	 * Constante qui realise un espace.
+	 */
+	public static final String ONE_SPACES = " ";
+	
+	/**
+	 * Constante qui réalise trois espaces.
+	 */
+	public static final String THREE_SPACES = "   ";
+	
+	/**
+	 * Constante qui réalise deux espaces et un pipe.
+	 */
+	public static final String TWO_SPACES_PIPE = "  |";
+	
+	/**
+	 * Constante qui réalise un espace et un pipe.
+	 */
+	public static final String SPACES_PIPE = " |";
+	
+	/**
+	 * Constantes indiquant la couleur du joueur. 
+	 */
+	public static final String WHITE = "white", BLACK = "black";
+	
+	/**
+	 * Constante indiquant le type du joueur.
+	 */
+	public static final String HUMAN = "human", MACHINE = "machine";
+	
+	/**
+	 * Constantes permettant de donner un nom par défaut à chaque joueur.
+	 */
+	public static final String FIRST_PLAYER_NAME_POST = "J. McCain", SECOND_PLAYER_NAME_POST = "J. Rambo";
+	
+	/**
+	 * Constantes permettant de générer le fichier de sauvegarde.
+	 */
+	public static final String BOARD_PART = "board", INIT_PART = "init", SIZE_PART = "size", X_PART = "x",
+			Y_PART = "y", COLOR_PART = "c", PIECES_PART = "pieces", PIECE_PART = "piece", 
+			PLAYER_PART = "player", PLAYER_LOGIN_PART = "name", PLAYER_COLOR_PART = "rgb",
+			PLAYER_TYPE_PART = "type", PLAYER_NUMBER_PART = "num", AI_LEVEL_PART = "AILevel",
+			AI_THINKING_TIME_PART = "AIThinkingTime", PLAYED_PIECES_PART = "playedPcs";
+	
+	
+	/**********************************************************************************
+	 * 																				  *
+	 *  CONSTANTES EN FRANCAIS PERMETTANT LA CREATION DE MESSAGES POUR L'UTILISATEUR  *
+	 *  																			  * 
+	 **********************************************************************************/
 	/**
 	 * Constante "longueur" pour la génération de question à poser à l'utilisateur.
 	 */
@@ -100,33 +161,23 @@ public interface PostsPublisher {
 	 */
 	public static final String FIRST_PLAYER_POST_FR = "Le joueur Blanc commence.";
 	
+	/**
+	 * Constante indiquant à l'utilisateur à saisi une entrée incorrecte.
+	 */
 	public static final String ERROR_RECOVERY_RESULT_FR = "Vous avez saisi une entrée incorrecte.";
 	
+	/**
+	 * Constante indiquant à l'utilisateur qu'une erreur est survenue pendant la reccupération de ses données.
+	 */
 	public static final String INPUT_FATAL_ERROR_FR = "Un probleme est survenu au niveau de la réccupération des entrées utilisateur, fermeture du programme.";
 	
+	/**
+	 * Constante indiquant à l'utilisateur qu'une erreur est survenue pendant la sauvegarde du jeu.
+	 */
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de votre fichier, votre carte n'a pas été suavegardé.";
 	
+	/**
+	 * Constante demandant à l'utilisateur de saisir le nom du fichier de sauvegarde.
+	 */
 	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde.";
-	
-	public static final String BOARD_PART = "board";
-	public static final String INIT_PART = "init";
-	public static final String SIZE_PART = "size";
-	public static final String X_PART = "x";
-	public static final String Y_PART = "y";
-	public static final String COLOR_PART = "c";
-	public static final String PIECES_PART = "pieces";
-	public static final String PIECE_PART = "piece";
-	
-	public static final String PLAYER_PART = "player";
-	public static final String PLAYER_LOGIN_PART = "name";
-	public static final String PLAYER_COLOR_PART = "rgb";
-	public static final String PLAYER_TYPE_PART = "type";
-	public static final String PLAYER_NUMBER_PART = "num";
-	
-	public static final String AI_LEVEL_PART = "AILevel";
-	public static final String AI_THINKING_TIME_PART = "AIThinkingTime";
-	
-	// Utils
-	public static final String DOT_XML = ".xml";
-	public static final String DOT = ".";
 }

@@ -14,6 +14,7 @@ import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
+import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.view.BenchMarkViewImpl;
 import com.view.InitGameViewImpl;
@@ -48,11 +49,12 @@ public class InitGameController implements InitGameButtonEventListener {
 	
 	@Override
 	public void onValidButtonPressed(int row, int ligne, int IATime,
-			int IADifficulty, String player1Name, String player2Name) {
+		int IADifficulty, String player1Name, String player2Name) {
 		
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
+		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 		GameSettings gameSetts = null;
 		BoardObservable board = null;
 		
@@ -66,11 +68,12 @@ public class InitGameController implements InitGameButtonEventListener {
 			
 			try {
 				gameSetts = gsFacto.getGameSettings(
-						pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER), 
-						pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER),
+						pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER, 1), 
+						pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER, 2),
 						board,
 						IATime,
-						IADifficulty);
+						IADifficulty,
+						pieceFacto.getArrayListOfPiece());
 			} catch (FactoryHandlerException e) {
 				Log.error(e.getMessage());
 				e.printStackTrace();

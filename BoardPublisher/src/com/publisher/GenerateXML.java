@@ -11,7 +11,7 @@ import com.manager.FilesManagerImpl;
 
 /**
  * Classe permettant de générer le nouvel Othellier formaté en XML.
- * @author Benjamin Letourneau
+ * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
 public class GenerateXML implements BoardPublisher {
@@ -100,6 +100,11 @@ public class GenerateXML implements BoardPublisher {
 		return piece;
 	}
 	
+	/**
+	 * Methode permettant de générer un joueur sous forme XML.
+	 * @param p : Player, Joueur à formater en XML.
+	 * @return Element : Player formaté en XML.
+	 */
 	private Element playerInXML(Player p){
 		Element player = new Element(PostsPublisher.PLAYER_PART);
 		
@@ -123,9 +128,6 @@ public class GenerateXML implements BoardPublisher {
 		return player;
 	}
 
-	/**
-	 * Méthode permettant de générer un Othellier.
-	 */
 	@Override
 	public void boardMaker() {
 		this.board = new Board();

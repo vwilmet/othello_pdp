@@ -50,6 +50,8 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 	 */
 	Board initBoard;
 
+	private static final Integer depth = 9;
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -61,7 +63,7 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		if(p == null){
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(9, tree.getSentinel(), alpha, beta);
+			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
 		}
 		return tree.getSentinel().getBestMove();
 	}
@@ -79,7 +81,7 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		if(p == null){
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(9, tree.getSentinel(), alpha, beta);
+			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
 		}
 		while(p != null){
 			nextMoves.add(p);
@@ -128,13 +130,13 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1),1,initBoard));
 		tree.setSentinel(tree.getRootElement());
-		//Integer finalScore = miniMax(8, tree.getSentinel());
+		//Integer finalScore = miniMax(depth, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
-		//Integer finalScore = alphaBeta(8, tree.getSentinel(), alpha, beta);
-		//Integer finalScore = alphaBetaNegaMax(9, tree.getSentinel(), alpha, beta);
-		Integer finalScore = alphaBetaPVS(9, tree.getSentinel(), alpha, beta);
-		showBestMoveParty();
+		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
+		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//showBestMoveParty();
 		return true;
 	}
 	

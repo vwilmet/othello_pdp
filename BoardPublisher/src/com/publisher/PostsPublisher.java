@@ -15,6 +15,16 @@ public interface PostsPublisher {
 	 */
 	public static final String EOF_FR = "\n";
 	
+	public static final String MULT_SIGN = "x";
+	
+	
+	public static final String ONE_SPACES = " ";
+	
+	public static final String TWO_SPACES_PIPE = "  |";
+	public static final String SPACES_PIPE = " |";
+	
+	public static final String THREE_SPACES = "   ";
+	
 	/**
 	 * Constante "longueur" pour la génération de question à poser à l'utilisateur.
 	 */
@@ -108,6 +118,14 @@ public interface PostsPublisher {
 	
 	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde.";
 	
+	public static final String WHITE = "white";
+	public static final String BLACK = "black";
+	public static final String HUMAN = "human";
+	public static final String MACHINE = "machine";
+	
+	public static final String FIRST_PLAYER_NAME_POST_FR = "J. McCain";
+	public static final String SECOND_PLAYER_NAME_POST_FR = "J. Rambo";
+	
 	public static final String BOARD_PART = "board";
 	public static final String INIT_PART = "init";
 	public static final String SIZE_PART = "size";
@@ -125,6 +143,8 @@ public interface PostsPublisher {
 	
 	public static final String AI_LEVEL_PART = "AILevel";
 	public static final String AI_THINKING_TIME_PART = "AIThinkingTime";
+	
+	public static final String PLAYED_PIECES_PART = "playedPcs";
 	
 	// Utils
 	public static final String DOT_XML = ".xml";

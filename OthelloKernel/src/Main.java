@@ -1,9 +1,13 @@
 import utils.Application;
+import utils.FactoryHandlerException;
 
-import com.controller.GameController;
-import com.controller.GameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
+import com.model.factory.FactoryProducer;
+import com.model.factory.interfaces.RestoreGameFactory;
+import com.model.factory.interfaces.SaveGameFactory;
+import com.model.io.RestoreGame;
+import com.model.io.SaveGame;
 
 
 /**
@@ -18,7 +22,7 @@ public class Main {
 		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		GameController game = new GameControllerGraphical();
+		//GameController game = new GameControllerGraphical();
 		
 		/*PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null,  p3 = null, p4 = null;
@@ -220,13 +224,13 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		/*System.out.println("test de la lecure de partie");
+		System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		RestoreGame rg = null;
 		
 		try {
-			rg = rgFacto.getRestoreGame("saveFile2bis.xml");
+			rg = rgFacto.getRestoreGame("grille4x4.xml");
 			rg.loadGameFromBackupFile();
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
@@ -246,5 +250,5 @@ public class Main {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-*/	}
+	}
 }

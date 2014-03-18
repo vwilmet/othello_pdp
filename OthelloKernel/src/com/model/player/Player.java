@@ -20,12 +20,6 @@ public class Player {
 	private int playerNumber;
 	private PlayerType type;
 
-	/**
-	 * Constructeur de player. 
-	 * Attention à bien gérer le booléen firstPlayer dans la classe appelante, sinon risque de plantage.
-	 * @param login
-	 * @param c
-	 */
 	public Player(String login, String c, int playerNumber) throws GameHandlerException{
 		this.login = login;
 		

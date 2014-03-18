@@ -25,7 +25,6 @@ import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.Piece;
-import com.model.piece.PieceImpl;
 import com.model.player.Player;
 
 /**
@@ -158,10 +157,6 @@ public class RestoreGame {
 					GameHandlerException.ERROR_WRONG_FORMAT_SAVE_GAME_FILE,
 					e.getMessage());
 		} catch (IOException e) {
-			/*
-			 * DEBUG
-			 */
-			System.out.println("33333333");
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
@@ -277,9 +272,12 @@ public class RestoreGame {
 				System.out.println(p.toString());
 
 		} catch (GameHandlerException e) {
-			/*
-			 * ON NE FAIT RIEN COMME CETTE BALISE EST FACULTATIVE
-			 */			
+			try {
+				history = pieceFacto.getArrayListOfPiece();
+			} catch (FactoryHandlerException e1) {
+				Log.error(e.getMessage());
+				e1.printStackTrace();
+			}		
 		}
 
 		/* Construction de la board */

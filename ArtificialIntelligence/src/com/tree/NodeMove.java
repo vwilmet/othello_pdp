@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Stack;
 import com.board.Board;
 
-/**
- * Represents a node of the Tree<T> class. The Node<T> is also a container, and
- * can be thought of as instrumentation to determine the location of the type T
- * in the Tree<T>.
+/** 
+ * Représente un noeud de la classe TreeMove<T>.
  */
+
 public class NodeMove<T> {
  
-    private T data;
+	
+    private T lastMove;
     private Integer player;
     private NodeMove<T> parent;
     private List<NodeMove<T>> children;
@@ -32,13 +32,13 @@ public class NodeMove<T> {
      */
     public NodeMove(T data) {
         this();
-        setData(data);
+        setLastMove(data);
         bestMove = null;
     }
     
     public NodeMove(T data, Integer player, Board board){
         this();
-        setData(data);
+        setLastMove(data);
         setPlayer(player);
         setBoard(board);      
         bestMove = null;
@@ -48,7 +48,7 @@ public class NodeMove<T> {
     
     public NodeMove(T data, Integer player, Board board, NodeMove<T> parent){
         this();
-        setData(data);
+        setLastMove(data);
         setPlayer(player);
         setParent(parent);
         setBoard(board);      
@@ -128,12 +128,12 @@ public class NodeMove<T> {
         children.remove(index);
     }
  
-    public T getData() {
-        return this.data;
+    public T getLastMove() {
+        return this.lastMove;
     }
  
-    public void setData(T data) {
-        this.data = data;
+    public void setLastMove(T data) {
+        this.lastMove = data;
     }
      
     public Integer getPlayer() {
@@ -175,8 +175,8 @@ public class NodeMove<T> {
 	}
 	
 	public void calculateTurnResult(){
-		if(this.data != null && this.player != null)
-			this.currentBoard.calculateTurnResult((Point)this.data, this.player%2+1);
+		if(this.lastMove != null && this.player != null)
+			this.currentBoard.calculateTurnResult((Point)this.lastMove, this.player%2+1);
 	}
 
 	public String printBoard(){
@@ -186,13 +186,13 @@ public class NodeMove<T> {
 
 	public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{").append(getData().toString()).append(",[");
+        sb.append("{").append(getLastMove().toString()).append(",[");
         int i = 0;
         for (NodeMove<T> e : getChildren()) {
             if (i > 0) {
                 sb.append(",");
             }
-            sb.append(e.getData().toString());
+            sb.append(e.getLastMove().toString());
             sb.append("White : " +e.getBoard().getNbWhitePiece() + " , ");
             sb.append("Black : " +e.getBoard().getNbBlackPiece() + " ");
             sb.append("Board : \n" + e.printBoard());

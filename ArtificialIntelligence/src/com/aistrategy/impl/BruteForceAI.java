@@ -19,7 +19,7 @@ import com.utils.WrongPlayablePositionException;
  * @author <ul><li>Nicolas Yvon</li></ul>
  * @version 1.0
  */
-public class BruteForceAI implements ArtificialIntelligenceStrategy {
+public class BruteForceAI extends Thread implements ArtificialIntelligenceStrategy{
 
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
@@ -131,12 +131,13 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1),1,initBoard));
 		tree.setSentinel(tree.getRootElement());
 		//Integer finalScore = miniMax(depth, tree.getSentinel());
-		Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;
+		/*Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;*/
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
-		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		//showBestMoveParty();
+		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		run();
+		showBestMoveParty();
 		return true;
 	}
 	
@@ -194,7 +195,6 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 				Point p = playablePosition.pop();
 				NodeMove<Point> n = new NodeMove<Point>(p,opponent,new Board(node.getBoard())); 
 				n.calculateTurnResult();
-				//calculateTurnResult(p, node.getCopyOfBoard(), node.getCopyOfWhitePiece(), node.getCopyOfBlackPiece(), node.getPlayer());
 				node.addChild(n);
 
 				Integer score = miniMax(depth-1, n);
@@ -411,7 +411,14 @@ public class BruteForceAI implements ArtificialIntelligenceStrategy {
 
 	}
 	
+	public void run() {
+        System.out.println("Hello from a thread!");
+        Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;
+		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
+		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		System.out.println("Bye from a thread!");
+    }
 	
-
-
 }

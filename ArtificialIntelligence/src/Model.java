@@ -18,8 +18,8 @@ public class Model {
 	public Model() throws WrongPlayablePositionException
 	{
 		myBoard = new Board();
-		//myAI = new BruteForceAI();
-		myAI = new NextBestMoveAI();
+		myAI = new BruteForceAI();
+		//myAI = new NextBestMoveAI();
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		this.width = myBoard.width;
 		this.height = myBoard.height;

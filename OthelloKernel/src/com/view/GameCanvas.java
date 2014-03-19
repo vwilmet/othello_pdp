@@ -61,7 +61,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	private void drawGrid(Graphics2D g){
 		//draw grid
-		for(int i = 0; i < board.getSizeX(); i ++){
+		for(int i = 0; i < board.getSizeX(); i++){
 			for(int j = 0; j < board.getSizeY(); j++){
 				g.drawRect(i*this.pieceSizeWidth+margin.width, j*this.pieceSizeHeight+margin.height, this.pieceSizeWidth, this.pieceSizeHeight);
 

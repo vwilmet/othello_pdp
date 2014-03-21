@@ -1,6 +1,8 @@
 import utils.Application;
 import utils.FactoryHandlerException;
 
+import com.controller.GameController;
+import com.controller.GameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.factory.FactoryProducer;
@@ -22,7 +24,7 @@ public class Main {
 		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		//GameController game = new GameControllerGraphical();
+		GameController game = new GameControllerGraphical();
 		
 		/*PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
 		Piece p1 = null, p2 = null,  p3 = null, p4 = null;

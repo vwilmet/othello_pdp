@@ -18,8 +18,11 @@
 					<li><a href="presentation.html">Présentation</a></li>
 					<li><a href="#">Documentation</a>  
 						<ul>  
-							<li><a href="documentation_simple.html">Documentation simple</a></li>  
-							<li><a href="documentation_expert.html">Documentation expert</a></li>   
+							<li><a href="#">BenchMark</a></li>  
+							<li><a href="#">Timer</a></li>
+							<li><a href="#">Gestion de fichiers</a></li> 
+							<li><a href="#">Logiciel / Jeu</a></li> 
+							<li><a href="#">IA</a></li>  
 						</ul>  
 					</li>
 					<li><a href="jouer.html">Comment jouer</a></li>
@@ -31,26 +34,71 @@
 		<div id="content">
 			<div id="corps">
 				<h1>Comment jouer ?</h1>
-			<p>
-				<table>
+				<h2>Règles du jeu Othello, d'après la FFO</h2>
+				<p>
+					Othello est un jeu de stratégie à deux joueurs : Noir et Blanc. 
+					Il se joue sur un plateau unicolore de 64 cases, 8 sur 8, appelé othellier. 
+					Ces joueurs disposent de 64 pions bicolores, noirs d'un côté et blancs de l'autre. Par commodité, chaque joueur a devant lui 32 pions mais ils ne lui appartiennent pas et il doit en donner à son adversaire si celui-ci n'en a plus. Un pion est noir si sa face noire est visible et blanc si sa face blanche est sur le dessus. 
+				</p>
+
+				<h2>Notre jeu</h2>
+			
+				<table id="capture">
 					<tr>
+						<td><img src="captures_jeu/initialisation.png" /></td>
+						<td>Au lancement du jeu, quelques réglages sont à faire avant de pouvoir jouer. 
+							Dans un premier temps, il faudra indiquer la taille de la grille (le maximum est 50*50).
+							Puis, lancer le BenchMark (explication ci-dessous) et indiquer la difficulté souhaitée.
+							Enfin, préciser si l'on joue entre joueurs ou un joueur contre l'IA </td>
+					</tr>
+					<tr>
+						<td>Le Benchmark permet d'évaluer les performances de la machine. 
+							En fonction du temps de réflexion obtenu, on en déduit le temps qu'il faudra à l'IA pour jouer. </td>
+						<td><img src="captures_jeu/benchmark.png" /></td>
+					</tr>
+					<tr>
+						<td><img src="captures_jeu/ouverture.png" /></td>
+						<td>Après avoir paramétré le jeu, les jetons sont placés au centre du plateau et par défaut c'est le joueur noir qui commence.</td>
+					</tr>
+					<tr>
+						<td>Le logiciel, au cours d'une partie, possède plusieurs zones afin d'informer l'utilisateur : le plateau, l'historique (liste à droite), menu général en haut à gauche ainsi qu'une aide et enfin, en bas, à gauche une barre de notification et à droite, une barre de statistiques sur la partie actuelle.</td>
 						<td><img src="captures_jeu/jeu.png" /></td>
-						<td>2</td>
 					</tr>
 					<tr>
-						<td>1</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>2</td>
+						<td><img src="captures_jeu/reprise.png" /></td>
+						<td>Si l'utilisateur le désire, il peut choisir de revenir à n'importe quelle position jouée en cliquant sur le bouton "Revenir à une position".
+						Ainsi, il peut recommencer une partie à une position donnée.</td>
 					</tr>
 				</table>
-			</p>
+				<h3>Boutons</h3>
+				<table id="bouton">
+					<tr>
+						<th><img src="captures_jeu/fx/back_arrow.png" /></th>
+						<th><img src="captures_jeu/fx/back_arrow_disable.png" /></th>
+						<th><img src="captures_jeu/fx/forward_arrow.png" /></th>
+						<th><img src="captures_jeu/fx/forward_arrow_disable.png" /></th>
+						<th><img src="captures_jeu/fx/help_ia.png" /></th>
+						<th><img src="captures_jeu/fx/pause.png" /></th>
+						<th><img src="captures_jeu/fx/play.png" /></th>
+						<th><img src="captures_jeu/fx/position.png" /></th>
+						<th><img src="captures_jeu/fx/position_disable.png" /></th>
+						<th><img src="captures_jeu/fx/reset.png" /></th>
+						<th><img src="captures_jeu/fx/reverse_player.png" /></th>
+					</tr>
+					<tr>
+						<th>Retour</th>
+						<th>Retour impossible</th>
+						<th>Suivant</th>
+						<th>Suivant impossible</th>
+						<th>Aide IA</th>
+						<th>Pause</th>
+						<th>Jouer</th>
+						<th>Revenir à une position</th>
+						<th>Retour impossible</th>
+						<th>Recommencer</th>
+						<th>Changement de joueur</th>
+					</tr>
+				</table>
 			</div>
 		</div>
     </body>

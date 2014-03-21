@@ -8,6 +8,11 @@ table.titre_onglet img.photo
 	height: 200px;
 }
 
+img.photo
+{
+	height: 200px;
+}
+
 /* Onglet */
 .onglet
 {

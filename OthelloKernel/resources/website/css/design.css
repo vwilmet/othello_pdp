@@ -3,6 +3,8 @@ html, body
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	background-image: url("../images/texture.jpg");
+	background-repeat: repeat-xy;
 }
 
 /* HEADER */
@@ -58,7 +60,7 @@ nav ul#menu
 {
 	width: 765px;
 	float: left;
-	margin-top: -26px;
+	margin-top: -28px;
 }
 
 nav #menu a 
@@ -128,8 +130,6 @@ nav #menu > li:hover ul { max-height: 13em; }
 /* CONTENT */
 #content 
 {
-	background-image: url("../images/texture.jpg");
-	background-repeat;
 	height: 100%;
 	padding-top: 90px;
 }

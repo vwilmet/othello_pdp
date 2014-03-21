@@ -15,6 +15,34 @@
 				document.getElementById('contenu_onglet_'+name).style.display = 'block';
 				anc_onglet = name;
 			}
+			
+			function change_photo(name)
+			{
+				if(name == "morgane"){
+					document.getElementById('momo').innerHTML= '<img class="photo" src="images/portraits/morgane.jpg" />';
+					document.getElementById('benji').innerHTML= '<img class="photo" src="images/portraits/benji2.jpg" />'; 
+					document.getElementById('nico').innerHTML= '<img class="photo" src="images/portraits/nico2.jpg" />';
+					document.getElementById('vince').innerHTML= '<img class="photo" src="images/portraits/vincent2.jpg" />'; 
+				}					
+				if(name == "benji"){
+					document.getElementById('benji').innerHTML= '<img class="photo" src="images/portraits/benji.jpg" />';
+					document.getElementById('momo').innerHTML= '<img class="photo" src="images/portraits/morgane2.jpg" />';
+					document.getElementById('nico').innerHTML= '<img class="photo" src="images/portraits/nico2.jpg" />';
+					document.getElementById('vince').innerHTML= '<img class="photo" src="images/portraits/vincent2.jpg" />'; 
+				}
+				if(name == "nico"){
+					document.getElementById('nico').innerHTML= '<img class="photo" src="images/portraits/nico.jpg" />';
+					document.getElementById('momo').innerHTML= '<img class="photo" src="images/portraits/morgane2.jpg" />';
+					document.getElementById('benji').innerHTML= '<img class="photo" src="images/portraits/benji2.jpg" />';
+					document.getElementById('vince').innerHTML= '<img class="photo" src="images/portraits/vincent2.jpg" />'; 
+				}
+				if(name == "vincent"){
+					document.getElementById('vince').innerHTML= '<img class="photo" src="images/portraits/vincent.jpg" />';
+					document.getElementById('nico').innerHTML= '<img class="photo" src="images/portraits/nico2.jpg" />';
+					document.getElementById('momo').innerHTML= '<img class="photo" src="images/portraits/morgane2.jpg" />';
+					document.getElementById('benji').innerHTML= '<img class="photo" src="images/portraits/benji2.jpg" />';
+				}
+			}
 			//-->
 		</script>
     </head>
@@ -30,8 +58,11 @@
 					<li><a href="presentation.html">Présentation</a></li>
 					<li><a href="#">Documentation</a>  
 						<ul>  
-							<li><a href="documentation_simple.html">Documentation simple</a></li>  
-							<li><a href="documentation_expert.html">Documentation expert</a></li>   
+							<li><a href="#">BenchMark</a></li>  
+							<li><a href="#">Timer</a></li>
+							<li><a href="#">Gestion de fichiers</a></li> 
+							<li><a href="#">Logiciel / Jeu</a></li> 
+							<li><a href="#">IA</a></li>      
 						</ul>  
 					</li>
 					<li><a href="jouer.html">Comment jouer</a></li>
@@ -48,33 +79,33 @@
 				</p>
 				<div class="systeme_onglets">
 					<div class="onglets">
-						<span class="onglet_0 onglet" id="onglet_quoi" onclick="javascript:change_onglet('quoi');">
+						<span class="onglet_0 onglet" id="onglet_morgane" onclick="javascript:change_onglet('morgane'); change_photo('morgane');">
 							<table class="titre_onglet">
-								<tr><td><img class="photo" src="images/portraits/morgane.jpg" /></td></tr>
-								<tr><td>Morgane</td></tr>
+								<tr><td id="momo"><img class="photo" src="images/portraits/morgane2.jpg" /></td></tr>
+								<tr><td>Momo</td></tr>
 							</table>	
 						</span>
-						<span class="onglet_0 onglet" id="onglet_qui" onclick="javascript:change_onglet('qui');">
+						<span class="onglet_0 onglet" id="onglet_benji" onclick="javascript:change_onglet('benji'); change_photo('benji');">
 							<table class="titre_onglet">
-								<tr><td><img class="photo" src="images/portraits/benji.jpg" /></td></tr>
-								<tr><td>Benjamin</td></tr>
+								<tr><td id="benji"><img class="photo" src="images/portraits/benji2.jpg" /></td></tr>
+								<tr><td>Mushu</td></tr>
 							</table>
 						</span>
-						<span class="onglet_0 onglet" id="onglet_pourquoi" onclick="javascript:change_onglet('pourquoi');">
+						<span class="onglet_0 onglet" id="onglet_nico" onclick="javascript:change_onglet('nico'); change_photo('nico');">
 							<table class="titre_onglet">
-								<tr><td><img class="photo" src="images/portraits/nico.jpg" /></td></tr>
-								<tr><td>Nicolas</td></tr>
+								<tr><td id="nico"><img class="photo" src="images/portraits/nico2.jpg" /></td></tr>
+								<tr><td>Captain Grievous</td></tr>
 							</table>
 						</span>
-						<span class="onglet_0 onglet" id="onglet_quand" onclick="javascript:change_onglet('quand');">
+						<span class="onglet_0 onglet" id="onglet_vincent" onclick="javascript:change_onglet('vincent'); change_photo('vincent');">
 							<table class="titre_onglet">
-								<tr><td><img class="photo" src="images/portraits/vincent.jpg" /></td></tr>
-								<tr><td>Vincent</td></tr>
+								<tr><td id="vince"><img class="photo" src="images/portraits/vincent2.jpg" /></td></tr>
+								<tr><td>Loulou le lapinou</td></tr>
 							</table>
 						</span>
 					</div>
 					<div class="contenu_onglets">
-						<div class="contenu_onglet" id="contenu_onglet_quoi">
+						<div class="contenu_onglet" id="contenu_onglet_morgane">
 							<h2>Morgane Badré</h2>
 							<h3>Parcours</h3>
 							<p>
@@ -96,7 +127,7 @@
 								</ul>
 							</p>
 						</div>
-						<div class="contenu_onglet" id="contenu_onglet_qui">
+						<div class="contenu_onglet" id="contenu_onglet_benji">
 							<h2>Benjamin Letourneau</h2>
 							<h3>Parcours</h3>
 							<p>
@@ -114,7 +145,7 @@
 								</ul>
 							</p>
 						</div>
-						<div class="contenu_onglet" id="contenu_onglet_pourquoi">
+						<div class="contenu_onglet" id="contenu_onglet_nico">
 							<h2>Nicolas Yvon</h2>
 							<h3>Parcours</h3>
 							<p>
@@ -132,7 +163,7 @@
 								</ul>
 							</p>
 						</div>
-						<div class="contenu_onglet" id="contenu_onglet_quand">
+						<div class="contenu_onglet" id="contenu_onglet_vincent">
 							<h2>Vincent Wilmet</h2>
 							<h3>Parcours</h3>
 							<p>
@@ -157,7 +188,7 @@
 				</div>
 				<script type="text/javascript">
 					//<!--
-					var anc_onglet = 'quoi';
+					var anc_onglet = 'morgane';
 					change_onglet(anc_onglet);
 					//-->
 				</script>

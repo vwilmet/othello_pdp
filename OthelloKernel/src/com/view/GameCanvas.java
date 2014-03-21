@@ -46,12 +46,18 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private int canvasWidth, canvasHeight;
 	private int pieceSizeWidth, pieceSizeHeight;
 	private boolean onPause;
+	private Piece IAAdvisedPiece;
 
 	public GameCanvas(int canvasWidth, int canvasHeight){
 		setBackground (Color.white);
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
 		this.onPause = false;
+		IAAdvisedPiece = null;
+	}
+
+	public void setIAAdvisedPiece(Piece p){
+		this.IAAdvisedPiece = p;
 	}
 
 	public void setMouseListener(GameCanvasMouseEventListener event){
@@ -92,6 +98,23 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 					e.printStackTrace();
 				}
 				g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
+			}
+		}
+
+		if(this.IAAdvisedPiece != null){
+			try {
+				Image img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.IA_ADVISED_PIECE_IMG));
+				g.drawImage(
+						scaleImage(
+								img,
+								this.pieceSizeWidth,
+								this.pieceSizeHeight
+								),
+								this.IAAdvisedPiece.getPosX()*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
+								this.IAAdvisedPiece.getPosY()*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
+								this);
+			}catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

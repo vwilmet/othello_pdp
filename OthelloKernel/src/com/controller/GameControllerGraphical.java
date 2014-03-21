@@ -40,6 +40,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setMenuListener(this);
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
+		this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
 	}
 
 	protected void initializeNewGame(){

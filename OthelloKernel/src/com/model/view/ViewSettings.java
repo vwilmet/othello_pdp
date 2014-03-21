@@ -92,6 +92,7 @@ public class ViewSettings {
 	public static final String IMAGE_PIECE_PATH = "./resources/fx/piece/";
 	
 	public static final String WHITE_PIECE_IMG = "white_piece.png";
+	public static final String IA_ADVISED_PIECE_IMG = "ia_advised_piece.png";
 	public static final String BLACK_PIECE_IMG = "black_piece.png";
 	public static final String POSSIBLE_PIECE_IMG = "possible_position.png";
 	

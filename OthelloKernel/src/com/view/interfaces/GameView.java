@@ -1,6 +1,7 @@
 package com.view.interfaces;
 
 import com.model.BoardObservable;
+import com.model.piece.Piece;
 import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.GameViewMenuEventListener;
 
@@ -12,6 +13,8 @@ public interface GameView {
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent);
 	
 	public void setOnPause(boolean onPause);
+	
+	public void setIAAdvisedPiece(Piece p);
 	
 	public void addMessageToMessageList(String element);
 	public void changeStatViewMessage(String message);

@@ -22,6 +22,7 @@ import javax.swing.event.MenuListener;
 import utils.TextManager;
 
 import com.model.BoardObservable;
+import com.model.piece.Piece;
 import com.model.view.ViewSettings;
 import com.view.button.BackButton;
 import com.view.button.ForwardButton;
@@ -326,5 +327,10 @@ public class GameViewImpl extends JFrame implements GameView{
 	@Override
 	public void setBoard(BoardObservable board) {
 		this.game.setData(board);
+	}
+
+	@Override
+	public void setIAAdvisedPiece(Piece p) {
+		this.game.setIAAdvisedPiece(p);
 	}
 }

@@ -216,5 +216,21 @@ public abstract class GameController{
 			}
 			inBetween.clear();
 		}
+
+		this.checkPlayersPiecesCount();
+	}
+
+	private void checkPlayersPiecesCount(){
+		if(this.gameSettings.getFirstPlayer().getColor().equals(TextManager.WHITE_PLAYER)){
+			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
+		}else{
+			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
+		}
+		
+		if(this.gameSettings.getSecondPlayer().getColor().equals(TextManager.BLACK_PLAYER)){
+			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
+		}else{
+			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
+		}
 	}
 }

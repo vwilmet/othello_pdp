@@ -46,7 +46,7 @@ public class LoadBoardFile {
 	 */
 	public void getMapFromFile() throws BPHandlerException {
 		FilesManager fm = new FilesManagerImpl();
-		String s = fm.load(fileName + ".xml", "./");
+		String s = fm.load(fileName + PostsPublisher.GRID_FILE_EXTENSION, PostsPublisher.PATH_GRID_FILE_FOLDER);
 		
 		if (s.equals(FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING)){
 			throw new BPHandlerException(BPHandlerException.ERROR_DURING_LOAD_BOARD_FILE, PostsPublisher.ERROR_FILE_NOT_EXISTING_FR);

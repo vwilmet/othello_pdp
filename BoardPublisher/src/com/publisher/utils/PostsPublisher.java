@@ -70,6 +70,8 @@ public interface PostsPublisher {
 			PLAYER_TYPE_PART = "type", PLAYER_NUMBER_PART = "num", AI_LEVEL_PART = "AILevel",
 			AI_THINKING_TIME_PART = "AIThinkingTime", PLAYED_PIECES_PART = "playedPcs";
 	
+	public static final String GRID_FILE_EXTENSION = ".grd";
+	public static final String PATH_GRID_FILE_FOLDER = "./";
 	
 	/**********************************************************************************
 	 * 																				  *

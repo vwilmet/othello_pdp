@@ -213,16 +213,15 @@ public class GameSettings {
 			this.gameBoard.setWhitePiece(i, j);
 		else
 			this.gameBoard.setBlackPiece(i, j);
-
-		this.addPieceMove(this.gameBoard.getBoard()[i][j]);
 	}
-	
+
 	/**
 	 * 
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
-	private void addPieceMove(Piece p){
-	
+	public void manageBoardHistory(int x, int y){
+		
+		Piece p = this.gameBoard.getBoard()[x][y];
 		if(this.gameHistory.size()-1 > this.sentinel){
 			this.sentinel++;
 			if(!this.gameHistory.get(this.sentinel).equals(p)){

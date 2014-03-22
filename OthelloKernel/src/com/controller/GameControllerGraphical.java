@@ -83,17 +83,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 		if(i!=-1 && j != -1){
-			
-			for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
-				if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
-					this.gameSettings.setPiece(i, j);
-					
-					this.reverseInbetweenPieceAfterPlaying(i, j);
-					this.gameSettings.changePlayer();
-					this.setPlayablePiece();
-					this.writeMessageToUser(this.gameSettings.getCurrentPlayer().toString());
-					break;
-				}
+			if(onPiecePlayed(i, j))
+				this.writeMessageToUser(this.gameSettings.getCurrentPlayer().toString());
 		}
 	}
 	

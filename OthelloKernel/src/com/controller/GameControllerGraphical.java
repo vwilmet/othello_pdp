@@ -39,6 +39,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
 		this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
+		
+		this.updateInformationField();
 	}
 	
 	protected void initializeNewGame(){
@@ -84,7 +86,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onLeftMouseButtonPressed(int i, int j) {
 		if(i!=-1 && j != -1){
 			if(onPiecePlayed(i, j))
-				this.writeMessageToUser(this.gameSettings.getCurrentPlayer().toString());
+				this.updateInformationField();
 		}
 	}
 	
@@ -111,6 +113,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
+			this.updateInformationField();
 		}
 	}
 
@@ -135,6 +138,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();	
+			this.updateInformationField();
 		}
 	}
 	
@@ -144,6 +148,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
+			this.updateInformationField();
 		}
 	}
 	
@@ -153,6 +158,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 		this.setPlayablePiece();
+		this.updateInformationField();
 	}
 	
 	@Override
@@ -169,7 +175,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onReversePlayerButtonCliked() {
 		this.gameSettings.reversePlayer();
+		this.setPlayablePiece();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
+		this.updateInformationField();
 	}
 
 	@Override
@@ -241,8 +249,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	private void updateInformationField(){
 		//tour du joueur actuelle
 		
+		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
 		//nombre de pion par joueur
-		
+		this.writeStatMessage("Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + "] : " + this.gameSettings.getFirstPlayer().getPiecesNumber() + " | Noir[" + this.gameSettings.getSecondPlayer().getLogin() + "] : " + this.gameSettings.getSecondPlayer().getPiecesNumber());
 		//Nombre de coup possible
 		
 		

@@ -56,6 +56,7 @@ public abstract class GameController{
 		}
 
 		timer.startCountingElapsedTime();
+		this.checkPlayersPiecesCount();
 	}
 
 	protected abstract void initializeNewGame();
@@ -226,7 +227,6 @@ public abstract class GameController{
 		}else{
 			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
 		}
-		
 		if(this.gameSettings.getSecondPlayer().getColor().equals(TextManager.BLACK_PLAYER)){
 			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
 		}else{

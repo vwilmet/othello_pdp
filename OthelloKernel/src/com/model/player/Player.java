@@ -43,6 +43,10 @@ public class Player {
 		return this.color;
 	}
 
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 	public int getPiecesNumber() {
 		return this.piecesNumber;
 	}

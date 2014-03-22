@@ -16,6 +16,13 @@ public class Player {
 	 */
 	private int number;
 	
+	/**
+	 * Constructeur de classe.
+	 * @param name : String, nom du joueur.
+	 * @param color : String, couleur du joueur (blanc ou noir).
+	 * @param type : String, type de joueur (humain ou machine).
+	 * @param number : int, numéro du joueur. 
+	 */
 	public Player(String name, String color, String type, int number){
 		this.name = name;
 		this.color = color;

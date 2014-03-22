@@ -1,4 +1,4 @@
-package com.publisher;
+package com.publisher.utils;
 /**
  * Interface contenant l'intégralité des textes du module.
  * @author Benjamin Letourneau
@@ -174,10 +174,45 @@ public interface PostsPublisher {
 	/**
 	 * Constante indiquant à l'utilisateur qu'une erreur est survenue pendant la sauvegarde du jeu.
 	 */
-	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de votre fichier, votre carte n'a pas été suavegardé.";
+	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de votre fichier, votre carte n'a pas été suavegardé. ";
 	
 	/**
 	 * Constante demandant à l'utilisateur de saisir le nom du fichier de sauvegarde.
 	 */
-	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde.";
+	public static final String SAVE_FILE_NAME_REQUEST_FR = "Quel nom voulez-vous donner à votre fichier de sauvegarde. ";
+	
+	/**
+	 * Constante demandant à l'utilisateur de saisir le nom du fichier contenant la grille de jeu à charger.
+	 */
+	public static final String LOAD_BOARD_FILE_NAME_REQUEST_FR = "Quel est le nom du fichier contenant la grille de jeu ? ";
+	
+	/**
+	 * Constante demandant à l'utilisateur de saisir le nom du fichier contenant la grille de jeu à charger.
+	 */
+	public static final String LOAD_OR_CREATE_BOARD_REQUEST_FR = "Voulez-vous charger un fichier contenant un othelier initial, ou le créer ? (1 pour charger le fichier, 2 pour le créer) ";
+	
+	/**
+	 * Message d'erreur générale.
+	 */
+	public static final String ERROR_FR = "Une erreur est survenue. ";
+	
+	/**
+	 * Message d'erreur sur le chargement de l'othelier initial.
+	 */
+	public static final String ERROR_DURING_LOAD_BOARD_FILE_FR = "Une erreur est survenue pendant le chargement du fichier contenant l'othelier initial. ";
+	
+	/**
+	 * Message d'erreur sur le chargement de l'othelier initial, la taille ne correspond pas.
+	 */
+	public static final String WRONG_BOARD_SIZE_FR = "L'othelier ne correspond pas aux dimensions saisies plus haut. Chargement d'une grille par défaut. ";
+	
+	/**
+	 * Message d'erreur sur le chargement de l'othelier initial, le fichier n'existe pas.
+	 */
+	public static final String ERROR_FILE_NOT_EXISTING_FR = "Le fichier n'existe pas. Chargement d'une grille par défaut.";
+	
+	/**
+	 * Message d'erreur sur le chargement de l'othelier initial, le fichier contient un caractère interdit.
+	 */
+	public static final String WRONG_FILE_FORMAT_FR = "Un caractère interdit est contenu dans le fichier.";
 }

@@ -1,4 +1,4 @@
-package com.publisher;
+package com.publisher.generator;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -8,6 +8,11 @@ import org.jdom2.output.XMLOutputter;
 import com.error_manager.Log;
 import com.manager.FilesManager;
 import com.manager.FilesManagerImpl;
+import com.publisher.Board;
+import com.publisher.BoardPublisher;
+import com.publisher.Player;
+import com.publisher.utils.PostsPublisher;
+import com.publisher.utils.Utils;
 
 /**
  * Classe permettant de générer le nouvel Othellier formaté en XML.

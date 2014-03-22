@@ -1,4 +1,4 @@
-package com.publisher;
+package com.publisher.utils;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
@@ -8,8 +8,16 @@ import org.jdom2.Element;
 
 import com.error_manager.Log;
 
+/**
+ * Classe contenant uniquement des méthodes statiques.
+ * @author <ul><li> Benjamin Letourneau </li></ul>
+ * @version 1.0
+ */
 public class Utils {
 
+	/**
+	 * Constante permettant de réinitialiser le champ de saisie utilisateur tant que celui ci est incorrect.
+	 */
 	private static final int BAD_USER_INPUT = 999;
 	
 	/**

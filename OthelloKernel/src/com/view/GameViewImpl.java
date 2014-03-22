@@ -74,17 +74,23 @@ public class GameViewImpl extends JFrame implements GameView{
 	//Help part
 	private JMenu help;
 
+	private PlayButton playButton;
+	private ResetButton resetButton;
+	private BackButton backButton;
+	private ForwardButton forwardButton;
+	private ReversePlayerButton reverseButton;
+	private HelpIAButton helpButton;
+	private PositionButton positionButton;
+	
 	private GameCanvas game;
 
-	public GameViewImpl(BoardObservable board, ButtonImageMenuEventListener event) {
+	public GameViewImpl(BoardObservable board) {
 
 		this.setSize(ViewSettings.GAME_FRAME_WIDTH, ViewSettings.GAME_FRAME_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.GAME_VIEW_TITLE_FR);
-
-		this.buttonEvent = event;
 
 		instantiation();
 
@@ -129,12 +135,12 @@ public class GameViewImpl extends JFrame implements GameView{
 	public void setOnPause(boolean onPause){
 		this.game.setOnPause(onPause);
 	}
-	
+
 	@Override
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent){
 		this.game.setMouseListener(mouseEvent);
 	}
-	
+
 	private void setComponentSize(){
 
 		messageBar.setPreferredSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
@@ -252,16 +258,6 @@ public class GameViewImpl extends JFrame implements GameView{
 			@Override
 			public void menuSelected(MenuEvent arg0) {
 				if(menuEvent != null)menuEvent.onOptionItemMenuPressed();
-				/*try {
-					java.awt.Desktop.getDesktop().browse(new URI("www.google.fr"));
-				} catch (IOException  e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}*/	
-
 			}
 
 			@Override
@@ -290,13 +286,23 @@ public class GameViewImpl extends JFrame implements GameView{
 	}
 
 	private void addImageButtonToMenu(){
-		actionBar.add(new PlayButton().setMouseListener(buttonEvent));
-		actionBar.add(new ResetButton().setMouseListener(buttonEvent));
-		actionBar.add(new BackButton().setMouseListener(buttonEvent));
-		actionBar.add(new ForwardButton().setMouseListener(buttonEvent));
-		actionBar.add(new ReversePlayerButton().setMouseListener(buttonEvent));
-		actionBar.add(new HelpIAButton().setMouseListener(buttonEvent));
-		actionBar.add(new PositionButton().setMouseListener(buttonEvent));
+
+		playButton = new PlayButton();
+		resetButton = new ResetButton();
+		backButton = new BackButton();
+		forwardButton = new ForwardButton();
+		reverseButton = new ReversePlayerButton();
+		helpButton = new HelpIAButton();	
+		positionButton = new PositionButton();
+		
+
+		actionBar.add(playButton);
+		actionBar.add(resetButton);
+		actionBar.add(backButton);
+		actionBar.add(forwardButton);
+		actionBar.add(reverseButton);
+		actionBar.add(helpButton);
+		actionBar.add(positionButton);
 	}
 
 	@Override
@@ -332,5 +338,18 @@ public class GameViewImpl extends JFrame implements GameView{
 	@Override
 	public void setIAAdvisedPiece(Piece p) {
 		this.game.setIAAdvisedPiece(p);
+	}
+
+	@Override
+	public void setImageButtonEventListener(ButtonImageMenuEventListener event) {
+		this.buttonEvent = event;
+
+		playButton.setMouseListener(buttonEvent);
+		resetButton.setMouseListener(buttonEvent);
+		backButton.setMouseListener(buttonEvent);
+		forwardButton.setMouseListener(buttonEvent);
+		reverseButton.setMouseListener(buttonEvent);
+		helpButton.setMouseListener(buttonEvent);
+		positionButton.setMouseListener(buttonEvent);
 	}
 }

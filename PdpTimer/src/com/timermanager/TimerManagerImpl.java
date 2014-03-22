@@ -164,7 +164,7 @@ public class TimerManagerImpl implements TimerManager{
 	 * <br>Voir {@link com.timermanager.TimerManager#getElepsedTimeInMinAndSeconde}
 	 */
 	@Override
-	public String getElepsedTimeInMinAndSeconde(){
+	public String getElapsedTimeInMinAndSeconde(){
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(getElapsedTime());
 		long secondes = TimeUnit.MILLISECONDS.toSeconds(getElapsedTime()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getElapsedTime())); 
 		String format = "",

@@ -35,7 +35,7 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 	public InitGameViewImpl() {
 
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.INITGAME_VIEW_TITLE_FR);

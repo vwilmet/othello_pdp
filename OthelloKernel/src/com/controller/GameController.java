@@ -33,10 +33,7 @@ public abstract class GameController{
 		timer = new TimerManagerImpl();
 
 		try {
-
 			board = bFacto.getInitialBoard(8,8);
-
-
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -65,6 +62,15 @@ public abstract class GameController{
 
 	protected abstract void loadFileForGame();
 
+	protected void quickSaveOFCurrentBoard(){
+		
+		
+	}
+	
+	protected void saveCurrentBoard(String path){
+				
+	}
+	
 	private ArrayList<Piece> getReversePieceAround(Piece origin){
 		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;
@@ -87,7 +93,7 @@ public abstract class GameController{
 			}
 		return neighbours;
 	}
-
+	
 	/**
 	 * Pk ici dans controller et pas comme les méthode history dans le model 
 	 * => cette méthode fait partie des regles du jeu! du coup elle pourrait etre modifier pour changer le jeu alors que le comportement de back and forwrd seras tjr le même et dépend de la board 

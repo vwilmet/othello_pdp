@@ -21,10 +21,9 @@ public class HelpIAButton extends ImageButton implements MouseListener {
 	}
 
 	@Override
-	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+	public void setMouseListener(ButtonImageMenuEventListener event){
 		this.listener = event;
 		this.addMouseListener(this);
-		return this;
 	}
 
 	@Override
@@ -54,6 +53,15 @@ public class HelpIAButton extends ImageButton implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);
+	}
+
+	@Override
+	public void enableButton(boolean enable) {
+		this.setEnabled(enable);
+		if(enable)
+			super.setImage(ViewSettings.HELP_IA_BUTTON_IMAGE);
+		else
+			super.setImage(ViewSettings.HELP_IA_BUTTON_DISABLE_IMAGE);
 	}
 
 }

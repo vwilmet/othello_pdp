@@ -56,5 +56,5 @@ public interface TimerManager {
 	 * Celui ci doit être lancé par la méthode : {@link com.timermanager.TimerActionEvent#startCountingElapsedTime}
 	 * @return Le temps calculé par le chronomètre en minutes et secondes
 	 */
-	public String getElepsedTimeInMinAndSeconde();
+	public String getElapsedTimeInMinAndSeconde();
 }

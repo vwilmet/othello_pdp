@@ -38,10 +38,11 @@ import utils.FileHandlingException;
  * @version 2.0
  */
 public class FilesManagerImpl implements FilesManager{
+	
 	/**
 	 * Le nom du fichier de sauvegarde automatique
 	 */
-	private String autoSaveFileName = FilesManager.DEFAULT_AUTOSAVE_FILENAME;
+	private String autoSaveFileName = DEFAULT_AUTOSAVE_FILENAME + DEFAULT_FILENAME_EXTENSION;
 	
 	/**
 	 * Fichier de sauvegarde pour la sauvegarde voulue par l'utilisateur
@@ -110,8 +111,16 @@ public class FilesManagerImpl implements FilesManager{
 	@Override
 	public boolean save(String name, String path, Object data) {
 
+		if (data == null) return false;
 		if (this.saveFile != null) this.saveFile = null;
 
+		if(name.equals("") || name == null){
+			Log.error(ERROR_SAVE_FILE_NAME_NOT_PROVIDED);
+			name = FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "_" + DEFAULT_SAVE_FILENAME + DEFAULT_FILENAME_EXTENSION;
+		}
+		
+		if(path == null) path = "";
+		
 		try {
 			saveFile = createFile(name, path);
 		} catch (FileHandlingException e) {
@@ -154,10 +163,12 @@ public class FilesManagerImpl implements FilesManager{
 	@Override
 	public boolean autoSave(Object data) {
 
+		if (data == null) return false;
+		
 		if(autoSaveFile[0] == null){
 			try {
-				autoSaveFile[0] = createFile(autoSaveFileName + "-01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
-				autoSaveFile[1] = createFile(autoSaveFileName + "-02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + FilesManager.DEFAULT_FILENAME_EXTENSION, FilesManager.DEFAULT_FILE_PATH + File.separator);
+				autoSaveFile[0] = createFile("01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName, DEFAULT_FILE_PATH + File.separator);
+				autoSaveFile[1] = createFile("02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName, DEFAULT_FILE_PATH + File.separator);
 				currentAutoSaveFile = autoSaveFile[0];
 			} catch (FileHandlingException e) {
 				Log.error(e.getMessage());
@@ -171,7 +182,7 @@ public class FilesManagerImpl implements FilesManager{
 			Log.error(e.getMessage());
 			return false;
 		}catch (NullPointerException n){
-			Log.error("Le fichier de sauvegarde automatique n'as pas pu être ouvert!!");
+			Log.error(ERROR_ON_AUTOSAVE_FILE_NOT_EXISTING);
 			return false;
 		}
 
@@ -193,11 +204,9 @@ public class FilesManagerImpl implements FilesManager{
 		}
 
 		if(currentAutoSaveFile == autoSaveFile[1]){
-			System.out.println("current == 1");
 			currentAutoSaveFile = autoSaveFile[0];
 		}
 		else {
-			System.out.println("current == 0");
 			currentAutoSaveFile = autoSaveFile[1];
 		}
 
@@ -211,16 +220,16 @@ public class FilesManagerImpl implements FilesManager{
 	 */
 	@Override
 	public String load(String name, String path) {
+		if (name == null || name.equals("")) return ERROR_ON_LOAD_FILE_NOT_EXISTING;
 		File file = new File(path + File.separator + name);
 
 		if (!file.exists())
-			return FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING;
-
+			return ERROR_ON_LOAD_FILE_NOT_EXISTING;
 		try {
 			return new MNBVFile(name, path).read();
 		} catch (FileHandlingException f) {
 			Log.error(f.getMessage());
-			return FilesManager.ERROR_ON_LOAD_ON_READING;
+			return ERROR_ON_LOAD_ON_READING;
 		}
 	}
 

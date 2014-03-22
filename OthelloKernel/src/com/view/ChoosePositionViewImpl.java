@@ -35,7 +35,7 @@ public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView
 	public ChoosePositionViewImpl(int currentBoard, ArrayList<BoardObservable> boards) {
 		
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.CHOOSE_VIEW_TITLE_FR);

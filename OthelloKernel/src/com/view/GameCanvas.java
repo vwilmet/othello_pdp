@@ -38,7 +38,7 @@ import com.view.event.GameCanvasMouseEventListener;
  * @version 1.0
  */
 public class GameCanvas extends Canvas implements MouseListener, Observer{
-
+	
 	private Dimension gridSize;
 	private Dimension margin;
 	private GameCanvasMouseEventListener mouseEvent;
@@ -107,8 +107,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 				g.drawImage(
 						scaleImage(
 								img,
-								this.pieceSizeWidth,
-								this.pieceSizeHeight
+								this.pieceSizeWidth-ViewSettings.DRAW_LINE_SIZE,
+								this.pieceSizeHeight-ViewSettings.DRAW_LINE_SIZE
 								),
 								this.IAAdvisedPiece.getPosX()*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
 								this.IAAdvisedPiece.getPosY()*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,

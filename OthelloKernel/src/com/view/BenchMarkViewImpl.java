@@ -33,7 +33,7 @@ public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 	
 	public BenchMarkViewImpl() {
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setTitle(TextManager.BENCHMARK_VIEW_TITLE_FR);

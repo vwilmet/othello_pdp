@@ -24,10 +24,9 @@ public class PlayButton extends ImageButton implements MouseListener {
 	}
 
 	@Override
-	public ImageButton setMouseListener(ButtonImageMenuEventListener event){
+	public void setMouseListener(ButtonImageMenuEventListener event){
 		this.listener = event;
 		this.addMouseListener(this);
-		return this;
 	}
 
 	@Override
@@ -74,6 +73,11 @@ public class PlayButton extends ImageButton implements MouseListener {
 			super.setImage(ViewSettings.PAUSE_BUTTON_IMAGE);
 		else
 			super.setImage(ViewSettings.PLAY_BUTTON_IMAGE);
+	}
+
+	@Override
+	public void enableButton(boolean enable) {
+		this.setEnabled(enable);
 	}
 
 }

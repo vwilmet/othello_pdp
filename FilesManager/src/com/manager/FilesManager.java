@@ -23,6 +23,11 @@ public interface FilesManager {
 	public static final String ERROR_ON_LOAD_FILE_NOT_EXISTING = "Le fichier demandé n'existe pas";
 	
 	/**
+	 * Constante informant que le fichier de sauvegarde automatique n'existe pas car il n'as pas pu être créé 
+	 */
+	public static final String ERROR_ON_AUTOSAVE_FILE_NOT_EXISTING = "Le fichier de sauvegarde automatique n'as pas pu être ouvert!!";
+	
+	/**
 	 * Constante contenant le message d'erreur sourvenu lors de l'échec d'écriture dans le fichier
 	 */
 	public static final String ERROR_WRITING = "Une erreur est survenue pendant l'écriture dans le fichier";
@@ -30,7 +35,7 @@ public interface FilesManager {
 	/**
 	 * Message d'erreur indiquant que l'extension du fichier est mauvaise
 	 */
-	public static final String ERROR_WRONG_EXTENSION = "L'extension du fichier demandée est mauvaise";
+	public static final String ERROR_WRONG_EXTENSION = "La typographie du nom de fichier est mauvaise. Celle-ci doit être de la forme : [nom].[extension]";
 	
 	/**
 	 * Constante relatant que l'opération d'entrée-sortie a échoué
@@ -46,7 +51,18 @@ public interface FilesManager {
 	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde automatique demandé par le logiciel
 	 */
 	public static final String DEFAULT_AUTOSAVE_FILENAME = "autosave";
+	
+	/**
+	 * Constante qui représente le nom de fichier par défaut pour la sauvegarde demandé par l'utilisateur
+	 */
+	public static final String DEFAULT_SAVE_FILENAME = "save";
+	
 	public static final String DEFAULT_FILENAME_EXTENSION = ".xml";
+
+	/**
+	 * Constante informant que le fichier demandé n'existe pas
+	 */
+	public static final String ERROR_SAVE_FILE_NAME_NOT_PROVIDED = "Aucun nom de fichier fournis pour la sauvegarde, nom par défault utilisé : [date]_" + DEFAULT_SAVE_FILENAME + DEFAULT_FILENAME_EXTENSION;
 	
 	/**
 	 * Constante qui représente le chemin par défaut qui sera utilisé pour sauvegarder les fichiers de sauvegarde automatique

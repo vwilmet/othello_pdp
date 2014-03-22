@@ -36,7 +36,7 @@ public abstract class ImageButton extends JButton {
 		this.setImage(imageName);
 	}
 	
-	public abstract ImageButton setMouseListener(ButtonImageMenuEventListener event);
+	public abstract void setMouseListener(ButtonImageMenuEventListener event);
 	
 	protected void setImage(String imageName) {
 
@@ -49,4 +49,6 @@ public abstract class ImageButton extends JButton {
 			e.printStackTrace();
 		}
 	}
+	
+	public abstract void enableButton(boolean enable);
 }

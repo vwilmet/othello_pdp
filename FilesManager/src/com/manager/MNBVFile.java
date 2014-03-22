@@ -61,9 +61,13 @@ public class MNBVFile {
 		this.path = path;
 		this.canWrite = true;
 		this.canRead = true;
-
+		
 		file = new File(path + File.separator + name);
-
+		
+		//3 car il faut au moins 3 charactère pour un fichier => t.c : fichier de nom t et d'extension c
+		if(name.length() < 3)
+			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
+		
 		if (!file.exists()){
 			try {
 				file.createNewFile();
@@ -73,12 +77,6 @@ public class MNBVFile {
 		}
 		
 		open();
-
-		if(name.length() <= FilesManager.DEFAULT_FILENAME_EXTENSION.length())
-			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
-
-		if(!name.substring(name.length()-FilesManager.DEFAULT_FILENAME_EXTENSION.length()).matches(FilesManager.DEFAULT_FILENAME_EXTENSION))
-			throw new FileHandlingException(FileHandlingException.WRONG_EXTENSION_FILENAME);
 	}
 
 	/**

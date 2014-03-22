@@ -2,7 +2,6 @@ package com.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,28 +25,27 @@ import com.view.event.GameViewMenuEventListener;
 import com.view.interfaces.GameView;
 
 public class GameControllerGraphical extends GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
-
+	
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
 	
-	
-	
 	public GameControllerGraphical() {
 		super();
 
-		this.gameView = new GameViewImpl(this.gameSettings.getGameBoard(), this);
+		this.gameView = new GameViewImpl(this.gameSettings.getGameBoard());
+		this.gameView.setImageButtonEventListener(this);
 		this.gameView.setMenuListener(this);
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
 		this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
 	}
-
+	
 	protected void initializeNewGame(){
 		this.initGameController = InitGameController.getInstance(this);
 		this.initGameController.showView();
 	}
-
+	
 	protected void chooseHistoryBoardPosition(){
 		chooseGameBoardController = ChoosePositionController.getInstance(this, this.gameSettings.getHistoryPosition(), this.gameSettings.getGameBoardHistory());
 		chooseGameBoardController.showView();
@@ -131,15 +129,15 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onPlayButtonCliked() {
 		this.gameView.setOnPause(false);
-		this.addMessageToListForUser(TextManager.PLAY_MESSAGE_LIST_VUE + " : " + timer.getElepsedTimeInMinAndSeconde());
+		this.addMessageToListForUser(TextManager.PLAY_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
-
+	
 	@Override
 	public void onPauseButtonCliked() {
 		this.gameView.setOnPause(true);
-		this.addMessageToListForUser(TextManager.PAUSE_MESSAGE_LIST_VUE + " : " + timer.getElepsedTimeInMinAndSeconde());
+		this.addMessageToListForUser(TextManager.PAUSE_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
-
+	
 	@Override
 	public void onForwardButtonCliked() {
 		if(this.gameSettings.getForwardInHistory()){
@@ -148,7 +146,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.setPlayablePiece();	
 		}
 	}
-
+	
 	@Override
 	public void onBackButtonCliked() {
 		if(this.gameSettings.getBackInHistory()){
@@ -157,7 +155,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.setPlayablePiece();
 		}
 	}
-
+	
 	@Override
 	public void onResetButtonCliked() {
 		this.gameSettings.restartGame();
@@ -190,7 +188,20 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onSaveGameUnderItemMenuPressed() {
-		// TODO Auto-generated method stub
+		
+		JFileChooser chooser = new JFileChooser();
+		int returnVal;
+		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"Fichiers XML", "xml");
+		chooser.setFileFilter(filter);
+		
+		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
+		
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
+			this.saveCurrentBoard(chooser.getSelectedFile().getPath() + ".xml");
+		}
 	}
 
 	@Override
@@ -235,4 +246,16 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
 		this.setPlayablePiece();
 	}
+	
+	private void updateInformationField(){
+		//tour du joueur actuelle
+		
+		//nombre de pion par joueur
+		
+		//Nombre de coup possible
+		
+		
+	}
+	
+	
 }

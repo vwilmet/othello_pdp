@@ -24,32 +24,32 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
-	TreeMove<Point> tree;
+	private TreeMove<Point> tree;
 	
 	/**
 	 * Ensemble des pions blanc
 	 */
-	Set<Point> whitePiece;
+	private Set<Point> whitePiece;
 	
 	/**
 	 * Ensemble des pions noir
 	 */
-	Set<Point> blackPiece;
+	private Set<Point> blackPiece;
 	
 	/**
 	 * Taille en largeur du plateau
 	 */
-	Integer boardWidth;
+	private Integer boardWidth;
 	
 	/**
 	 * Taille en hauteur du plateau
 	 */
-	Integer boardHeight;
+	private Integer boardHeight;
 	
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
-	Board initBoard;
+	private Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -58,7 +58,8 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Point nextMove(Integer player) {
-		Stack<Point> stackPoint = tree.getSentinel().getBoard().calculatePlayablePosition(player);
+		Board t = tree.getSentinel().getBoard();
+		Stack<Point> stackPoint =  tree.getSentinel().getBoard().calculatePlayablePosition(player);
 		Integer score;
 		if(player == 1)
 			score = Integer.MIN_VALUE;
@@ -146,6 +147,12 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			throw e;
 		}
 		else{
+			if(findNodeFromMove(tree.getSentinel(),pos) == null){
+				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard())); 
+				newSentinel.calculateTurnResult();
+				tree.getSentinel().addChild(newSentinel);
+				tree.getSentinel().setBestMove(pos);
+			}
 			tree.setSentinel(findNodeFromMove(tree.getSentinel(),pos));
 		}
 	}
@@ -172,6 +179,17 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 	
+	/**
+	  ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
+	
+	 */
+	@Override
+	public void setMaxTime(Integer time) {
+		// Fonction inutile pour cette IA
+	}
+	
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p){
 		NodeMove<Point> n = null;
 		for(NodeMove<Point> child : node.getChildren()){
@@ -182,4 +200,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		}
 		return n;
 	}
+
+
 }

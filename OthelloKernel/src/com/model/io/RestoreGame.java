@@ -29,9 +29,7 @@ import com.model.player.Player;
 
 /**
  * Gestion de la lecture de fichier de sauvegarde du jeu.
- * @author <ul>
- *         <li>Benjamin Letourneau</li>
- *         </ul>
+ * @author <ul><li>Benjamin Letourneau</li></ul>
  * @version 1.0
  */
 public class RestoreGame {
@@ -165,7 +163,7 @@ public class RestoreGame {
 
 	/**
 	 * Méthode qui réccupère les informations dans la partie initiale du
-	 * ficheier de sauvegarde.
+	 * fichier de sauvegarde.
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
 		
@@ -185,10 +183,6 @@ public class RestoreGame {
 		/* BOARD SIZE */
 		try {
 			gridSize = xmlGetBoardSize(initPart);
-			/*
-			 * DEBUG ...
-			 */
-			System.out.println("DEBUG  : size de la grille " + gridSize[0] + " : " + gridSize[1]);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -197,11 +191,6 @@ public class RestoreGame {
 		/* AI LEVEL */
 		try {
 			aILevel = xmlGetIntValueFromField(initPart, TextManager.AI_LEVEL_PART);
-			/*
-			 * DEBUG
-			 */
-			System.out.println("DEBUG  : AILevel " + aILevel);
-			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -210,10 +199,6 @@ public class RestoreGame {
 		/* AI THINKING TIME */
 		try {
 			aIThinkingTime = xmlGetIntValueFromField(initPart, TextManager.AI_THINKING_TIME_PART);
-			/*
-			 * DEBUG
-			 */
-			System.out.println("DEBUG  : aIThinkingTime " + aIThinkingTime);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -222,40 +207,19 @@ public class RestoreGame {
 		/* INITIAL PIECES */
 		try {
 			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(TextManager.PIECES_PART), false);
-			/*
-			 * DEBUG
-			 */
-			System.out.println("DEBUG  : pieces ");
-			for (Piece p : this.initialPieces)
-				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 
 		/* PLAYERS */
-		System.out.println(initPart.toString());
 		players = xmlGetPlayers(initPart);
-		System.out.println(((ArrayList<Player>)(players)).size());
 		if (((ArrayList<Player>)(players)).size() < 2)
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE, TextManager.ERROR_ABOUT_PLAYER_NUMBER_FR);
-		/*
-		 * DEBUG
-		 */
-		System.out.println("DEBUG  : Players");
-		for (Player p : players)
-			System.out.println(p.toString());
-		 
 
 		/* PLAYED PIECES */
 		try {
 			playedPieces = xmlGetPiecesFromPart(this.root.getChild(TextManager.PLAYED_PIECES_PART), false);
-			/*
-			 * DEBUG 
-			 */
-			System.out.println("DEBUG  : playedPcs ");
-			for (Piece p : playedPieces)
-				System.out.println(p.toString());
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -264,13 +228,6 @@ public class RestoreGame {
 		/* HISTORY -> FACULTATIF */
 		try {
 			history = xmlGetPiecesFromPart(this.root.getChild(TextManager.HISTORY_PART),false);
-			/*
-			 * DEBUG
-			 */
-			System.out.println("DEBUG  : History ");
-			for (Piece p : history)
-				System.out.println(p.toString());
-
 		} catch (GameHandlerException e) {
 			try {
 				history = pieceFacto.getArrayListOfPiece();
@@ -288,17 +245,13 @@ public class RestoreGame {
 			e.printStackTrace();
 		}
 
-		//System.out.println(board.toString());
-
-		// Construction de GameSettings
+		/* Construction de GameSettings */
 		 try { 
 			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aILevel, history);
 		 } catch (FactoryHandlerException e) {
 			 Log.error(e.getMessage()); 
 			 e.printStackTrace(); 
 		 }
-		 
-		 System.out.println(this.gameSettings.toString());
 	}
 
 	/**
@@ -335,9 +288,11 @@ public class RestoreGame {
 	}
 
 	/**
-	 * Methode permettant de réccupérer le contenu d'une partie contenant un ensemble de pion (Piece).
+	 * Methode permettant de réccupérer le contenu d'une partie contenant un
+	 * ensemble de pion (Piece).
 	 * @param part : Ememnt la partie contenant les pions 
-	 * @param isHistoryPart : booléen indiquant si l'on est dans la partie Hystory (qui est facultative) dans le fichier de sauvegarde.
+	 * @param isHistoryPart : booléen indiquant si l'on est dans la partie 
+	 * hystory (qui est facultative) dans le fichier de sauvegarde.
 	 * @return List \<Piece\> : La Liste des pieces contenues dans la partie.
 	 * @throws GameHandlerException
 	 */
@@ -424,7 +379,6 @@ public class RestoreGame {
 		Iterator<Element> i = listePlayers.iterator();
 
 		while (i.hasNext()) {
-			System.out.println("Dans While");
 			try {
 				players.add(xmlGetPlayer((Element) i.next()));
 			} catch (GameHandlerException e) {
@@ -432,9 +386,6 @@ public class RestoreGame {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("Dans xmlGetPlayers : " + players.size());
-		
 		return players;
 	}
 	

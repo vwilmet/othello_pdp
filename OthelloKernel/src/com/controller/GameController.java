@@ -76,6 +76,14 @@ public abstract class GameController{
 		return false;
 	}
 
+	protected void dealWithCurrentPlayer(){
+		
+		//si joueur courant == ia
+		//on demande une position de l'ia
+		
+		
+	}
+	
 	protected void quickSaveOFCurrentBoard(){
 
 

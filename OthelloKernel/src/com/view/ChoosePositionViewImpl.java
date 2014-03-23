@@ -133,4 +133,9 @@ public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView
 
 
 	}
+
+	@Override
+	public void showPlayablePiece(boolean visible) {
+		this.game.showPlayablePiece(visible);
+	}
 }

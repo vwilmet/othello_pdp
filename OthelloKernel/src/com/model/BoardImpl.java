@@ -180,7 +180,8 @@ public class BoardImpl implements Board, Cloneable{
 	@Override
 	public void setPiecePlayable(int i, int j) {
 		this.gameBoard[i][j].setPlayable();
-		this.playablePiece.add(this.gameBoard[i][j]);
+		if(!this.playablePiece.contains((Piece)this.gameBoard[i][j]))
+			this.playablePiece.add(this.gameBoard[i][j]);
 	}
 
 	@Override

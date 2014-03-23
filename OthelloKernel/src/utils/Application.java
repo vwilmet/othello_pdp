@@ -116,7 +116,7 @@ public class Application {
 
 	public String toString(){
 		return "Screen Width : " + this.width + " | Height : " + this.height + "\n" +
-				"Temps écoulée : " + this.getExecutionTime() + "\n" +
+				"Temps écoulée : " + this.getExecutionTime() + " milli-secondes\n" +
 				"JVm :" + "\n" +
 				"Mémoire libre : " + getJVMFreeMemory() + "\n" +
 				"Mémoire total : " + getJVMTotalMemory() + "\n" +

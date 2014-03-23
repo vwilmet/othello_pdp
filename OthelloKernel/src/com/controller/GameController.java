@@ -56,21 +56,35 @@ public abstract class GameController{
 		}
 
 		timer.startCountingElapsedTime();
+		this.checkPlayersPiecesCount();
 	}
 
 	protected abstract void initializeNewGame();
 
 	protected abstract void loadFileForGame();
 
+	protected boolean onPiecePlayed(int i, int j){
+		for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
+			if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
+				this.gameSettings.setPiece(i, j);
+				this.reverseInbetweenPieceAfterPlaying(i, j);
+				this.gameSettings.manageBoardHistory(i, j);
+				this.gameSettings.changePlayer();
+				this.setPlayablePiece();
+				return true;
+			}
+		return false;
+	}
+
 	protected void quickSaveOFCurrentBoard(){
-		
-		
+
+
 	}
-	
+
 	protected void saveCurrentBoard(String path){
-				
+
 	}
-	
+
 	private ArrayList<Piece> getReversePieceAround(Piece origin){
 		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;
@@ -93,7 +107,7 @@ public abstract class GameController{
 			}
 		return neighbours;
 	}
-	
+
 	/**
 	 * Pk ici dans controller et pas comme les méthode history dans le model 
 	 * => cette méthode fait partie des regles du jeu! du coup elle pourrait etre modifier pour changer le jeu alors que le comportement de back and forwrd seras tjr le même et dépend de la board 
@@ -162,7 +176,7 @@ public abstract class GameController{
 				(this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ?
 						this.gameSettings.getGameBoard().getSizeX() :
 							this.gameSettings.getGameBoard().getSizeY());
-		
+
 		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
 		Piece target = null;
 		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
@@ -202,6 +216,21 @@ public abstract class GameController{
 				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
 			}
 			inBetween.clear();
+		}
+
+		this.checkPlayersPiecesCount();
+	}
+
+	protected void checkPlayersPiecesCount(){
+		if(this.gameSettings.getFirstPlayer().getColor().equals(TextManager.WHITE_PLAYER)){
+			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
+		}else{
+			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
+		}
+		if(this.gameSettings.getSecondPlayer().getColor().equals(TextManager.BLACK_PLAYER)){
+			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
+		}else{
+			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
 		}
 	}
 }

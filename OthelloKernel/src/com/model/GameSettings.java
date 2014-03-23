@@ -133,14 +133,18 @@ public class GameSettings {
 		return this.sentinel;
 	}
 	
+	public int getBoardHistoryPosition(){
+		return this.sentinel + 1;
+	}
+
 	public void setHistoryPosition(int sentinel){
 		this.sentinel = sentinel;
 	}
-	
+
 	public BoardObservable getHistoryBoard(int position){
 		return this.gameBoardHistory.get(position);
 	}
-	
+
 	public List<BoardObservable> getGameBoardHistory(){
 		return this.gameBoardHistory;
 	}
@@ -181,13 +185,13 @@ public class GameSettings {
 
 		return false;
 	}
-	
+
 	public boolean getForwardInHistory(){
 		System.out.println("[getForwardInHistory]");
 		if(this.sentinel < this.gameHistory.size()-1){
 			System.out.println("sentinel : " + sentinel);
 			System.out.println("size  : " +  this.gameBoardHistory.size());
-			
+
 			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
 			this.sentinel++;
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
@@ -199,12 +203,16 @@ public class GameSettings {
 	}
 
 	public void reversePlayer(){
-		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
-			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
-				this.gameBoard.reverse(i, j);
+		if(this.player1.getColor().equals(TextManager.BLACK_PLAYER))
+			this.player1.setColor(TextManager.WHITE_PLAYER);
+		else
+			this.player1.setColor(TextManager.BLACK_PLAYER);
 
-		//TODO change la couleur du joueur et non le joueur!
-		changePlayer();
+		if(this.player2.getColor().equals(TextManager.BLACK_PLAYER))
+			this.player2.setColor(TextManager.WHITE_PLAYER);
+		else
+			this.player2.setColor(TextManager.BLACK_PLAYER);
+		this.changePlayer();
 	}
 
 	public void setPiece(int i, int j) {
@@ -213,16 +221,15 @@ public class GameSettings {
 			this.gameBoard.setWhitePiece(i, j);
 		else
 			this.gameBoard.setBlackPiece(i, j);
-
-		this.addPieceMove(this.gameBoard.getBoard()[i][j]);
 	}
-	
+
 	/**
 	 * 
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
-	private void addPieceMove(Piece p){
-	
+	public void manageBoardHistory(int x, int y){
+
+		Piece p = this.gameBoard.getBoard()[x][y];
 		if(this.gameHistory.size()-1 > this.sentinel){
 			this.sentinel++;
 			if(!this.gameHistory.get(this.sentinel).equals(p)){

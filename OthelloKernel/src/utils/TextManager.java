@@ -100,8 +100,8 @@ public interface TextManager {
 	public static final String FILE_NOT_EXISTING_2_FR = "\" n'existe pas.";
 	
 	// Player
-	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Vous êtes le premier joueur."; 
-	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Vous êtes le second joueur."; 
+	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Premier joueur."; 
+	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Second joueur."; 
 	
 	public static final String ERROR_ABOUT_PLAYER_NUMBER_FR = "Deux joueurs (humain ou machine) sont nécessaires pour le jeu."; 
 	
@@ -151,5 +151,8 @@ public interface TextManager {
 
 	public static final String RESET_PIECE_MESSAGE_LIST_VUE = "Partie recommencée";
 	public static final String REVERSE_PLAYER_MESSAGE_LIST_VUE = "Joueurs inversés";
+	
+
+	public static final String OPTION_POPUP_TITLE = "Caractéristiques";
 
 }

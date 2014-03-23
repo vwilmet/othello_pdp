@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import utils.Application;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
@@ -16,7 +18,6 @@ import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
-import com.model.piece.Piece;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
 import com.view.event.ButtonImageMenuEventListener;
@@ -25,11 +26,11 @@ import com.view.event.GameViewMenuEventListener;
 import com.view.interfaces.GameView;
 
 public class GameControllerGraphical extends GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
-	
+
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
-	
+
 	public GameControllerGraphical() {
 		super();
 
@@ -39,18 +40,22 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
 		this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
+
+		this.updateInformationField();
 	}
-	
+
 	protected void initializeNewGame(){
 		this.initGameController = InitGameController.getInstance(this);
 		this.initGameController.showView();
 	}
-	
+
 	protected void chooseHistoryBoardPosition(){
-		chooseGameBoardController = ChoosePositionController.getInstance(this, this.gameSettings.getHistoryPosition(), this.gameSettings.getGameBoardHistory());
+		chooseGameBoardController = ChoosePositionController.getInstance();
+		chooseGameBoardController.setEvent(this);
+		chooseGameBoardController.setHistory(this.gameSettings.getBoardHistoryPosition(), this.gameSettings.getGameBoardHistory());
 		chooseGameBoardController.showView();
 	}
-	
+
 	protected void loadFileForGame(){
 
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
@@ -79,24 +84,15 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(gameSettings.getGameBoard());
 		}
 	}
-	
+
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 		if(i!=-1 && j != -1){
-			
-			for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
-				if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
-					this.gameSettings.setPiece(i, j);
-					
-					this.reverseInbetweenPieceAfterPlaying(i, j);
-					this.gameSettings.changePlayer();
-					this.setPlayablePiece();
-					this.writeMessageToUser(this.gameSettings.getCurrentPlayer().toString());
-					break;
-				}
+			if(onPiecePlayed(i, j))
+				this.updateInformationField();
 		}
 	}
-	
+
 	@Override
 	public void onRightMouseButtonPressed(int i, int j) {}
 
@@ -120,6 +116,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
+			this.updateInformationField();
 		}
 	}
 
@@ -131,39 +128,42 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setOnPause(false);
 		this.addMessageToListForUser(TextManager.PLAY_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
-	
+
 	@Override
 	public void onPauseButtonCliked() {
 		this.gameView.setOnPause(true);
 		this.addMessageToListForUser(TextManager.PAUSE_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
-	
+
 	@Override
 	public void onForwardButtonCliked() {
 		if(this.gameSettings.getForwardInHistory()){
 			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();	
+			this.updateInformationField();
 		}
 	}
-	
+
 	@Override
 	public void onBackButtonCliked() {
 		if(this.gameSettings.getBackInHistory()){
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
+			this.updateInformationField();
 		}
 	}
-	
+
 	@Override
 	public void onResetButtonCliked() {
 		this.gameSettings.restartGame();
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 		this.setPlayablePiece();
+		this.updateInformationField();
 	}
-	
+
 	@Override
 	public void onHelpIAButtonCliked() {
 		// TODO Auto-generated method stub
@@ -178,7 +178,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onReversePlayerButtonCliked() {
 		this.gameSettings.reversePlayer();
+		this.setPlayablePiece();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
+		this.updateInformationField();
 	}
 
 	@Override
@@ -188,16 +190,16 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onSaveGameUnderItemMenuPressed() {
-		
+
 		JFileChooser chooser = new JFileChooser();
 		int returnVal;
-		
+
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Fichiers XML", "xml");
 		chooser.setFileFilter(filter);
-		
+
 		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
-		
+
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
 			this.saveCurrentBoard(chooser.getSelectedFile().getPath() + ".xml");
@@ -223,14 +225,24 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onOptionItemMenuPressed() {
-		// TODO Auto-generated method stub
-
+		String message = 	"Joueur____________________" + "\n" + 
+				this.gameSettings.getFirstPlayer() + "\n\n" + 
+				this.gameSettings.getSecondPlayer() + "\n\n" +
+				"Othellier_________________" + "\n" +
+				"Nombre de pion : " + (this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) + "\n" +
+				"Taille : " + this.gameSettings.getGameBoard().getSizeX() + "x" + this.gameSettings.getGameBoard().getSizeY() + "\n" +
+				"Difficulté de l'IA : " + this.gameSettings.getAIDifficulty() + "\n" + 
+				"Temps de réflexion de l'IA : " + this.gameSettings.getAIThinkingTime() + "\n\n" + 
+				"PC_____________________" + "\n" +
+				Application.getInstance().toString();
+		
+		JOptionPane.showMessageDialog(null, message, TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
 	public void onHelpItemMenuPressed() {
 		try {
-//			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
+			//			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
 			java.awt.Desktop.getDesktop().browse(new File(GameSettings.HELP_WEBSITE_PATH).toURI());
 		} catch (IOException  e) {
 			Log.error(e.getMessage());
@@ -241,21 +253,17 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
 			int position) {
-		
+
 		this.gameSettings.setHistoryPosition(position);
 		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
 		this.setPlayablePiece();
 	}
-	
+
 	private void updateInformationField(){
-		//tour du joueur actuelle
-		
-		//nombre de pion par joueur
-		
-		//Nombre de coup possible
-		
-		
+		this.checkPlayersPiecesCount();
+		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
+		this.writeStatMessage("Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + "] : " + this.gameSettings.getFirstPlayer().getPiecesNumber() + " | Noir[" + this.gameSettings.getSecondPlayer().getLogin() + "] : " + this.gameSettings.getSecondPlayer().getPiecesNumber());
 	}
-	
-	
+
+
 }

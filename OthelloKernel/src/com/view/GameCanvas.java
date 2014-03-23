@@ -45,7 +45,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private Board board;
 	private int canvasWidth, canvasHeight;
 	private int pieceSizeWidth, pieceSizeHeight;
-	private boolean onPause;
+	private boolean onPause, showPlayablePiece;
 	private Piece IAAdvisedPiece;
 
 	public GameCanvas(int canvasWidth, int canvasHeight){
@@ -53,7 +53,8 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
 		this.onPause = false;
-		IAAdvisedPiece = null;
+		this.IAAdvisedPiece = null;
+		this.showPlayablePiece(true);
 	}
 
 	public void setIAAdvisedPiece(Piece p){
@@ -78,7 +79,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
 					else if (p.getColor() instanceof BlackPiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
-					else if(p.isPlayable())
+					else if(p.isPlayable() && this.showPlayablePiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
 					else{
 						g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
@@ -237,5 +238,9 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	public void update(Observable o, Object arg) {
 		//System.out.println("[GameCanvas][update] refreshView");
 		refreshView();
+	}
+
+	public void showPlayablePiece(boolean showPlayablePiece) {
+		this.showPlayablePiece = showPlayablePiece;
 	}
 }

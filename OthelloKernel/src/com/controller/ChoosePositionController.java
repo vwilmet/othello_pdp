@@ -15,19 +15,27 @@ public class ChoosePositionController implements ChoosePositionButtonEventListen
 	private static ChoosePositionController instance;
 	private NotifyGameController event;
 	private ChoosePositionView view;
+	private int position;
 	
-	public static ChoosePositionController getInstance(NotifyGameController event, int position, List<BoardObservable> boards){
+	public static ChoosePositionController getInstance(){
 		if(instance == null)
-			instance = new ChoosePositionController(event, position, boards);
+			instance = new ChoosePositionController();
 		return instance;
 	}
 	
-	public ChoosePositionController(NotifyGameController event, int position, List<BoardObservable> boards) {
+	private ChoosePositionController() {}
+
+	public void setEvent(NotifyGameController event){
 		this.event = event;
+	}
+	
+	public void setHistory(int position, List<BoardObservable> boards){
+		this.position = position;
 		this.view = new ChoosePositionViewImpl(position, (ArrayList<BoardObservable>)boards);
 		this.view.setButtonListener(this);
+		this.view.showPlayablePiece(false);
 	}
-
+	
 	public void showView(){
 		this.view.showFrame();
 	}

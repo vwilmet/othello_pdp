@@ -132,6 +132,10 @@ public class GameSettings {
 	public int getHistoryPosition(){
 		return this.sentinel;
 	}
+	
+	public int getBoardHistoryPosition(){
+		return this.sentinel + 1;
+	}
 
 	public void setHistoryPosition(int sentinel){
 		this.sentinel = sentinel;
@@ -199,13 +203,6 @@ public class GameSettings {
 	}
 
 	public void reversePlayer(){
-		/*for(int i = 0; i < this.gameBoard.getSizeX(); i++)
-			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
-				this.gameBoard.reverse(i, j);
-
-		//TODO change la couleur du joueur et non le joueur!
-		changePlayer();*/
-
 		if(this.player1.getColor().equals(TextManager.BLACK_PLAYER))
 			this.player1.setColor(TextManager.WHITE_PLAYER);
 		else
@@ -215,6 +212,7 @@ public class GameSettings {
 			this.player2.setColor(TextManager.WHITE_PLAYER);
 		else
 			this.player2.setColor(TextManager.BLACK_PLAYER);
+		this.changePlayer();
 	}
 
 	public void setPiece(int i, int j) {

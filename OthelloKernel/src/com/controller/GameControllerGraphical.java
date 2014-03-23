@@ -50,7 +50,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	}
 
 	protected void chooseHistoryBoardPosition(){
-		chooseGameBoardController = ChoosePositionController.getInstance(this, this.gameSettings.getHistoryPosition(), this.gameSettings.getGameBoardHistory());
+		chooseGameBoardController = ChoosePositionController.getInstance();
+		chooseGameBoardController.setEvent(this);
+		chooseGameBoardController.setHistory(this.gameSettings.getBoardHistoryPosition(), this.gameSettings.getGameBoardHistory());
 		chooseGameBoardController.showView();
 	}
 

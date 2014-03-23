@@ -81,7 +81,7 @@ public class GameViewImpl extends JFrame implements GameView{
 	private ReversePlayerButton reverseButton;
 	private HelpIAButton helpButton;
 	private PositionButton positionButton;
-	
+
 	private GameCanvas game;
 
 	public GameViewImpl(BoardObservable board) {
@@ -147,9 +147,9 @@ public class GameViewImpl extends JFrame implements GameView{
 		messageBar.setMinimumSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 		messageBar.setMaximumSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 
-		messageList.setPreferredSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
-		messageList.setMinimumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
-		messageList.setMaximumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
+		informationBar.setPreferredSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
+		informationBar.setMinimumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
+		informationBar.setMaximumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.INFORMATION_COMPONENT_VIEW_HEIGHT));
 
 		messageLabel.setPreferredSize(new Dimension(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 		messageLabel.setMinimumSize(new Dimension(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
@@ -174,6 +174,7 @@ public class GameViewImpl extends JFrame implements GameView{
 		listScroller.setAlignmentX(RIGHT_ALIGNMENT);
 
 		informationBar.add(listScroller);
+
 		informationBar.setFloatable(false);
 		messageBar.setFloatable(false);
 		actionBar.setFloatable(false);
@@ -199,6 +200,8 @@ public class GameViewImpl extends JFrame implements GameView{
 	private void addStringToInformationList(String element){
 		messageListModel.addElement(element);
 		messageList.setModel(messageListModel);
+		messageList.setSelectedIndex(messageList.getModel().getSize()-1);
+		messageList.ensureIndexIsVisible(messageList.getSelectedIndex());
 	}
 
 	private void manageMenu(){
@@ -294,7 +297,7 @@ public class GameViewImpl extends JFrame implements GameView{
 		reverseButton = new ReversePlayerButton();
 		helpButton = new HelpIAButton();	
 		positionButton = new PositionButton();
-		
+
 
 		actionBar.add(playButton);
 		actionBar.add(resetButton);

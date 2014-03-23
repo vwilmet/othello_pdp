@@ -221,7 +221,7 @@ public abstract class GameController{
 		this.checkPlayersPiecesCount();
 	}
 
-	private void checkPlayersPiecesCount(){
+	protected void checkPlayersPiecesCount(){
 		if(this.gameSettings.getFirstPlayer().getColor().equals(TextManager.WHITE_PLAYER)){
 			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
 		}else{

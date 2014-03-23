@@ -247,14 +247,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	}
 	
 	private void updateInformationField(){
-		//tour du joueur actuelle
-		
+		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
-		//nombre de pion par joueur
 		this.writeStatMessage("Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + "] : " + this.gameSettings.getFirstPlayer().getPiecesNumber() + " | Noir[" + this.gameSettings.getSecondPlayer().getLogin() + "] : " + this.gameSettings.getSecondPlayer().getPiecesNumber());
-		//Nombre de coup possible
-		
-		
 	}
 	
 	

@@ -144,4 +144,14 @@ public class ArtificialIntelligenceImplementation implements ArtificialIntellige
 			ai.undoMove();
 	}
 
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#setMaxTime}
+	 */
+	@Override
+	public void setMaxTime(Integer time) {
+		ai.setMaxTime(time);
+	}
+
 }

@@ -1,23 +1,17 @@
 package utils;
 
 /**
- * 
- * @author <ul>
- *         <li>Benjamin Letourneau</li>
- *         </ul>
+ * Classe de gestion d'exceptions.
+ * @author <ul><li>Benjamin Letourneau</li></ul>
  * @version 1.0
  */
+@SuppressWarnings("serial")
 public class GameHandlerException extends Exception {
 
-	public static final int ERROR = 0;
-	public static final int WRONG_BOARD_SIZE = 1;
-	public static final int WRONG_INITIAL_PIECE_COLOR = 2;
-	public static final int WRONG_INITIAL_PIECE_POSITION = 3;
-	public static final int ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE = 4;
-	public static final int ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE = 5;
-	public static final int WARNING_ABOUT_NUMBER_OF_INITIAL_PIECES = 6;
-	public static final int ERROR_WRONG_FORMAT_SAVE_GAME_FILE = 7;
-	public static final int WRONG_PIECE_COLOR = 8;
+	public static final int ERROR = 0, WRONG_BOARD_SIZE = 1, WRONG_INITIAL_PIECE_COLOR = 2,
+			WRONG_INITIAL_PIECE_POSITION = 3, ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE = 4,
+			ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE = 5, WARNING_ABOUT_NUMBER_OF_INITIAL_PIECES = 6,
+			ERROR_WRONG_FORMAT_SAVE_GAME_FILE = 7, WRONG_PIECE_COLOR = 8;
 	
 	private int error;
 	private String message;

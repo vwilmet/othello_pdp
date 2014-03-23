@@ -13,12 +13,11 @@ public class Board {
 	List<Box> borderLine;
 	
 	public Board(){
-		this.width = 8;
-		this.height = 8;
+		this.width = 5;
+		this.height = 5;
 		borderLine = new ArrayList<Box>();
 		this.whitePiece = new ArrayList<Point>();
 		this.blackPiece = new ArrayList<Point>();
-		// TO DO INITIALIZE borderLine
 		myGrid = new BoxImpl[width][height];
 		for(int i = 0; i < width; i++)
 			for(int j = 0; j < height ; j++)

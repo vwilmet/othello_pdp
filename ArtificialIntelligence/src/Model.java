@@ -12,6 +12,7 @@ public class Model {
 
 	public Board myBoard;
 	public ArtificialIntelligenceStrategy myAI;
+	public ArtificialIntelligenceStrategy myAI2;
 	public Integer width;
 	public Integer height;
 
@@ -19,61 +20,131 @@ public class Model {
 	{
 		myBoard = new Board();
 		myAI = new BruteForceAI();
-		//myAI = new NextBestMoveAI();
+		myAI2 = new NextBestMoveAI();
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		myAI2.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		this.width = myBoard.width;
 		this.height = myBoard.height;
 		Point p = myAI.nextMove(1);
-		if(p != null)
-		myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);		
-		if(p != null)
-		myAI.notifyChosenMove(p, 2);
-		p = myAI.nextMove(1);
-		if(p != null)
+		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);
-		if(p != null)
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
 			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
 		p = myAI.nextMove(1);
-		if(p != null)
+		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);		
-		if(p != null)
-		myAI.notifyChosenMove(p, 2);
-		p = myAI.nextMove(1);
-		if(p != null)
-			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);
-		if(p != null)
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
 			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
 		p = myAI.nextMove(1);
-		if(p != null)
+		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);		
-		if(p != null)
-		myAI.notifyChosenMove(p, 2);
-		p = myAI.nextMove(1);
-		if(p != null)
-			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);
-		if(p != null)
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
 			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
 		p = myAI.nextMove(1);
-		if(p != null)
+		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);		
-		if(p != null)
-		myAI.notifyChosenMove(p, 2);
-		p = myAI.nextMove(1);
-		if(p != null)
-			myAI.notifyChosenMove(p, 1);
-		p = myAI.nextMove(2);
-		if(p != null)
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
 			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
 		p = myAI.nextMove(1);
-		if(p != null)
+		if(p != null){
 			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			myAI2.notifyChosenMove(p, 2);
+		}
 		
 
 	}

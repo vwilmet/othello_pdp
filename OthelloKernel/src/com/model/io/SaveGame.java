@@ -20,15 +20,19 @@ import com.model.player.Player;
 
 /**
  * Classe permettant la sauvegarde d'une partie en cours.
- * @author <ul>
- *         <li>Benjamin Letourneau</li>
- *         </ul>
+ * @author <ul><li>Benjamin Letourneau</li></ul>
  * @version 1.0
  */
 public class SaveGame {
 	
+	/**
+	 * Partie à sauvegarder.
+	 */
 	private GameSettings gameSettings;
 	
+	/**
+	 * Nom du fichier dans lequel il faut effectuer la sauvegarde.
+	 */
 	private String saveFileName;
 	
 	/**
@@ -43,8 +47,10 @@ public class SaveGame {
 	
 	
 	/**
-	 * Constructeur de classe.
-	 * @param gameSettings
+	 * Constructeur de classe 
+	 * @param gameSettings : GameSettings, Partie à sauvegarder.
+	 * @param saveFileName : String, nom du fichier de sortie dans lequel il faut effectuer la sauvegarde.
+	 * @throws GameHandlerException
 	 */
 	public SaveGame (GameSettings gameSettings, String saveFileName) throws GameHandlerException {
 		this.gameSettings = gameSettings;
@@ -72,8 +78,6 @@ public class SaveGame {
 			e.printStackTrace();
 		}
 		
-		
-		System.out.println(this.gameSettings.getGameHistory().size());
 		if (this.gameSettings.getGameHistory().size() > 0)
 			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), TextManager.HISTORY_PART));
 		
@@ -83,6 +87,10 @@ public class SaveGame {
 		}
 	}
 	
+	/**
+	 * Methode permettant de générer la partie initiale du fichier de sauvegarde.
+	 * @return Element : Partie de la sauvegarde correspondant à la partie initiale du jeu.
+	 */
 	private Element makeInitPartInXML(){
 		
 		Element init = new Element (TextManager.INIT_PART);
@@ -108,6 +116,15 @@ public class SaveGame {
 		return init; 
 	}
 	
+	/**
+	 * Methode permettant de générer les parties correspondant aux pions 
+	 * dans le fichier de sauvegarde (en fonction de la liste de pieces 
+	 * passée en paramètre).
+	 * @param pcs : List<Piece>, pions dont il faut générer la sauvegarde.
+	 * @param part : String, nom de la partie dans laquelle les pions vont
+	 * être stoqués dans le fichier de sauvegarde.
+	 * @return Element, partie de la sauvegarde correspondant aux pions.
+	 */
 	private Element makePiecesPartFromList(List<Piece> pcs, String part){
 		Element pieces = new Element(part);
 		List<Piece> tmp = new ArrayList<Piece>();
@@ -120,6 +137,11 @@ public class SaveGame {
 		return pieces;
 	}
 	
+	/**
+	 * Méthode permettant de générer la partie du fichier de sauvegarde 
+	 * correspondant à la taille d'une grille de jeu.
+	 * @return Element, la partie en question.
+	 */
 	private Element makeBardSizeInXML(){
 		Element size = new Element(TextManager.SIZE_PART);
 		Element x = new Element (TextManager.X_PART);
@@ -134,6 +156,13 @@ public class SaveGame {
 		return size;
 	}
 	
+	/**
+	 * Méthode permettant de générer la partie crrespondant aux pions
+	 * joués dur l'othelier à un instant t de la partie.
+	 * @return Element : Partie du fichier de sauvegarde correspondant à
+	 * l'othelier à un instant t du jeu. 
+	 * @throws GameHandlerException
+	 */
 	private Element makePlayedPiecesPart() throws GameHandlerException {
 		Element playedPieces = new Element(TextManager.PLAYED_PIECES_PART);
 		
@@ -147,6 +176,11 @@ public class SaveGame {
 		return playedPieces;
 	}
 	
+	/**
+	 * Méthode permettant de  générer le contenu d'un pion pour la sauvegarde.
+	 * @param p : Piece, pion dont il faut effectuer une sauvegarde.
+	 * @return Element : Pion pret pour la sauvegarde.
+	 */
 	private Element makePieceInXML(Piece p){
 		
 		Element x = new Element(TextManager.X_PART);
@@ -165,6 +199,11 @@ public class SaveGame {
 		return piece;
 	}
 
+	/**
+	 * Méthode permettant de générer la partie concernant un joueur pour la sauvegarde.
+	 * @param p : Player, joueur dont il faut effectuer une sauvegarde.
+	 * @return Element : La partie correspondant au joueur.
+	 */
 	private Element makePlayerInXML(Player p){
 		Element player = new Element(TextManager.PLAYER_PART);
 		
@@ -188,6 +227,13 @@ public class SaveGame {
 		return player;
 	}
 	
+	/**
+	 * Methode permettant d'affecter une valeur de type " int"à un champ du fichier de sauvegarde. 
+	 * @param part : String, le nom de la partie.
+	 * @param value : int, la valeur de cette partie.
+	 * @return : Element, partie du fichier de sauvegarde correspondant.
+	 * @throws GameHandlerException
+	 */
 	private Element xmlSetIntValueToField(String part, int value) throws GameHandlerException {
 		if (part.isEmpty() || part == null) {
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE);	

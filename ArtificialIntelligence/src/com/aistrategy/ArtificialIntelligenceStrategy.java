@@ -3,6 +3,9 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Set;
 
+import com.aistrategy.impl.BruteForceAI;
+import com.aistrategy.impl.NextBestMoveAI;
+import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
 /**
@@ -48,6 +51,13 @@ public interface ArtificialIntelligenceStrategy {
 	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	 */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
+
+	public Boolean initialize(RandomAI random);
+	
+	public Boolean initialize(NextBestMoveAI nextBestMove);
+	
+	public Boolean initialize(BruteForceAI brute);
+
 
 	/**
 	 * Pas sûr d'être implémenter donc pas encore retraduit

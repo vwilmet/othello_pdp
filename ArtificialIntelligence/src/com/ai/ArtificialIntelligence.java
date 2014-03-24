@@ -3,6 +3,7 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Set;
 
+import com.ai.impl.ArtificialIntelligenceImpl;
 import com.utils.WrongPlayablePositionException;
 
 /**
@@ -53,6 +54,9 @@ public interface ArtificialIntelligence {
 	 */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 
+	public Boolean initialize(ArtificialIntelligenceImpl ai);
+
+	
 	/**
 	 * Pas sûr d'être implémenter donc pas encore retraduit
 	 * Actualize the informations in order to recalculate moves

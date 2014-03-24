@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/filemanager_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/timer_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/ia_plugin.jar"/>
+	<classpathentry kind="lib" path="libs/ai_plugin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

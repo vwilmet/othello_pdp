@@ -154,4 +154,16 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 		ai.setMaxTime(time);
 	}
 
+	@Override
+	public Boolean initialize(ArtificialIntelligenceImpl ai) {
+		if(ai.ai instanceof RandomAI)
+			return this.ai.initialize((RandomAI) ai.ai);
+		else if(ai.ai instanceof NextBestMoveAI)
+			return this.ai.initialize((NextBestMoveAI) ai.ai);
+		else if(ai.ai instanceof BruteForceAI)
+			return this.ai.initialize((BruteForceAI) ai.ai);
+		else 
+			return false;
+	}
+
 }

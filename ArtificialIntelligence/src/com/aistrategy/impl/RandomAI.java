@@ -2,12 +2,9 @@ package com.aistrategy.impl;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
-
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;
@@ -27,22 +24,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
-	private TreeMove<Point> tree;
-	
-	/**
-	 * Ensemble des pions blanc
-	 */
-	private Set<Point> whitePiece;
-	
-	/**
-	 * Ensemble des pions noir
-	 */
-	private Set<Point> blackPiece;
+	protected TreeMove<Point> tree;
 	
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
-	private Board initBoard;
+	protected Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -99,13 +86,10 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
-		this.whitePiece = whitePiece;
-		this.blackPiece = blackPiece;
 		initBoard = new Board(boardWidth, boardHeight, whitePiece, blackPiece);
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
 		tree.setSentinel(tree.getRootElement());
-		System.out.println(this.tree.getSentinel().getBoard().printBoard());
 		return true;
 	}
 	
@@ -159,6 +143,27 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public void setMaxTime(Integer time) {
 		// Fonction inutile pour cette IA
+	}
+
+	@Override
+	public Boolean initialize(RandomAI random) {
+		initBoard = random.initBoard;
+		tree = random.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(NextBestMoveAI nextBestMove) {
+		initBoard = nextBestMove.initBoard;
+		tree = nextBestMove.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(BruteForceAI brute) {
+		initBoard = brute.initBoard;
+		tree = brute.tree;
+		return true;
 	}
 
 

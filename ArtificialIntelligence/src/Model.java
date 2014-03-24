@@ -25,7 +25,7 @@ public class Model {
 		myAI.chooseDifficulty(2);
 		myAI2.chooseDifficulty(0);
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
-		myAI2.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		myAI2.initialize(myAI);
 
 		/*myAI = new BruteForceAI();
 		myAI2 = new RandomAI();
@@ -35,50 +35,50 @@ public class Model {
 		Point p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-			myAI2.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
 		}
 		p = myAI2.nextMove(2);		
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
-			myAI2.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
 		}
 		p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-			myAI2.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
 		}
 		
 		p = myAI2.nextMove(2);		
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
-			myAI2.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
 		}
 		p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-			myAI2.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
 		}
 		
 		p = myAI2.nextMove(2);		
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
-			myAI2.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
 		}
 		p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-			myAI2.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
 		}
 		
 		p = myAI2.nextMove(2);		
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
-			myAI2.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
 		}
 		p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
-			myAI2.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
 		}
 
 	}

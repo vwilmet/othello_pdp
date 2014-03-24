@@ -24,32 +24,32 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
-	private TreeMove<Point> tree;
+	protected TreeMove<Point> tree;
 	
 	/**
 	 * Ensemble des pions blanc
 	 */
-	private Set<Point> whitePiece;
+	//protected Set<Point> whitePiece;
 	
 	/**
 	 * Ensemble des pions noir
 	 */
-	private Set<Point> blackPiece;
+	//protected Set<Point> blackPiece;
 	
 	/**
 	 * Taille en largeur du plateau
 	 */
-	private Integer boardWidth;
+	//protected Integer boardWidth;
 	
 	/**
 	 * Taille en hauteur du plateau
 	 */
-	private Integer boardHeight;
+	//protected Integer boardHeight;
 	
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
-	private Board initBoard;
+	protected Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -58,7 +58,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Point nextMove(Integer player) {
-		Board t = tree.getSentinel().getBoard();
 		Stack<Point> stackPoint =  tree.getSentinel().getBoard().calculatePlayablePosition(player);
 		Integer score;
 		if(player == 1)
@@ -123,10 +122,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
-		this.whitePiece = whitePiece;
-		this.blackPiece = blackPiece;
-		this.boardWidth = boardWidth;
-		this.boardHeight = boardHeight;
 		initBoard = new Board(boardWidth, boardHeight, whitePiece, blackPiece);
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
@@ -199,6 +194,27 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			}
 		}
 		return n;
+	}
+
+	@Override
+	public Boolean initialize(RandomAI random) {
+		initBoard = random.initBoard;
+		tree = random.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(NextBestMoveAI nextBestMove) {
+		initBoard = nextBestMove.initBoard;
+		tree = nextBestMove.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(BruteForceAI brute) {
+		initBoard = brute.initBoard;
+		tree = brute.tree;
+		return true;
 	}
 
 

@@ -1,10 +1,16 @@
 package com.controller;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
+import com.ai.ArtificialIntelligence;
+import com.ai.impl.ArtificialIntelligenceImpl;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -15,13 +21,16 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
+import com.model.player.MachinePlayer;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
+import com.utils.WrongPlayablePositionException;
 
 public abstract class GameController{
 
 	protected GameSettings gameSettings;
 	protected TimerManager timer;
+	protected HashMap<String, ArtificialIntelligence> ia;
 
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -31,6 +40,7 @@ public abstract class GameController{
 
 		BoardObservable board = null;
 		timer = new TimerManagerImpl();
+		this.ia = new HashMap<String, ArtificialIntelligence>();
 
 		try {
 			board = bFacto.getInitialBoard(8,8);
@@ -40,6 +50,7 @@ public abstract class GameController{
 		}
 
 		try {
+
 			this.gameSettings = gsFacto.getGameSettings(
 					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER,1), 
 					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER,2),
@@ -47,7 +58,8 @@ public abstract class GameController{
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY,
 					pieceFacto.getArrayListOfPiece());
-
+			this.ia.put("John DOE", new ArtificialIntelligenceImpl());
+			this.initializeIA();
 			this.setPlayablePiece();
 
 		} catch (FactoryHandlerException e) {
@@ -57,6 +69,24 @@ public abstract class GameController{
 
 		timer.startCountingElapsedTime();
 		this.checkPlayersPiecesCount();
+	}
+
+	protected void initializeIA(){
+
+		Set<Point> 	whitePiece = new HashSet<Point>(),
+				blackPiece = new HashSet<Point>();
+
+		for(Piece p : this.gameSettings.getGameBoard().getWhitePieces())
+			whitePiece.add(new Point(p.getPosX(), p.getPosY()));
+
+		for(Piece p : this.gameSettings.getGameBoard().getBlackPieces())
+			blackPiece.add(new Point(p.getPosX(), p.getPosY()));
+
+		for(ArtificialIntelligence ia_tmp : ia.values()){
+			ia_tmp.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
+			ia_tmp.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
+			ia_tmp.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
+		}
 	}
 
 	protected abstract void initializeNewGame();
@@ -77,13 +107,37 @@ public abstract class GameController{
 	}
 
 	protected void dealWithCurrentPlayer(){
-		
-		//si joueur courant == ia
-		//on demande une position de l'ia
-		
-		
+
+		//Si le joueur à jouer est l'IA
+		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
+
+			ArtificialIntelligence _ia = this.ia.get(this.gameSettings.getCurrentPlayer().getLogin());
+
+			Point p = _ia.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
+
+			if(onPiecePlayed(p.x, p.y)){
+				try {
+					toto: lol hih hi
+					//%2+ à gérer
+					_ia.notifyChosenMove(p, this.gameSettings.getCurrentPlayer().getPlayerNumber()%2+1);
+				} catch (WrongPlayablePositionException e) {
+					Log.error(e.getMessage());
+					e.printStackTrace();
+				}
+
+				this.onIAPlayed();
+				this.dealWithCurrentPlayer();	
+			}
+		}
+		/*
+		 * Sinon c'est un joueur humain. Du coup on attend qu'il joue et lorsqu'il joue l'évenement GameControllerGraphical.onLeftMouseButtonPressed est soulevé.
+		 */
+
+
 	}
-	
+
+	protected abstract void onIAPlayed();
+
 	protected void quickSaveOFCurrentBoard(){
 
 
@@ -136,15 +190,15 @@ public abstract class GameController{
 		for(Piece origin : origins){
 
 			for(Piece intermediatePiece : getReversePieceAround(origin)){
-				System.out.println("================================");
-				System.out.println("Pour le pion origin : " + origin);
+				//System.out.println("================================");
+				//System.out.println("Pour le pion origin : " + origin);
 
 				previousIntermediatePosX = origin.getPosX();
 				previousIntermediatePosy = origin.getPosY();
 
 				//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
 				for(int i = 0; i < longestCombinaisonSize; i++){
-					System.out.println("--------------"); 
+					//System.out.println("--------------"); 
 					posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
 					posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
 
@@ -153,25 +207,25 @@ public abstract class GameController{
 
 					target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
 
-					System.out.println("Intermediate : " + intermediatePiece);
-					System.out.println("Target : " + target);
+					//	System.out.println("Intermediate : " + intermediatePiece);
+					//	System.out.println("Target : " + target);
 
 					if(target.getColor().getClass().equals(origin.getColor().getClass())){
-						System.out.println("on sort du premier if : target == origin | not playable");
+						//System.out.println("on sort du premier if : target == origin | not playable");
 						break;
 					}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
-						System.out.println("on sort du second if : target == intermediatePiece | ont continue");
+						//System.out.println("on sort du second if : target == intermediatePiece | ont continue");
 						previousIntermediatePosX = intermediatePiece.getPosX();
 						previousIntermediatePosy = intermediatePiece.getPosY();
 						intermediatePiece = target;
 						continue;
 					}else if(target.getColor() instanceof EmptyPiece){
-						System.out.println("géniale c'est jouable en :" + target);
+						//System.out.println("géniale c'est jouable en :" + target);
 						this.gameSettings.getGameBoard().setPiecePlayable(posX, posY);
 						break;
 					}
 				}
-				System.out.println("================================");
+				//System.out.println("================================");
 			}
 
 		}

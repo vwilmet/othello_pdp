@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,6 +19,8 @@ import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
+import com.model.piece.Piece;
+import com.utils.WrongPlayablePositionException;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
 import com.view.event.ButtonImageMenuEventListener;
@@ -30,7 +33,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
-
+		
 	public GameControllerGraphical() {
 		super();
 
@@ -39,9 +42,11 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setMenuListener(this);
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
-		this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
+
+		//this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
 
 		this.updateInformationField();
+		this.dealWithCurrentPlayer();
 	}
 
 	protected void initializeNewGame(){
@@ -88,8 +93,18 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 		if(i!=-1 && j != -1){
-			if(onPiecePlayed(i, j))
+			if(onPiecePlayed(i, j)){
+				try {
+					toto: lol hih hi
+					//%2+ à gérer
+					this.ia.get(this.gameSettings.getCurrentPlayer().getLogin()).notifyChosenMove(new Point(i, j), this.gameSettings.getCurrentPlayer().getPlayerNumber()%2+1);
+				} catch (WrongPlayablePositionException e) {
+					Log.error(e.getMessage());
+					e.printStackTrace();
+				}
 				this.updateInformationField();
+				this.dealWithCurrentPlayer();
+			}
 		}
 	}
 
@@ -142,6 +157,15 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();	
 			this.updateInformationField();
+			
+			Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
+			try {
+				this.ia.get(this.gameSettings.getCurrentPlayer().getPlayerNumber()).
+					notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
+			} catch (WrongPlayablePositionException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -152,6 +176,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
 			this.updateInformationField();
+			this.ia.get(this.gameSettings.getCurrentPlayer().getPlayerNumber()).undoMove();
 		}
 	}
 
@@ -172,7 +197,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onPositionButtonCliked() {
-		chooseHistoryBoardPosition();
+		if(this.gameSettings.getHistoryPosition()>=0)
+			chooseHistoryBoardPosition();
 	}
 
 	@Override
@@ -235,7 +261,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				"Temps de réflexion de l'IA : " + this.gameSettings.getAIThinkingTime() + "\n\n" + 
 				"PC_____________________" + "\n" +
 				Application.getInstance().toString();
-		
+
 		JOptionPane.showMessageDialog(null, message, TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -263,6 +289,11 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
 		this.writeStatMessage("Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + "] : " + this.gameSettings.getFirstPlayer().getPiecesNumber() + " | Noir[" + this.gameSettings.getSecondPlayer().getLogin() + "] : " + this.gameSettings.getSecondPlayer().getPiecesNumber());
+	}
+
+	@Override
+	protected void onIAPlayed() {
+		this.updateInformationField();
 	}
 
 

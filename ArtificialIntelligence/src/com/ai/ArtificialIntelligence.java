@@ -89,7 +89,6 @@ public interface ArtificialIntelligence {
 	 */
 	public void undoMove();
 
-
 	/**
 	 * Permet de donner un temps maximal de calcule pour l'IA en milliseconde.
 	 * @param time le temps en milliseconde.

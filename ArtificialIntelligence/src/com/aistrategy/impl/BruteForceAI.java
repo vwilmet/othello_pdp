@@ -61,13 +61,16 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	@Override
 	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
-		if(p == null){
-			/*Integer alpha = Integer.MIN_VALUE;
+		if(p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()){
+			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);*/
-			run();
+			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			//run();
+			p = tree.getSentinel().getBestMove();
 		}
-		return tree.getSentinel().getBestMove();
+		else
+			p = null;
+		return p;
 	}
 
 	/**
@@ -81,10 +84,10 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		List<Point> nextMoves = new ArrayList<Point>();
 		Point p = s.getBestMove();
 		if(p == null){
-			/*Integer alpha = Integer.MIN_VALUE;
+			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);*/
-			run();
+			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			//run();
 		}
 		while(p != null){
 			nextMoves.add(p);
@@ -136,12 +139,12 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		tree.setSentinel(tree.getRootElement());
 		tm = new TimerManagerImpl();
 		//Integer finalScore = miniMax(depth, tree.getSentinel());
-		/*Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;*/
+		Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
-		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		run();
+		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
 		//showBestMoveParty();
 		return true;
 	}
@@ -168,7 +171,6 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 			}
 			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
 			tree.setSentinel(newSentinel);
-			System.out.println(tree.getSentinel().printBoard());
 		}
 	}
 
@@ -450,13 +452,13 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
         System.out.println("Hello from a thread!");
         Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
-		if(this.maxTime != 0 || this.maxTime == null)
-			tm.startTimer(this.maxTime);
+		/*if(this.maxTime != 0 || this.maxTime == null)
+			tm.startTimer(this.maxTime);*/
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
 		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		if(this.maxTime != 0 || this.maxTime == null)
-			tm.stopTimer();
+	/*	if(this.maxTime != 0 || this.maxTime == null)
+			tm.stopTimer();*/
 		System.out.println("Bye from a thread!");
     }
 

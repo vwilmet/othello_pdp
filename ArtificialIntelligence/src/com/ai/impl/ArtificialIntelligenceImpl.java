@@ -29,7 +29,7 @@ import com.utils.WrongPlayablePositionException;
  * @author <ul><li>Nicolas Yvon</li></ul>
  * @version 1.0
  */
-public class ArtificialIntelligenceImplementation implements ArtificialIntelligence {
+public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 
 	/**
 	 * Stratégie utilisée par l'intelligence artificielle

@@ -226,7 +226,7 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		System.out.println("test de la lecure de partie");
+	/*	System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		RestoreGame rg = null;
@@ -251,6 +251,6 @@ public class Main {
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

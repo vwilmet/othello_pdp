@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
@@ -104,6 +105,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
 		tree.setSentinel(tree.getRootElement());
+		System.out.println(this.tree.getSentinel().getBoard().printBoard());
 		return true;
 	}
 	

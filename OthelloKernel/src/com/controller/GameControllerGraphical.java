@@ -97,7 +97,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(i!=-1 && j != -1){
 			String IALogin = this.gameSettings.getOpponentPlayer().getLogin();
 			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-
+			
 			if(onPiecePlayed(i, j)){
 				this.gameView.setIAAdvisedPiece(null);
 				try {
@@ -184,6 +184,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 					Log.error(e.getMessage());
 					e.printStackTrace();
 				}
+				
+				this.dealWithCurrentPlayer();
 			}
 		}else
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en avant !!");
@@ -199,8 +201,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				this.updateInformationField();
 				//On revient deux coups en arrière si l'adversaire est une IA
 				this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
-				if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
-					this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
+				//if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
+				//	this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
+
+				this.dealWithCurrentPlayer();
 			}
 		}else
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en arrière !!");
@@ -219,6 +223,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.updateInformationField();
 		this.stopAllAI();
 		this.initializeIA();
+		this.dealWithCurrentPlayer();
 	}
 
 	@Override

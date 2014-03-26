@@ -81,8 +81,8 @@ public class Board {
 		
 		this.gameBoard = new int[this.nbPieceX][this.nbPieceY];
 		
-		this.p1 = new Player(PostsPublisher.FIRST_PLAYER_NAME_POST, PostsPublisher.WHITE, PostsPublisher.HUMAN, 1);
-		this.p2 = new Player(PostsPublisher.SECOND_PLAYER_NAME_POST, PostsPublisher.BLACK, PostsPublisher.MACHINE, 2);
+		this.p1 = new Player(PostsPublisher.FIRST_PLAYER_NAME_POST, BoardPublisher.WHITE, BoardPublisher.HUMAN, 1);
+		this.p2 = new Player(PostsPublisher.SECOND_PLAYER_NAME_POST, BoardPublisher.BLACK, BoardPublisher.MACHINE, 2);
 
 		System.out.println(PostsPublisher.INITIALIZATION_POST_FR);
 		

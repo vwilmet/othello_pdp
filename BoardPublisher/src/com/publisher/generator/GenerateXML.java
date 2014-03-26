@@ -41,7 +41,7 @@ public class GenerateXML implements BoardPublisher {
 	 */
 	public GenerateXML (){
 		this.board = null;
-		this.root = new Element(PostsPublisher.BOARD_PART);
+		this.root = new Element(BoardPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
 	}
 	
@@ -50,9 +50,9 @@ public class GenerateXML implements BoardPublisher {
 	 * @return Element, la taille de l'Othellier en XML.
 	 */
 	private Element boardSizeInXML(){
-		Element size = new Element(PostsPublisher.SIZE_PART);
-		Element x = new Element (PostsPublisher.X_PART);
-		Element y = new Element (PostsPublisher.Y_PART);
+		Element size = new Element(BoardPublisher.SIZE_PART);
+		Element x = new Element (BoardPublisher.X_PART);
+		Element y = new Element (BoardPublisher.Y_PART);
 		
 		x.setText(String.valueOf(this.board.getNbPieceX()));
 		y.setText(String.valueOf(this.board.getNbPieceY()));
@@ -89,10 +89,10 @@ public class GenerateXML implements BoardPublisher {
 	 */
 	private Element boardPieceAtInXML(int i, int j){
 			
-		Element x = new Element(PostsPublisher.X_PART);
-		Element y = new Element(PostsPublisher.Y_PART);
-		Element rgb = new Element(PostsPublisher.COLOR_PART); 
-		Element piece = new Element (PostsPublisher.PIECE_PART);
+		Element x = new Element(BoardPublisher.X_PART);
+		Element y = new Element(BoardPublisher.Y_PART);
+		Element rgb = new Element(BoardPublisher.COLOR_PART); 
+		Element piece = new Element (BoardPublisher.PIECE_PART);
 		
 		x.setText(String.valueOf(i));
 		y.setText(String.valueOf(j));
@@ -111,18 +111,18 @@ public class GenerateXML implements BoardPublisher {
 	 * @return Element : Player formaté en XML.
 	 */
 	private Element playerInXML(Player p){
-		Element player = new Element(PostsPublisher.PLAYER_PART);
+		Element player = new Element(BoardPublisher.PLAYER_PART);
 		
-		Element login = new Element(PostsPublisher.PLAYER_LOGIN_PART);
+		Element login = new Element(BoardPublisher.PLAYER_LOGIN_PART);
 		login.setText(p.getName());
 		
-		Element rgb = new Element(PostsPublisher.PLAYER_COLOR_PART);
+		Element rgb = new Element(BoardPublisher.PLAYER_COLOR_PART);
 		rgb.setText(p.getColor());
 		
-		Element type = new Element(PostsPublisher.PLAYER_TYPE_PART);
+		Element type = new Element(BoardPublisher.PLAYER_TYPE_PART);
 		type.setText(p.getType());
 		
-		Element num = new Element(PostsPublisher.PLAYER_NUMBER_PART);
+		Element num = new Element(BoardPublisher.PLAYER_NUMBER_PART);
 		num.setText(String.valueOf(p.getNumber()));
 		
 		player.addContent(login);
@@ -136,17 +136,17 @@ public class GenerateXML implements BoardPublisher {
 	@Override
 	public void boardMaker() {
 		this.board = new Board();
-		Element initial = new Element (PostsPublisher.INIT_PART);
+		Element initial = new Element (BoardPublisher.INIT_PART);
 		
 		initial.addContent(boardSizeInXML());
-		initial.addContent(boardPiecesInXML(PostsPublisher.PIECES_PART));
+		initial.addContent(boardPiecesInXML(BoardPublisher.PIECES_PART));
 		initial.addContent(playerInXML(this.board.getPlayer1()));
 		initial.addContent(playerInXML(this.board.getPlayer2()));
-		initial.addContent(Utils.xmlSetIntValueToField(PostsPublisher.AI_LEVEL_PART, this.board.getAILevel()));
-		initial.addContent(Utils.xmlSetIntValueToField(PostsPublisher.AI_THINKING_TIME_PART, this.board.getAIThinkingTime()));
+		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_LEVEL_PART, this.board.getAILevel()));
+		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_THINKING_TIME_PART, this.board.getAIThinkingTime()));
 		
 		this.root.addContent(initial);
-		this.root.addContent(boardPiecesInXML(PostsPublisher.PLAYED_PIECES_PART));
+		this.root.addContent(boardPiecesInXML(BoardPublisher.PLAYED_PIECES_PART));
 				
 		FilesManager fmanager = new FilesManagerImpl();
 		if (fmanager.save(this.board.getBoardFileName() + PostsPublisher.DOT_XML, PostsPublisher.DOT, this.toString()) == false){

@@ -47,28 +47,9 @@ public interface PostsPublisher {
 	public static final String SPACES_PIPE = " |";
 	
 	/**
-	 * Constantes indiquant la couleur du joueur. 
-	 */
-	public static final String WHITE = "white", BLACK = "black";
-	
-	/**
-	 * Constante indiquant le type du joueur.
-	 */
-	public static final String HUMAN = "human", MACHINE = "machine";
-	
-	/**
 	 * Constantes permettant de donner un nom par défaut à chaque joueur.
 	 */
 	public static final String FIRST_PLAYER_NAME_POST = "J. McCain", SECOND_PLAYER_NAME_POST = "J. Rambo";
-	
-	/**
-	 * Constantes permettant de générer le fichier de sauvegarde.
-	 */
-	public static final String BOARD_PART = "board", INIT_PART = "init", SIZE_PART = "size", X_PART = "x",
-			Y_PART = "y", COLOR_PART = "c", PIECES_PART = "pieces", PIECE_PART = "piece", 
-			PLAYER_PART = "player", PLAYER_LOGIN_PART = "name", PLAYER_COLOR_PART = "rgb",
-			PLAYER_TYPE_PART = "type", PLAYER_NUMBER_PART = "num", AI_LEVEL_PART = "AILevel",
-			AI_THINKING_TIME_PART = "AIThinkingTime", PLAYED_PIECES_PART = "playedPcs";
 	
 	public static final String GRID_FILE_EXTENSION = ".grd";
 	public static final String PATH_GRID_FILE_FOLDER = "./";

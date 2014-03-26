@@ -108,7 +108,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		else{
 			Board newBoard = new Board(tree.getSentinel().getBoard());
 			newBoard.calculateTurnResult(pos, player);
-			NodeMove<Point> myNode = new NodeMove<Point>(pos,player,newBoard);
+			NodeMove<Point> myNode = new NodeMove<Point>(pos,player,newBoard,this.tree.getSentinel());
 			tree.getSentinel().addChild(myNode);
 			tree.setSentinel(myNode);
 		}
@@ -131,6 +131,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public void undoMove() {
+		System.out.println(this.tree.getSentinel().getParent());
 		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 	

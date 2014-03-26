@@ -22,8 +22,8 @@ public class Model {
 		
 		myAI = new ArtificialIntelligenceImpl();
 		myAI2 = new ArtificialIntelligenceImpl();
-		myAI.chooseDifficulty(2);
-		myAI2.chooseDifficulty(2);
+		myAI.chooseDifficulty(0);
+		myAI2.chooseDifficulty(0);
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		myAI2.initialize(myAI);
 
@@ -43,6 +43,8 @@ public class Model {
 			myAI.notifyChosenMove(p, 2);
 			//myAI2.notifyChosenMove(p, 2);
 		}
+		myAI.undoMove();
+		myAI.undoMove();
 		p = myAI.nextMove(1);
 		if(p != null){
 			myAI.notifyChosenMove(p, 1);
@@ -72,6 +74,124 @@ public class Model {
 		}
 		
 		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}
+		p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
+		if(p != null){
+			myAI.notifyChosenMove(p, 2);
+			//myAI2.notifyChosenMove(p, 2);
+		}
+		p = myAI.nextMove(1);
+		if(p != null){
+			myAI.notifyChosenMove(p, 1);
+			//myAI2.notifyChosenMove(p, 1);
+		}	p = myAI2.nextMove(2);		
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
 			//myAI2.notifyChosenMove(p, 2);

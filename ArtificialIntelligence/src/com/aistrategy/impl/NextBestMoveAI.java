@@ -143,7 +143,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		}
 		else{
 			if(findNodeFromMove(tree.getSentinel(),pos) == null){
-				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard())); 
+				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard()),this.tree.getSentinel()); 
 				newSentinel.calculateTurnResult();
 				tree.getSentinel().addChild(newSentinel);
 				tree.getSentinel().setBestMove(pos);

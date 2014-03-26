@@ -36,7 +36,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	/**
 	 * Profondeur de recherche pour l'arbre de coups
 	 */
-	protected static final Integer depth = 9;
+	protected static final Integer depth = 2;
 	
 	/**
 	 * Minuteur pour le temps d'execution de l'algorithme.
@@ -62,10 +62,10 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
 		if(p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()){
-			Integer alpha = Integer.MIN_VALUE;
-			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-			//run();
+			//Integer alpha = Integer.MIN_VALUE;
+			//Integer beta = Integer.MAX_VALUE;
+			//alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			run();
 			p = tree.getSentinel().getBestMove();
 		}
 		else if(tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty())
@@ -164,7 +164,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		}
 		else{
 			if(findNodeFromMove(tree.getSentinel(),pos) == null){
-				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard())); 
+				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard()),this.tree.getSentinel()); 
 				newSentinel.calculateTurnResult();
 				tree.getSentinel().addChild(newSentinel);
 				tree.getSentinel().setBestMove(pos);
@@ -172,6 +172,8 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
 			tree.setSentinel(newSentinel);
 		}
+		System.out.println(this.tree.getSentinel().getBoard().printBoard());
+
 	}
 
 	/**

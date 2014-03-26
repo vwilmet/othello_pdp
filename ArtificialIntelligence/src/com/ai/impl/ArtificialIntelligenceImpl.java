@@ -160,8 +160,10 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 			return this.ai.initialize((RandomAI) ai.ai);
 		else if(ai.ai instanceof NextBestMoveAI)
 			return this.ai.initialize((NextBestMoveAI) ai.ai);
-		else if(ai.ai instanceof BruteForceAI)
+		else if(ai.ai instanceof BruteForceAI){
+			System.out.println(ai.ai);	
 			return this.ai.initialize((BruteForceAI) ai.ai);
+		}
 		else 
 			return false;
 	}

@@ -7,6 +7,7 @@ import utils.TextManager;
 
 import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
+import com.model.player.MachinePlayer;
 import com.model.player.Player;
 
 /**
@@ -62,7 +63,10 @@ public class GameSettings {
 	/**
 	 * Variables permettant le paramètrage de l'intelligence artificielle. 
 	 */
-	private int artificialIntelligenceThinkingTime, artificialIntelligenceDifficulty;
+	private int artificialIntelligenceThinkingTime, 
+	helpArtificialIntelligenceDifficulty, 
+	player1ArtificialIntelligenceDifficulty, 
+	player2ArtificialIntelligenceDifficulty;
 
 	/**
 	 * Variable stoquant l'historique des coups.
@@ -82,7 +86,7 @@ public class GameSettings {
 		this.gameBoard = gameBoard;
 
 		this.artificialIntelligenceThinkingTime = artificialIntelligenceThinkingTime;
-		this.artificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
+		this.helpArtificialIntelligenceDifficulty = artificialIntelligenceDifficulty;
 
 		this.gameHistory = history;
 
@@ -99,6 +103,10 @@ public class GameSettings {
 
 	public Player getCurrentPlayer(){
 		return this.currentPlayer;
+	}
+
+	public Player getOpponentPlayer(){
+		return this.currentPlayer == player1 ? player2 : player1;
 	}
 
 	public void setCurrentPlayer(Player currentPlayer){
@@ -121,8 +129,8 @@ public class GameSettings {
 		return this.artificialIntelligenceThinkingTime;
 	}
 
-	public int getAIDifficulty(){
-		return this.artificialIntelligenceDifficulty;
+	public int getHelpAIDifficulty(){
+		return this.helpArtificialIntelligenceDifficulty;
 	}
 
 	public List<Piece> getGameHistory(){
@@ -132,7 +140,7 @@ public class GameSettings {
 	public int getHistoryPosition(){
 		return this.sentinel;
 	}
-	
+
 	public int getBoardHistoryPosition(){
 		return this.sentinel + 1;
 	}
@@ -164,38 +172,66 @@ public class GameSettings {
 		this.currentPlayer = this.player1;
 	}
 
+	public boolean canGoBack(){
+		if(this.sentinel == -1)
+			return false;
+		return true;
+	}
+
+	
+	public boolean canGoForward(){
+		if(this.gameHistory.size() == 0 || (this.gameHistory.size()-1) == this.sentinel)
+			return false;
+		return true;
+	}
+
+	//si il y a déjà eu un coup
+	public boolean canReset(){
+		if(this.gameHistory.size() == 0)
+			return false;
+		return true;
+	}
+
 	public boolean getBackInHistory(){
 
 		System.out.println("Sentinel : " + this.sentinel);
 		System.out.println("gameHistorySize: " + this.gameHistory.size());
 		System.out.println("Board history size: " + this.gameBoardHistory.size());
 
+
 		if(this.sentinel >= 0){
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
 				this.setCurrentPlayer(this.player1);
 			else
 				this.setCurrentPlayer(this.player2);
-			System.out.println("value sentinel " + this.sentinel );
+
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
 			this.gameBoard.notifyObservers();
 
 			this.sentinel--;
 			return true;
 		}
-
+		
+		if(this.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
+			getBackInHistory();
+		}
 		return false;
 	}
 
 	public boolean getForwardInHistory(){
 		System.out.println("[getForwardInHistory]");
 		if(this.sentinel < this.gameHistory.size()-1){
-			System.out.println("sentinel : " + sentinel);
-			System.out.println("size  : " +  this.gameBoardHistory.size());
-
 			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
 			this.sentinel++;
 			this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
-			this.changePlayer();
+
+			//TODO check si change player fonctionne
+			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
+				this.setCurrentPlayer(this.player1);
+			else
+				this.setCurrentPlayer(this.player2);
+
+			//this.changePlayer();
 			return true;
 		}
 
@@ -258,7 +294,25 @@ public class GameSettings {
 		}
 
 		res += "Temps de réflexion de l'IA : " + this.artificialIntelligenceThinkingTime + "\n";
-		res += "Difficulté de l'IA : " + this.artificialIntelligenceDifficulty + "\n";
+		res += "Difficulté de l'IA d'aide: " + this.helpArtificialIntelligenceDifficulty + "\n";
 		return res;
+	}
+
+	public int getPlayer1ArtificialIntelligenceDifficulty() {
+		return player1ArtificialIntelligenceDifficulty;
+	}
+
+	public void setPlayer1ArtificialIntelligenceDifficulty(
+			int player1ArtificialIntelligenceDifficulty) {
+		this.player1ArtificialIntelligenceDifficulty = player1ArtificialIntelligenceDifficulty;
+	}
+
+	public int getPlayer2ArtificialIntelligenceDifficulty() {
+		return player2ArtificialIntelligenceDifficulty;
+	}
+
+	public void setPlayer2ArtificialIntelligenceDifficulty(
+			int player2ArtificialIntelligenceDifficulty) {
+		this.player2ArtificialIntelligenceDifficulty = player2ArtificialIntelligenceDifficulty;
 	}
 }

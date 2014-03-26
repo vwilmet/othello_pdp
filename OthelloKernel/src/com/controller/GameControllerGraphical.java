@@ -12,6 +12,7 @@ import utils.Application;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
+import com.ai.impl.ArtificialIntelligenceImpl;
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
@@ -20,6 +21,7 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
+import com.model.player.MachinePlayer;
 import com.utils.WrongPlayablePositionException;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
@@ -33,7 +35,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
-		
+
 	public GameControllerGraphical() {
 		super();
 
@@ -43,7 +45,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
 
-		//this.gameView.setIAAdvisedPiece(this.gameSettings.getGameBoard().getBoard()[0][0]);
 
 		this.updateInformationField();
 		this.dealWithCurrentPlayer();
@@ -92,12 +93,15 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
+
 		if(i!=-1 && j != -1){
+			String IALogin = this.gameSettings.getOpponentPlayer().getLogin();
+			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
+
 			if(onPiecePlayed(i, j)){
+				this.gameView.setIAAdvisedPiece(null);
 				try {
-					toto: lol hih hi
-					//%2+ à gérer
-					this.ia.get(this.gameSettings.getCurrentPlayer().getLogin()).notifyChosenMove(new Point(i, j), this.gameSettings.getCurrentPlayer().getPlayerNumber()%2+1);
+					this.ai.get(IALogin).notifyChosenMove(new Point(i, j), playerNumber);
 				} catch (WrongPlayablePositionException e) {
 					Log.error(e.getMessage());
 					e.printStackTrace();
@@ -130,8 +134,21 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.gameSettings = game;
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.setPlayablePiece();
+
+			this.ai.clear();
+
+			if(this.gameSettings.getFirstPlayer().getPlayerType() instanceof MachinePlayer)
+				this.ai.put(this.gameSettings.getFirstPlayer().getLogin(),
+						new ArtificialIntelligenceImpl());
+
+			if(this.gameSettings.getSecondPlayer().getPlayerType() instanceof MachinePlayer)
+				this.ai.put(this.gameSettings.getSecondPlayer().getLogin(),
+						new ArtificialIntelligenceImpl());
+			this.initializeIA();
+
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 			this.updateInformationField();
+			this.dealWithCurrentPlayer();
 		}
 	}
 
@@ -152,47 +169,64 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onForwardButtonCliked() {
-		if(this.gameSettings.getForwardInHistory()){
-			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
-			this.gameView.setBoard(this.gameSettings.getGameBoard());
-			this.setPlayablePiece();	
-			this.updateInformationField();
-			
-			Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
-			try {
-				this.ia.get(this.gameSettings.getCurrentPlayer().getPlayerNumber()).
+		if(this.gameSettings.canGoForward()){
+			if(this.gameSettings.getForwardInHistory()){
+				this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
+				this.gameView.setBoard(this.gameSettings.getGameBoard());
+				this.setPlayablePiece();	
+				this.updateInformationField();
+
+				Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
+				try {
+					this.ai.get(this.gameSettings.getCurrentPlayer().getLogin()).
 					notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
-			} catch (WrongPlayablePositionException e) {
-				Log.error(e.getMessage());
-				e.printStackTrace();
+				} catch (WrongPlayablePositionException e) {
+					Log.error(e.getMessage());
+					e.printStackTrace();
+				}
 			}
-		}
+		}else
+			this.addMessageToListForUser("Vous ne pouvez pas revenir en avant !!");
 	}
 
 	@Override
 	public void onBackButtonCliked() {
-		if(this.gameSettings.getBackInHistory()){
-			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
-			this.gameView.setBoard(this.gameSettings.getGameBoard());
-			this.setPlayablePiece();
-			this.updateInformationField();
-			this.ia.get(this.gameSettings.getCurrentPlayer().getPlayerNumber()).undoMove();
-		}
+		if(this.gameSettings.canGoBack()){
+			if(this.gameSettings.getBackInHistory()){
+				this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
+				this.gameView.setBoard(this.gameSettings.getGameBoard());
+				this.setPlayablePiece();
+				this.updateInformationField();
+				//On revient deux coups en arrière si l'adversaire est une IA
+				this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
+				if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
+					this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
+			}
+		}else
+			this.addMessageToListForUser("Vous ne pouvez pas revenir en arrière !!");
 	}
 
 	@Override
 	public void onResetButtonCliked() {
+		if(!this.gameSettings.canReset()){
+			this.addMessageToListForUser("Vous ne pouvez pas recommencer la partie!! Vous êtes déjà au début de la partie");
+			return;
+		}
 		this.gameSettings.restartGame();
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 		this.setPlayablePiece();
 		this.updateInformationField();
+		this.stopAllAI();
+		this.initializeIA();
 	}
 
 	@Override
 	public void onHelpIAButtonCliked() {
-		// TODO Auto-generated method stub
-
+		Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
+		Piece piece = this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
+		this.gameView.setIAAdvisedPiece(piece);
+		this.gameView.refresh();
 	}
 
 	@Override
@@ -207,6 +241,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.setPlayablePiece();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
 		this.updateInformationField();
+		this.dealWithCurrentPlayer();	
 	}
 
 	@Override
@@ -257,7 +292,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				"Othellier_________________" + "\n" +
 				"Nombre de pion : " + (this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) + "\n" +
 				"Taille : " + this.gameSettings.getGameBoard().getSizeX() + "x" + this.gameSettings.getGameBoard().getSizeY() + "\n" +
-				"Difficulté de l'IA : " + this.gameSettings.getAIDifficulty() + "\n" + 
+				"Difficulté de l'IA : " + this.gameSettings.getHelpAIDifficulty() + "\n" + 
 				"Temps de réflexion de l'IA : " + this.gameSettings.getAIThinkingTime() + "\n\n" + 
 				"PC_____________________" + "\n" +
 				Application.getInstance().toString();
@@ -283,17 +318,51 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameSettings.setHistoryPosition(position);
 		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
 		this.setPlayablePiece();
+
+		this.dealWithCurrentPlayer();
 	}
 
 	private void updateInformationField(){
 		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
-		this.writeStatMessage("Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + "] : " + this.gameSettings.getFirstPlayer().getPiecesNumber() + " | Noir[" + this.gameSettings.getSecondPlayer().getLogin() + "] : " + this.gameSettings.getSecondPlayer().getPiecesNumber());
+		this.writeStatMessage(
+				"Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + " - " + this.gameSettings.getFirstPlayer().getPlayerType() + "] : " + 
+						this.gameSettings.getFirstPlayer().getPiecesNumber() + 
+						" | Noir [" + this.gameSettings.getSecondPlayer().getLogin() + " - " + this.gameSettings.getSecondPlayer().getPlayerType() + "] : " + 
+						this.gameSettings.getSecondPlayer().getPiecesNumber());
+
 	}
 
 	@Override
-	protected void onIAPlayed() {
+	protected void onIAPlayed(String login, int i, int j) {
 		this.updateInformationField();
+		this.addMessageToListForUser("L'IA : " + login + " a joué en " + i + ", " + j);
+	}
+
+	/*
+	protected void manageButtonState(){
+
+		this.gameView.enableBackButton(
+				this.gameSettings.canGoBack() == true ? 
+						true : false);
+
+		this.gameView.enableForwardButton(
+				this.gameSettings.canGoForward() == true ? 
+						true : false);
+
+		this.gameView.enableResetButton(
+				this.gameSettings.canReset() == true ? 
+						true : false);
+	}*/
+
+	@Override
+	protected void playerCantPlay() {
+
+	}
+
+	@Override
+	protected void beforeDealingWithCurrentPlayer() {
+		//this.manageButtonState();
 	}
 
 

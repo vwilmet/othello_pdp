@@ -39,7 +39,8 @@ public interface TextManager {
 	public static final String GRID_SIZE_LABEL_TEXT_FR = "Taille de la grille";
 	public static final String GRID_ROW_LABEL_TEXT_FR = "Colonne : ";
 	public static final String GRID_LIGNE_LABEL_TEXT_FR = "Ligne : ";
-	public static final String AI_LABEL_TEXT_FR = "Intelligence Artificielle";
+	public static final String AI_LABEL_TEXT_FR = "Intelligence Artificielle pour l'aide";
+	public static final String IS_PLAYER_AI_LABEL_TEXT_FR = "Jouer en tant qu'IA";
 	public static final String AI_THINKING_TIME_LABEL_TEXT_FR = "Temps de réflexion : ";
 	public static final String AI_DIFFICULTY_LABEL_TEXT_FR = "Difficulté : ";
 	public static final String[] AI_DIFFICULTY_VALUE_TEXT_FR = {"Facile", "Moyen", "Difficile"};
@@ -107,6 +108,9 @@ public interface TextManager {
 	
 	public static final String HUMAN_PLAYER = "human";
 	public static final String MACHINE_PLAYER = "machine";
+
+	public static final String HUMAN_LABEL_PLAYER = "Humain";
+	public static final String MACHINE_LABEL_PLAYER = "Machine";
 	public static final String WHITE_PLAYER = "white";
 	public static final String BLACK_PLAYER = "black";
 	
@@ -138,13 +142,13 @@ public interface TextManager {
 	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
 		
-	public static final String DEFAULT_PLAYER1_NAME_FR = "Joueur Blanc :";
-	public static final String DEFAULT_PLAYER2_NAME_FR = "Joueur Noir :";
+	public static final String DEFAULT_PLAYER1_NAME_FR = "Blanc";
+	public static final String DEFAULT_PLAYER2_NAME_FR = "Noir";
 
 	public static final String PAUSE_TEXT_VUE = "Jeu en pause !! Appuyer sur le bouton play pour reprendre";
 	public static final String PAUSE_MESSAGE_LIST_VUE = "Jeu mis en pause";
-	public static final String PLAY_MESSAGE_LIST_VUE = "Jeu démarée";
-	public static final String NEM_GAME_START_MESSAGE_LIST_VUE = "Nouvelle partie démarée!";
+	public static final String PLAY_MESSAGE_LIST_VUE = "Jeu démarré";
+	public static final String NEM_GAME_START_MESSAGE_LIST_VUE = "Nouvelle partie démarrée!";
 	
 	public static final String BACK_PIECE_MESSAGE_LIST_VUE = "Retrait d'une pièce dans l'othellier";
 	public static final String FORWARD_PIECE_MESSAGE_LIST_VUE = "Rajout de la dernière pièce jouée dans l'othellier";

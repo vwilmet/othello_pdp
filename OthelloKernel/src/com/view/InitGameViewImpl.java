@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -29,7 +30,12 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 	private JTextField player1, player2;
 	private JFormattedTextField row, ligne;
 	private JFormattedTextField AItime;
-	private JComboBox<String> AIDifficulty;
+	private JComboBox<String> helpAIDifficulty;
+	private JComboBox<String> player1AIDifficulty;
+	private JComboBox<String> player2AIDifficulty;
+	private JCheckBox player1IsAI;
+	private JCheckBox player2IsAI;
+
 	private JPanel gridPanel, AIPanel, playerPanel;
 
 	public InitGameViewImpl() {
@@ -88,24 +94,21 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		cancel = new JButton(TextManager.INIT_GAMEVIEW_CANCEL_BUTTON_FR);
 		benchmark = new JButton(TextManager.INIT_GAMEVIEW_BENCHMARK_BUTTON_FR);
 		benchmark.setToolTipText(TextManager.INIT_GAMEVIEW_BENCHMARK_TITLE_BUTTON_FR);
-		
+
 		valid.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(event != null) 
-					event.onValidButtonPressed(
-							((Number) InitGameViewImpl.this.row.getValue()).intValue(),
-							((Number) InitGameViewImpl.this.ligne.getValue()).intValue(),
-							((Number) InitGameViewImpl.this.AItime.getValue()).intValue(),
-							AIDifficulty.getSelectedIndex(),
-							player1.getText(), 
-							player2.getText());
+				
+				if(event != null)
+					event.onValidButtonPressed(((Number) InitGameViewImpl.this.row.getValue()).intValue(), ((Number) InitGameViewImpl.this.ligne.getValue()).intValue(), ((Number) InitGameViewImpl.this.AItime.getValue()).intValue(), helpAIDifficulty.getSelectedIndex(),
+							player1.getText(), player1IsAI.isSelected(), player1AIDifficulty.getSelectedIndex(), 
+							player2.getText(), player2IsAI.isSelected(), player2AIDifficulty.getSelectedIndex());
 			}
 		});
 		
 		cancel.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(event != null) event.onCancelButtonPressed();
@@ -113,28 +116,60 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		});
 		
 		benchmark.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(event != null) event.onBenchMarkButtonPressed(AItime);
 			}
 		});
-		
+
 		player1 = new JTextField(TextManager.DEFAULT_PLAYER1_NAME_FR);
 		player2 = new JTextField(TextManager.DEFAULT_PLAYER2_NAME_FR);
-		
+
 		row = new JFormattedTextField(NumberFormat.getNumberInstance());
 		row.setValue(GameSettings.DEFAULT_ROW_SIZE);
 		ligne = new JFormattedTextField(NumberFormat.getNumberInstance());
 		ligne.setValue(GameSettings.DEFAULT_LIGNE_SIZE);
-		
+
 		AItime = new JFormattedTextField(NumberFormat.getNumberInstance());
 		AItime.setValue(GameSettings.DEFAULT_IA_THINKING_TIME);
 
-		AIDifficulty = new JComboBox<String>();
-
-		for(int i = 0; i < TextManager.AI_DIFFICULTY_VALUE_TEXT_FR.length; i++)
-			AIDifficulty.addItem(TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[i]);
+		helpAIDifficulty = new JComboBox<String>();
+		player1AIDifficulty = new JComboBox<String>();
+		player2AIDifficulty = new JComboBox<String>();
+		player1AIDifficulty.setEnabled(false);
+		player2AIDifficulty.setEnabled(false);
+		
+		player1IsAI = new JCheckBox(TextManager.IS_PLAYER_AI_LABEL_TEXT_FR);
+		player2IsAI = new JCheckBox(TextManager.IS_PLAYER_AI_LABEL_TEXT_FR);
+		
+		player1IsAI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(player1IsAI.isSelected())
+					player1AIDifficulty.setEnabled(true);
+				else
+					player1AIDifficulty.setEnabled(false);
+			}
+		});
+		
+		player2IsAI.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(player2IsAI.isSelected())
+					player2AIDifficulty.setEnabled(true);
+				else
+					player2AIDifficulty.setEnabled(false);
+			}
+		});
+		
+		for(int i = 0; i < TextManager.AI_DIFFICULTY_VALUE_TEXT_FR.length; i++){
+			helpAIDifficulty.addItem(TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[i]);
+			player1AIDifficulty.addItem(TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[i]);
+			player2AIDifficulty.addItem(TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[i]);
+		}
 
 		gridPanel = new JPanel();
 		AIPanel = new JPanel();
@@ -166,7 +201,7 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		AIPanelContent1.add(benchmark);
 
 		AIPanelContent2.add(new JLabel(TextManager.AI_DIFFICULTY_LABEL_TEXT_FR));
-		AIPanelContent2.add(AIDifficulty);
+		AIPanelContent2.add(helpAIDifficulty);
 
 		AIPanel.setBorder(BorderFactory.createTitledBorder(TextManager.AI_LABEL_TEXT_FR));
 
@@ -177,12 +212,18 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 
 		JPanel playerPanelContent1 = new JPanel();
 		JPanel playerPanelContent2 = new JPanel();
-
+		
+		playerPanelContent1.setLayout(new BoxLayout(playerPanelContent1, BoxLayout.Y_AXIS));
 		playerPanelContent1.add(new JLabel(TextManager.PLAYER_1_NAME_TEXT_FR));
 		playerPanelContent1.add(player1);
+		playerPanelContent1.add(player1IsAI);
+		playerPanelContent1.add(player1AIDifficulty);
 
+		playerPanelContent2.setLayout(new BoxLayout(playerPanelContent2, BoxLayout.Y_AXIS));
 		playerPanelContent2.add(new JLabel(TextManager.PLAYER_2_NAME_TEXT_FR));
 		playerPanelContent2.add(player2);
+		playerPanelContent2.add(player2IsAI);
+		playerPanelContent2.add(player2AIDifficulty);
 
 		playerPanel.setBorder(BorderFactory.createTitledBorder(TextManager.PLAYER_LABEL_TEXT_FR));
 

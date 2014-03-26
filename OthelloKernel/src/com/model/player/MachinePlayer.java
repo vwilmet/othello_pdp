@@ -24,4 +24,9 @@ public class MachinePlayer implements PlayerType {
 	public String getPlayerType(){
 		return TextManager.MACHINE_PLAYER;	
 	}
+	
+	@Override
+	public String toString() {
+		return TextManager.MACHINE_LABEL_PLAYER;
+	}
 }

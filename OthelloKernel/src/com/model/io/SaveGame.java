@@ -100,7 +100,7 @@ public class SaveGame {
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
 		
 		try {
-			init.addContent(xmlSetIntValueToField(TextManager.AI_LEVEL_PART, this.gameSettings.getAIDifficulty()));
+			init.addContent(xmlSetIntValueToField(TextManager.AI_LEVEL_PART, this.gameSettings.getHelpAIDifficulty()));
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();

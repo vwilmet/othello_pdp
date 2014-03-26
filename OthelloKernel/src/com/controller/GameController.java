@@ -4,8 +4,12 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
+import utils.Application;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
@@ -30,7 +34,8 @@ public abstract class GameController{
 
 	protected GameSettings gameSettings;
 	protected TimerManager timer;
-	protected HashMap<String, ArtificialIntelligence> ia;
+	protected ArtificialIntelligence helpAI;
+	protected HashMap<String, ArtificialIntelligence> ai;
 
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -40,7 +45,7 @@ public abstract class GameController{
 
 		BoardObservable board = null;
 		timer = new TimerManagerImpl();
-		this.ia = new HashMap<String, ArtificialIntelligence>();
+		this.ai = new HashMap<String, ArtificialIntelligence>();
 
 		try {
 			board = bFacto.getInitialBoard(8,8);
@@ -50,7 +55,6 @@ public abstract class GameController{
 		}
 
 		try {
-
 			this.gameSettings = gsFacto.getGameSettings(
 					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER,1), 
 					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER,2),
@@ -58,7 +62,9 @@ public abstract class GameController{
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY,
 					pieceFacto.getArrayListOfPiece());
-			this.ia.put("John DOE", new ArtificialIntelligenceImpl());
+
+			this.ai.put("John DOE", new ArtificialIntelligenceImpl());
+
 			this.initializeIA();
 			this.setPlayablePiece();
 
@@ -82,13 +88,38 @@ public abstract class GameController{
 		for(Piece p : this.gameSettings.getGameBoard().getBlackPieces())
 			blackPiece.add(new Point(p.getPosX(), p.getPosY()));
 
-		for(ArtificialIntelligence ia_tmp : ia.values()){
-			ia_tmp.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
-			ia_tmp.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
-			ia_tmp.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
+		Set<String> key = ai.keySet();
+		Iterator<String> key_it = key.iterator();
+		String first_key = key_it.next();
+		ArtificialIntelligence ia_tmp = ai.get(first_key);
+
+		ia_tmp.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
+		ia_tmp.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
+		ia_tmp.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
+
+		for (Iterator<String> it = key_it; it.hasNext(); ) {
+			String current_key = it.next();
+			ArtificialIntelligence _ai = ai.get(current_key);
+			
+			if(this.gameSettings.getFirstPlayer().getLogin().equals(current_key))
+				_ai.chooseDifficulty(this.gameSettings.getPlayer1ArtificialIntelligenceDifficulty());
+			else
+				_ai.chooseDifficulty(this.gameSettings.getPlayer2ArtificialIntelligenceDifficulty());
+			_ai.initialize((ArtificialIntelligenceImpl)ia_tmp);
+			_ai.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
 		}
+
+		helpAI = new ArtificialIntelligenceImpl();
+		helpAI.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
+		helpAI.initialize((ArtificialIntelligenceImpl)ia_tmp);
+		helpAI.setMaxTime(this.gameSettings.getAIThinkingTime());
 	}
 
+	protected void stopAllAI(){
+		for(ArtificialIntelligence ai : this.ai.values())
+			ai.completeReflexion();
+	}
+	
 	protected abstract void initializeNewGame();
 
 	protected abstract void loadFileForGame();
@@ -106,27 +137,40 @@ public abstract class GameController{
 		return false;
 	}
 
+	protected abstract void playerCantPlay();
+
+	protected abstract void beforeDealingWithCurrentPlayer();
+	
 	protected void dealWithCurrentPlayer(){
+
+		this.beforeDealingWithCurrentPlayer();
+		
+		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0)
+			this.playerCantPlay();
 
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
+			String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
+			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
+			ArtificialIntelligence _ia = this.ai.get(userLogin);
+			Point p = _ia.nextMove(playerNumber);
 
-			ArtificialIntelligence _ia = this.ia.get(this.gameSettings.getCurrentPlayer().getLogin());
+			if(p == null)
+				JOptionPane.showMessageDialog(null, 
+						"L'IA ne peut plus jouer !", 
+						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
+			else{
+				if(onPiecePlayed(p.x, p.y)){
+					try {
+						_ia.notifyChosenMove(p, playerNumber);
+					} catch (WrongPlayablePositionException e) {
+						Log.error(e.getMessage());
+						e.printStackTrace();
+					}
 
-			Point p = _ia.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
-
-			if(onPiecePlayed(p.x, p.y)){
-				try {
-					toto: lol hih hi
-					//%2+ à gérer
-					_ia.notifyChosenMove(p, this.gameSettings.getCurrentPlayer().getPlayerNumber()%2+1);
-				} catch (WrongPlayablePositionException e) {
-					Log.error(e.getMessage());
-					e.printStackTrace();
+					this.onIAPlayed(userLogin, p.x, p.y);
+					this.dealWithCurrentPlayer();
 				}
-
-				this.onIAPlayed();
-				this.dealWithCurrentPlayer();	
 			}
 		}
 		/*
@@ -136,7 +180,7 @@ public abstract class GameController{
 
 	}
 
-	protected abstract void onIAPlayed();
+	protected abstract void onIAPlayed(String login, int i, int j);
 
 	protected void quickSaveOFCurrentBoard(){
 

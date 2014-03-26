@@ -9,7 +9,8 @@ import com.view.event.GameViewMenuEventListener;
 public interface GameView {
 	public void showFrame();
 	public void hideFrame();
-
+	public void refresh();
+	
 	public void setBoard(BoardObservable board);
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent);
 	public void setImageButtonEventListener(ButtonImageMenuEventListener event);
@@ -22,4 +23,8 @@ public interface GameView {
 	public void changeStatViewMessage(String message);
 	public void changeMessageViewContent(String content);
 	public void setMenuListener(GameViewMenuEventListener event);
+	
+	public void enableBackButton(boolean enable);
+	public void enableForwardButton(boolean enable);
+	public void enableResetButton(boolean enable);
 }

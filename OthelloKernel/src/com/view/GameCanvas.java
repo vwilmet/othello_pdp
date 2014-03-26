@@ -49,7 +49,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private Piece IAAdvisedPiece;
 
 	public GameCanvas(int canvasWidth, int canvasHeight){
-		setBackground (Color.white);
+		this.setBackground (Color.white);
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
 		this.onPause = false;
@@ -82,7 +82,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 					else if(p.isPlayable() && this.showPlayablePiece)
 						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
 					else{
-						g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
+						//g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
 						continue;
 					}
 					g.drawImage(
@@ -94,11 +94,10 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 									i*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
 									j*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
 									this);
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
+				//g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
 			}
 		}
 

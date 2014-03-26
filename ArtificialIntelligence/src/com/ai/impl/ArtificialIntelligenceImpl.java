@@ -29,7 +29,7 @@ import com.utils.WrongPlayablePositionException;
  * @author <ul><li>Nicolas Yvon</li></ul>
  * @version 1.0
  */
-public class ArtificialIntelligenceImplementation implements ArtificialIntelligence {
+public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 
 	/**
 	 * Stratégie utilisée par l'intelligence artificielle
@@ -142,6 +142,30 @@ public class ArtificialIntelligenceImplementation implements ArtificialIntellige
 	public void undoMove() {
 		if(ai != null)
 			ai.undoMove();
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#setMaxTime}
+	 */
+	@Override
+	public void setMaxTime(Integer time) {
+		ai.setMaxTime(time);
+	}
+
+	@Override
+	public Boolean initialize(ArtificialIntelligenceImpl ai) {
+		if(ai.ai instanceof RandomAI)
+			return this.ai.initialize((RandomAI) ai.ai);
+		else if(ai.ai instanceof NextBestMoveAI)
+			return this.ai.initialize((NextBestMoveAI) ai.ai);
+		else if(ai.ai instanceof BruteForceAI){
+			System.out.println(ai.ai);	
+			return this.ai.initialize((BruteForceAI) ai.ai);
+		}
+		else 
+			return false;
 	}
 
 }

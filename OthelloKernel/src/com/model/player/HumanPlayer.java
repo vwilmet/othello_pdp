@@ -17,11 +17,14 @@ public class HumanPlayer implements  PlayerType {
 	public void changeType(Player p) {
 		p.setMachine();
 	}
-	
+
 	@Override
 	public String getPlayerType(){
 		return TextManager.HUMAN_PLAYER;
 	}
 
-
+	@Override
+	public String toString() {
+		return TextManager.HUMAN_LABEL_PLAYER;
+	}
 }

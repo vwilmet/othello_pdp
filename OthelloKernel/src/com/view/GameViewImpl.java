@@ -308,6 +308,8 @@ public class GameViewImpl extends JFrame implements GameView{
 		actionBar.add(positionButton);
 	}
 
+	
+	
 	@Override
 	public void addMessageToMessageList(String element) {
 		this.addStringToInformationList(element);
@@ -354,5 +356,25 @@ public class GameViewImpl extends JFrame implements GameView{
 		reverseButton.setMouseListener(buttonEvent);
 		helpButton.setMouseListener(buttonEvent);
 		positionButton.setMouseListener(buttonEvent);
+	}
+
+	@Override
+	public void refresh() {
+		this.game.refreshView();
+	}
+
+	@Override
+	public void enableBackButton(boolean enable) {
+		this.backButton.enableButton(enable);
+	}
+
+	@Override
+	public void enableForwardButton(boolean enable) {
+		this.forwardButton.enableButton(enable);
+	}
+
+	@Override
+	public void enableResetButton(boolean enable) {
+		this.resetButton.enableButton(enable);
 	}
 }

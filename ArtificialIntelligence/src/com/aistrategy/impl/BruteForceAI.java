@@ -9,6 +9,9 @@ import java.util.Stack;
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;
+import com.timermanager.TimerManager;
+import com.timermanager.TimerManagerImpl;
+import com.timermanager.TimerActionEvent;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
@@ -19,38 +22,36 @@ import com.utils.WrongPlayablePositionException;
  * @author <ul><li>Nicolas Yvon</li></ul>
  * @version 1.0
  */
-public class BruteForceAI extends Thread implements ArtificialIntelligenceStrategy{
+public class BruteForceAI extends Thread implements ArtificialIntelligenceStrategy, TimerActionEvent{
 
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
-	TreeMove<Point> tree;
-	/**
-	 * Ensemble des pions blanc
-	 */
-	Set<Point> whitePiece;
-	
-	/**
-	 * Ensemble des pions noir
-	 */
-	Set<Point> blackPiece;
-	
-	/**
-	 * Taille en largeur du plateau
-	 */
-	Integer boardWidth;
-	
-	/**
-	 * Taille en hauteur du plateau
-	 */
-	Integer boardHeight;
+	protected TreeMove<Point> tree;
 	
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
-	Board initBoard;
-
-	private static final Integer depth = 9;
+	protected Board initBoard;
+	/**
+	 * Profondeur de recherche pour l'arbre de coups
+	 */
+	protected static final Integer depth = 9;
+	
+	/**
+	 * Minuteur pour le temps d'execution de l'algorithme.
+	 */
+	protected TimerManager tm;
+	
+	/**
+	 * Booleen pour la gestion de l'arrêt de l'execution de l'algorithme 
+	 */
+	protected Boolean stopAlgorithm;
+	
+	/**
+	 * Temps maximal pour l'execution de l'algorithme
+	 */
+	protected Integer maxTime; 
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -60,12 +61,16 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	@Override
 	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
-		if(p == null){
+		if(p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()){
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
 			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			//run();
+			p = tree.getSentinel().getBestMove();
 		}
-		return tree.getSentinel().getBestMove();
+		else if(tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty())
+			p = null;
+		return p;
 	}
 
 	/**
@@ -82,6 +87,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
 			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			//run();
 		}
 		while(p != null){
 			nextMoves.add(p);
@@ -126,18 +132,20 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
+		stopAlgorithm = false;
 		initBoard = new Board(boardWidth, boardHeight, whitePiece, blackPiece);
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1),1,initBoard));
 		tree.setSentinel(tree.getRootElement());
+		tm = new TimerManagerImpl();
 		//Integer finalScore = miniMax(depth, tree.getSentinel());
-		/*Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;*/
+		Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
-		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		run();
-		showBestMoveParty();
+		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
+		//showBestMoveParty();
 		return true;
 	}
 	
@@ -155,6 +163,12 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 			throw e;
 		}
 		else{
+			if(findNodeFromMove(tree.getSentinel(),pos) == null){
+				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,player%2 +1,new Board(tree.getSentinel().getBoard())); 
+				newSentinel.calculateTurnResult();
+				tree.getSentinel().addChild(newSentinel);
+				tree.getSentinel().setBestMove(pos);
+			}
 			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),pos);
 			tree.setSentinel(newSentinel);
 		}
@@ -180,7 +194,24 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 
+	/**
+	  ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
+	 */
+	@Override
+	public void setMaxTime(Integer time) {
+		this.maxTime = time;
+	}
 
+	/**
+	 * Fonction récursive permettant de créer un arbre représentant tous les coups possibles jouables
+	 * </br> puis calculant les meilleurs coups jouables en remontant depuis les feuilles 
+	 * </br> jusqu'à la racine le meilleur score de chaque noeud à partir des noeud fils.
+	 * @param depth correspond au nombre de coups à calculer, c'est à dire, la profondeur de l'arbre à visiter.
+	 * @param node correspond au noeud à partir duquel les coups possibles seront calculés.
+	 * @return le meilleur score obtenu à partir de ce noeud
+	 */
 	public Integer miniMax(Integer depth, NodeMove<Point> node){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore;
@@ -220,6 +251,12 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 
 	}
 
+	/**
+	 * Version amélioré de l'algorithme MiniMax {@link com.aistrategy.impl.BruteForceAI#miniMax(Integer, NodeMove)}.
+	 * @param depth correspond au nombre de coups à calculer, c'est à dire, la profondeur de l'arbre à visiter.
+	 * @param node correspond au noeud à partir duquel les coups possibles seront calculés.
+	 * @return le meilleur score obtenu à partir de ce noeud
+	 */
 	public Integer alphaBeta(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta){
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore=0;
@@ -415,10 +452,78 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
         System.out.println("Hello from a thread!");
         Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
+		/*if(this.maxTime != 0 || this.maxTime == null)
+			tm.startTimer(this.maxTime);*/
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
 		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+	/*	if(this.maxTime != 0 || this.maxTime == null)
+			tm.stopTimer();*/
 		System.out.println("Bye from a thread!");
     }
+
+
+	@Override
+	public void onTimerEnded() {
+		// TODO Implémenter l'arrêt de l'algo
+		this.stopAlgorithm = true;
+	}
+
+	@Override
+	public void onTimerStopped() {		
+	}
+
+	@Override
+	public Boolean initialize(RandomAI random) {
+		stopAlgorithm = false;
+		initBoard = random.initBoard;
+		tree = random.tree;
+		tm = new TimerManagerImpl();
+		//Integer finalScore = miniMax(depth, tree.getSentinel());
+		//Integer alpha = Integer.MIN_VALUE;
+		//Integer beta = Integer.MAX_VALUE;
+		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
+		//showBestMoveParty();
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(NextBestMoveAI nextBestMove) {
+		stopAlgorithm = false;
+		initBoard = nextBestMove.initBoard;
+		tree = nextBestMove.tree;
+		//tm = new TimerManagerImpl();
+		//Integer finalScore = miniMax(depth, tree.getSentinel());
+		//Integer alpha = Integer.MIN_VALUE;
+		//Integer beta = Integer.MAX_VALUE;
+		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
+		//showBestMoveParty();		
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(BruteForceAI brute) {
+		stopAlgorithm = false;
+		initBoard = brute.initBoard;
+		tree = brute.tree;
+		tm = new TimerManagerImpl();
+		//this.maxTime = brute.maxTime;
+		//Integer finalScore = miniMax(depth, tree.getSentinel());
+		//Integer alpha = Integer.MIN_VALUE;
+		//Integer beta = Integer.MAX_VALUE;
+		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
+		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
+		//showBestMoveParty();		
+		return true;
+	}
+
 	
 }

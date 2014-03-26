@@ -2,11 +2,9 @@ package com.aistrategy.impl;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;
@@ -26,32 +24,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
-	TreeMove<Point> tree;
-	
-	/**
-	 * Ensemble des pions blanc
-	 */
-	Set<Point> whitePiece;
-	
-	/**
-	 * Ensemble des pions noir
-	 */
-	Set<Point> blackPiece;
-	
-	/**
-	 * Taille en largeur du plateau
-	 */
-	Integer boardWidth;
-	
-	/**
-	 * Taille en hauteur du plateau
-	 */
-	Integer boardHeight;
+	protected TreeMove<Point> tree;
 	
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
-	Board initBoard;
+	protected Board initBoard;
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -89,11 +67,11 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Integer winStatus(Integer player) {
-		if(this.whitePiece.size() == this.blackPiece.size())
+		if(this.tree.getSentinel().getBoard().getNbWhitePiece() == this.tree.getSentinel().getBoard().getNbBlackPiece())
 			return 2;
-		else if(player == 1 && this.whitePiece.size() > this.blackPiece.size())
+		else if(player == 1 && this.tree.getSentinel().getBoard().getNbWhitePiece() > this.tree.getSentinel().getBoard().getNbBlackPiece())
 			return 1;
-		else if(player == 2 && this.blackPiece.size() > this.whitePiece.size())
+		else if(player == 2 && this.tree.getSentinel().getBoard().getNbBlackPiece() > this.tree.getSentinel().getBoard().getNbWhitePiece())
 			return 1;
 		else
 			return 0;
@@ -108,10 +86,6 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece,
 			Integer boardWidth, Integer boardHeight) {
-		this.whitePiece = whitePiece;
-		this.blackPiece = blackPiece;
-		this.boardWidth = boardWidth;
-		this.boardHeight = boardHeight;
 		initBoard = new Board(boardWidth, boardHeight, whitePiece, blackPiece);
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
@@ -132,7 +106,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			throw e;
 		}
 		else{
-			Board newBoard = new Board(initBoard);
+			Board newBoard = new Board(tree.getSentinel().getBoard());
 			newBoard.calculateTurnResult(pos, player);
 			NodeMove<Point> myNode = new NodeMove<Point>(pos,player,newBoard);
 			tree.getSentinel().addChild(myNode);
@@ -158,6 +132,38 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	@Override
 	public void undoMove() {
 		this.tree.setSentinel(this.tree.getSentinel().getParent());
+	}
+	
+	/**
+	  ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
+	
+	 */
+	@Override
+	public void setMaxTime(Integer time) {
+		// Fonction inutile pour cette IA
+	}
+
+	@Override
+	public Boolean initialize(RandomAI random) {
+		initBoard = random.initBoard;
+		tree = random.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(NextBestMoveAI nextBestMove) {
+		initBoard = nextBestMove.initBoard;
+		tree = nextBestMove.tree;
+		return true;
+	}
+
+	@Override
+	public Boolean initialize(BruteForceAI brute) {
+		initBoard = brute.initBoard;
+		tree = brute.tree;
+		return true;
 	}
 
 

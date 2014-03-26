@@ -1,15 +1,10 @@
 import utils.Application;
-import utils.FactoryHandlerException;
 
 import com.controller.GameController;
 import com.controller.GameControllerGraphical;
+import com.controller.InitGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.factory.interfaces.SaveGameFactory;
-import com.model.io.RestoreGame;
-import com.model.io.SaveGame;
 
 
 /**
@@ -24,6 +19,7 @@ public class Main {
 		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
+		
 		GameController game = new GameControllerGraphical();
 		
 		/*PieceFactory pieceFactory = FactoryProducer.getPieceFactory();
@@ -226,7 +222,7 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-		System.out.println("test de la lecure de partie");
+	/*	System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		RestoreGame rg = null;
@@ -251,6 +247,6 @@ public class Main {
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

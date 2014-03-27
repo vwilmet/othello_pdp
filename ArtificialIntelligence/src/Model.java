@@ -24,6 +24,7 @@ public class Model {
 		myAI2 = new ArtificialIntelligenceImpl();
 		myAI.chooseDifficulty(2);
 		myAI2.chooseDifficulty(2);
+		myAI.setMaxTime(1000);
 		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		myAI2.initialize(myAI);
 
@@ -199,6 +200,8 @@ public class Model {
 			myAI.notifyChosenMove(p, 1);
 			//myAI2.notifyChosenMove(p, 1);
 		}
+		
+		System.out.println("Fin");
 
 	}
 

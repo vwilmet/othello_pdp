@@ -25,12 +25,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
 	protected TreeMove<Point> tree;
-	
+
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
 	protected Board initBoard;
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -47,7 +47,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		else
 			return null;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -59,7 +59,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		l.add(nextMove(player));
 		return l;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -77,7 +77,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			return 0;
 
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -92,7 +92,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		tree.setSentinel(tree.getRootElement());
 		return true;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -131,15 +131,15 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public void undoMove() {
-		System.out.println(this.tree.getSentinel().getParent());
-		this.tree.setSentinel(this.tree.getSentinel().getParent());
+		if(!this.tree.getSentinel().equals(this.tree.getRootElement()))
+			this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
-	
+
 	/**
-	  ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
-	
+
 	 */
 	@Override
 	public void setMaxTime(Integer time) {

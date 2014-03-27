@@ -25,32 +25,32 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 * Arbre de coup représentant l'ensemble d'une partie
 	 */
 	protected TreeMove<Point> tree;
-	
+
 	/**
 	 * Ensemble des pions blanc
 	 */
 	//protected Set<Point> whitePiece;
-	
+
 	/**
 	 * Ensemble des pions noir
 	 */
 	//protected Set<Point> blackPiece;
-	
+
 	/**
 	 * Taille en largeur du plateau
 	 */
 	//protected Integer boardWidth;
-	
+
 	/**
 	 * Taille en hauteur du plateau
 	 */
 	//protected Integer boardHeight;
-	
+
 	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
 	protected Board initBoard;
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -83,7 +83,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		}
 		return tree.getSentinel().getBestMove();
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -95,7 +95,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		l.add(nextMove(player));
 		return l;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -113,7 +113,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			return 0;
 
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -128,7 +128,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		tree.setSentinel(tree.getRootElement());
 		return true;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -151,8 +151,8 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			tree.setSentinel(findNodeFromMove(tree.getSentinel(),pos));
 		}
 	}
-	
-	
+
+
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -163,7 +163,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	public Boolean completeReflexion() {
 		return true;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
@@ -171,20 +171,21 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public void undoMove() {
-		this.tree.setSentinel(this.tree.getSentinel().getParent());
+		if(!this.tree.getSentinel().equals(this.tree.getRootElement()))
+			this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
-	
+
 	/**
-	  ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
-	
+
 	 */
 	@Override
 	public void setMaxTime(Integer time) {
 		// Fonction inutile pour cette IA
 	}
-	
+
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p){
 		NodeMove<Point> n = null;
 		for(NodeMove<Point> child : node.getChildren()){

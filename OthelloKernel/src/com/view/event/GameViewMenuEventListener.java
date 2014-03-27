@@ -10,8 +10,6 @@ public interface GameViewMenuEventListener {
 	
 	public void onOpenFileAndChoosePositionItemMenuPressed();
 	
-	public void onOpenPreConfFileItemMenuPressed();
-	
 	public void onOptionItemMenuPressed();
 	
 	public void onHelpItemMenuPressed();

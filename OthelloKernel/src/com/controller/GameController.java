@@ -54,7 +54,7 @@ public abstract class GameController{
 		this.files.init(false);
 
 		try {
-			board = bFacto.getInitialBoard(8,8);
+			board = bFacto.getInitialBoard(4, 4);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -146,18 +146,22 @@ public abstract class GameController{
 
 	protected void dealWithCurrentPlayer(){
 
+		System.out.println("[dealWithCurrentPlayer]");
+		
 		this.beforeDealingWithCurrentPlayer();
 
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
 			this.playerCantPlay();
 			return;
 		}
+		
+		System.out.println(this.gameSettings.getCurrentPlayer());
+		
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
 			String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-			ArtificialIntelligence _ia = this.ai.get(userLogin);
-			Point p = _ia.nextMove(playerNumber);
+			Point p = helpAI.nextMove(playerNumber);
 
 			if(p == null)
 				JOptionPane.showMessageDialog(null, 
@@ -166,7 +170,7 @@ public abstract class GameController{
 			else{
 				if(onPiecePlayed(p.x, p.y)){
 					try {
-						_ia.notifyChosenMove(p, playerNumber);
+						helpAI.notifyChosenMove(p, playerNumber);
 					} catch (WrongPlayablePositionException e) {
 						Log.error(e.getMessage());
 						e.printStackTrace();
@@ -189,7 +193,7 @@ public abstract class GameController{
 		String boardContent = "";
 
 		for(Piece p : this.gameSettings.getGameHistory())
-			boardContent += p.getPosX() + "-" + p.getPosY() + "\n";
+			boardContent += "J" + p.getColor().getColor() + ":" + p.getPosX() + "-" + p.getPosY() + "\n";
 
 		if(files.save("history_position.txt", "./", boardContent)){
 			this.onAutoSaveCurrentBoardSuccess();
@@ -219,16 +223,13 @@ public abstract class GameController{
 			this.ai.put(this.gameSettings.getSecondPlayer().getLogin(),
 					new ArtificialIntelligenceImpl());
 		this.initializeIA();
-
-
-		this.dealWithCurrentPlayer();
 	}
 
 	protected void saveCurrentBoard(String path){
 		//TODO Module benj
 		SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
 		SaveGame sg = null;
-
+		
 		try {
 			sg = sgFacto.getSaveGame(this.gameSettings, path);
 			sg.saveGameToBackupFile();
@@ -237,7 +238,7 @@ public abstract class GameController{
 			e.printStackTrace();
 		}
 	}
-
+	
 	private ArrayList<Piece> getReversePieceAround(Piece origin){
 		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;

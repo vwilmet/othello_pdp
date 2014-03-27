@@ -12,7 +12,6 @@ import utils.Application;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
-import com.ai.impl.ArtificialIntelligenceImpl;
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
@@ -45,7 +44,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setMenuListener(this);
 		this.gameView.setGameMouseEventListener(this);
 		this.gameView.showFrame();
-
 
 		this.updateInformationField();
 		this.dealWithCurrentPlayer();
@@ -85,15 +83,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				e.printStackTrace();
 			}
 			rg.loadGameFromBackupFile();
-			
+
 			gameSettings = rg.getGameSettings();
 			this.gameView.setBoard(gameSettings.getGameBoard());
-
-			this.initializeCompletGameAfterNewConfiguration();
-
-			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
-
-			this.updateInformationField();
 		}
 	}
 
@@ -139,12 +131,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(valid){
 			this.gameSettings = game;
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
-
 			this.initializeCompletGameAfterNewConfiguration();
-
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 			this.updateInformationField();
-
+			this.dealWithCurrentPlayer();
 		}
 	}
 
@@ -225,16 +215,20 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onHelpIAButtonCliked() {
-		Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
-		Piece piece = this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
-		this.gameView.setIAAdvisedPiece(piece);
-		this.gameView.refresh();
+		if(this.gameSettings.getGameBoard().getPlayablePieces().size() != 0){
+			Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
+			Piece piece = this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
+			this.gameView.setIAAdvisedPiece(piece);
+			this.gameView.refresh();
+		}
 	}
 
 	@Override
 	public void onPositionButtonCliked() {
 		if(this.gameSettings.getHistoryPosition()>=0)
 			chooseHistoryBoardPosition();
+		else
+			this.addMessageToListForUser("Vous devez jouer au moins un coup pour choisir une position !!");
 	}
 
 	@Override
@@ -250,7 +244,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onNewGameItemMenuPressed() {
 		this.initializeNewGame();
 	}
-
+	
 	@Override
 	public void onSaveGameUnderItemMenuPressed() {
 
@@ -272,18 +266,16 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onOpenFileAndContinueItemMenuPressed() {
 		this.loadFileForGame();
+		this.initializeCompletGameAfterNewConfiguration();
+		this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
+		this.updateInformationField();
+		this.dealWithCurrentPlayer();
 	}
 
 	@Override
 	public void onOpenFileAndChoosePositionItemMenuPressed() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onOpenPreConfFileItemMenuPressed() {
-		// TODO Auto-generated method stub
-
+		this.loadFileForGame();
+		this.onPositionButtonCliked();
 	}
 
 	@Override
@@ -313,14 +305,13 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
 			int position) {
-
+		
 		int recoil = this.gameSettings.getBoardHistoryPosition() - position;
-
-		this.gameSettings.setHistoryPosition(position);
-		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
+		
+		this.gameSettings.setHistoryPosition(position-1);
+		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.setPlayablePiece();
 		
-		//TODO Bug IA
 		for(int i = 0; i < recoil; i++){
 			this.helpAI.undoMove();
 		}
@@ -369,7 +360,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		message += (this.gameSettings.getFirstPlayer().getPiecesNumber() > this.gameSettings.getSecondPlayer().getPiecesNumber()) ? this.gameSettings.getFirstPlayer().getLogin() : this.gameSettings.getSecondPlayer().getLogin();
 
 		message += " à remporter le match!!!";
-		
+
 		if(this.gameSettings.getFirstPlayer().getPiecesNumber() == this.gameSettings.getSecondPlayer().getPiecesNumber())
 			message = "Partie terminée !!!\n\n Match nul!! Mais alors vraiement nul ... !";
 
@@ -401,6 +392,4 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onSaveHistoryPositionItemMenuPressed() {
 		this.saveHistoryPosition();
 	}
-
-
 }

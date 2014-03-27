@@ -147,6 +147,16 @@ public class GameSettings {
 
 	public void setHistoryPosition(int sentinel){
 		this.sentinel = sentinel;
+		
+		if(this.sentinel == -1)
+			this.setCurrentPlayer(this.player1);
+		else if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
+			this.setCurrentPlayer(this.player1);
+		else
+			this.setCurrentPlayer(this.player2);
+		
+		this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
+		this.gameBoard.notifyObservers();
 	}
 
 	public BoardObservable getHistoryBoard(int position){
@@ -178,7 +188,6 @@ public class GameSettings {
 		return true;
 	}
 
-
 	public boolean canGoForward(){
 		if(this.gameHistory.size() == 0 || (this.gameHistory.size()-1) == this.sentinel)
 			return false;
@@ -193,11 +202,6 @@ public class GameSettings {
 	}
 
 	public boolean getBackInHistory(){
-
-		System.out.println("Sentinel : " + this.sentinel);
-		System.out.println("gameHistorySize: " + this.gameHistory.size());
-		System.out.println("Board history size: " + this.gameBoardHistory.size());
-
 
 		if(this.sentinel >= 0){
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
@@ -231,7 +235,6 @@ public class GameSettings {
 			else
 				this.setCurrentPlayer(this.player2);
 
-			//this.changePlayer();
 			return true;
 		}
 
@@ -264,21 +267,32 @@ public class GameSettings {
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
 	public void manageBoardHistory(int x, int y){
-
+		System.out.println("[manageBoardHistory]");
+		
 		Piece p = this.gameBoard.getBoard()[x][y];
 		if(this.gameHistory.size()-1 > this.sentinel){
 			this.sentinel++;
+			
+			for(Piece p_ : gameHistory)
+				System.out.println("Piece game history : " + p_);
+			
+			System.out.println("Sentinel  : " + sentinel);
+			System.out.println("p : " + p);
+			System.out.println("hg p : " + this.gameHistory.get(this.sentinel));
+			
 			if(!this.gameHistory.get(this.sentinel).equals(p)){
+				System.out.println("On créer un nouveau future");
 				for(int i = this.sentinel, bordI = this.sentinel+1; i < this.gameHistory.size(); i++, bordI++){
 					System.out.println( "Remove piece : " + this.gameHistory.remove(i));
 					System.out.println( "Remove Board : " + this.gameBoardHistory.remove(bordI));
 				}
-				this.gameHistory.add(this.sentinel, p);
+				this.gameHistory.add(this.sentinel, p.clone());
 				this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
-			}
+			}else
+				System.out.println("On recrit l'ancien future ... :p!");
 		}else{
 			this.sentinel++;
-			this.gameHistory.add(this.sentinel, p);
+			this.gameHistory.add(this.sentinel, p.clone());
 			this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
 		}
 	}

@@ -62,7 +62,6 @@ public class GameViewImpl extends JFrame implements GameView{
 	private JMenuItem saveGame;
 	private JMenuItem continueGame;
 	private JMenuItem choosePosition;
-	private JMenuItem preConfFile;
 
 	private JLabel messageLabel;
 	private JLabel statLabel;
@@ -191,7 +190,6 @@ public class GameViewImpl extends JFrame implements GameView{
 		this.openFile = new JMenu(TextManager.OPEN_FILE_TEXT_FR);
 		this.continueGame = new JMenuItem(TextManager.CONTINUE_GAME_TEXT_FR);
 		this.choosePosition = new JMenuItem(TextManager.CHOOSE_POS_TEXT_FR);
-		this.preConfFile = new JMenuItem(TextManager.PRE_CONF_FILE_TEXT_FR);
 		this.saveGame = new JMenuItem(TextManager.SAVE_GAME_TEXT_FR);
 
 		//option part
@@ -216,7 +214,6 @@ public class GameViewImpl extends JFrame implements GameView{
 		
 		this.openFile.add(continueGame);
 		this.openFile.add(choosePosition);
-		this.openFile.add(preConfFile);
 		this.menu.add(openFile);
 		
 		this.menu.add(savePositionHistory);
@@ -271,14 +268,6 @@ public class GameViewImpl extends JFrame implements GameView{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(menuEvent != null)menuEvent.onOpenFileAndChoosePositionItemMenuPressed();
-			}
-		});
-
-		preConfFile.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(menuEvent != null)menuEvent.onOpenPreConfFileItemMenuPressed();
 			}
 		});
 

@@ -218,5 +218,8 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		return true;
 	}
 
+	public String boardToString(){
+		return this.tree.getSentinel().printBoard();
+	}
 
 }

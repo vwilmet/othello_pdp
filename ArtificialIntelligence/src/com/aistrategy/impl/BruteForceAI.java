@@ -516,5 +516,9 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		return true;
 	}
 
+	public String boardToString(){
+		return this.tree.getSentinel().getBoard().printBoard();
+	}
+
 
 }

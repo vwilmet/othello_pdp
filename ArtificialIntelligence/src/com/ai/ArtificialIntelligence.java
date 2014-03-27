@@ -98,6 +98,9 @@ public interface ArtificialIntelligence {
 	 * @param time le temps en milliseconde.
 	 */
 	public void setMaxTime(Integer time);
+	
+	public String boardToString();
+
 
 }
 

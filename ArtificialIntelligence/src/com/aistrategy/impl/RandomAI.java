@@ -166,6 +166,11 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		tree = brute.tree;
 		return true;
 	}
+	
+	public String boardToString(){
+		return this.tree.getSentinel().printBoard();
+	}
+
 
 
 }

@@ -168,4 +168,9 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 			return false;
 	}
 
+	public String boardToString(){
+		return ai.boardToString();
+	}
+
+	
 }

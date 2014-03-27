@@ -24,6 +24,8 @@ public interface TextManager {
 	// menu part
 	public static final String MENU_TEXT_FR = "Menu";
 	public static final String NEW_GAME_TEXT_FR = "Nouvelle partie";
+	public static final String CONFIGURE_BOARD_FR = "Configurer une partie";
+	public static final String SAVE_POSITON_TEXT_FR = "Enregistrer la suite de coup";
 	public static final String OPEN_FILE_TEXT_FR = "Ouvrir";
 	public static final String CONTINUE_GAME_TEXT_FR = "Continuer";
 	public static final String CHOOSE_POS_TEXT_FR = "Choisir la position";

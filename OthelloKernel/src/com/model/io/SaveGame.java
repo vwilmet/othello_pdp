@@ -82,7 +82,7 @@ public class SaveGame {
 			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), TextManager.HISTORY_PART));
 		
 		FilesManager fmanager = new FilesManagerImpl();
-		if (fmanager.save(this.saveFileName + TextManager.DOT_XML, TextManager.DOT, this.toString()) == false){
+		if (fmanager.save(this.saveFileName + TextManager.DOT_XML, "", this.toString()) == false){
 			Log.error(TextManager.SAVE_FATAL_ERROR_FR);
 		}
 	}

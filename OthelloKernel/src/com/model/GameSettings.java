@@ -178,7 +178,7 @@ public class GameSettings {
 		return true;
 	}
 
-	
+
 	public boolean canGoForward(){
 		if(this.gameHistory.size() == 0 || (this.gameHistory.size()-1) == this.sentinel)
 			return false;
@@ -211,7 +211,7 @@ public class GameSettings {
 			this.sentinel--;
 			return true;
 		}
-		
+
 		if(this.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
 			getBackInHistory();
 		}
@@ -284,17 +284,17 @@ public class GameSettings {
 	}
 
 	public String toString() {
-		String res = "Joueur 1 : " + this.player1.toString() + "\n";
-		res += "Joueur 2 : " + this.player2.toString() + "\n";
-		res += "Plateau de jeu : \n" + this.gameBoard.toString();
+		String res = "\tJoueur 1 : " + this.player1.toString() + "\n";
+		
+		if(this.player1.getPlayerType() instanceof MachinePlayer)
+			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player1ArtificialIntelligenceDifficulty] + "\n";
+		
+		res += "\tJoueur 2 : " + this.player2.toString() + "\n";
+		if(this.player2.getPlayerType() instanceof MachinePlayer)
+			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player2ArtificialIntelligenceDifficulty] + "\n\n";
 
-		res +="Historique des Coups : " ;
-		for (Piece p : this.gameHistory){
-			res += "("+ p.getPosX() + ":" + p.getPosY() + p.getColor().toString() + ")";
-		}
-
-		res += "Temps de réflexion de l'IA : " + this.artificialIntelligenceThinkingTime + "\n";
-		res += "Difficulté de l'IA d'aide: " + this.helpArtificialIntelligenceDifficulty + "\n";
+		res += "Temps de réflexion des IA : " + this.artificialIntelligenceThinkingTime + "\n";
+		res += "Difficulté de l'IA d'aide: " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.helpArtificialIntelligenceDifficulty] + "\n";
 		return res;
 	}
 

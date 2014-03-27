@@ -137,7 +137,7 @@ public class RestoreGame {
 		FilesManager fmanager = new FilesManagerImpl();
 		fmanager.init(false);
 
-		gameGrid = fmanager.load(this.gameFileName, TextManager.DOT_SLASH);
+		gameGrid = fmanager.load(this.gameFileName, "");
 		
 		if (gameGrid.equals(FilesManager.ERROR_ON_LOAD_FILE_NOT_EXISTING)){
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE, 

@@ -56,6 +56,8 @@ public class GameViewImpl extends JFrame implements GameView{
 	// Menu part
 	private JMenu menu;
 	private JMenuItem newGame;
+	private JMenuItem configureBoard;
+	private JMenuItem savePositionHistory;
 	private JMenu openFile;
 	private JMenuItem saveGame;
 	private JMenuItem continueGame;
@@ -182,6 +184,10 @@ public class GameViewImpl extends JFrame implements GameView{
 		// menu part
 		this.menu = new JMenu(TextManager.MENU_TEXT_FR);
 		this.newGame = new JMenuItem(TextManager.NEW_GAME_TEXT_FR);
+		
+		this.savePositionHistory = new JMenuItem(TextManager.SAVE_POSITON_TEXT_FR);
+		this.configureBoard = new JMenuItem(TextManager.CONFIGURE_BOARD_FR);
+		
 		this.openFile = new JMenu(TextManager.OPEN_FILE_TEXT_FR);
 		this.continueGame = new JMenuItem(TextManager.CONTINUE_GAME_TEXT_FR);
 		this.choosePosition = new JMenuItem(TextManager.CHOOSE_POS_TEXT_FR);
@@ -206,10 +212,14 @@ public class GameViewImpl extends JFrame implements GameView{
 
 	private void manageMenu(){
 		this.menu.add(newGame);
+		this.menu.add(configureBoard);
+		
 		this.openFile.add(continueGame);
 		this.openFile.add(choosePosition);
 		this.openFile.add(preConfFile);
 		this.menu.add(openFile);
+		
+		this.menu.add(savePositionHistory);
 		this.menu.add(saveGame);
 
 		this.menuBar.add(menu);
@@ -224,6 +234,22 @@ public class GameViewImpl extends JFrame implements GameView{
 			}
 		});
 
+		savePositionHistory.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(menuEvent != null)menuEvent.onSaveHistoryPositionItemMenuPressed();
+			}
+		});
+		
+		configureBoard.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(menuEvent != null)menuEvent.onConfigureBoardItemMenuPressed();
+			}
+		});
+		
 		saveGame.addActionListener(new ActionListener() {
 
 			@Override

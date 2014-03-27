@@ -15,4 +15,8 @@ public interface GameViewMenuEventListener {
 	public void onOptionItemMenuPressed();
 	
 	public void onHelpItemMenuPressed();
+
+	public void onConfigureBoardItemMenuPressed();
+
+	public void onSaveHistoryPositionItemMenuPressed();
 }

@@ -9,13 +9,14 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
-import utils.Application;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
 import com.ai.ArtificialIntelligence;
 import com.ai.impl.ArtificialIntelligenceImpl;
 import com.error_manager.Log;
+import com.manager.FilesManager;
+import com.manager.FilesManagerImpl;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
@@ -23,6 +24,8 @@ import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
+import com.model.factory.interfaces.SaveGameFactory;
+import com.model.io.SaveGame;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
@@ -36,6 +39,8 @@ public abstract class GameController{
 	protected TimerManager timer;
 	protected ArtificialIntelligence helpAI;
 	protected HashMap<String, ArtificialIntelligence> ai;
+	protected FilesManager files = new FilesManagerImpl();
+
 
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -44,8 +49,9 @@ public abstract class GameController{
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 
 		BoardObservable board = null;
-		timer = new TimerManagerImpl();
+		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
+		this.files.init(false);
 
 		try {
 			board = bFacto.getInitialBoard(8,8);
@@ -78,7 +84,7 @@ public abstract class GameController{
 	}
 
 	protected void initializeIA(){
-
+		String current_key;
 		Set<Point> 	whitePiece = new HashSet<Point>(),
 				blackPiece = new HashSet<Point>();
 
@@ -88,38 +94,34 @@ public abstract class GameController{
 		for(Piece p : this.gameSettings.getGameBoard().getBlackPieces())
 			blackPiece.add(new Point(p.getPosX(), p.getPosY()));
 
+		helpAI = new ArtificialIntelligenceImpl();
+		helpAI.chooseDifficulty(this.gameSettings.getHelpAIDifficulty());
+		helpAI.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
+		helpAI.setMaxTime(this.gameSettings.getAIThinkingTime());
+
 		Set<String> key = ai.keySet();
 		Iterator<String> key_it = key.iterator();
-		String first_key = key_it.next();
-		ArtificialIntelligence ia_tmp = ai.get(first_key);
-
-		ia_tmp.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
-		ia_tmp.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
-		ia_tmp.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
 
 		for (Iterator<String> it = key_it; it.hasNext(); ) {
-			String current_key = it.next();
+			current_key = it.next();
 			ArtificialIntelligence _ai = ai.get(current_key);
-			
+
 			if(this.gameSettings.getFirstPlayer().getLogin().equals(current_key))
 				_ai.chooseDifficulty(this.gameSettings.getPlayer1ArtificialIntelligenceDifficulty());
 			else
 				_ai.chooseDifficulty(this.gameSettings.getPlayer2ArtificialIntelligenceDifficulty());
-			_ai.initialize((ArtificialIntelligenceImpl)ia_tmp);
+
+			_ai.initialize((ArtificialIntelligenceImpl)helpAI);
 			_ai.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
 		}
 
-		helpAI = new ArtificialIntelligenceImpl();
-		helpAI.chooseDifficulty(GameSettings.DEFAULT_IA_DIFFICULTY);
-		helpAI.initialize((ArtificialIntelligenceImpl)ia_tmp);
-		helpAI.setMaxTime(this.gameSettings.getAIThinkingTime());
 	}
 
 	protected void stopAllAI(){
 		for(ArtificialIntelligence ai : this.ai.values())
 			ai.completeReflexion();
 	}
-	
+
 	protected abstract void initializeNewGame();
 
 	protected abstract void loadFileForGame();
@@ -132,6 +134,7 @@ public abstract class GameController{
 				this.gameSettings.manageBoardHistory(i, j);
 				this.gameSettings.changePlayer();
 				this.setPlayablePiece();
+				this.quickSaveOFCurrentBoard();
 				return true;
 			}
 		return false;
@@ -140,14 +143,15 @@ public abstract class GameController{
 	protected abstract void playerCantPlay();
 
 	protected abstract void beforeDealingWithCurrentPlayer();
-	
+
 	protected void dealWithCurrentPlayer(){
 
 		this.beforeDealingWithCurrentPlayer();
-		
-		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0)
-			this.playerCantPlay();
 
+		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
+			this.playerCantPlay();
+			return;
+		}
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
 			String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
@@ -176,19 +180,62 @@ public abstract class GameController{
 		/*
 		 * Sinon c'est un joueur humain. Du coup on attend qu'il joue et lorsqu'il joue l'évenement GameControllerGraphical.onLeftMouseButtonPressed est soulevé.
 		 */
-
-
 	}
 
 	protected abstract void onIAPlayed(String login, int i, int j);
 
-	protected void quickSaveOFCurrentBoard(){
+	protected void saveHistoryPosition(){
 
+		String boardContent = "";
+
+		for(Piece p : this.gameSettings.getGameHistory())
+			boardContent += p.getPosX() + "-" + p.getPosY() + "\n";
+
+		if(files.save("history_position.txt", "./", boardContent)){
+			this.onAutoSaveCurrentBoardSuccess();
+		}else{
+			Log.error("Echec de la sauvegarde automatique des coups joués !!");
+			this.onAutoSaveCurrentBoardFailed();
+		}
+	}
+
+	protected void quickSaveOFCurrentBoard(){
 
 	}
 
-	protected void saveCurrentBoard(String path){
+	protected abstract void onAutoSaveCurrentBoardFailed();
+	protected abstract void onAutoSaveCurrentBoardSuccess();
 
+	protected void initializeCompletGameAfterNewConfiguration(){
+		this.setPlayablePiece();
+
+		this.ai.clear();
+
+		if(this.gameSettings.getFirstPlayer().getPlayerType() instanceof MachinePlayer)
+			this.ai.put(this.gameSettings.getFirstPlayer().getLogin(),
+					new ArtificialIntelligenceImpl());
+
+		if(this.gameSettings.getSecondPlayer().getPlayerType() instanceof MachinePlayer)
+			this.ai.put(this.gameSettings.getSecondPlayer().getLogin(),
+					new ArtificialIntelligenceImpl());
+		this.initializeIA();
+
+
+		this.dealWithCurrentPlayer();
+	}
+
+	protected void saveCurrentBoard(String path){
+		//TODO Module benj
+		SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
+		SaveGame sg = null;
+
+		try {
+			sg = sgFacto.getSaveGame(this.gameSettings, path);
+			sg.saveGameToBackupFile();
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	private ArrayList<Piece> getReversePieceAround(Piece origin){

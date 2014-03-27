@@ -22,6 +22,7 @@ import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
+import com.publisher.generator.GenerateXML;
 import com.utils.WrongPlayablePositionException;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
@@ -76,7 +77,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
 
 			try {
 				rg = rgFacto.getRestoreGame(chooser.getSelectedFile().getPath());
@@ -85,9 +85,15 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				e.printStackTrace();
 			}
 			rg.loadGameFromBackupFile();
-
+			
 			gameSettings = rg.getGameSettings();
 			this.gameView.setBoard(gameSettings.getGameBoard());
+
+			this.initializeCompletGameAfterNewConfiguration();
+
+			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
+
+			this.updateInformationField();
 		}
 	}
 
@@ -95,13 +101,13 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onLeftMouseButtonPressed(int i, int j) {
 
 		if(i!=-1 && j != -1){
-			String IALogin = this.gameSettings.getOpponentPlayer().getLogin();
 			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-			
+
 			if(onPiecePlayed(i, j)){
 				this.gameView.setIAAdvisedPiece(null);
+
 				try {
-					this.ai.get(IALogin).notifyChosenMove(new Point(i, j), playerNumber);
+					this.helpAI.notifyChosenMove(new Point(i, j), playerNumber);
 				} catch (WrongPlayablePositionException e) {
 					Log.error(e.getMessage());
 					e.printStackTrace();
@@ -133,22 +139,12 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(valid){
 			this.gameSettings = game;
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
-			this.setPlayablePiece();
 
-			this.ai.clear();
-
-			if(this.gameSettings.getFirstPlayer().getPlayerType() instanceof MachinePlayer)
-				this.ai.put(this.gameSettings.getFirstPlayer().getLogin(),
-						new ArtificialIntelligenceImpl());
-
-			if(this.gameSettings.getSecondPlayer().getPlayerType() instanceof MachinePlayer)
-				this.ai.put(this.gameSettings.getSecondPlayer().getLogin(),
-						new ArtificialIntelligenceImpl());
-			this.initializeIA();
+			this.initializeCompletGameAfterNewConfiguration();
 
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 			this.updateInformationField();
-			this.dealWithCurrentPlayer();
+
 		}
 	}
 
@@ -184,7 +180,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 					Log.error(e.getMessage());
 					e.printStackTrace();
 				}
-				
+
 				this.dealWithCurrentPlayer();
 			}
 		}else
@@ -200,9 +196,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				this.setPlayablePiece();
 				this.updateInformationField();
 				//On revient deux coups en arrière si l'adversaire est une IA
-				this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
-				//if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
-				//	this.ai.get(this.gameSettings.getOpponentPlayer().getLogin()).undoMove();
+
+				this.helpAI.undoMove();
+				if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
+					this.helpAI.undoMove();
 
 				this.dealWithCurrentPlayer();
 			}
@@ -268,7 +265,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
-			this.saveCurrentBoard(chooser.getSelectedFile().getPath() + ".xml");
+			this.saveCurrentBoard(chooser.getSelectedFile().getPath());
 		}
 	}
 
@@ -292,13 +289,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onOptionItemMenuPressed() {
 		String message = 	"Joueur____________________" + "\n" + 
-				this.gameSettings.getFirstPlayer() + "\n\n" + 
-				this.gameSettings.getSecondPlayer() + "\n\n" +
+				this.gameSettings + "\n\n" +
 				"Othellier_________________" + "\n" +
 				"Nombre de pion : " + (this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) + "\n" +
 				"Taille : " + this.gameSettings.getGameBoard().getSizeX() + "x" + this.gameSettings.getGameBoard().getSizeY() + "\n" +
-				"Difficulté de l'IA : " + this.gameSettings.getHelpAIDifficulty() + "\n" + 
-				"Temps de réflexion de l'IA : " + this.gameSettings.getAIThinkingTime() + "\n\n" + 
 				"PC_____________________" + "\n" +
 				Application.getInstance().toString();
 
@@ -320,13 +314,21 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
 			int position) {
 
+		int recoil = this.gameSettings.getBoardHistoryPosition() - position;
+
 		this.gameSettings.setHistoryPosition(position);
 		this.gameView.setBoard(this.gameSettings.getHistoryBoard(position));
 		this.setPlayablePiece();
-
+		
+		//TODO Bug IA
+		for(int i = 0; i < recoil; i++){
+			this.helpAI.undoMove();
+		}
+		
+		this.updateInformationField();
 		this.dealWithCurrentPlayer();
 	}
-
+	
 	private void updateInformationField(){
 		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
@@ -362,12 +364,42 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	protected void playerCantPlay() {
+		String message = "Partie terminée !!! \n\n Le joueur : ";
 
+		message += (this.gameSettings.getFirstPlayer().getPiecesNumber() > this.gameSettings.getSecondPlayer().getPiecesNumber()) ? this.gameSettings.getFirstPlayer().getLogin() : this.gameSettings.getSecondPlayer().getLogin();
+
+		message += " à remporter le match!!!";
+		
+		if(this.gameSettings.getFirstPlayer().getPiecesNumber() == this.gameSettings.getSecondPlayer().getPiecesNumber())
+			message = "Partie terminée !!!\n\n Match nul!! Mais alors vraiement nul ... !";
+
+		JOptionPane.showMessageDialog(null, message, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
 	protected void beforeDealingWithCurrentPlayer() {
 		//this.manageButtonState();
+	}
+
+	@Override
+	protected void onAutoSaveCurrentBoardFailed() {
+		this.addMessageToListForUser("Echec de la sauvegarde automatique de la liste de coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
+	}
+
+	@Override
+	protected void onAutoSaveCurrentBoardSuccess() {
+		this.addMessageToListForUser("Réussite de la sauvegarde des coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
+	}
+
+	@Override
+	public void onConfigureBoardItemMenuPressed() {
+		GenerateXML gxml = new GenerateXML();
+		gxml.boardMaker();
+	}
+
+	@Override
+	public void onSaveHistoryPositionItemMenuPressed() {
+		this.saveHistoryPosition();
 	}
 
 

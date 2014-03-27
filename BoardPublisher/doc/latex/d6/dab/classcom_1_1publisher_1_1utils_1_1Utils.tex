@@ -1,0 +1,101 @@
+\hypertarget{classcom_1_1publisher_1_1utils_1_1Utils}{\section{Référence de la classe com.\-publisher.\-utils.\-Utils}
+\label{classcom_1_1publisher_1_1utils_1_1Utils}\index{com.\-publisher.\-utils.\-Utils@{com.\-publisher.\-utils.\-Utils}}
+}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classcom_1_1publisher_1_1utils_1_1Utils_afd3e752b26b6bd265fa6317a22a285c1}{get\-Int\-User\-Choice} (String message\-To\-Print, String optional\-Message, int lower\-Bound, int upper\-Bound, Scanner sc)
+\item 
+static Element \hyperlink{classcom_1_1publisher_1_1utils_1_1Utils_a48c46510d34ef280dc7702e747247621}{xml\-Set\-Int\-Value\-To\-Field} (String part, int value)
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres privées statiques}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classcom_1_1publisher_1_1utils_1_1Utils_a6694d513fd607577d3146a91c7c45338}{get\-User\-Int\-Entries} (Scanner sc)
+\end{DoxyCompactItemize}
+\subsection*{Attributs privés statiques}
+\begin{DoxyCompactItemize}
+\item 
+static final int \hyperlink{classcom_1_1publisher_1_1utils_1_1Utils_a9fea6ecddb80eabef5ae8976e8f65d81}{B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T} = 999
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Classe contenant uniquement des méthodes statiques. \begin{DoxyAuthor}{Auteur}
+
+\begin{DoxyItemize}
+\item Benjamin Letourneau 
+\end{DoxyItemize}
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0 
+\end{DoxyVersion}
+
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{classcom_1_1publisher_1_1utils_1_1Utils_afd3e752b26b6bd265fa6317a22a285c1}{\index{com\-::publisher\-::utils\-::\-Utils@{com\-::publisher\-::utils\-::\-Utils}!get\-Int\-User\-Choice@{get\-Int\-User\-Choice}}
+\index{get\-Int\-User\-Choice@{get\-Int\-User\-Choice}!com::publisher::utils::Utils@{com\-::publisher\-::utils\-::\-Utils}}
+\subsubsection[{get\-Int\-User\-Choice}]{\setlength{\rightskip}{0pt plus 5cm}static int com.\-publisher.\-utils.\-Utils.\-get\-Int\-User\-Choice (
+\begin{DoxyParamCaption}
+\item[{String}]{message\-To\-Print, }
+\item[{String}]{optional\-Message, }
+\item[{int}]{lower\-Bound, }
+\item[{int}]{upper\-Bound, }
+\item[{Scanner}]{sc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classcom_1_1publisher_1_1utils_1_1Utils_afd3e752b26b6bd265fa6317a22a285c1}
+Méthode gérant le choix de l'utilisateur (autorise, ou n'autorise pas le choix de l'utilisateur si celui est incorrect). 
+\begin{DoxyParams}{Paramètres}
+{\em message\-To\-Print} & \-: String, message à afficher à l'utilisateur. \\
+\hline
+{\em optional\-Message} & \-: String, message optionnel à afficher à l'utilisateur. \\
+\hline
+{\em lower\-Bound} & \-: int, borne inférieure indiquant le choix minimal autorisé à l'utilisateur. \\
+\hline
+{\em upper\-Bound} & \-: int, borne supérieure indiquant le choix maximal autorisé à l'utilisateur. \\
+\hline
+{\em sc} & \-: Scanner, permet de reccupérer l'entrée utilisateur. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int \-: Le choix de l'utilisateur. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1publisher_1_1utils_1_1Utils_a6694d513fd607577d3146a91c7c45338}{\index{com\-::publisher\-::utils\-::\-Utils@{com\-::publisher\-::utils\-::\-Utils}!get\-User\-Int\-Entries@{get\-User\-Int\-Entries}}
+\index{get\-User\-Int\-Entries@{get\-User\-Int\-Entries}!com::publisher::utils::Utils@{com\-::publisher\-::utils\-::\-Utils}}
+\subsubsection[{get\-User\-Int\-Entries}]{\setlength{\rightskip}{0pt plus 5cm}static int com.\-publisher.\-utils.\-Utils.\-get\-User\-Int\-Entries (
+\begin{DoxyParamCaption}
+\item[{Scanner}]{sc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classcom_1_1publisher_1_1utils_1_1Utils_a6694d513fd607577d3146a91c7c45338}
+Méthode static interne à la classe permettant de réccupérer les entrées utilisateur et de gérer les exceptions. \begin{DoxyReturn}{Renvoie}
+int \-: Le résultat correct de l'utilisateur. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1publisher_1_1utils_1_1Utils_a48c46510d34ef280dc7702e747247621}{\index{com\-::publisher\-::utils\-::\-Utils@{com\-::publisher\-::utils\-::\-Utils}!xml\-Set\-Int\-Value\-To\-Field@{xml\-Set\-Int\-Value\-To\-Field}}
+\index{xml\-Set\-Int\-Value\-To\-Field@{xml\-Set\-Int\-Value\-To\-Field}!com::publisher::utils::Utils@{com\-::publisher\-::utils\-::\-Utils}}
+\subsubsection[{xml\-Set\-Int\-Value\-To\-Field}]{\setlength{\rightskip}{0pt plus 5cm}static Element com.\-publisher.\-utils.\-Utils.\-xml\-Set\-Int\-Value\-To\-Field (
+\begin{DoxyParamCaption}
+\item[{String}]{part, }
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classcom_1_1publisher_1_1utils_1_1Utils_a48c46510d34ef280dc7702e747247621}
+Permet de créer une balise avec contenu dans le fichier de sauvegarde du jeu. 
+\begin{DoxyParams}{Paramètres}
+{\em part} & \-: String, nom de la balise xml. \\
+\hline
+{\em value} & \-: int, contenu de la balise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Element \-: Objet contenant la balise remplie. 
+\end{DoxyReturn}
+
+
+\subsection{Documentation des données membres}
+\hypertarget{classcom_1_1publisher_1_1utils_1_1Utils_a9fea6ecddb80eabef5ae8976e8f65d81}{\index{com\-::publisher\-::utils\-::\-Utils@{com\-::publisher\-::utils\-::\-Utils}!B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T@{B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T}}
+\index{B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T@{B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T}!com::publisher::utils::Utils@{com\-::publisher\-::utils\-::\-Utils}}
+\subsubsection[{B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}final int com.\-publisher.\-utils.\-Utils.\-B\-A\-D\-\_\-\-U\-S\-E\-R\-\_\-\-I\-N\-P\-U\-T = 999\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classcom_1_1publisher_1_1utils_1_1Utils_a9fea6ecddb80eabef5ae8976e8f65d81}
+Constante permettant de réinitialiser le champ de saisie utilisateur tant que celui ci est incorrect. 
+
+La documentation de cette classe a été générée à partir du fichier suivant \-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Utils_8java}{Utils.\-java}\end{DoxyCompactItemize}

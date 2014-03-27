@@ -13,8 +13,8 @@ public class Board {
 	List<Box> borderLine;
 	
 	public Board(){
-		this.width = 5;
-		this.height = 5;
+		this.width = 8;
+		this.height = 8;
 		borderLine = new ArrayList<Box>();
 		this.whitePiece = new ArrayList<Point>();
 		this.blackPiece = new ArrayList<Point>();

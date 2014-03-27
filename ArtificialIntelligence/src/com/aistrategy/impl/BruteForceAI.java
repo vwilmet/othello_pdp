@@ -36,7 +36,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	/**
 	 * Profondeur de recherche pour l'arbre de coups
 	 */
-	protected static final Integer depth = 2;
+	protected static final Integer depth = 9;
 	
 	/**
 	 * Minuteur pour le temps d'execution de l'algorithme.

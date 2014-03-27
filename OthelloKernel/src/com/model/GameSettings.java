@@ -146,17 +146,28 @@ public class GameSettings {
 	}
 
 	public void setHistoryPosition(int sentinel){
+		System.out.println("[setHistoryPosition]");
 		this.sentinel = sentinel;
-		
+
+		/*showHistory();
+		System.out.println("sentinel : " + sentinel);
+		System.out.println("board sentinel : " + (sentinel+1));
+		if(sentinel != -1)
+			System.out.println("piece at sentinel " + this.gameHistory.get(this.sentinel));
+		 */
 		if(this.sentinel == -1)
 			this.setCurrentPlayer(this.player1);
 		else if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
-			this.setCurrentPlayer(this.player1);
-		else
 			this.setCurrentPlayer(this.player2);
-		
-		this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
+		else
+			this.setCurrentPlayer(this.player1);
+
+		this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
 		this.gameBoard.notifyObservers();
+		/*System.out.println("Current board : " + this.gameBoard);
+		showHistory();
+		 */
+		System.out.println("[====================setHistoryPosition==================]");
 	}
 
 	public BoardObservable getHistoryBoard(int position){
@@ -216,9 +227,6 @@ public class GameSettings {
 			return true;
 		}
 
-		if(this.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
-			getBackInHistory();
-		}
 		return false;
 	}
 
@@ -268,41 +276,47 @@ public class GameSettings {
 	 */
 	public void manageBoardHistory(int x, int y){
 		System.out.println("[manageBoardHistory]");
-		
+
+		//System.out.println("Sentinel  : " + sentinel);
+
 		Piece p = this.gameBoard.getBoard()[x][y];
 		if(this.gameHistory.size()-1 > this.sentinel){
 			this.sentinel++;
-			
-			for(Piece p_ : gameHistory)
-				System.out.println("Piece game history : " + p_);
-			
+
+			/*showHistory();
 			System.out.println("Sentinel  : " + sentinel);
-			System.out.println("p : " + p);
-			System.out.println("hg p : " + this.gameHistory.get(this.sentinel));
-			
+			System.out.println("p jouée : " + p);
+			System.out.println("history_game p : " + this.gameHistory.get(this.sentinel));
+			 */
 			if(!this.gameHistory.get(this.sentinel).equals(p)){
-				System.out.println("On créer un nouveau future");
-				for(int i = this.sentinel, bordI = this.sentinel+1; i < this.gameHistory.size(); i++, bordI++){
-					System.out.println( "Remove piece : " + this.gameHistory.remove(i));
-					System.out.println( "Remove Board : " + this.gameBoardHistory.remove(bordI));
+				//System.out.println("On créer un nouveau future");
+				int size = this.gameHistory.size();
+
+				for(int i = this.sentinel; i < size; i++){
+					//System.out.println("i : " + i);
+					System.out.println( "Remove piece : " + this.gameHistory.remove(this.sentinel));
+					System.out.println( "Remove Board : " + this.gameBoardHistory.remove(this.sentinel+1));
 				}
-				this.gameHistory.add(this.sentinel, p.clone());
+				this.gameHistory.add(p.clone());
 				this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
+				showHistory();
+				//System.out.println("Current board : " + this.gameBoard);
 			}else
-				System.out.println("On recrit l'ancien future ... :p!");
+				;//System.out.println("On recrit l'ancien future ... :p!");
 		}else{
 			this.sentinel++;
 			this.gameHistory.add(this.sentinel, p.clone());
 			this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());
 		}
+		System.out.println("[FIN __ manageBoardHistory]");
 	}
 
 	public String toString() {
 		String res = "\tJoueur 1 : " + this.player1.toString() + "\n";
-		
+
 		if(this.player1.getPlayerType() instanceof MachinePlayer)
 			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player1ArtificialIntelligenceDifficulty] + "\n";
-		
+
 		res += "\tJoueur 2 : " + this.player2.toString() + "\n";
 		if(this.player2.getPlayerType() instanceof MachinePlayer)
 			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player2ArtificialIntelligenceDifficulty] + "\n\n";
@@ -328,5 +342,18 @@ public class GameSettings {
 	public void setPlayer2ArtificialIntelligenceDifficulty(
 			int player2ArtificialIntelligenceDifficulty) {
 		this.player2ArtificialIntelligenceDifficulty = player2ArtificialIntelligenceDifficulty;
+	}
+
+	public void showHistory(){
+		System.out.println("HISTORIQUE : ");
+		System.out.println("size : " + gameHistory.size());
+
+		for(int i = 0; i < gameHistory.size(); i++)
+			System.out.println("i : " + i + " => " + gameHistory.get(i));
+
+		for(Board b : this.gameBoardHistory)
+			System.out.println(b);
+
+		System.out.println("FIN HISTORIQUE |");
 	}
 }

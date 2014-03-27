@@ -156,43 +156,57 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onForwardButtonCliked() {
 		if(this.gameSettings.canGoForward()){
-			if(this.gameSettings.getForwardInHistory()){
-				this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
-				this.gameView.setBoard(this.gameSettings.getGameBoard());
-				this.setPlayablePiece();	
-				this.updateInformationField();
-
+			if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
+				this.gameSettings.getForwardInHistory();
 				Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
 				try {
-					this.ai.get(this.gameSettings.getCurrentPlayer().getLogin()).
-					notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
+					this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
 				} catch (WrongPlayablePositionException e) {
 					Log.error(e.getMessage());
 					e.printStackTrace();
 				}
-
-				this.dealWithCurrentPlayer();
 			}
+			
+			this.gameSettings.getForwardInHistory();
+			Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
+			try {
+				this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
+			} catch (WrongPlayablePositionException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
+			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
+			this.setPlayablePiece();	
+			this.updateInformationField();
+			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.dealWithCurrentPlayer();
 		}else
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en avant !!");
 	}
 
 	@Override
 	public void onBackButtonCliked() {
+		System.out.println("[onBackButtonCliked]");
+		
 		if(this.gameSettings.canGoBack()){
-			if(this.gameSettings.getBackInHistory()){
-				this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
-				this.gameView.setBoard(this.gameSettings.getGameBoard());
-				this.setPlayablePiece();
-				this.updateInformationField();
-				//On revient deux coups en arrière si l'adversaire est une IA
-
+			System.out.println("Joueur qui jouer : " + this.gameSettings.getCurrentPlayer());
+			System.out.println("Sentinelle avant : " + this.gameSettings.getHistoryPosition());
+			if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
+				this.gameSettings.getBackInHistory();
 				this.helpAI.undoMove();
-				if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer)
-					this.helpAI.undoMove();
-
-				this.dealWithCurrentPlayer();
 			}
+			this.gameSettings.getBackInHistory();
+			this.helpAI.undoMove();
+			this.setPlayablePiece();
+			this.updateInformationField();
+			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
+			
+			System.out.println("Sentinelle après : " + this.gameSettings.getHistoryPosition());
+			System.out.println("Joueuer qui va jouer : " + this.gameSettings.getCurrentPlayer());
+			
+			this.dealWithCurrentPlayer();
+
 		}else
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en arrière !!");
 	}
@@ -225,7 +239,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onPositionButtonCliked() {
-		if(this.gameSettings.getHistoryPosition()>=0)
+		if(this.gameSettings.canGoBack() || this.gameSettings.canGoForward())
 			chooseHistoryBoardPosition();
 		else
 			this.addMessageToListForUser("Vous devez jouer au moins un coup pour choisir une position !!");
@@ -244,7 +258,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onNewGameItemMenuPressed() {
 		this.initializeNewGame();
 	}
-	
+
 	@Override
 	public void onSaveGameUnderItemMenuPressed() {
 
@@ -305,21 +319,29 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
 			int position) {
-		
+
 		int recoil = this.gameSettings.getBoardHistoryPosition() - position;
-		
+
 		this.gameSettings.setHistoryPosition(position-1);
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.setPlayablePiece();
-		
+
+		System.out.println("(------------------------------------------)");
+		System.out.println("Before undoing!!");
+		System.out.println(this.helpAI.boardToString());
+
 		for(int i = 0; i < recoil; i++){
 			this.helpAI.undoMove();
 		}
-		
+
+		System.out.println(this.helpAI.boardToString());
+		System.out.println("After undoing");
+		System.out.println("(------------------------------------------)");
+
 		this.updateInformationField();
 		this.dealWithCurrentPlayer();
 	}
-	
+
 	private void updateInformationField(){
 		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");

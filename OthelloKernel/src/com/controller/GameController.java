@@ -29,6 +29,7 @@ import com.model.io.SaveGame;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
+import com.timermanager.TimerActionEvent;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
@@ -145,7 +146,6 @@ public abstract class GameController{
 	protected abstract void beforeDealingWithCurrentPlayer();
 
 	protected void dealWithCurrentPlayer(){
-
 		System.out.println("[dealWithCurrentPlayer]");
 		
 		this.beforeDealingWithCurrentPlayer();
@@ -155,30 +155,47 @@ public abstract class GameController{
 			return;
 		}
 		
-		System.out.println(this.gameSettings.getCurrentPlayer());
+		//System.out.println("Current Player : " + this.gameSettings.getCurrentPlayer());
 		
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
-			String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
-			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-			Point p = helpAI.nextMove(playerNumber);
+			final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
+			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
+			final Point p = helpAI.nextMove(playerNumber);
 
 			if(p == null)
 				JOptionPane.showMessageDialog(null, 
 						"L'IA ne peut plus jouer !", 
 						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			else{
-				if(onPiecePlayed(p.x, p.y)){
-					try {
-						helpAI.notifyChosenMove(p, playerNumber);
-					} catch (WrongPlayablePositionException e) {
-						Log.error(e.getMessage());
-						e.printStackTrace();
+				TimerManager time = new TimerManagerImpl();
+				time.setTimerActionEvent(new TimerActionEvent() {
+					
+					@Override
+					public void onTimerStopped() {
+						this.commonAction();
 					}
-
-					this.onIAPlayed(userLogin, p.x, p.y);
-					this.dealWithCurrentPlayer();
-				}
+					
+					@Override
+					public void onTimerEnded() {
+						this.commonAction();
+					}
+					
+					public void commonAction(){
+						if(onPiecePlayed(p.x, p.y)){
+							try {
+								helpAI.notifyChosenMove(p, playerNumber);
+							} catch (WrongPlayablePositionException e) {
+								Log.error(e.getMessage());
+								e.printStackTrace();
+							}
+							onIAPlayed(userLogin, p.x, p.y);
+							gameSettings.showHistory();
+							dealWithCurrentPlayer();
+						}
+					}
+				});
+				time.startTimer(1);
 			}
 		}
 		/*

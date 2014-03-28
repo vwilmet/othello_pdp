@@ -35,32 +35,32 @@ import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
 public abstract class GameController{
-
+	
 	protected GameSettings gameSettings;
 	protected TimerManager timer;
 	protected ArtificialIntelligence helpAI;
 	protected HashMap<String, ArtificialIntelligence> ai;
 	protected FilesManager files = new FilesManagerImpl();
-
-
+	
+	
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
-
+		
 		BoardObservable board = null;
 		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
 		this.files.init(false);
-
+		
 		try {
 			board = bFacto.getInitialBoard(4, 4);
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-
+		
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
 					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER,1), 
@@ -69,21 +69,21 @@ public abstract class GameController{
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY,
 					pieceFacto.getArrayListOfPiece());
-
+			
 			this.ai.put("John DOE", new ArtificialIntelligenceImpl());
-
+			
 			this.initializeIA();
 			this.setPlayablePiece();
-
+			
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-
+		
 		timer.startCountingElapsedTime();
 		this.checkPlayersPiecesCount();
 	}
-
+	
 	protected void initializeIA(){
 		String current_key;
 		Set<Point> 	whitePiece = new HashSet<Point>(),

@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="libs/filemanager_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/timer_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/boardpublisher_plugin.jar"/>
-	<classpathentry kind="src" path="/ArtificialIntelligence"/>
 	<classpathentry kind="lib" path="libs/ai_plugin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

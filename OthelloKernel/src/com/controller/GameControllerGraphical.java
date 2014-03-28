@@ -20,6 +20,7 @@ import com.model.factory.FactoryProducer;
 import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.io.RestoreGame;
 import com.model.piece.Piece;
+import com.model.player.HumanPlayer;
 import com.model.player.MachinePlayer;
 import com.publisher.generator.GenerateXML;
 import com.utils.WrongPlayablePositionException;
@@ -86,28 +87,32 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 			gameSettings = rg.getGameSettings();
 			this.gameView.setBoard(gameSettings.getGameBoard());
+			this.gameView.resetMessageListContent();
 		}
 	}
 
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 
-		if(i!=-1 && j != -1){
-			int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
+		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof HumanPlayer){
+			if(i!=-1 && j != -1){
+				int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 
-			if(onPiecePlayed(i, j)){
-				this.gameView.setIAAdvisedPiece(null);
+				if(onPiecePlayed(i, j)){
+					this.gameView.setIAAdvisedPiece(null);
 
-				try {
-					this.helpAI.notifyChosenMove(new Point(i, j), playerNumber);
-				} catch (WrongPlayablePositionException e) {
-					Log.error(e.getMessage());
-					e.printStackTrace();
+					try {
+						this.helpAI.notifyChosenMove(new Point(i, j), playerNumber);
+					} catch (WrongPlayablePositionException e) {
+						Log.error(e.getMessage());
+						e.printStackTrace();
+					}
+					this.updateInformationField();
+					this.dealWithCurrentPlayer();
 				}
-				this.updateInformationField();
-				this.dealWithCurrentPlayer();
 			}
-		}
+		}else
+			this.addMessageToListForUser("Veuillez patientez, l'IA est en train de jouer !");
 	}
 
 	@Override
@@ -131,6 +136,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(valid){
 			this.gameSettings = game;
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.gameView.resetMessageListContent();
 			this.initializeCompletGameAfterNewConfiguration();
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 			this.updateInformationField();
@@ -157,23 +163,25 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	public void onForwardButtonCliked() {
 		if(this.gameSettings.canGoForward()){
 			if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
-				this.gameSettings.getForwardInHistory();
+				if(this.gameSettings.getForwardInHistory()){
+					Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
+					try {
+						this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getOpponentPlayer().getPlayerNumber());
+					} catch (WrongPlayablePositionException e) {
+						Log.error(e.getMessage());
+						e.printStackTrace();
+					}
+				}
+			}
+
+			if(this.gameSettings.getForwardInHistory()){
 				Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
 				try {
-					this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
+					this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getOpponentPlayer().getPlayerNumber());
 				} catch (WrongPlayablePositionException e) {
 					Log.error(e.getMessage());
 					e.printStackTrace();
 				}
-			}
-			
-			this.gameSettings.getForwardInHistory();
-			Piece p = this.gameSettings.getGameHistory().get(this.gameSettings.getHistoryPosition());
-			try {
-				this.helpAI.notifyChosenMove(new Point(p.getPosX(), p.getPosY()), this.gameSettings.getCurrentPlayer().getPlayerNumber());
-			} catch (WrongPlayablePositionException e) {
-				Log.error(e.getMessage());
-				e.printStackTrace();
 			}
 			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
 			this.setPlayablePiece();	
@@ -187,7 +195,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onBackButtonCliked() {
 		System.out.println("[onBackButtonCliked]");
-		
+
 		if(this.gameSettings.canGoBack()){
 			System.out.println("Joueur qui jouer : " + this.gameSettings.getCurrentPlayer());
 			System.out.println("Sentinelle avant : " + this.gameSettings.getHistoryPosition());
@@ -201,10 +209,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.updateInformationField();
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
-			
+
 			System.out.println("Sentinelle après : " + this.gameSettings.getHistoryPosition());
 			System.out.println("Joueuer qui va jouer : " + this.gameSettings.getCurrentPlayer());
-			
+
 			this.dealWithCurrentPlayer();
 
 		}else
@@ -339,6 +347,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		System.out.println("(------------------------------------------)");
 
 		this.updateInformationField();
+		this.addMessageToListForUser("Vous avez fait un retour de " + recoil + " position(s).");
+
 		this.dealWithCurrentPlayer();
 	}
 

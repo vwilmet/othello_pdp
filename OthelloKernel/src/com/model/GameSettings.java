@@ -213,17 +213,24 @@ public class GameSettings {
 	}
 
 	public boolean getBackInHistory(){
-
+		System.out.println("[getBackInHistory]");
+		System.out.println("[BEFORE HISTORY BACK]");
+		showHistory();
+		
 		if(this.sentinel >= 0){
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
 				this.setCurrentPlayer(this.player1);
 			else
 				this.setCurrentPlayer(this.player2);
 
-			this.gameBoard = this.gameBoardHistory.get(this.sentinel);
+			this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel).clone();
 			this.gameBoard.notifyObservers();
 
 			this.sentinel--;
+			
+			System.out.println("[AFTER HISTORY BACK]");
+			showHistory();
+			System.out.println("===================================");
 			return true;
 		}
 
@@ -232,17 +239,26 @@ public class GameSettings {
 
 	public boolean getForwardInHistory(){
 		System.out.println("[getForwardInHistory]");
+		
+		System.out.println("[BEFORE HISTORY FORWARD]");
+		System.out.println("Sentinel : " + sentinel);
+		showHistory();
+		
 		if(this.sentinel < this.gameHistory.size()-1){
 			//TODO check si ++ de sentinel avant ou après a cause de l'avancement des boards
 			this.sentinel++;
-			this.gameBoard = this.gameBoardHistory.get(this.sentinel+1);
+			this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
 
 			//TODO check si change player fonctionne
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
-				this.setCurrentPlayer(this.player1);
-			else
 				this.setCurrentPlayer(this.player2);
-
+			else
+				this.setCurrentPlayer(this.player1);
+			
+			System.out.println("[AFTER HISTORY FORWARD]");
+			System.out.println("Sentinel : " + sentinel);
+			showHistory();
+			System.out.println("===================================");
 			return true;
 		}
 

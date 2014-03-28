@@ -22,6 +22,7 @@ public interface GameView {
 	public void addMessageToMessageList(String element);
 	public void changeStatViewMessage(String message);
 	public void changeMessageViewContent(String content);
+	public void resetMessageListContent();
 	public void setMenuListener(GameViewMenuEventListener event);
 	
 	public void enableBackButton(boolean enable);

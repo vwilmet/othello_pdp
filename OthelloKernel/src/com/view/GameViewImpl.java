@@ -323,8 +323,6 @@ public class GameViewImpl extends JFrame implements GameView{
 		actionBar.add(positionButton);
 	}
 
-	
-	
 	@Override
 	public void addMessageToMessageList(String element) {
 		this.addStringToInformationList(element);
@@ -391,5 +389,11 @@ public class GameViewImpl extends JFrame implements GameView{
 	@Override
 	public void enableResetButton(boolean enable) {
 		this.resetButton.enableButton(enable);
+	}
+
+	@Override
+	public void resetMessageListContent() {
+		messageListModel.clear();
+		messageList.setModel(messageListModel);
 	}
 }

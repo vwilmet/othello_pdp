@@ -62,10 +62,10 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
 		if(p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()){
-			//Integer alpha = Integer.MIN_VALUE;
-			//Integer beta = Integer.MAX_VALUE;
-			//alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-			run();
+			Integer alpha = Integer.MIN_VALUE;
+			Integer beta = Integer.MAX_VALUE;
+			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			//run();
 			p = tree.getSentinel().getBestMove();
 		}
 		else if(tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty())
@@ -145,8 +145,8 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		Integer beta = Integer.MAX_VALUE;
 		//Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha, beta);
 		//Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(), alpha, beta);
-		//Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		run();
+		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+		//run();
 		//showBestMoveParty();
 		return true;
 	}
@@ -496,7 +496,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		initBoard = random.initBoard;
 		tree = random.tree;
 		tm = new TimerManagerImpl();
-		maxTime = 0;
+		maxTime = random.maxTime;
 		return true;
 	}
 
@@ -506,7 +506,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
 		tm = new TimerManagerImpl();
-		maxTime = 0;
+		maxTime = nextBestMove.maxTime;
 		return true;
 	}
 

@@ -27,29 +27,14 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	protected TreeMove<Point> tree;
 
 	/**
-	 * Ensemble des pions blanc
-	 */
-	//protected Set<Point> whitePiece;
-
-	/**
-	 * Ensemble des pions noir
-	 */
-	//protected Set<Point> blackPiece;
-
-	/**
-	 * Taille en largeur du plateau
-	 */
-	//protected Integer boardWidth;
-
-	/**
-	 * Taille en hauteur du plateau
-	 */
-	//protected Integer boardHeight;
-
-	/**
 	 * Plateau initial au début du lancement de l'IA
 	 */
 	protected Board initBoard;
+	
+	/**
+	 * Temps maximal pour l'execution de l'algorithme
+	 */
+	protected Integer maxTime; 
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
@@ -126,6 +111,8 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
 		tree.setSentinel(tree.getRootElement());
+		if(maxTime == null)
+			this.maxTime = 0;
 		return true;
 	}
 
@@ -183,7 +170,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public void setMaxTime(Integer time) {
-		// Fonction inutile pour cette IA
+		this.maxTime = time;
 	}
 
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p){

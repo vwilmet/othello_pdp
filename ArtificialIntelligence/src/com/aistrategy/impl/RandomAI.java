@@ -32,6 +32,11 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	protected Board initBoard;
 
 	/**
+	 * Temps maximal pour l'execution de l'algorithme
+	 */
+	protected Integer maxTime; 
+	
+	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
@@ -90,6 +95,8 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1), 1,initBoard));
 		tree.setSentinel(tree.getRootElement());
+		if(maxTime == null)
+			this.maxTime = 0;
 		return true;
 	}
 
@@ -143,7 +150,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public void setMaxTime(Integer time) {
-		// Fonction inutile pour cette IA
+		this.maxTime = time;
 	}
 
 	@Override

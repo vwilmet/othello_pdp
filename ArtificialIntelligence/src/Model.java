@@ -14,24 +14,22 @@ public class Model {
 	public Board myBoard;
 	public ArtificialIntelligenceImpl myAI;
 	public ArtificialIntelligenceImpl myAI2;
+	public ArtificialIntelligenceImpl myAI3;
 
 
 	public Model() throws WrongPlayablePositionException
 	{
 		myBoard = new Board();
-		
+		myAI3 = new ArtificialIntelligenceImpl();
 		myAI = new ArtificialIntelligenceImpl();
 		myAI2 = new ArtificialIntelligenceImpl();
+		myAI3.chooseDifficulty(0);
 		myAI.chooseDifficulty(2);
 		myAI2.chooseDifficulty(2);
 		myAI.setMaxTime(1000);
-		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
-		myAI2.initialize(myAI);
-
-		/*myAI = new BruteForceAI();
-		myAI2 = new RandomAI();
-		myAI.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
-		myAI2.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);*/
+		myAI3.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
+		myAI2.initialize(myAI3);
+		myAI.initialize(myAI3);
 
 		Point p = myAI.nextMove(1);
 		System.out.println(p);

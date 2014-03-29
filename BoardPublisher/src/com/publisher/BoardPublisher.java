@@ -10,12 +10,12 @@ public interface BoardPublisher {
 	/**
 	 * Constantes indiquant la couleur du joueur. 
 	 */
-	public static final String WHITE = "white", BLACK = "black";
+	public static final String WHITE_PLAYER = "white", BLACK_PLAYER = "black";
 	
 	/**
 	 * Constante indiquant le type du joueur.
 	 */
-	public static final String HUMAN = "human", MACHINE = "machine";
+	public static final String HUMAN_PLAYER = "human", MACHINE_PLAYER = "machine";
 	
 	/**
 	 * Constantes permettant de générer le fichier de sauvegarde.

@@ -17,6 +17,7 @@ import com.manager.FilesManagerImpl;
 import com.model.GameSettings;
 import com.model.piece.Piece;
 import com.model.player.Player;
+import com.publisher.BoardPublisher;
 
 /**
  * Classe permettant la sauvegarde d'une partie en cours.
@@ -60,7 +61,7 @@ public class SaveGame {
 		
 		this.saveFileName = saveFileName;
 		
-		this.root = new Element(TextManager.BOARD_PART);
+		this.root = new Element(BoardPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
 	}
 	
@@ -79,7 +80,7 @@ public class SaveGame {
 		}
 		
 		if (this.gameSettings.getGameHistory().size() > 0)
-			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), TextManager.HISTORY_PART));
+			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), BoardPublisher.HISTORY_PART));
 		
 		FilesManager fmanager = new FilesManagerImpl();
 		if (fmanager.save(this.saveFileName + TextManager.DOT_XML, "", this.toString()) == false){
@@ -93,21 +94,21 @@ public class SaveGame {
 	 */
 	private Element makeInitPartInXML(){
 		
-		Element init = new Element (TextManager.INIT_PART);
+		Element init = new Element (BoardPublisher.INIT_PART);
 		init.addContent(makeBardSizeInXML());
-		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), TextManager.INIT_PART));
+		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), BoardPublisher.INIT_PART));
 		init.addContent(makePlayerInXML(this.gameSettings.getFirstPlayer()));
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
 		
 		try {
-			init.addContent(xmlSetIntValueToField(TextManager.AI_LEVEL_PART, this.gameSettings.getHelpAIDifficulty()));
+			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_LEVEL_PART, this.gameSettings.getHelpAIDifficulty()));
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		
 		try {
-			init.addContent(xmlSetIntValueToField(TextManager.AI_THINKING_TIME_PART, this.gameSettings.getAIThinkingTime()));
+			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_THINKING_TIME_PART, this.gameSettings.getAIThinkingTime()));
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -143,9 +144,9 @@ public class SaveGame {
 	 * @return Element, la partie en question.
 	 */
 	private Element makeBardSizeInXML(){
-		Element size = new Element(TextManager.SIZE_PART);
-		Element x = new Element (TextManager.X_PART);
-		Element y = new Element (TextManager.Y_PART);
+		Element size = new Element(BoardPublisher.SIZE_PART);
+		Element x = new Element (BoardPublisher.X_PART);
+		Element y = new Element (BoardPublisher.Y_PART);
 		
 		x.setText(String.valueOf(this.gameSettings.getGameBoard().getSizeX()));
 		y.setText(String.valueOf(this.gameSettings.getGameBoard().getSizeY()));
@@ -164,7 +165,7 @@ public class SaveGame {
 	 * @throws GameHandlerException
 	 */
 	private Element makePlayedPiecesPart() throws GameHandlerException {
-		Element playedPieces = new Element(TextManager.PLAYED_PIECES_PART);
+		Element playedPieces = new Element(BoardPublisher.PLAYED_PIECES_PART);
 		
 		for (int i = 0; i < this.gameSettings.getGameBoard().getSizeX(); i++){
 			for (int j = 0; j < this.gameSettings.getGameBoard().getSizeY(); j++){
@@ -183,10 +184,10 @@ public class SaveGame {
 	 */
 	private Element makePieceInXML(Piece p){
 		
-		Element x = new Element(TextManager.X_PART);
-		Element y = new Element(TextManager.Y_PART);
-		Element color = new Element(TextManager.COLOR_PART); 
-		Element piece = new Element (TextManager.PIECE_PART);
+		Element x = new Element(BoardPublisher.X_PART);
+		Element y = new Element(BoardPublisher.Y_PART);
+		Element color = new Element(BoardPublisher.COLOR_PART); 
+		Element piece = new Element (BoardPublisher.PIECE_PART);
 		
 		x.setText(String.valueOf(p.getPosX()));
 		y.setText(String.valueOf(p.getPosY()));
@@ -205,18 +206,18 @@ public class SaveGame {
 	 * @return Element : La partie correspondant au joueur.
 	 */
 	private Element makePlayerInXML(Player p){
-		Element player = new Element(TextManager.PLAYER_PART);
+		Element player = new Element(BoardPublisher.PLAYER_PART);
 		
-		Element login = new Element(TextManager.PLAYER_LOGIN_PART);
+		Element login = new Element(BoardPublisher.PLAYER_LOGIN_PART);
 		login.setText(p.getLogin());
 		
-		Element rgb = new Element(TextManager.PLAYER_COLOR_PART);
+		Element rgb = new Element(BoardPublisher.PLAYER_COLOR_PART);
 		rgb.setText(p.getColor());
 		
-		Element type = new Element(TextManager.PLAYER_TYPE_PART);
+		Element type = new Element(BoardPublisher.PLAYER_TYPE_PART);
 		type.setText(p.getPlayerType().getPlayerType());
 		
-		Element num = new Element(TextManager.PLAYER_NUMBER_PART);
+		Element num = new Element(BoardPublisher.PLAYER_NUMBER_PART);
 		num.setText(String.valueOf(p.getPlayerNumber()));
 		
 		player.addContent(login);

@@ -1,8 +1,8 @@
 package com.model.player;
 
-import java.awt.Color;
-
 import utils.TextManager;
+
+import com.publisher.BoardPublisher;
 
 /**
  * 
@@ -20,7 +20,7 @@ public class HumanPlayer implements  PlayerType {
 
 	@Override
 	public String getPlayerType(){
-		return TextManager.HUMAN_PLAYER;
+		return BoardPublisher.HUMAN_PLAYER;
 	}
 
 	@Override

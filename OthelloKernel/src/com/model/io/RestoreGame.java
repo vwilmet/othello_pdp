@@ -26,6 +26,7 @@ import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.Piece;
 import com.model.player.Player;
+import com.publisher.BoardPublisher;
 
 /**
  * Gestion de la lecture de fichier de sauvegarde du jeu.
@@ -167,7 +168,7 @@ public class RestoreGame {
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
 		
-		Element initPart = this.root.getChild(TextManager.INIT_PART);
+		Element initPart = this.root.getChild(BoardPublisher.INIT_PART);
 
 		if (initPart == null)
 			throw new GameHandlerException(
@@ -190,7 +191,7 @@ public class RestoreGame {
 
 		/* AI LEVEL */
 		try {
-			aILevel = xmlGetIntValueFromField(initPart, TextManager.AI_LEVEL_PART);
+			aILevel = xmlGetIntValueFromField(initPart, BoardPublisher.AI_LEVEL_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -198,7 +199,7 @@ public class RestoreGame {
 
 		/* AI THINKING TIME */
 		try {
-			aIThinkingTime = xmlGetIntValueFromField(initPart, TextManager.AI_THINKING_TIME_PART);
+			aIThinkingTime = xmlGetIntValueFromField(initPart, BoardPublisher.AI_THINKING_TIME_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -206,7 +207,7 @@ public class RestoreGame {
 
 		/* INITIAL PIECES */
 		try {
-			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(TextManager.PIECES_PART), false);
+			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(BoardPublisher.PIECES_PART), false);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -219,7 +220,7 @@ public class RestoreGame {
 
 		/* PLAYED PIECES */
 		try {
-			playedPieces = xmlGetPiecesFromPart(this.root.getChild(TextManager.PLAYED_PIECES_PART), false);
+			playedPieces = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.PLAYED_PIECES_PART), false);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -227,7 +228,7 @@ public class RestoreGame {
 
 		/* HISTORY -> FACULTATIF */
 		try {
-			history = xmlGetPiecesFromPart(this.root.getChild(TextManager.HISTORY_PART),false);
+			history = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.HISTORY_PART),false);
 		} catch (GameHandlerException e) {
 			try {
 				history = pieceFacto.getArrayListOfPiece();
@@ -261,7 +262,7 @@ public class RestoreGame {
 	 * @throws GameHandlerException
 	 */
 	private int[] xmlGetBoardSize(Element initPart) throws GameHandlerException {
-		Element sizePart = initPart.getChild(TextManager.SIZE_PART);
+		Element sizePart = initPart.getChild(BoardPublisher.SIZE_PART);
 
 		if (sizePart == null)
 			throw new GameHandlerException(
@@ -273,8 +274,8 @@ public class RestoreGame {
 		size[1] = -1;
 
 		try {
-			size[0] = Integer.decode(sizePart.getChild(TextManager.X_PART).getText());
-			size[1] = Integer.decode(sizePart.getChild(TextManager.Y_PART).getText());
+			size[0] = Integer.decode(sizePart.getChild(BoardPublisher.X_PART).getText());
+			size[1] = Integer.decode(sizePart.getChild(BoardPublisher.Y_PART).getText());
 		} catch (NumberFormatException e) {
 			Log.error(TextManager.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE_FR);
 			e.printStackTrace();
@@ -305,7 +306,7 @@ public class RestoreGame {
 
 		ArrayList<Piece> pcs = new ArrayList<Piece>();
 
-		List<Element> listePieces = part.getChildren(TextManager.PIECE_PART);
+		List<Element> listePieces = part.getChildren(BoardPublisher.PIECE_PART);
 
 		Iterator<Element> i = listePieces.iterator();
 
@@ -336,9 +337,9 @@ public class RestoreGame {
 
 		int c = -1, x = -1, y = -1;
 		try {
-			x = xmlGetIntValueFromField(piece, TextManager.X_PART);
-			y = xmlGetIntValueFromField(piece, TextManager.Y_PART);
-			c = xmlGetIntValueFromField(piece, TextManager.COLOR_PART);
+			x = xmlGetIntValueFromField(piece, BoardPublisher.X_PART);
+			y = xmlGetIntValueFromField(piece, BoardPublisher.Y_PART);
+			c = xmlGetIntValueFromField(piece, BoardPublisher.COLOR_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -374,7 +375,7 @@ public class RestoreGame {
 		
 		ArrayList<Player> players = new ArrayList<Player>();
 
-		List<Element> listePlayers = initPart.getChildren(TextManager.PLAYER_PART);
+		List<Element> listePlayers = initPart.getChildren(BoardPublisher.PLAYER_PART);
 
 		Iterator<Element> i = listePlayers.iterator();
 
@@ -401,10 +402,10 @@ public class RestoreGame {
 		String name = null, color = null, type = null; 
 		int number = -1;
 		try {
-			name = xmlGetStringValueFromField(player, TextManager.PLAYER_LOGIN_PART);
-			color = xmlGetStringValueFromField(player, TextManager.PLAYER_COLOR_PART);
-			type = xmlGetStringValueFromField(player, TextManager.PLAYER_TYPE_PART);
-			number = xmlGetIntValueFromField(player, TextManager.PLAYER_NUMBER_PART);
+			name = xmlGetStringValueFromField(player, BoardPublisher.PLAYER_LOGIN_PART);
+			color = xmlGetStringValueFromField(player, BoardPublisher.PLAYER_COLOR_PART);
+			type = xmlGetStringValueFromField(player, BoardPublisher.PLAYER_TYPE_PART);
+			number = xmlGetIntValueFromField(player, BoardPublisher.PLAYER_NUMBER_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -413,16 +414,16 @@ public class RestoreGame {
 		if (name == null)
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 		
-		if (!color.equalsIgnoreCase(TextManager.WHITE_PLAYER) && !color.equalsIgnoreCase(TextManager.BLACK_PLAYER))
+		if (!color.equalsIgnoreCase(BoardPublisher.WHITE_PLAYER) && !color.equalsIgnoreCase(BoardPublisher.BLACK_PLAYER))
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 		
-		if (!type.equalsIgnoreCase(TextManager.HUMAN_PLAYER) && !type.equalsIgnoreCase(TextManager.MACHINE_PLAYER))
+		if (!type.equalsIgnoreCase(BoardPublisher.HUMAN_PLAYER) && !type.equalsIgnoreCase(BoardPublisher.MACHINE_PLAYER))
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 		
 		if (number < 1 || number > 2 )
 			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 			
-		if (type.equalsIgnoreCase(TextManager.HUMAN_PLAYER)){
+		if (type.equalsIgnoreCase(BoardPublisher.HUMAN_PLAYER)){
 			try {
 				p = this.playerFacto.getHumanPlayer(name, color, number);
 			} catch (FactoryHandlerException e) {
@@ -430,7 +431,7 @@ public class RestoreGame {
 				e.printStackTrace();
 			}
 		}
-		else if (type.equalsIgnoreCase(TextManager.MACHINE_PLAYER)){
+		else if (type.equalsIgnoreCase(BoardPublisher.MACHINE_PLAYER)){
 			try {
 				p = this.playerFacto.getMachinePlayer(name, color, number);
 			} catch (FactoryHandlerException e) {

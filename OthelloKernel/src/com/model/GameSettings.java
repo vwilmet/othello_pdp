@@ -9,6 +9,7 @@ import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
 import com.model.player.MachinePlayer;
 import com.model.player.Player;
+import com.publisher.BoardPublisher;
 
 /**
  * 
@@ -266,21 +267,21 @@ public class GameSettings {
 	}
 
 	public void reversePlayer(){
-		if(this.player1.getColor().equals(TextManager.BLACK_PLAYER))
-			this.player1.setColor(TextManager.WHITE_PLAYER);
+		if(this.player1.getColor().equals(BoardPublisher.BLACK_PLAYER))
+			this.player1.setColor(BoardPublisher.WHITE_PLAYER);
 		else
-			this.player1.setColor(TextManager.BLACK_PLAYER);
+			this.player1.setColor(BoardPublisher.BLACK_PLAYER);
 
-		if(this.player2.getColor().equals(TextManager.BLACK_PLAYER))
-			this.player2.setColor(TextManager.WHITE_PLAYER);
+		if(this.player2.getColor().equals(BoardPublisher.BLACK_PLAYER))
+			this.player2.setColor(BoardPublisher.WHITE_PLAYER);
 		else
-			this.player2.setColor(TextManager.BLACK_PLAYER);
+			this.player2.setColor(BoardPublisher.BLACK_PLAYER);
 		this.changePlayer();
 	}
 
 	public void setPiece(int i, int j) {
 
-		if(this.currentPlayer.getColor().equals(TextManager.WHITE_PLAYER))
+		if(this.currentPlayer.getColor().equals(BoardPublisher.WHITE_PLAYER))
 			this.gameBoard.setWhitePiece(i, j);
 		else
 			this.gameBoard.setBlackPiece(i, j);

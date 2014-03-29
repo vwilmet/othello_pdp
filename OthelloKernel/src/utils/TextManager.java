@@ -106,43 +106,19 @@ public interface TextManager {
 	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Second joueur."; 
 	
 	public static final String ERROR_ABOUT_PLAYER_NUMBER_FR = "Deux joueurs (humain ou machine) sont nécessaires pour le jeu."; 
-	
-	public static final String HUMAN_PLAYER = "human";
-	public static final String MACHINE_PLAYER = "machine";
 
 	public static final String HUMAN_LABEL_PLAYER = "Humain";
 	public static final String MACHINE_LABEL_PLAYER = "Machine";
-	public static final String WHITE_PLAYER = "white";
-	public static final String BLACK_PLAYER = "black";
 	
 	// Board
 	public static final String WRONG_SIZE_X_FR = "La taille de votre othellier sur l'axe des abscisses doit être comprise entre 4 et 50.";
 	public static final String WRONG_SIZE_Y_FR = "La taille de votre othellier sur l'axe des ordonnées doit être comprise entre 4 et 50.";
 	public static final String PIECE_NUMBER_ON_BOARD_FR = "Taille de l'othellier (nombre de pions sur le plateau) : ";
 
-	//Save/RestoreGame
-	public static final String BOARD_PART = "board";
-	public static final String INIT_PART = "init";
-	public static final String SIZE_PART = "size";
-	public static final String X_PART = "x";
-	public static final String Y_PART = "y";
-	public static final String COLOR_PART = "c";
-	public static final String PIECES_PART = "pieces";
-	public static final String PIECE_PART = "piece";
-	
-	public static final String PLAYER_PART = "player";
-	public static final String PLAYER_LOGIN_PART = "name";
-	public static final String PLAYER_COLOR_PART = "rgb";
-	public static final String PLAYER_TYPE_PART = "type";
-	public static final String PLAYER_NUMBER_PART = "num";
-	
-	public static final String AI_LEVEL_PART = "AILevel";
-	public static final String AI_THINKING_TIME_PART = "AIThinkingTime";
-	public static final String PLAYED_PIECES_PART = "playedPcs";
-	public static final String HISTORY_PART = "history";
-	
+	//Save/RestoreGame	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
-		
+	
+	// Status Posts
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Blanc";
 	public static final String DEFAULT_PLAYER2_NAME_FR = "Noir";
 

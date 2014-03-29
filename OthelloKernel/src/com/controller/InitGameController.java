@@ -17,6 +17,7 @@ import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.player.Player;
+import com.publisher.BoardPublisher;
 import com.view.BenchMarkViewImpl;
 import com.view.InitGameViewImpl;
 import com.view.event.BenchMarkViewButtonEventListener;
@@ -127,18 +128,18 @@ public class InitGameController implements InitGameButtonEventListener {
 			try {
 				if(isPlayer1AI){
 					System.out.println("Player 1 ia");
-					player1 = pFacto.getMachinePlayer(player1Name, TextManager.WHITE_PLAYER, 1);
+					player1 = pFacto.getMachinePlayer(player1Name, BoardPublisher.WHITE_PLAYER, 1);
 				}else{
 					System.out.println("Player 1 humain");
-					player1 = pFacto.getHumanPlayer(player1Name, TextManager.WHITE_PLAYER, 1);
+					player1 = pFacto.getHumanPlayer(player1Name, BoardPublisher.WHITE_PLAYER, 1);
 				}
 
 				if(isPlayer2AI){
 					System.out.println("Player 2 ia");
-					player2 = pFacto.getMachinePlayer(player2Name, TextManager.BLACK_PLAYER, 2);
+					player2 = pFacto.getMachinePlayer(player2Name, BoardPublisher.BLACK_PLAYER, 2);
 				}else{
 					System.out.println("Player 2 humaina");
-					player2 = pFacto.getHumanPlayer(player2Name, TextManager.BLACK_PLAYER, 2);
+					player2 = pFacto.getHumanPlayer(player2Name, BoardPublisher.BLACK_PLAYER, 2);
 				}
 
 				gameSetts = gsFacto.getGameSettings(

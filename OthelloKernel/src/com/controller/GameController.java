@@ -29,6 +29,7 @@ import com.model.io.SaveGame;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
+import com.publisher.BoardPublisher;
 import com.timermanager.TimerActionEvent;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
@@ -63,8 +64,8 @@ public abstract class GameController{
 		
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer("toto", TextManager.WHITE_PLAYER,1), 
-					pFacto.getMachinePlayer("John DOE", TextManager.BLACK_PLAYER,2),
+					pFacto.getHumanPlayer("toto", BoardPublisher.WHITE_PLAYER,1), 
+					pFacto.getMachinePlayer("John DOE", BoardPublisher.BLACK_PLAYER,2),
 					board,
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY,
@@ -291,7 +292,7 @@ public abstract class GameController{
 		Piece target = null;
 		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
 
-		if(this.gameSettings.getCurrentPlayer().getColor().equals(TextManager.WHITE_PLAYER))
+		if(this.gameSettings.getCurrentPlayer().getColor().equals(BoardPublisher.WHITE_PLAYER))
 			origins = new ArrayList<Piece>(gameSettings.getGameBoard().getWhitePieces());
 		else
 			origins = new ArrayList<Piece>(this.gameSettings.getGameBoard().getBlackPieces());
@@ -393,12 +394,12 @@ public abstract class GameController{
 	}
 
 	protected void checkPlayersPiecesCount(){
-		if(this.gameSettings.getFirstPlayer().getColor().equals(TextManager.WHITE_PLAYER)){
+		if(this.gameSettings.getFirstPlayer().getColor().equals(BoardPublisher.WHITE_PLAYER)){
 			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
 		}else{
 			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
 		}
-		if(this.gameSettings.getSecondPlayer().getColor().equals(TextManager.BLACK_PLAYER)){
+		if(this.gameSettings.getSecondPlayer().getColor().equals(BoardPublisher.BLACK_PLAYER)){
 			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
 		}else{
 			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());

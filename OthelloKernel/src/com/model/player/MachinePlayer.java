@@ -1,10 +1,8 @@
 package com.model.player;
 
-import java.awt.Color;
-
-import javax.xml.soap.Text;
-
 import utils.TextManager;
+
+import com.publisher.BoardPublisher;
 
 /**
  * 
@@ -22,7 +20,7 @@ public class MachinePlayer implements PlayerType {
 	
 	@Override
 	public String getPlayerType(){
-		return TextManager.MACHINE_PLAYER;	
+		return BoardPublisher.MACHINE_PLAYER;	
 	}
 	
 	@Override

@@ -1,9 +1,9 @@
 package com.model.player;
 
-import java.awt.Color;
-
 import utils.GameHandlerException;
 import utils.TextManager;
+
+import com.publisher.BoardPublisher;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class Player {
 	public Player(String login, String c, int playerNumber) throws GameHandlerException{
 		this.login = login;
 		
-		if ((c.equals(TextManager.WHITE_PLAYER)) || (c.equals(TextManager.BLACK_PLAYER)))
+		if ((c.equals(BoardPublisher.WHITE_PLAYER)) || (c.equals(BoardPublisher.BLACK_PLAYER)))
 			this.color = c;
 		else {
 			throw new GameHandlerException(GameHandlerException.WRONG_INITIAL_PIECE_COLOR);

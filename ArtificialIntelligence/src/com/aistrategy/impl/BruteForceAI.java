@@ -138,6 +138,8 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		tree.setRootElement(new NodeMove<Point>(new Point(-1,-1),1,initBoard));
 		tree.setSentinel(tree.getRootElement());
 		tm = new TimerManagerImpl();
+		if(maxTime == null)
+			this.maxTime = 0;
 		//Integer finalScore = miniMax(depth, tree.getSentinel());
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
@@ -494,6 +496,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		initBoard = random.initBoard;
 		tree = random.tree;
 		tm = new TimerManagerImpl();
+		maxTime = 0;
 		return true;
 	}
 
@@ -503,6 +506,7 @@ public class BruteForceAI extends Thread implements ArtificialIntelligenceStrate
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
 		tm = new TimerManagerImpl();
+		maxTime = 0;
 		return true;
 	}
 

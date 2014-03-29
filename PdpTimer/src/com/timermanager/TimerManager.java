@@ -11,12 +11,12 @@ package com.timermanager;
 public interface TimerManager {
 
 	/**
-	 * Cette méthode lance le minuteur et déclenche au bout de "time" secondes la 
+	 * Cette méthode lance le minuteur et déclenche au bout de "time" milli-secondes la 
 	 * méthode {@link com.timermanager.TimerActionEvent#onTimerEnded} de 
 	 * l'interface {@link com.timermanager.TimerActionEvent}
 	 * <b>Attention : </b>Cette méthode ne peut être appelée qu'une seule fois, en même temps ou après avoir 
 	 * arrêté le timer, à l'aide de la méthode {@link com.timermanager.TimerManager#stopTimer}
-	 * @param time Le temps du timer en secondes
+	 * @param time Le temps du timer en milli-secondes
 	 */
 	public void startTimer(int time);
 
@@ -41,7 +41,7 @@ public interface TimerManager {
 	/**
 	 * Cette méthode renvoie la valeur du chronomètre <br/>
 	 * Celui ci doit être lancé par la méthode : {@link com.timermanager.TimerActionEvent#startCountingElapsedTime}
-	 * @return le temps calculé par le chronomètre
+	 * @return le temps calculé par le chronomètre en milli-secondes
 	 */
 	public long getElapsedTime();
 	

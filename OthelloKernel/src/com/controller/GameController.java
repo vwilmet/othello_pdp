@@ -156,13 +156,11 @@ public abstract class GameController{
 			return;
 		}
 		
-		//System.out.println("Current Player : " + this.gameSettings.getCurrentPlayer());
-		
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
 			final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-			final Point p = helpAI.nextMove(playerNumber);
+			final Point p = this.ai.get(userLogin).nextMove(playerNumber);
 
 			if(p == null)
 				JOptionPane.showMessageDialog(null, 
@@ -185,7 +183,7 @@ public abstract class GameController{
 					public void commonAction(){
 						if(onPiecePlayed(p.x, p.y)){
 							try {
-								helpAI.notifyChosenMove(p, playerNumber);
+								ai.get(userLogin).notifyChosenMove(p, playerNumber);
 							} catch (WrongPlayablePositionException e) {
 								Log.error(e.getMessage());
 								e.printStackTrace();
@@ -196,7 +194,7 @@ public abstract class GameController{
 						}
 					}
 				});
-				time.startTimer(1);
+				time.startTimer(1000);
 			}
 		}
 		/*

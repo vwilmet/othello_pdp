@@ -113,7 +113,7 @@ public class TimerManagerImpl implements TimerManager{
 				}
 				TimerManagerImpl.this.interval--;
 			}
-		}, 0, 1000);
+		}, 0, 1);
 	}
 
 	/**

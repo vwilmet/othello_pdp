@@ -75,7 +75,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 
 			onLoadedFileChoosen(chooser.getSelectedFile().getPath());
-			
 			this.gameView.setBoard(gameSettings.getGameBoard());
 			this.gameView.resetMessageListContent();
 		}
@@ -88,7 +87,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			if(i!=-1 && j != -1){
 				if(onPiecePlayed(i, j)){
 					this.gameView.setIAAdvisedPiece(null);
-					this.updateInformationField();
 					this.dealWithCurrentPlayer();
 				}
 			}
@@ -397,5 +395,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onSaveHistoryPositionItemMenuPressed() {
 		this.saveHistoryPosition();
+	}
+
+	@Override
+	protected void onChangePlayerTurnFinished() {
+		this.updateInformationField();
 	}
 }

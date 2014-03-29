@@ -39,13 +39,13 @@ import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
 public abstract class GameController{
-	
+
 	protected GameSettings gameSettings;
 	protected TimerManager timer;
 	protected ArtificialIntelligence helpAI;
 	protected HashMap<String, ArtificialIntelligence> ai;
 	protected FilesManager files = new FilesManagerImpl();
-	
+	protected boolean hasThePreviousPlayerPassHisTurn;
 	
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -57,7 +57,8 @@ public abstract class GameController{
 		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
 		this.files.init(false);
-		
+		hasThePreviousPlayerPassHisTurn = false;
+
 		try {
 			board = bFacto.getInitialBoard(4, 4);
 		} catch (FactoryHandlerException e) {
@@ -128,12 +129,20 @@ public abstract class GameController{
 	}
 
 	protected abstract void initializeNewGame();
+				
 	protected abstract void loadFileForGame();
+				
 	protected abstract void playerCantPlay();
+	
 	protected abstract void beforeDealingWithCurrentPlayer();
+	
 	protected abstract void onIAPlayed(String login, int i, int j);
+	
 	protected abstract void onAutoSaveCurrentBoardFailed();
+	
 	protected abstract void onAutoSaveCurrentBoardSuccess();
+	
+	protected abstract void onChangePlayerTurnFinished();
 
 	protected void onLoadedFileChoosen(String path){
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
@@ -164,23 +173,47 @@ public abstract class GameController{
 					e.printStackTrace();
 				}
 				
-				this.gameSettings.changePlayer();
-				this.setPlayablePiece();
+				changePlayerTurn();
+				
 				this.quickSaveOFCurrentBoard();
 				return true;
 			}
 		return false;
 	}
 
+	protected void changePlayerTurn(){
+		this.gameSettings.changePlayer();
+		this.setPlayablePiece();
+		
+		this.onChangePlayerTurnFinished();
+	}
+	
 	protected void dealWithCurrentPlayer(){
 		System.out.println("[dealWithCurrentPlayer]");
 		
 		this.beforeDealingWithCurrentPlayer();
-
+		
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
-			this.playerCantPlay();
+						
+			if(!hasThePreviousPlayerPassHisTurn &&
+					(this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) <
+					(this.gameSettings.getGameBoard().getSizeX()*this.gameSettings.getGameBoard().getSizeY())){
+				hasThePreviousPlayerPassHisTurn = true;
+				String message = "Le joueur " + this.gameSettings.getCurrentPlayer().getLogin() + " ne peux plus jouer! C'est au tour du joueur " + this.gameSettings.getOpponentPlayer().getLogin();
+				JOptionPane.showMessageDialog(null, 
+						message, 
+						"Attention ... ", JOptionPane.INFORMATION_MESSAGE);
+				
+				changePlayerTurn();
+				dealWithCurrentPlayer();
+			}
+			else{
+				this.playerCantPlay();
+			}
+			
 			return;
-		}
+		}else{
+			hasThePreviousPlayerPassHisTurn = false;
 		
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
@@ -188,11 +221,12 @@ public abstract class GameController{
 			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 			final Point p = this.ai.get(userLogin).nextMove(playerNumber);
 
-			if(p == null)
-				JOptionPane.showMessageDialog(null, 
+			if(p == null){
+				/*JOptionPane.showMessageDialog(null, 
 						"L'IA ne peut plus jouer !", 
-						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
-			else{
+						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
+				Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
+			}else{
 				TimerManager time = new TimerManagerImpl();
 				time.setTimerActionEvent(new TimerActionEvent() {
 					
@@ -216,6 +250,7 @@ public abstract class GameController{
 				});
 				time.startTimer(1000);
 			}
+		}
 		}
 		/*
 		 * Sinon c'est un joueur humain. Du coup on attend qu'il joue et lorsqu'il joue l'évenement GameControllerGraphical.onLeftMouseButtonPressed est soulevé.

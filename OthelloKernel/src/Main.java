@@ -2,7 +2,6 @@ import utils.Application;
 
 import com.controller.GameController;
 import com.controller.GameControllerGraphical;
-import com.controller.InitGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 

@@ -24,12 +24,15 @@ import com.model.factory.interfaces.BoardFactory;
 import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
+import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.factory.interfaces.SaveGameFactory;
+import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
 import com.publisher.BoardPublisher;
+import com.publisher.generator.GenerateXML;
 import com.timermanager.TimerActionEvent;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
@@ -125,15 +128,42 @@ public abstract class GameController{
 	}
 
 	protected abstract void initializeNewGame();
-
 	protected abstract void loadFileForGame();
+	protected abstract void playerCantPlay();
+	protected abstract void beforeDealingWithCurrentPlayer();
+	protected abstract void onIAPlayed(String login, int i, int j);
+	protected abstract void onAutoSaveCurrentBoardFailed();
+	protected abstract void onAutoSaveCurrentBoardSuccess();
 
+	protected void onLoadedFileChoosen(String path){
+		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
+		RestoreGame rg = null;
+		
+		try {
+			rg = rgFacto.getRestoreGame(path);
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		rg.loadGameFromBackupFile();
+
+		gameSettings = rg.getGameSettings();
+	}
+	
 	protected boolean onPiecePlayed(int i, int j){
 		for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 			if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
 				this.gameSettings.setPiece(i, j);
 				this.reverseInbetweenPieceAfterPlaying(i, j);
 				this.gameSettings.manageBoardHistory(i, j);
+				
+				try {
+					this.helpAI.notifyChosenMove(new Point(i, j), this.gameSettings.getCurrentPlayer().getPlayerNumber());
+				} catch (WrongPlayablePositionException e) {
+					Log.error(e.getMessage());
+					e.printStackTrace();
+				}
+				
 				this.gameSettings.changePlayer();
 				this.setPlayablePiece();
 				this.quickSaveOFCurrentBoard();
@@ -141,10 +171,6 @@ public abstract class GameController{
 			}
 		return false;
 	}
-
-	protected abstract void playerCantPlay();
-
-	protected abstract void beforeDealingWithCurrentPlayer();
 
 	protected void dealWithCurrentPlayer(){
 		System.out.println("[dealWithCurrentPlayer]");
@@ -182,12 +208,6 @@ public abstract class GameController{
 					
 					public void commonAction(){
 						if(onPiecePlayed(p.x, p.y)){
-							try {
-								ai.get(userLogin).notifyChosenMove(p, playerNumber);
-							} catch (WrongPlayablePositionException e) {
-								Log.error(e.getMessage());
-								e.printStackTrace();
-							}
 							onIAPlayed(userLogin, p.x, p.y);
 							gameSettings.showHistory();
 							dealWithCurrentPlayer();
@@ -202,8 +222,22 @@ public abstract class GameController{
 		 */
 	}
 
-	protected abstract void onIAPlayed(String login, int i, int j);
+	protected void resetGameBoard(){
+		this.gameSettings.restartGame();
+		this.setPlayablePiece();
+		this.stopAllAI();
+	}
 
+	protected Piece getAdvisedPieceByAI(){
+		Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
+		return this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
+	}
+	
+	protected void reversePlayer(){
+		this.gameSettings.reversePlayer();
+		this.setPlayablePiece();
+	}
+	
 	protected void saveHistoryPosition(){
 
 		String boardContent = "";
@@ -223,10 +257,14 @@ public abstract class GameController{
 
 	}
 
-	protected abstract void onAutoSaveCurrentBoardFailed();
-	protected abstract void onAutoSaveCurrentBoardSuccess();
+	protected void launchShellToLetUserConfigureNewBoard(){
+		GenerateXML gxml = new GenerateXML();
+		gxml.boardMaker();
+	}
 
-	protected void initializeCompletGameAfterNewConfiguration(){
+	protected void initializeCompletGameAfterNewConfiguration(GameSettings game){
+		this.stopAllAI();
+		this.gameSettings = game;
 		this.setPlayablePiece();
 
 		this.ai.clear();

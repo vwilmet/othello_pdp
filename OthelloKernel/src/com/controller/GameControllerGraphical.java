@@ -63,9 +63,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	}
 
 	protected void loadFileForGame(){
-
-		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
-		RestoreGame rg = null;
 		int returnVal;
 
 		JFileChooser chooser = new JFileChooser();
@@ -77,15 +74,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 
-			try {
-				rg = rgFacto.getRestoreGame(chooser.getSelectedFile().getPath());
-			} catch (FactoryHandlerException e) {
-				Log.error(e.getMessage());
-				e.printStackTrace();
-			}
-			rg.loadGameFromBackupFile();
-
-			gameSettings = rg.getGameSettings();
+			onLoadedFileChoosen(chooser.getSelectedFile().getPath());
+			
 			this.gameView.setBoard(gameSettings.getGameBoard());
 			this.gameView.resetMessageListContent();
 		}
@@ -96,17 +86,8 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof HumanPlayer){
 			if(i!=-1 && j != -1){
-				int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-
 				if(onPiecePlayed(i, j)){
 					this.gameView.setIAAdvisedPiece(null);
-
-					try {
-						this.helpAI.notifyChosenMove(new Point(i, j), playerNumber);
-					} catch (WrongPlayablePositionException e) {
-						Log.error(e.getMessage());
-						e.printStackTrace();
-					}
 					this.updateInformationField();
 					this.dealWithCurrentPlayer();
 				}
@@ -132,12 +113,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void initGameFinished(boolean valid, GameSettings game) {
-
 		if(valid){
-			this.gameSettings = game;
-			this.gameView.setBoard(this.gameSettings.getGameBoard());
+			this.initializeCompletGameAfterNewConfiguration(game);
 			this.gameView.resetMessageListContent();
-			this.initializeCompletGameAfterNewConfiguration();
+			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 			this.updateInformationField();
 			this.dealWithCurrentPlayer();
@@ -225,12 +204,12 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Vous ne pouvez pas recommencer la partie!! Vous êtes déjà au début de la partie");
 			return;
 		}
-		this.gameSettings.restartGame();
+		
+		resetGameBoard();
+		
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
-		this.setPlayablePiece();
 		this.updateInformationField();
-		this.stopAllAI();
 		this.initializeIA();
 		this.dealWithCurrentPlayer();
 	}
@@ -238,9 +217,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onHelpIAButtonCliked() {
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() != 0){
-			Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
-			Piece piece = this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
-			this.gameView.setIAAdvisedPiece(piece);
+			this.gameView.setIAAdvisedPiece(getAdvisedPieceByAI());
 			this.gameView.refresh();
 		}
 	}
@@ -255,8 +232,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onReversePlayerButtonCliked() {
-		this.gameSettings.reversePlayer();
-		this.setPlayablePiece();
+		reversePlayer();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
 		this.updateInformationField();
 		this.dealWithCurrentPlayer();	
@@ -288,7 +264,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onOpenFileAndContinueItemMenuPressed() {
 		this.loadFileForGame();
-		this.initializeCompletGameAfterNewConfiguration();
+		this.initializeCompletGameAfterNewConfiguration(this.gameSettings);
 		this.addMessageToListForUser(TextManager.NEM_GAME_START_MESSAGE_LIST_VUE);
 		this.updateInformationField();
 		this.dealWithCurrentPlayer();
@@ -316,7 +292,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onHelpItemMenuPressed() {
 		try {
-			//			java.awt.Desktop.getDesktop().browse(new URI(GameSettings.HELP_WEBSITE_PATH));
 			java.awt.Desktop.getDesktop().browse(new File(GameSettings.HELP_WEBSITE_PATH).toURI());
 		} catch (IOException  e) {
 			Log.error(e.getMessage());
@@ -334,17 +309,17 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.setPlayablePiece();
 
-		System.out.println("(------------------------------------------)");
+		/*System.out.println("(------------------------------------------)");
 		System.out.println("Before undoing!!");
-		System.out.println(this.helpAI.boardToString());
+		System.out.println(this.helpAI.boardToString());*/
 
 		for(int i = 0; i < recoil; i++){
 			this.helpAI.undoMove();
 		}
 
-		System.out.println(this.helpAI.boardToString());
+		/*System.out.println(this.helpAI.boardToString());
 		System.out.println("After undoing");
-		System.out.println("(------------------------------------------)");
+		System.out.println("(------------------------------------------)");*/
 
 		this.updateInformationField();
 		this.addMessageToListForUser("Vous avez fait un retour de " + recoil + " position(s).");
@@ -416,8 +391,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onConfigureBoardItemMenuPressed() {
-		GenerateXML gxml = new GenerateXML();
-		gxml.boardMaker();
+		launchShellToLetUserConfigureNewBoard();
 	}
 
 	@Override

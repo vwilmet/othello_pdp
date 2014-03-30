@@ -124,4 +124,16 @@ public interface FilesManager {
 	 * Méthode qui permet d'éviter la vérification de la bonne écriture dans le fichier
 	 */
 	public void disableVerification();
+	
+	/**
+	 * Méthode qui retourne le nom du premier fichier de sauvegarde automatique
+	 *  construit à partir du nom fourni par l'utilisateur
+	 */
+	public String getFirstAutoSaveRealFileName();
+	
+	/**
+	 * Méthode qui retourne le nom du second fichier de sauvegarde automatique
+	 *  construit à partir du nom fourni par l'utilisateur
+	 */
+	public String getSecondAutoSaveRealFileName();
 }

@@ -40,9 +40,19 @@ import utils.FileHandlingException;
 public class FilesManagerImpl implements FilesManager{
 	
 	/**
-	 * Le nom du fichier de sauvegarde automatique
+	 * Le nom du fichier de sauvegarde automatique donnée par l'utilisateur avant les ajouts du modules rendant le fichier unique [Nombre-date-nom_utiliateur]
 	 */
 	private String autoSaveFileName = DEFAULT_AUTOSAVE_FILENAME + DEFAULT_FILENAME_EXTENSION;
+	
+	/**
+	 * Le nom du premier fichier de sauvegarde automatique unique
+	 */
+	private String autoSaveFirstFileName;
+	
+	/**
+	 * Le nom du second fichier de sauvegarde automatique unique
+	 */
+	private String autoSaveSecondFileName;
 	
 	/**
 	 * Fichier de sauvegarde pour la sauvegarde voulue par l'utilisateur
@@ -69,9 +79,9 @@ public class FilesManagerImpl implements FilesManager{
 	public FilesManagerImpl() {
 		autoSaveFile = new MNBVFile[2];
 	}
-
+	
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#init}
 	 */
@@ -80,9 +90,9 @@ public class FilesManagerImpl implements FilesManager{
 		this.verification = enableVerification;
 		return true;
 	}
-
+	
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br>Voir {@link com.manager.FilesManager#init(String autosaveFilename, boolean enableVerification)}
 	 */
@@ -91,7 +101,7 @@ public class FilesManagerImpl implements FilesManager{
 		this.autoSaveFileName = autosaveFilename;
 		return this.init(enableVerification);
 	}
-
+	
 	/**
 	 * Méthode créant un fichier au chemin "path" au nom de "name"
 	 * @param name Le nom du fichier avec son extension
@@ -104,13 +114,13 @@ public class FilesManagerImpl implements FilesManager{
 	}
 
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#save}
 	 */
 	@Override
 	public boolean save(String name, String path, Object data) {
-
+		
 		if (data == null) return false;
 		if (this.saveFile != null) this.saveFile = null;
 
@@ -119,7 +129,7 @@ public class FilesManagerImpl implements FilesManager{
 			name = FileDateManager.getDateFormatAAAAMMJJHHMMSS() + "_" + DEFAULT_SAVE_FILENAME + DEFAULT_FILENAME_EXTENSION;
 		}
 		
-		if(path == null) path = "";
+		if(path == null || path.equals("")) path = "./";
 		
 		try {
 			saveFile = createFile(name, path);
@@ -156,7 +166,7 @@ public class FilesManagerImpl implements FilesManager{
 	}
 
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#autoSave}
 	 */
@@ -167,8 +177,12 @@ public class FilesManagerImpl implements FilesManager{
 		
 		if(autoSaveFile[0] == null){
 			try {
-				autoSaveFile[0] = createFile("01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName, DEFAULT_FILE_PATH + File.separator);
-				autoSaveFile[1] = createFile("02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName, DEFAULT_FILE_PATH + File.separator);
+				
+				this.autoSaveFirstFileName = "01-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName;
+				this.autoSaveSecondFileName = "02-" + FileDateManager.getDateFormatAAAAMMJJHHMMSS() + autoSaveFileName;
+				
+				autoSaveFile[0] = createFile(this.autoSaveFirstFileName, DEFAULT_FILE_PATH + File.separator);
+				autoSaveFile[1] = createFile(this.autoSaveSecondFileName, DEFAULT_FILE_PATH + File.separator);
 				currentAutoSaveFile = autoSaveFile[0];
 			} catch (FileHandlingException e) {
 				Log.error(e.getMessage());
@@ -214,13 +228,16 @@ public class FilesManagerImpl implements FilesManager{
 	}
 
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#load}
 	 */
 	@Override
 	public String load(String name, String path) {
 		if (name == null || name.equals("")) return ERROR_ON_LOAD_FILE_NOT_EXISTING;
+
+		if(path == null || path.equals("")) path = "./";
+		
 		File file = new File(path + File.separator + name);
 
 		if (!file.exists())
@@ -234,7 +251,7 @@ public class FilesManagerImpl implements FilesManager{
 	}
 
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#enableVerification}
 	 */
@@ -242,14 +259,36 @@ public class FilesManagerImpl implements FilesManager{
 	public void enableVerification() {
 		this.verification = true;
 	}
-
+	
 	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.manager.FilesManager#disableVerification}
 	 */
 	@Override
 	public void disableVerification() {
 		this.verification = false;
+	}
+
+	
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.manager.FilesManager#getFirstAutoSaveRealFileName}
+	 */
+	@Override
+	public String getFirstAutoSaveRealFileName() {
+		return autoSaveFirstFileName;
+	}
+	
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.manager.FilesManager} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.manager.FilesManager#getSecondAutoSaveRealFileName}
+	 */
+
+	@Override
+	public String getSecondAutoSaveRealFileName() {
+		return autoSaveSecondFileName;
 	}
 }

@@ -153,7 +153,7 @@ public class MNBVFile {
 		this.canWrite = true;
 		this.canRead = false;
 	}
-
+	
 	/**
 	 * Méthode permettant la lecture du contenu dans le fichier
 	 * @return content : le contenu du fichier
@@ -172,6 +172,7 @@ public class MNBVFile {
 			while ((line = reader.readLine()) != null) {
 				content += line + "\n";
 			}
+			reader.close();
 		} catch (Exception e) {
 			throw new FileHandlingException(FileHandlingException.READING_ERROR);
 		} 

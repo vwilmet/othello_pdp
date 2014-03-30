@@ -375,6 +375,14 @@ public class Board {
 		return blackPiece.size();
 	}
 	
+	public Integer getWidth() {
+		return width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
 	/**
 	 * Méthode permettant de créer une chaîne de  caractère représentant le plateau.
 	 * @return la chaîne de caractère représentant le plateau.

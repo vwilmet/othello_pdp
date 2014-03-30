@@ -13,6 +13,6 @@ import com.model.io.SaveGame;
  * @version 1.0
  */
 public interface SaveGameFactory {
-	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException;
+	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException;
 
 }

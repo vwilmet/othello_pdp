@@ -5,7 +5,6 @@ import com.controller.GameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 
-
 /**
  * @author Benjamin Letourneau
  * @version 1.0

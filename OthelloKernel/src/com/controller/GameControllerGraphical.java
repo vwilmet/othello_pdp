@@ -9,20 +9,15 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import utils.Application;
-import utils.FactoryHandlerException;
 import utils.TextManager;
 
 import com.controller.interfaces.NotifyGameController;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
-import com.model.factory.FactoryProducer;
-import com.model.factory.interfaces.RestoreGameFactory;
-import com.model.io.RestoreGame;
 import com.model.piece.Piece;
 import com.model.player.HumanPlayer;
 import com.model.player.MachinePlayer;
-import com.publisher.generator.GenerateXML;
 import com.utils.WrongPlayablePositionException;
 import com.view.GameViewImpl;
 import com.view.button.ImageButton;
@@ -378,16 +373,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	}
 
 	@Override
-	protected void onAutoSaveCurrentBoardFailed() {
-		this.addMessageToListForUser("Echec de la sauvegarde automatique de la liste de coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
-	}
-
-	@Override
-	protected void onAutoSaveCurrentBoardSuccess() {
-		this.addMessageToListForUser("Réussite de la sauvegarde des coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
-	}
-
-	@Override
 	public void onConfigureBoardItemMenuPressed() {
 		launchShellToLetUserConfigureNewBoard();
 	}
@@ -400,5 +385,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	protected void onChangePlayerTurnFinished() {
 		this.updateInformationField();
+	}
+
+	@Override
+	protected void onSaveToFile(String message) {
+		this.addMessageToListForUser(message);
 	}
 }

@@ -125,7 +125,7 @@ public class PlayerFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) throws FactoryHandlerException {
+	public SaveGame getSaveGame(GameSettings gameSettings) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PLAYER_FACTORY_REQUIRED_FR);

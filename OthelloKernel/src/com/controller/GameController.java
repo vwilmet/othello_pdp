@@ -46,6 +46,8 @@ public abstract class GameController{
 	protected HashMap<String, ArtificialIntelligence> ai;
 	protected FilesManager files = new FilesManagerImpl();
 	protected boolean hasThePreviousPlayerPassHisTurn;
+	protected SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
+	protected SaveGame saveGame = null;
 	
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -80,6 +82,13 @@ public abstract class GameController{
 			this.initializeIA();
 			this.setPlayablePiece();
 			
+			
+			try {
+				saveGame = sgFacto.getSaveGame(this.gameSettings);
+			} catch (FactoryHandlerException e) {
+				Log.error(e.getMessage());
+				e.printStackTrace();
+			}
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -138,12 +147,10 @@ public abstract class GameController{
 	
 	protected abstract void onIAPlayed(String login, int i, int j);
 	
-	protected abstract void onAutoSaveCurrentBoardFailed();
-	
-	protected abstract void onAutoSaveCurrentBoardSuccess();
-	
 	protected abstract void onChangePlayerTurnFinished();
 
+	protected abstract void onSaveToFile(String message);
+	
 	protected void onLoadedFileChoosen(String path){
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		RestoreGame rg = null;
@@ -172,9 +179,8 @@ public abstract class GameController{
 					Log.error(e.getMessage());
 					e.printStackTrace();
 				}
-				
+
 				changePlayerTurn();
-				
 				this.quickSaveOFCurrentBoard();
 				return true;
 			}
@@ -281,15 +287,20 @@ public abstract class GameController{
 			boardContent += "J" + p.getColor().getColor() + ":" + p.getPosX() + "-" + p.getPosY() + "\n";
 
 		if(files.save("history_position.txt", "./", boardContent)){
-			this.onAutoSaveCurrentBoardSuccess();
+			this.onSaveToFile("Réussite de la sauvegarde des coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
 		}else{
 			Log.error("Echec de la sauvegarde automatique des coups joués !!");
-			this.onAutoSaveCurrentBoardFailed();
+			this.onSaveToFile("Echec de la sauvegarde automatique de la liste de coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
 		}
 	}
 
 	protected void quickSaveOFCurrentBoard(){
-
+		saveGame.setAutoSaveFileName("autosave.xml");
+		
+		if(!saveGame.autoSaveGameToBackupFile()){
+			Log.error("Echec lors de la sauvegarde automatique du jeu!");
+			this.onSaveToFile("Echec lors de la sauvegarde automatique du jeu!");
+		}
 	}
 
 	protected void launchShellToLetUserConfigureNewBoard(){
@@ -315,17 +326,11 @@ public abstract class GameController{
 	}
 
 	protected void saveCurrentBoard(String path){
-		//TODO Module benj
-		SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
-		SaveGame sg = null;
-		
-		try {
-			sg = sgFacto.getSaveGame(this.gameSettings, path);
-			sg.saveGameToBackupFile();
-		} catch (FactoryHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		}
+		saveGame.setSaveFileName(path);
+		if(saveGame.saveGameToBackupFile())
+			this.onSaveToFile("Réussite de la sauvegarde du jeu dans le fichier : " + path);
+		else
+			this.onSaveToFile("Echec de la sauvegarde du jeu dans le fichier : " + path);
 	}
 	
 	private ArrayList<Piece> getReversePieceAround(Piece origin){

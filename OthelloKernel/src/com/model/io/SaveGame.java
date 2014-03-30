@@ -21,7 +21,8 @@ import com.publisher.BoardPublisher;
 
 /**
  * Classe permettant la sauvegarde d'une partie en cours.
- * @author <ul><li>Benjamin Letourneau</li></ul>
+ * @author <ul><li>Benjamin Letourneau</li>
+ *         <li>Vincent Wilmet</li></ul>
  * @version 1.0
  */
 public class SaveGame {
@@ -37,6 +38,11 @@ public class SaveGame {
 	private String saveFileName;
 	
 	/**
+	 * Nom du fichier dans lequel il faut effectuer les sauvegardes automatique.
+	 */
+	private String autoSaveFileName;
+	
+	/**
 	 * Attribut stoquant la racine du fichier de sauvegarde.
 	 */
 	private Element root;
@@ -46,6 +52,7 @@ public class SaveGame {
 	 */ 
 	private org.jdom2.Document saveDoc;
 	
+	private FilesManager fmanager;
 	
 	/**
 	 * Constructeur de classe 
@@ -53,23 +60,28 @@ public class SaveGame {
 	 * @param saveFileName : String, nom du fichier de sortie dans lequel il faut effectuer la sauvegarde.
 	 * @throws GameHandlerException
 	 */
-	public SaveGame (GameSettings gameSettings, String saveFileName) throws GameHandlerException {
+	public SaveGame (GameSettings gameSettings) {
 		this.gameSettings = gameSettings;
-
-		if(saveFileName.isEmpty() || saveFileName == null)
-			throw new GameHandlerException(GameHandlerException.ERROR_DURING_THE_WRITE_OF_GAME_SAVE_FILE);
-		
-		this.saveFileName = saveFileName;
+		this.fmanager = new FilesManagerImpl();
+		this.fmanager.init("", false);
 		
 		this.root = new Element(BoardPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
+	}
+	
+	public void setSaveFileName(String saveFileName){
+		this.saveFileName = saveFileName;
+	}
+	
+	public void setAutoSaveFileName(String autoSaveFileName){
+		this.autoSaveFileName = autoSaveFileName;
 	}
 	
 	
 	/**
 	 * Méthode permettant la sauvegarde d'une partie.
 	 */
-	public void saveGameToBackupFile(){
+	public boolean saveGameToBackupFile(){
 		this.root.addContent(makeInitPartInXML());
 		
 		try {
@@ -82,10 +94,38 @@ public class SaveGame {
 		if (this.gameSettings.getGameHistory().size() > 0)
 			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), BoardPublisher.HISTORY_PART));
 		
-		FilesManager fmanager = new FilesManagerImpl();
 		if (fmanager.save(this.saveFileName + TextManager.DOT_XML, "", this.toString()) == false){
 			Log.error(TextManager.SAVE_FATAL_ERROR_FR);
+			return false;
 		}
+		
+		return true;
+	}
+	
+	/**
+	 * Méthode permettant la sauvegarde automatique d'une partie.
+	 */
+	public boolean autoSaveGameToBackupFile(){
+		this.root.addContent(makeInitPartInXML());
+		
+		fmanager.init(this.autoSaveFileName, false);
+		
+		try {
+			this.root.addContent(makePlayedPiecesPart());
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		if (this.gameSettings.getGameHistory().size() > 0)
+			this.root.addContent(makePiecesPartFromList(this.gameSettings.getGameHistory(), BoardPublisher.HISTORY_PART));
+		
+		if (fmanager.autoSave(this.toString()) == false){
+			Log.error(TextManager.AUTOSAVE_FATAL_ERROR_FR);
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**

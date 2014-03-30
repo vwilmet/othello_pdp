@@ -117,6 +117,7 @@ public interface TextManager {
 
 	//Save/RestoreGame	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
+	public static final String AUTOSAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde automatique de la partie.";
 	
 	// Status Posts
 	public static final String DEFAULT_PLAYER1_NAME_FR = "Blanc";

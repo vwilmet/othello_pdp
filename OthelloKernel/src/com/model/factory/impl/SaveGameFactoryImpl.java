@@ -39,17 +39,8 @@ public class SaveGameFactoryImpl extends AbstractFactory {
 	}
 
 	@Override
-	public SaveGame getSaveGame(GameSettings gameSettings, String saveFileName) {
-		SaveGame sg = null;
-		
-		try {
-			sg =  new SaveGame(gameSettings, saveFileName);
-		} catch (GameHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return sg;
+	public SaveGame getSaveGame(GameSettings gameSettings) {
+		return  new SaveGame(gameSettings);
 	}
 
 	@Override

@@ -22,18 +22,21 @@ public class PieceImpl implements Cloneable, Piece {
 	}
 	
 	public PieceImpl setWhitePiece() {
+		this.piece = null;
 		this.piece = new WhitePiece();
 		this.playable = false;
 		return this;
 	}
 	
 	public PieceImpl setBlackPiece() {
+		this.piece = null;
 		this.piece = new BlackPiece();
 		this.playable = false;
 		return this;
 	}
 
 	public PieceImpl setEmptyPiece() {
+		this.piece = null;
 		this.piece = new EmptyPiece();
 		return this;
 	}

@@ -46,7 +46,7 @@ public abstract class GameController{
 	protected HashMap<String, ArtificialIntelligence> ai;
 	protected FilesManager files = new FilesManagerImpl();
 	protected boolean hasThePreviousPlayerPassHisTurn;
-	protected SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
+	protected SaveGameFactory sgFacto;
 	protected SaveGame saveGame = null;
 	
 	protected GameController() {
@@ -54,6 +54,7 @@ public abstract class GameController{
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
+		this.sgFacto = FactoryProducer.getSaveGameFactory();
 		
 		BoardObservable board = null;
 		this.timer = new TimerManagerImpl();
@@ -199,6 +200,8 @@ public abstract class GameController{
 		
 		this.beforeDealingWithCurrentPlayer();
 		
+		System.out.println("current player : " + this.gameSettings.getCurrentPlayer().getPlayerType());
+		
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
 						
 			if(!hasThePreviousPlayerPassHisTurn &&
@@ -221,18 +224,24 @@ public abstract class GameController{
 		}else{
 			hasThePreviousPlayerPassHisTurn = false;
 		
+			System.out.println("Par la !!");
+			System.out.println("current player : " + this.gameSettings.getCurrentPlayer().getPlayerType());
+			
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
+			System.out.println("Par la !! 2");
 			final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 			final Point p = this.ai.get(userLogin).nextMove(playerNumber);
 
 			if(p == null){
+				System.out.println("Par la !! 3");
 				/*JOptionPane.showMessageDialog(null, 
 						"L'IA ne peut plus jouer !", 
 						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
 				Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
 			}else{
+				System.out.println("good");
 				TimerManager time = new TimerManagerImpl();
 				time.setTimerActionEvent(new TimerActionEvent() {
 					
@@ -247,11 +256,15 @@ public abstract class GameController{
 					}
 					
 					public void commonAction(){
+
+						System.out.println("good 1 p :" + p);
 						if(onPiecePlayed(p.x, p.y)){
+							System.out.println("good 2");
 							onIAPlayed(userLogin, p.x, p.y);
 							gameSettings.showHistory();
 							dealWithCurrentPlayer();
-						}
+						}else
+							System.out.println("good 3");
 					}
 				});
 				time.startTimer(1000);

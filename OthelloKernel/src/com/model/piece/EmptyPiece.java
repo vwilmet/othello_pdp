@@ -19,9 +19,7 @@ public class EmptyPiece implements PieceColor {
 	}
 
 	@Override
-	public void reverse(PieceImpl piece) {
-		// TODO
-	}
+	public void reverse(PieceImpl piece) {}
 
 	@Override
 	public int getColor() {

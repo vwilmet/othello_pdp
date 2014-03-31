@@ -324,9 +324,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.checkPlayersPiecesCount();
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
 		this.writeStatMessage(
-				"Blanc [" + this.gameSettings.getFirstPlayer().getLogin() + " - " + this.gameSettings.getFirstPlayer().getPlayerType() + "] : " + 
+				this.gameSettings.getFirstPlayer().getColor() + " [" + this.gameSettings.getFirstPlayer().getLogin() + " - " + this.gameSettings.getFirstPlayer().getPlayerType() + "] : " + 
 						this.gameSettings.getFirstPlayer().getPiecesNumber() + 
-						" | Noir [" + this.gameSettings.getSecondPlayer().getLogin() + " - " + this.gameSettings.getSecondPlayer().getPlayerType() + "] : " + 
+						" | " + this.gameSettings.getSecondPlayer().getColor() +" [" + this.gameSettings.getSecondPlayer().getLogin() + " - " + this.gameSettings.getSecondPlayer().getPlayerType() + "] : " + 
 						this.gameSettings.getSecondPlayer().getPiecesNumber());
 
 	}

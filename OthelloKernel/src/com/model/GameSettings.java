@@ -276,6 +276,12 @@ public class GameSettings {
 			this.player2.setColor(BoardPublisher.WHITE_PLAYER);
 		else
 			this.player2.setColor(BoardPublisher.BLACK_PLAYER);
+		
+		//change couleur des pions sur le plateau
+		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
+			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
+				this.gameBoard.reverse(i, j);
+		
 		this.changePlayer();
 	}
 

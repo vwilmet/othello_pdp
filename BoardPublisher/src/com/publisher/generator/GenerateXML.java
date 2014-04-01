@@ -153,7 +153,9 @@ public class GenerateXML implements BoardPublisher {
 		initial.addContent(boardPiecesInXML(BoardPublisher.PIECES_PART));
 		initial.addContent(playerInXML(this.board.getPlayer1()));
 		initial.addContent(playerInXML(this.board.getPlayer2()));
-		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_LEVEL_PART, this.board.getAILevel()));
+		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_HELP_LEVEL_PART, this.board.getAIHeplLevel()));
+		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_PLAYER1_LEVEL_PART, this.board.getAIPlayer1Level()));
+		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_PLAYER2_LEVEL_PART, this.board.getAIPlayer2Level()));
 		initial.addContent(Utils.xmlSetIntValueToField(BoardPublisher.AI_THINKING_TIME_PART, this.board.getAIThinkingTime()));
 		
 		this.root.addContent(initial);

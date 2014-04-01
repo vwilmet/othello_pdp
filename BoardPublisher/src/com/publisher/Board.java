@@ -55,9 +55,19 @@ public class Board {
 	private int AIThinkingTime;
 	
 	/**
-	 * Difficulté de l'IA. 
+	 * Difficulté (IA) de l'aide. 
 	 */
-	private int AILevel;
+	private int AIHelpLevel;
+	
+	/**
+	 * Difficulté de l'IA Joueur 1. 
+	 */
+	private int AIP1Level;
+	
+	/**
+	 * Difficulté de l'IA Joueur 2. 
+	 */
+	private int AIP2Level;
 
 	/**
 	 * Nom du fichier de sortie (fichier de sauvegarde de la partie).
@@ -95,7 +105,9 @@ public class Board {
 		
 		this.boardFileName = initializeBoardFileName(PostsPublisher.SAVE_FILE_NAME_REQUEST_FR);
 		
-		this.AILevel = DEFAULT_AI_LEVEL;
+		this.AIHelpLevel = DEFAULT_AI_LEVEL;
+		this.AIP1Level = DEFAULT_AI_LEVEL;
+		this.AIP2Level = DEFAULT_AI_LEVEL;
 		
 		this.AIThinkingTime = DEFAULT_AI_THINKING_TIME;
 		
@@ -159,11 +171,27 @@ public class Board {
 	}
 	
 	/**
-	 * Accesseur (lecture) sur la difficulté de l'IA.
+	 * Accesseur (lecture) sur la difficulté de l'IA (aide).
 	 * @return int : difficulté de l'IA (0 = simple, 1 = moyen, 2 = difficile).
 	 */
-	public int getAILevel(){
-		return this.AILevel;
+	public int getAIHeplLevel(){
+		return this.AIHelpLevel;
+	}
+	
+	/**
+	 * Accesseur (lecture) sur la difficulté de l'IA (joueur 1).
+	 * @return int : difficulté de l'IA (0 = simple, 1 = moyen, 2 = difficile).
+	 */
+	public int getAIPlayer1Level(){
+		return this.AIP1Level;
+	}
+	
+	/**
+	 * Accesseur (lecture) sur la difficulté de l'IA (joueur 2).
+	 * @return int : difficulté de l'IA (0 = simple, 1 = moyen, 2 = difficile).
+	 */
+	public int getAIPlayer2Level(){
+		return this.AIP2Level;
 	}
 
 	/**

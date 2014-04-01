@@ -20,11 +20,25 @@ public interface BoardPublisher {
 	/**
 	 * Constantes permettant de générer le fichier de sauvegarde.
 	 */
-	public static final String BOARD_PART = "board", INIT_PART = "init", SIZE_PART = "size", X_PART = "x",
-			Y_PART = "y", COLOR_PART = "c", PIECES_PART = "pieces", PIECE_PART = "piece", 
-			PLAYER_PART = "player", PLAYER_LOGIN_PART = "name", PLAYER_COLOR_PART = "rgb",
-			PLAYER_TYPE_PART = "type", PLAYER_NUMBER_PART = "num", AI_LEVEL_PART = "AILevel",
-			AI_THINKING_TIME_PART = "AIThinkingTime", PLAYED_PIECES_PART = "playedPcs", HISTORY_PART = "history";
+	public static final String BOARD_PART = "board",
+			INIT_PART = "init",
+			SIZE_PART = "size",
+			X_PART = "x",
+			Y_PART = "y", 
+			COLOR_PART = "c",
+			PIECES_PART = "pieces",
+			PIECE_PART = "piece", 
+			PLAYER_PART = "player",
+			PLAYER_LOGIN_PART = "name",
+			PLAYER_COLOR_PART = "rgb",
+			PLAYER_TYPE_PART = "type",
+			PLAYER_NUMBER_PART = "num",
+			AI_HELP_LEVEL_PART = "AIHelpLevel",
+			AI_PLAYER1_LEVEL_PART = "AIP1Level",
+			AI_PLAYER2_LEVEL_PART = "AIP2Level",
+			AI_THINKING_TIME_PART = "AIThinkingTime",
+			PLAYED_PIECES_PART = "playedPcs",
+			HISTORY_PART = "history";
 	
 	/**
 	 * Methode permettant d'utiliser le module de génération d'othellier (plateau de jeu d'othello).

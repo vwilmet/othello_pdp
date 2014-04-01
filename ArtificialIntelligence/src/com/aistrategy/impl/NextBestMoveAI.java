@@ -50,21 +50,16 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Point nextMove(Integer player) {
-		return nextBestLessPlayableMove(player);
-	}
-
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
-	 * Utiliser l'interface
-	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
-	 * l'objet de la classe <br/>
-	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMoves}
-	 */
-	@Override
-	public List<Point> nextMoves(Integer player) {
-		List<Point> l = new ArrayList<Point>();
-		l.add(nextMove(player));
-		return l;
+		Integer boardSize = this.initBoard.getHeight()
+				* this.initBoard.getWidth();
+		Point nextMove;
+		if (((Integer) (boardSize / 3)) > (boardSize - (this.tree.getSentinel()
+				.getBoard().getNbBlackPiece() + this.tree.getSentinel()
+				.getBoard().getNbWhitePiece())))
+			nextMove = nextBestLessPlayableMove(player);
+		else
+			nextMove = nextBestScore(player);
+		return nextMove;
 	}
 
 	/**

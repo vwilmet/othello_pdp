@@ -28,7 +28,7 @@ import com.utils.WrongPlayablePositionException;
  * @version 1.0
  */
 public class BruteForceAI extends Thread implements
-		ArtificialIntelligenceStrategy, TimerActionEvent {
+ArtificialIntelligenceStrategy, TimerActionEvent {
 
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
@@ -52,12 +52,15 @@ public class BruteForceAI extends Thread implements
 	/**
 	 * Booleen pour la gestion de l'arrêt de l'execution de l'algorithme
 	 */
-	protected Boolean stopAlgorithm;
+	static protected Boolean stopAlgorithm;
 
 	/**
 	 * Temps maximal pour l'execution de l'algorithme
 	 */
 	protected Integer maxTime;
+	
+	protected Integer[][] positionalMatrix;
+	
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -71,42 +74,20 @@ public class BruteForceAI extends Thread implements
 		Point p = tree.getSentinel().getBestMove();
 		if (p == null
 				&& !tree.getSentinel().getBoard()
-						.calculatePlayablePosition(player).isEmpty()) {
+				.calculatePlayablePosition(player).isEmpty()) {
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
 			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-			// run();
+			//System.out.println("coucou");
+			//start();
+			//Thread t = new Thread(new doAlgorithm());
+			//t.start();
+			//run();
 			p = tree.getSentinel().getBestMove();
 		} else if (tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).isEmpty())
 			p = null;
 		return p;
-	}
-
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
-	 * Utiliser l'interface
-	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
-	 * l'objet de la classe <br/>
-	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMoves}
-	 */
-	@Override
-	public List<Point> nextMoves(Integer player) {
-		NodeMove<Point> s = tree.getSentinel();
-		List<Point> nextMoves = new ArrayList<Point>();
-		Point p = s.getBestMove();
-		if (p == null) {
-			Integer alpha = Integer.MIN_VALUE;
-			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-			// run();
-		}
-		while (p != null) {
-			nextMoves.add(p);
-			s = findNodeFromMove(s, p);
-			p = s.getBestMove();
-		}
-		return nextMoves;
 	}
 
 	/**
@@ -131,11 +112,11 @@ public class BruteForceAI extends Thread implements
 			i = 2;
 		else if (player == 1
 				&& s.getBoard().getNbWhitePiece() > s.getBoard()
-						.getNbBlackPiece())
+				.getNbBlackPiece())
 			i = 1;
 		else if (player == 2
 				&& s.getBoard().getNbWhitePiece() < s.getBoard()
-						.getNbBlackPiece())
+				.getNbBlackPiece())
 			i = 1;
 		else
 			i = 0;
@@ -158,22 +139,79 @@ public class BruteForceAI extends Thread implements
 		tree.setRootElement(new NodeMove<Point>(new Point(-1, -1), 1, initBoard));
 		tree.setSentinel(tree.getRootElement());
 		tm = new TimerManagerImpl();
+		positionalMatrix = initializePositionalMatrix();
 		if (maxTime == null)
 			this.maxTime = 0;
-		// Integer finalScore = miniMax(depth, tree.getSentinel());
-		Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;
-		// Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha,
-		// beta);
-		// Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(),
-		// alpha, beta);
-		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha,
-				beta);
 		// run();
-		// showBestMoveParty();
 		return true;
 	}
 
+	private Integer[][] initializePositionalMatrix() {
+		Integer[][] matrix = positionalMatrix;
+		if(matrix == null){
+			matrix = new Integer[initBoard.getWidth()][initBoard.getHeight()];
+		}
+		for(int i = 0; i < initBoard.getWidth(); i++)
+			for(int j = 0; j < initBoard.getHeight(); j++){
+					matrix[i][j] = 1;
+			}
+		
+
+		matrix[3][2] = 2;
+		matrix[2][3] = 2;
+		matrix[initBoard.getWidth()-4][2] = 2;
+		matrix[initBoard.getWidth()-3][3] = 2;
+		matrix[3][initBoard.getHeight()-3] = 2;
+		matrix[2][initBoard.getHeight()-4] = 2;
+		matrix[initBoard.getWidth()-4][initBoard.getHeight()-3] = 2;
+		matrix[initBoard.getWidth()-3][initBoard.getHeight()-4] = 2;
+		
+		matrix[2][2] = 5;
+		matrix[initBoard.getWidth()-3][2] = 5;
+		matrix[initBoard.getWidth()-3][initBoard.getHeight()-3] = 5;
+		matrix[2][initBoard.getHeight()-3] = 5;
+		
+		matrix[3][0] = 5;
+		matrix[0][3] = 5;
+		matrix[initBoard.getWidth()-4][0] = 5;
+		matrix[0][initBoard.getHeight()-4] = 5;
+		matrix[3][initBoard.getHeight()-1] = 5;
+		matrix[initBoard.getWidth()-1][3] = 5;
+		matrix[initBoard.getWidth()-4][initBoard.getHeight()-1] = 5;
+		matrix[initBoard.getWidth()-1][initBoard.getHeight()-4] = 5;
+		
+		matrix[2][0] = 10;
+		matrix[0][2] = 10;
+		matrix[initBoard.getWidth()-3][0] = 10;
+		matrix[0][initBoard.getHeight()-3] = 10;
+		matrix[2][initBoard.getHeight()-1] = 10;
+		matrix[initBoard.getWidth()-1][2] = 10;
+		matrix[initBoard.getWidth()-3][initBoard.getHeight()-1] = 10;
+		matrix[initBoard.getWidth()-1][initBoard.getHeight()-3] = 10;
+		
+		matrix[1][0] = -20;
+		matrix[0][1] = -20;
+		matrix[initBoard.getWidth()-2][0] = -20;
+		matrix[0][initBoard.getHeight()-2] = -20;
+		matrix[1][initBoard.getHeight()-1] = -20;
+		matrix[initBoard.getWidth()-1][1] = -20;
+		matrix[initBoard.getWidth()-2][initBoard.getHeight()-1] = -25;
+		matrix[initBoard.getWidth()-1][initBoard.getHeight()-2] = -25;
+		
+		matrix[1][1] = -25;
+		matrix[initBoard.getWidth()-2][initBoard.getHeight()-2] = -25;
+		matrix[initBoard.getWidth()-2][1] = -25;
+		matrix[1][initBoard.getHeight()-2] = -25;
+		
+		matrix[0][0] = 30;
+		matrix[initBoard.getWidth()-1][initBoard.getHeight()-1] = 30;
+		matrix[initBoard.getWidth()-1][0] = 30;
+		matrix[0][initBoard.getHeight()-1] = 30;
+		
+		return matrix;
+	}
+
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -186,6 +224,9 @@ public class BruteForceAI extends Thread implements
 	public void notifyChosenMove(Point pos, Integer player)
 			throws WrongPlayablePositionException {
 		System.out.println(this.tree.getSentinel().getBoard().printBoard());
+		System.out.println(player);
+		System.out.println(this.tree.getSentinel().getBoard()
+				.calculatePlayablePosition(player));
 		if (!this.tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).contains(pos)) {
 			WrongPlayablePositionException e = new WrongPlayablePositionException(
@@ -219,7 +260,7 @@ public class BruteForceAI extends Thread implements
 	 */
 	@Override
 	public Boolean completeReflexion() {
-		// TODO Auto-generated method stub
+		this.stopAlgorithm = true;
 		return null;
 	}
 
@@ -430,7 +471,7 @@ public class BruteForceAI extends Thread implements
 		return bestScore;
 	}
 
-	public Integer alphaBetaPVS(Integer depth, NodeMove<Point> node,
+	public synchronized Integer alphaBetaPVS(Integer depth, NodeMove<Point> node,
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
@@ -511,38 +552,34 @@ public class BruteForceAI extends Thread implements
 
 	public void run() {
 		System.out.println("Hello from a thread!");
-		Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;
-		/*
-		 * if(this.maxTime != 0 && !(this.maxTime == null)){
-		 * System.out.println(this.maxTime); tm.startTimer(this.maxTime);
-		 * System.out.println("Launch timer"); try { Thread.sleep(20000); }
-		 * catch (InterruptedException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } }
-		 */
+
+
+		if(this.maxTime != 0 && !(this.maxTime == null)){ 
+			tm.startTimer(this.maxTime); 
+		}
+
 		// Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha,
 		// beta);
 		// Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(),
 		// alpha, beta);
+		Integer alpha = Integer.MIN_VALUE;
+		Integer beta = Integer.MAX_VALUE;
 		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha,
 				beta);
-		/*
-		 * if(this.maxTime != 0 || this.maxTime == null) tm.stopTimer();
-		 */
-		System.out.println("Bye from a thread!");
-		// this.stopAlgorithm = false;
+
+		if(this.maxTime != 0 && !(this.maxTime == null)) 
+			tm.stopTimer();
+		this.stopAlgorithm = false;
+
 	}
 
 	@Override
 	public void onTimerEnded() {
-		// TODO Implémenter l'arrêt de l'algo
-		System.out.println("INTERRUPTION");
 		this.stopAlgorithm = true;
 	}
 
 	@Override
 	public void onTimerStopped() {
-		System.out.println("STOPPED");
 	}
 
 	@Override
@@ -552,6 +589,7 @@ public class BruteForceAI extends Thread implements
 		tree = random.tree;
 		tm = new TimerManagerImpl();
 		maxTime = random.maxTime;
+		tm.setTimerActionEvent(this);
 		return true;
 	}
 
@@ -562,6 +600,7 @@ public class BruteForceAI extends Thread implements
 		tree = nextBestMove.tree;
 		tm = new TimerManagerImpl();
 		maxTime = nextBestMove.maxTime;
+		tm.setTimerActionEvent(this);
 		return true;
 	}
 
@@ -572,11 +611,21 @@ public class BruteForceAI extends Thread implements
 		tree = brute.tree;
 		tm = new TimerManagerImpl();
 		this.maxTime = brute.maxTime;
+		tm.setTimerActionEvent(this);
 		return true;
 	}
 
 	public String boardToString() {
 		return this.tree.getSentinel().getBoard().printBoard();
 	}
-
+	
+	class doAlgorithm implements Runnable{
+		public void run(){
+			Integer alpha = Integer.MIN_VALUE;
+			Integer beta = Integer.MAX_VALUE;
+			alphaBetaPVS(depth, tree.getSentinel(), alpha,
+					beta);
+		}
+	}
+	
 }

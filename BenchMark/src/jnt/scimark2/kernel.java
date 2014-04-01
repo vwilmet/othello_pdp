@@ -10,7 +10,7 @@ public class kernel
 		// initialize FFT data as complex (N real/img pairs)
 
 		double x[] = RandomVector(2*N, R);
-		@SuppressWarnings("unused")
+		@SuppressWarnings({ "unused" })
 		double oldx[] = NewVectorCopy(x);
 		long cycles = 1;
 		Stopwatch Q = new Stopwatch();

@@ -1,6 +1,4 @@
 package com.tree;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Cette classe représente un arbre d'objet de type générique T. 

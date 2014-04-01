@@ -1,8 +1,6 @@
 package com.aistrategy.impl;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 

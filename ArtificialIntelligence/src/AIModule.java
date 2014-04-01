@@ -1,4 +1,3 @@
-import com.board.PieceEnum;
 import com.utils.WrongPlayablePositionException;
 
 public class AIModule {
@@ -8,6 +7,7 @@ public class AIModule {
 	 * @throws WrongPlayablePositionException 
 	 */
 	public static void main(String[] args) throws WrongPlayablePositionException {
+		@SuppressWarnings("unused")
 		Model myModel = new Model();
 	}
 }

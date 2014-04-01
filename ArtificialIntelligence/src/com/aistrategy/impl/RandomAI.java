@@ -1,10 +1,9 @@
 package com.aistrategy.impl;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;

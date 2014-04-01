@@ -1,6 +1,5 @@
 package com.aistrategy;
 import java.awt.Point;
-import java.util.List;
 import java.util.Set;
 
 import com.aistrategy.impl.BruteForceAI;

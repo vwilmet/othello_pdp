@@ -9,9 +9,9 @@ import java.util.Stack;
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;
+import com.timermanager.TimerActionEvent;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
-import com.timermanager.TimerActionEvent;
 import com.tree.NodeMove;
 import com.tree.TreeMove;
 import com.utils.WrongPlayablePositionException;
@@ -258,6 +258,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 	 * Voir
 	 * {@link com.aistrategy.ArtificialIntelligenceStrategy#completeReflexion}
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public Boolean completeReflexion() {
 		this.stopAlgorithm = true;
@@ -471,6 +472,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		return bestScore;
 	}
 
+	@SuppressWarnings("static-access")
 	public synchronized Integer alphaBetaPVS(Integer depth, NodeMove<Point> node,
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
@@ -550,6 +552,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 
 	}
 
+	@SuppressWarnings("static-access")
 	public void run() {
 		System.out.println("Hello from a thread!");
 
@@ -564,6 +567,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		// alpha, beta);
 		Integer alpha = Integer.MIN_VALUE;
 		Integer beta = Integer.MAX_VALUE;
+		@SuppressWarnings("unused")
 		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha,
 				beta);
 
@@ -573,6 +577,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void onTimerEnded() {
 		this.stopAlgorithm = true;

@@ -1,7 +1,6 @@
 package com.ai.impl;
 
 import java.awt.Point;
-import java.util.List;
 import java.util.Set;
 
 import com.ai.ArtificialIntelligence;

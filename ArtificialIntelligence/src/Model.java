@@ -1,12 +1,7 @@
 import java.awt.Point;
 import java.util.HashSet;
-import java.util.List;
 
 import com.ai.impl.ArtificialIntelligenceImpl;
-import com.aistrategy.ArtificialIntelligenceStrategy;
-import com.aistrategy.impl.BruteForceAI;
-import com.aistrategy.impl.NextBestMoveAI;
-import com.aistrategy.impl.RandomAI;
 import com.utils.WrongPlayablePositionException;
 
 public class Model {

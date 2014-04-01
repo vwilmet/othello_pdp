@@ -2,6 +2,7 @@ package utils;
 
 import com.manager.FilesManager;
 
+@SuppressWarnings("serial")
 public class FileHandlingException extends Exception{
 
 	public static final int ERROR = 0;

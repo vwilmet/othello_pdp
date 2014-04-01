@@ -28,14 +28,6 @@ public interface ArtificialIntelligenceStrategy {
 	public Point nextMove(Integer player);
 
 	/**
-	 * Calcule une liste entière de mouvement qui permettrait au joueur de gagner.
-	 * @param player est un entier représentant le joueur effectuant le prochain mouvement.
-	 * @return une liste de mouvement amenant le joueur à gagner le jeu.
-	 */
-	public List<Point> nextMoves(Integer player);
-
-
-	/**
 	 * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
 	 * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	 * @return un entier représentant le statut.

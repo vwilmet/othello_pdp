@@ -30,14 +30,6 @@ public interface ArtificialIntelligence {
 	public Point nextMove(Integer player);
 
 	/**
-	 * Calcule une liste entière de mouvement (limitée par l'arbre de solution) qui permettrait au joueur de gagner.
-	 * @param player est un entier représentant le joueur effectuant le prochain mouvement.
-	 * @return une liste de mouvement amenant le joueur à gagner le jeu.
-	 */
-	public List<Point> nextMoves(Integer player);
-
-
-	/**
 	 * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
 	 * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	 * @return un entier repr�sentant le statut.
@@ -54,19 +46,12 @@ public interface ArtificialIntelligence {
 	 */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 
-	public Boolean initialize(ArtificialIntelligenceImpl ai);
-
-	
 	/**
-	 * Pas sûr d'être implémenter donc pas encore retraduit
-	 * Actualize the informations in order to recalculate moves
-	 * @param whitePiece a list of all the pieces of the player 1.
-	 * @param blackPiece a list of all the pieces of the player 2.
-	 * @param boardWidth an integer representing the width of the board.
-	 * @param boardHeight an integer representing the height of the board.
-	 * @return a boolean, true if the initialization is finished without error, otherwise false.
+	 * Initialise l'IA dans le but de calculer les mouvements
+	 * @param ai, l'ia à partir de laquelle on initialise notre ia
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	 */
-	//public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight); Pas sûr de l'utilisté encore
+	public Boolean initialize(ArtificialIntelligenceImpl ai);
 
 	/**
 	 * Notifie à l'IA le mouvement que le joueur a choisi.

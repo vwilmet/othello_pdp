@@ -64,20 +64,6 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 * Utiliser l'interface
 	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
 	 * l'objet de la classe <br/>
-	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMoves}
-	 */
-	@Override
-	public List<Point> nextMoves(Integer player) {
-		List<Point> l = new ArrayList<Point>();
-		l.add(nextMove(player));
-		return l;
-	}
-
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
-	 * Utiliser l'interface
-	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
-	 * l'objet de la classe <br/>
 	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#winStatus}
 	 */
 	@Override

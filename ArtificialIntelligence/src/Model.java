@@ -23,10 +23,10 @@ public class Model {
 		myAI3 = new ArtificialIntelligenceImpl();
 		myAI = new ArtificialIntelligenceImpl();
 		myAI2 = new ArtificialIntelligenceImpl();
-		myAI3.chooseDifficulty(0);
+		myAI3.chooseDifficulty(2);
 		myAI.chooseDifficulty(1);
-		myAI2.chooseDifficulty(2);
-		myAI.setMaxTime(1000);
+		myAI2.chooseDifficulty(1);
+		myAI3.setMaxTime(1000);
 		myAI3.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		myAI2.initialize(myAI3);
 		myAI.initialize(myAI3);
@@ -40,6 +40,7 @@ public class Model {
 		}
 		System.out.println(myAI.boardToString());
 		p = myAI2.nextMove(2);		
+		System.out.println(p);
 		if(p != null){
 			myAI.notifyChosenMove(p, 2);
 			//myAI2.notifyChosenMove(p, 2);

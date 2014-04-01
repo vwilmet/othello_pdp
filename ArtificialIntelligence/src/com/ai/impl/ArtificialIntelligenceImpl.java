@@ -51,18 +51,6 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
-	 * <br/>Voir {@link com.ai.ArtificialIntelligence#nextMoves}
-	 */
-	@Override
-	public List<Point> nextMoves(Integer player) {
-		if(ai != null)
-			return ai.nextMoves(player);
-		return null;
-	}
-
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
-	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.ai.ArtificialIntelligence#winStatus}
 	 */
 	@Override

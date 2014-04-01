@@ -190,6 +190,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(RandomAI random) {
 		initBoard = random.initBoard;
 		tree = random.tree;
+		this.maxTime = random.maxTime;
 		return true;
 	}
 
@@ -197,6 +198,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(NextBestMoveAI nextBestMove) {
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
+		this.maxTime = nextBestMove.maxTime;
 		return true;
 	}
 
@@ -204,6 +206,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(BruteForceAI brute) {
 		initBoard = brute.initBoard;
 		tree = brute.tree;
+		this.maxTime = brute.maxTime;
 		return true;
 	}
 

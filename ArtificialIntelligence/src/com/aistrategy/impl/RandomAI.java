@@ -121,15 +121,32 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			Log.error(e.getMessage());
 			throw e;
 		} else {
-			Board newBoard = new Board(tree.getSentinel().getBoard());
-			newBoard.calculateTurnResult(pos, player);
-			NodeMove<Point> myNode = new NodeMove<Point>(pos, player, newBoard,
-					this.tree.getSentinel());
-			tree.getSentinel().addChild(myNode);
-			tree.setSentinel(myNode);
+			if (findNodeFromMove(tree.getSentinel(), pos) == null) {
+				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,
+						player % 2 + 1,
+						new Board(tree.getSentinel().getBoard()),
+						this.tree.getSentinel());
+				newSentinel.calculateTurnResult();
+				tree.getSentinel().addChild(newSentinel);
+				tree.getSentinel().setBestMove(pos);
+			}
+			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),
+					pos);
+			tree.setSentinel(newSentinel);
 		}
 	}
 
+	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
+		NodeMove<Point> n = null;
+		for (NodeMove<Point> child : node.getChildren()) {
+			if (child.getLastMove().equals(p)) {
+				n = child;
+				break;
+			}
+		}
+		return n;
+	}
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -172,6 +189,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(RandomAI random) {
 		initBoard = random.initBoard;
 		tree = random.tree;
+		this.maxTime = random.maxTime;
 		return true;
 	}
 
@@ -179,6 +197,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(NextBestMoveAI nextBestMove) {
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
+		this.maxTime = nextBestMove.maxTime;
 		return true;
 	}
 
@@ -186,6 +205,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(BruteForceAI brute) {
 		initBoard = brute.initBoard;
 		tree = brute.tree;
+		this.maxTime = brute.maxTime;
 		return true;
 	}
 

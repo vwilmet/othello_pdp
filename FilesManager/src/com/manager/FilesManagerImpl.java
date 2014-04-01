@@ -1,13 +1,11 @@
 package com.manager;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import com.error_manager.Log;
 
 import utils.FileDateManager;
 import utils.FileHandlingException;
+
+import com.error_manager.Log;
 
 /**
  * @mainpage Module FilesManager

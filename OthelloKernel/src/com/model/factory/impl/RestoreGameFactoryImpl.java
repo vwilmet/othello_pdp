@@ -111,6 +111,14 @@ public class RestoreGameFactoryImpl extends AbstractFactory {
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
 	}
+	
+	@Override
+	public List<BoardObservable> getBoardList()
+			throws FactoryHandlerException {
+		throw new FactoryHandlerException(
+				FactoryHandlerException.WRONG_FACTORY_REFERRED,
+				TextManager.RESTORE_GAME_FACTORY_REQUIRED_FR);
+	}
 
 	@Override
 	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) throws FactoryHandlerException {

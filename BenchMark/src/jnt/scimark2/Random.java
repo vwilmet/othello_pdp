@@ -31,6 +31,7 @@ public class Random {
 
   private boolean haveRange = false;
   private double left  = 0.0;
+  @SuppressWarnings("unused")
   private double right = 1.0;
   private double width = 1.0;
 
@@ -116,7 +117,8 @@ public class Random {
   public final synchronized double nextDouble () {
 
     int k;
-    double nextValue;
+    @SuppressWarnings("unused")
+	double nextValue;
 
     k = m[i] - m[j];
     if (k < 0) k += m1;

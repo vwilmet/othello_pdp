@@ -3,8 +3,12 @@ package com.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.FactoryHandlerException;
 import utils.TextManager;
 
+import com.error_manager.Log;
+import com.model.factory.FactoryProducer;
+import com.model.factory.interfaces.BoardFactory;
 import com.model.piece.Piece;
 import com.model.piece.WhitePiece;
 import com.model.player.MachinePlayer;
@@ -81,6 +85,9 @@ public class GameSettings {
 	private int sentinel;
 
 	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) {
+		
+		BoardFactory bFacto = FactoryProducer.getBoardFactory();
+		
 		this.player1 = player1;
 		this.player2 = player2;
 
@@ -91,7 +98,12 @@ public class GameSettings {
 
 		this.gameHistory = history;
 
-		this.gameBoardHistory = new ArrayList<BoardObservable>();
+		try {
+			this.gameBoardHistory = bFacto.getBoardList();
+		} catch (FactoryHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
 		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
 
@@ -177,6 +189,10 @@ public class GameSettings {
 
 	public List<BoardObservable> getGameBoardHistory(){
 		return this.gameBoardHistory;
+	}
+	
+	public void setGameBoardHistory(List<BoardObservable> gameBoardHistory){
+		this.gameBoardHistory = gameBoardHistory;
 	}
 
 	public void resetHistory(){

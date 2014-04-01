@@ -10,6 +10,7 @@ public class kernel
 		// initialize FFT data as complex (N real/img pairs)
 
 		double x[] = RandomVector(2*N, R);
+		@SuppressWarnings({ "unused" })
 		double oldx[] = NewVectorCopy(x);
 		long cycles = 1;
 		Stopwatch Q = new Stopwatch();
@@ -201,7 +202,8 @@ public class kernel
 		return y;
   }
 	
-  private static void CopyVector(double B[], double A[])
+  @SuppressWarnings("unused")
+private static void CopyVector(double B[], double A[])
   {
 		int N = A.length;
 

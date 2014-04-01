@@ -22,7 +22,10 @@ public class Board {
 	/**
 	 * Constantes sur les bornes (choix possibles de l'utilisateur.
 	 */
-	private static final int BOUND_TWO = 2, BOUND_FOUR = 4, BOUND_TEN = 10, BOUND_FIFTY = 50;
+	private static final int BOUND_TWO = 2,
+			BOUND_FOUR = 4,
+			BOUND_TEN = 10,
+			BOUND_FIFTY = 50;
 	
 	/**
 	 * Constantes de parametrage de l'IA (valeures par defaut).
@@ -103,13 +106,27 @@ public class Board {
 
 		System.out.println(this.toString());
 		
-		this.boardFileName = initializeBoardFileName(PostsPublisher.SAVE_FILE_NAME_REQUEST_FR);
+		/**
+		 * TODO demander au client si on demande à l'utilisateur s'il veux changer le type de joueur si oui, alors faire les modifs associées
+		 * 
+		 * DEMANDER SI LE PLAYER EST UN HUMAIN OU UNE MACHINE
+		 * 
+		 * SI MACHINE DEMANDER LA DIFFICULTE DE L'IA
+		 * 
+		 * DEMANDER LE TEMPS DE RéFLEXION DE l'IA
+		 * 
+		 * this.AIHelpLevel = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
+		 * this.AIP1Level = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
+		 * this.AIP2Level = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
+		 */
 		
 		this.AIHelpLevel = DEFAULT_AI_LEVEL;
 		this.AIP1Level = DEFAULT_AI_LEVEL;
 		this.AIP2Level = DEFAULT_AI_LEVEL;
 		
 		this.AIThinkingTime = DEFAULT_AI_THINKING_TIME;
+		
+		this.boardFileName = initializeBoardFileName(PostsPublisher.SAVE_FILE_NAME_REQUEST_FR);
 		
 		System.out.println(PostsPublisher.END_POST_FR);
 	}

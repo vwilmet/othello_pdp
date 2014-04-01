@@ -11,6 +11,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import utils.FactoryHandlerException;
+import utils.GameControllers;
 import utils.GameHandlerException;
 import utils.TextManager;
 
@@ -175,10 +176,11 @@ public class RestoreGame {
 					GameHandlerException.ERROR_DURING_THE_READ_OF_GAME_SAVE_FILE);
 
 		int[] gridSize = null;
-		int aILevel = 0, aIThinkingTime = 0;
+		int aIHelpLevel = 0, aIP1Level = 0, aIP2Level = 0, aIThinkingTime = 0;
 		List<Player> players = null;
 		List<Piece> playedPieces = null;
 		List<Piece> history = null;
+		List<BoardObservable> historyBoard = null;
 		BoardObservable board = null;
 
 		/* BOARD SIZE */
@@ -188,10 +190,26 @@ public class RestoreGame {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-
-		/* AI LEVEL */
+		
+		/* AI HELP LEVEL */
 		try {
-			aILevel = xmlGetIntValueFromField(initPart, BoardPublisher.AI_LEVEL_PART);
+			aIHelpLevel = xmlGetIntValueFromField(initPart, BoardPublisher.AI_HELP_LEVEL_PART);
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		/* AI P1 LEVEL */
+		try {
+			aIP1Level = xmlGetIntValueFromField(initPart, BoardPublisher.AI_PLAYER1_LEVEL_PART);
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		/* AI P2 LEVEL */
+		try {
+			aIP2Level = xmlGetIntValueFromField(initPart, BoardPublisher.AI_PLAYER2_LEVEL_PART);
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -248,7 +266,36 @@ public class RestoreGame {
 
 		/* Construction de GameSettings */
 		 try { 
-			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aILevel, history);
+			 BoardObservable btmp = null;
+			 
+			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aIHelpLevel, history);
+
+			 try {
+				 btmp = bFacto.getBoard(board.getSizeX(), board.getSizeX(), this.initialPieces); 
+			 }
+			 catch (FactoryHandlerException e){
+				 Log.error(e.getMessage());
+				 e.printStackTrace();
+			 }
+			 
+			 try{
+				 historyBoard = (ArrayList<BoardObservable>) bFacto.getBoardList();
+			 }
+			 catch (FactoryHandlerException e){
+				 Log.error(e.getMessage());
+				 e.printStackTrace();
+			 }
+			 
+			 //set Les boardobservble
+			 for (Piece p : this.gameSettings.getGameHistory()){
+				 GameControllers.reverseInbetweenPieceAfterPlaying(btmp, p.getPosX(), p.getPosY());
+				 historyBoard.add(btmp);
+			 }
+			 this.gameSettings.setGameBoardHistory(historyBoard);
+			 			 
+			 this.gameSettings.setPlayer1ArtificialIntelligenceDifficulty(aIP1Level);
+			 this.gameSettings.setPlayer2ArtificialIntelligenceDifficulty(aIP2Level);
+			 this.gameSettings.setHistoryPosition(history.size()-1);
 		 } catch (FactoryHandlerException e) {
 			 Log.error(e.getMessage()); 
 			 e.printStackTrace(); 

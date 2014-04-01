@@ -2,6 +2,7 @@ package com.utils;
 
 import java.awt.Point;
 
+@SuppressWarnings("serial")
 public class WrongPlayablePositionException extends Exception {
 
 	String message;

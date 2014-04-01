@@ -167,8 +167,7 @@ public class TimerManagerImpl implements TimerManager{
 	public String getElapsedTimeInMinAndSeconde(){
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(getElapsedTime());
 		long secondes = TimeUnit.MILLISECONDS.toSeconds(getElapsedTime()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getElapsedTime())); 
-		String format = "",
-				result = "";
+		String result = "";
 		if(minutes > 0 && secondes > 0)
 			result = String.format("%d min, %d sec", 
 					minutes,

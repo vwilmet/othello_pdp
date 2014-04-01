@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import utils.Application;
+import utils.GameControllers;
 import utils.TextManager;
 
 import com.controller.interfaces.NotifyGameController;
@@ -156,7 +157,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				}
 			}
 			this.addMessageToListForUser(TextManager.FORWARD_PIECE_MESSAGE_LIST_VUE);
-			this.setPlayablePiece();	
+			GameControllers.setPlayablePiece(this.gameSettings);	
 			this.updateInformationField();
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.dealWithCurrentPlayer();
@@ -177,7 +178,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			}
 			this.gameSettings.getBackInHistory();
 			this.helpAI.undoMove();
-			this.setPlayablePiece();
+			GameControllers.setPlayablePiece(this.gameSettings);	
 			this.updateInformationField();
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
@@ -197,9 +198,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Vous ne pouvez pas recommencer la partie!! Vous êtes déjà au début de la partie");
 			return;
 		}
-		
+
 		resetGameBoard();
-		
+
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		this.addMessageToListForUser(TextManager.RESET_PIECE_MESSAGE_LIST_VUE);
 		this.updateInformationField();
@@ -272,13 +273,13 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	@Override
 	public void onOptionItemMenuPressed() {
 		String message = 	"Joueur____________________" + "\n" + 
-				this.gameSettings + "\n\n" +
-				"Othellier_________________" + "\n" +
+				this.gameSettings + "\n" +
+				getCurrentWinningStateAsAString() +
+				"\n\nOthellier_________________" + "\n" +
 				"Nombre de pion : " + (this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) + "\n" +
 				"Taille : " + this.gameSettings.getGameBoard().getSizeX() + "x" + this.gameSettings.getGameBoard().getSizeY() + "\n" +
-				"PC_____________________" + "\n" +
+				"\nPC_____________________" + "\n" +
 				Application.getInstance().toString();
-
 		JOptionPane.showMessageDialog(null, message, TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -300,7 +301,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 		this.gameSettings.setHistoryPosition(position-1);
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
-		this.setPlayablePiece();
+		GameControllers.setPlayablePiece(this.gameSettings);	
 
 		/*System.out.println("(------------------------------------------)");
 		System.out.println("Before undoing!!");
@@ -321,7 +322,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	}
 
 	private void updateInformationField(){
-		this.checkPlayersPiecesCount();
+		GameControllers.checkPlayersPiecesCount(this.gameSettings);
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
 		this.writeStatMessage(
 				this.gameSettings.getFirstPlayer().getColor() + " [" + this.gameSettings.getFirstPlayer().getLogin() + " - " + this.gameSettings.getFirstPlayer().getPlayerType() + "] : " + 
@@ -335,6 +336,26 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	protected void onIAPlayed(String login, int i, int j) {
 		this.updateInformationField();
 		this.addMessageToListForUser("L'IA : " + login + " a joué en " + i + ", " + j);
+	}
+
+	protected String getCurrentWinningStateAsAString(){
+		String result = "Status________________\n";
+		
+		switch(this.helpAI.winStatus(this.gameSettings.getFirstPlayer().getPlayerNumber())){
+		case 0 :
+			result += "Le joueur " + this.gameSettings.getFirstPlayer().getLogin() + " est plus susceptible de perdre\n";
+			break;
+		case 1 :
+			result += "Le joueur " + this.gameSettings.getFirstPlayer().getLogin() + " est plus susceptible de gagner\n";
+			break;
+		case 2:
+			result += "La partie devrait finir sur une égalité\n";
+			break;
+		default :
+			Log.error("Une erreur est survenue pendant la récupération du status de la partie par l'IA");
+		}
+		
+		return result;
 	}
 
 	/*

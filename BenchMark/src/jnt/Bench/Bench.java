@@ -2,14 +2,13 @@
 jnt.Bench.Bench
  *****************************************************************************/
 package jnt.Bench;
-import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.StreamTokenizer;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.FileInputStream;
-import java.util.Vector;
+import java.io.StreamTokenizer;
 import java.net.URL;
+import java.util.Vector;
 
 /** 
 A Description of a Benchmark.
@@ -29,6 +28,7 @@ public class Bench implements Runnable {
   int decimals = 0;		// Default # of decimals to print in values.
 
   Segment segments[] = new Segment[1];
+  @SuppressWarnings("rawtypes")
   Vector entries = new Vector(); // Results for each Tested system
   double current[];		// results of current measurement.
 
@@ -52,7 +52,8 @@ public class Bench implements Runnable {
     Parsing the Benchmark Descriptor */
 
   void parseDescriptor(InputStream stream) throws IOException {
-    StreamTokenizer in =  new StreamTokenizer(stream);
+    @SuppressWarnings("deprecation")
+	StreamTokenizer in =  new StreamTokenizer(stream);
     in.commentChar('#');
     in.quoteChar('"');
     in.wordChars('_','_');
@@ -81,8 +82,10 @@ public class Bench implements Runnable {
   void getPunct(StreamTokenizer in, char c) throws IOException {
     if(in.nextToken() != c) parseError(in,""+c,"char"); }
 
-  void parseSegments(StreamTokenizer in) throws IOException {
-    Vector segs = new Vector();
+  @SuppressWarnings("unchecked")
+void parseSegments(StreamTokenizer in) throws IOException {
+    @SuppressWarnings("rawtypes")
+	Vector segs = new Vector();
     getPunct(in,'(');
     int tok;
     while((tok=in.nextToken()) != ')'){
@@ -108,7 +111,8 @@ public class Bench implements Runnable {
     segs.copyInto(segments);
   }
 
-  void parseEntries(StreamTokenizer in) throws IOException {
+  @SuppressWarnings("unchecked")
+void parseEntries(StreamTokenizer in) throws IOException {
     checkDefaultSegment();
     double v0=0.0;
     getPunct(in,'(');
@@ -219,7 +223,8 @@ public class Bench implements Runnable {
 	current[0]=overall.read(); }}
     insertEntry(current); }
 
-  void prepTimer(int segment){
+  @SuppressWarnings("static-access")
+void prepTimer(int segment){
     timerAPIused=true;
     noteStatus("GC'ing");
     System.gc();
@@ -259,7 +264,8 @@ public class Bench implements Runnable {
     if (applet != null)
       applet.noteStatus(stat); }
 
-  void insertEntry(double values[]){
+  @SuppressWarnings("unchecked")
+void insertEntry(double values[]){
     if (specpos >= 0)	// Remove previous special data, if any
       entries.removeElementAt(specpos);
     int seg=0;			// Segment to sort on.

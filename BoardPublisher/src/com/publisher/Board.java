@@ -23,7 +23,6 @@ public class Board {
 	 * Constantes sur les bornes (choix possibles de l'utilisateur.
 	 */
 	private static final int BOUND_TWO = 2,
-			BOUND_THREE = 3,
 			BOUND_FOUR = 4,
 			BOUND_TEN = 10,
 			BOUND_FIFTY = 50;

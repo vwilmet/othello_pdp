@@ -76,6 +76,12 @@ public class BoardFactoryImpl extends AbstractFactory {
 		}
 		return b;
 	}
+	
+	@Override
+	public List<BoardObservable> getBoardList()
+			throws FactoryHandlerException {
+		return new ArrayList<BoardObservable>();
+	}
 
 	@Override
 	public PieceImpl getWhitePiece(int posX, int posY)

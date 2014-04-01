@@ -141,7 +141,21 @@ public class SaveGame {
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
 		
 		try {
-			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_LEVEL_PART, this.gameSettings.getHelpAIDifficulty()));
+			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_HELP_LEVEL_PART, this.gameSettings.getHelpAIDifficulty()));
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		try {
+			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_PLAYER1_LEVEL_PART, this.gameSettings.getPlayer1ArtificialIntelligenceDifficulty()));
+		} catch (GameHandlerException e) {
+			Log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		try {
+			init.addContent(xmlSetIntValueToField(BoardPublisher.AI_PLAYER2_LEVEL_PART, this.gameSettings.getPlayer2ArtificialIntelligenceDifficulty()));
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();

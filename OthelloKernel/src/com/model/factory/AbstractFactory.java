@@ -80,6 +80,10 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	 */
 	public abstract BoardObservable getInitialBoard(int sizeX, int sizeY) 
 			throws FactoryHandlerException;
+	
+	
+	public abstract List<BoardObservable> getBoardList() 
+			throws FactoryHandlerException;
 
 	/**
 	 * Fabrique d'une partie d'othello.

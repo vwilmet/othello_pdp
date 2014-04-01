@@ -10,6 +10,7 @@ import java.awt.*;
    It uses Bench.SendMail to send the message, and uses callbacks to the Applet (if any)
    to inform of the success or failure of the submission.
 */
+@SuppressWarnings("serial")
 public class SubmitDialog extends Frame {
   TextComponent user,from, brand,cpu, os, vm,comments;
   Label status;
@@ -22,7 +23,8 @@ public class SubmitDialog extends Frame {
 
   /** Create a SubmitDialog to report on a new measurement of the Benchmark Target
     * described in bench.  */
-  public SubmitDialog(Applet applet, Bench bench) {
+  @SuppressWarnings("deprecation")
+public SubmitDialog(Applet applet, Bench bench) {
     super("Benchmark Submission");
     this.bench = bench;
     this.applet = applet;

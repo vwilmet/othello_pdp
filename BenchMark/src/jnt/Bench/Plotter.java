@@ -20,6 +20,7 @@ import java.awt.Graphics;
 @author not subject to copyright.
 */
 
+@SuppressWarnings("serial")
 public class Plotter extends Canvas {
   String labels[];		// Labels (strings) for the bars
   double values[];		// Values (Doubles) for bar lengths
@@ -102,7 +103,8 @@ public class Plotter extends Canvas {
     // System.out.println("Unit is "+u+" with scale="+l);
 
     /* Get size of Plotter, leaving room for labels, ticks, etc. */
-    Dimension sz = size();
+    @SuppressWarnings("deprecation")
+	Dimension sz = size();
     int W = sz.width, H = sz.height; // Total size of Plotter
     int top  =0,   left=Math.min(labLen,W/2) + 2*MARGIN, // Edges of box for drawing bars
         right=W-2, bottom=H-2*fontH-TICK,

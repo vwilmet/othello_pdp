@@ -42,7 +42,8 @@ public class SendMail {
     while((i=message.indexOf("\n.\n")) != -1)
       message = message.substring(0,i+2) + "." + message.substring(i+2);
 
-    Socket socket   = new Socket(server, SMTPPort, true);
+    @SuppressWarnings("deprecation")
+	Socket socket   = new Socket(server, SMTPPort, true);
     PrintStream output   = new PrintStream(socket.getOutputStream());
     DataInputStream response = new DataInputStream(socket.getInputStream());
     check(response,220);
@@ -68,7 +69,8 @@ public class SendMail {
     output.print(data + CRLF); }
 
   static void check(DataInputStream response, int code) throws Exception {
-    String resp = response.readLine();
+    @SuppressWarnings("deprecation")
+	String resp = response.readLine();
     int retcode = Integer.parseInt(resp.substring(0,3));
 
     if ((retcode == 250) || (retcode == code)) return;

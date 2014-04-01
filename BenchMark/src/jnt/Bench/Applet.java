@@ -2,9 +2,20 @@
 jnt.Bench.BenchApplet
  *****************************************************************************/
 package jnt.Bench;
-import java.awt.*;
+import java.awt.Button;
+import java.awt.CardLayout;
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Label;
+import java.awt.List;
+import java.awt.Panel;
 import java.net.URL;
-import java.util.Vector;
 
 /**
  jnt.Bench.Applet provides an Applet or Application with GUI to display and execute
@@ -15,6 +26,7 @@ import java.util.Vector;
 @author not subject to copyright.
 */
 
+@SuppressWarnings("serial")
 public class Applet extends java.applet.Applet {
   Bench bench = null;
   int segment = 0;		// -1 for showing Table, otherwise, segment index.
@@ -33,7 +45,8 @@ public class Applet extends java.applet.Applet {
     } catch(Exception e){}
     return defalt; }
 
-  public void init() {
+  @SuppressWarnings("deprecation")
+public void init() {
     setBackground(getColor("BGCOLOR",getBackground()));
     setForeground(getColor("TEXT",getForeground()));
     Color buttonbackground= getColor("BUTTON_BGCOLOR",getBackground());
@@ -154,7 +167,8 @@ public class Applet extends java.applet.Applet {
       return false;
     return true; }
 
-  void startBenchmark() {
+  @SuppressWarnings("deprecation")
+void startBenchmark() {
     if (thread == null) {
       status.setText("Running Benchmark");
       status.setForeground(Color.red);
@@ -163,14 +177,16 @@ public class Applet extends java.applet.Applet {
       thread = new Thread(bench);
       thread.start(); }}
 
-  void abortBenchmark() {
+  @SuppressWarnings("deprecation")
+void abortBenchmark() {
     if (thread != null) {
       status.setForeground(getForeground());
       thread.stop(); 
       thread = null; }}
 
   /** Callback from Bench telling us the benchmark is done.*/
-  void benchmarkDone(boolean stat, String result) {
+  @SuppressWarnings("deprecation")
+void benchmarkDone(boolean stat, String result) {
     status.setText(result);
     status.setForeground(getForeground());
     revertCursor();
@@ -183,7 +199,8 @@ public class Applet extends java.applet.Applet {
     new SubmitDialog(this,bench);  }
 
   /** Callback from SubmitDialog to report success or failure */
-  void submissionDone(boolean stat, String result) {
+  @SuppressWarnings("deprecation")
+void submissionDone(boolean stat, String result) {
     status.setText(result);
     submitButton.enable(!stat);
   }
@@ -196,7 +213,8 @@ public class Applet extends java.applet.Applet {
     The next two methods support a `wait' cursor during execution */
   int cursor = -1;
   Frame parent = null;
-  void waitCursor() {
+  @SuppressWarnings("deprecation")
+void waitCursor() {
     if (parent == null) {	// In 1.0.2 can only set cursor of Frames!
       Component p = getParent();
       while ((p != null) && !(p instanceof Frame))
@@ -206,13 +224,15 @@ public class Applet extends java.applet.Applet {
       cursor = parent.getCursorType();
       parent.setCursor(Frame.WAIT_CURSOR); }}
 
-  void revertCursor() {
+  @SuppressWarnings("deprecation")
+void revertCursor() {
     if (cursor != -1)
       parent.setCursor(cursor); }
 
   /** **********************************************************************
     Display the graph or table of results */
-  void doDisplay() {
+  @SuppressWarnings("deprecation")
+void doDisplay() {
     if (segment == -1) {		// Show table
       flipper.show(centerPanel,"table");
       if (table.countItems() > 0) 
@@ -235,8 +255,10 @@ public class Applet extends java.applet.Applet {
     new AppletFrame((args.length >= 1 ? args[0] : "default.descriptor")); }
 }
 
+@SuppressWarnings("serial")
 class AppletFrame extends Frame {
-  public AppletFrame(String descriptor) {
+  @SuppressWarnings("deprecation")
+public AppletFrame(String descriptor) {
     super("BenchMarker"); 
     try {
       Applet app = new Applet();

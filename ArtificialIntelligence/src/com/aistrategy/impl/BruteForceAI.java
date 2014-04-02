@@ -27,8 +27,8 @@ import com.utils.WrongPlayablePositionException;
  *         </ul>
  * @version 1.0
  */
-public class BruteForceAI extends Thread implements
-ArtificialIntelligenceStrategy, TimerActionEvent {
+public class BruteForceAI implements
+ArtificialIntelligenceStrategy {
 
 	/**
 	 * Arbre de coup représentant l'ensemble d'une partie
@@ -52,15 +52,15 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 	/**
 	 * Booleen pour la gestion de l'arrêt de l'execution de l'algorithme
 	 */
-	static protected Boolean stopAlgorithm;
+	protected volatile Boolean stopAlgorithm;
 
 	/**
 	 * Temps maximal pour l'execution de l'algorithme
 	 */
 	protected Integer maxTime;
-	
+
 	protected Integer[][] positionalMatrix;
-	
+
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -69,19 +69,44 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 	 * l'objet de la classe <br/>
 	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
 	 */
+	
+	
 	@Override
-	public Point nextMove(Integer player) {
+	public Point nextMove(final Integer player) {
 		Point p = tree.getSentinel().getBestMove();
 		if (p == null
 				&& !tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).isEmpty()) {
-			Integer alpha = Integer.MIN_VALUE;
-			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			if((initBoard.getHeight()*initBoard.getWidth() - (this.tree.getSentinel().getBoard().getNbBlackPiece() + this.tree.getSentinel().getBoard().getNbWhitePiece())) <= depth){
+				Integer alpha = Integer.MIN_VALUE;
+				Integer beta = Integer.MAX_VALUE;
+				alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+			}
+			else{
+				p = nextBestMovePositionMobility(player);
+			}
+			
 			//System.out.println("coucou");
 			//start();
-			//Thread t = new Thread(new doAlgorithm());
-			//t.start();
+		/*	Thread t = new Thread(new doAlgorithm());
+			TimerManager time = new TimerManagerImpl();
+			time.setTimerActionEvent(new TimerActionEvent(){
+
+				@Override
+				public void onTimerEnded() {
+					System.out.println(Thread.currentThread() + "toto");
+					stopAlgorithm = true;
+					p = nextBestLessPlayableMove(player);
+					 }
+
+				@Override
+				public void onTimerStopped() {
+					stopAlgorithm = true;
+				}
+
+			});
+			time.startTimer(this.maxTime);
+			t.start();*/
 			//run();
 			p = tree.getSentinel().getBestMove();
 		} else if (tree.getSentinel().getBoard()
@@ -90,6 +115,11 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		return p;
 	}
 
+	public Point result(){
+		
+		return null;
+	}
+	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -156,9 +186,9 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		}
 		for(int i = 0; i < initBoard.getWidth(); i++)
 			for(int j = 0; j < initBoard.getHeight(); j++){
-					matrix[i][j] = 1;
+				matrix[i][j] = 1;
 			}
-		
+
 
 		matrix[3][2] = 2;
 		matrix[2][3] = 2;
@@ -168,12 +198,12 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		matrix[2][initBoard.getHeight()-4] = 2;
 		matrix[initBoard.getWidth()-4][initBoard.getHeight()-3] = 2;
 		matrix[initBoard.getWidth()-3][initBoard.getHeight()-4] = 2;
-		
+
 		matrix[2][2] = 5;
 		matrix[initBoard.getWidth()-3][2] = 5;
 		matrix[initBoard.getWidth()-3][initBoard.getHeight()-3] = 5;
 		matrix[2][initBoard.getHeight()-3] = 5;
-		
+
 		matrix[3][0] = 5;
 		matrix[0][3] = 5;
 		matrix[initBoard.getWidth()-4][0] = 5;
@@ -182,7 +212,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		matrix[initBoard.getWidth()-1][3] = 5;
 		matrix[initBoard.getWidth()-4][initBoard.getHeight()-1] = 5;
 		matrix[initBoard.getWidth()-1][initBoard.getHeight()-4] = 5;
-		
+
 		matrix[2][0] = 10;
 		matrix[0][2] = 10;
 		matrix[initBoard.getWidth()-3][0] = 10;
@@ -191,7 +221,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		matrix[initBoard.getWidth()-1][2] = 10;
 		matrix[initBoard.getWidth()-3][initBoard.getHeight()-1] = 10;
 		matrix[initBoard.getWidth()-1][initBoard.getHeight()-3] = 10;
-		
+
 		matrix[1][0] = -20;
 		matrix[0][1] = -20;
 		matrix[initBoard.getWidth()-2][0] = -20;
@@ -200,21 +230,21 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		matrix[initBoard.getWidth()-1][1] = -20;
 		matrix[initBoard.getWidth()-2][initBoard.getHeight()-1] = -25;
 		matrix[initBoard.getWidth()-1][initBoard.getHeight()-2] = -25;
-		
+
 		matrix[1][1] = -25;
 		matrix[initBoard.getWidth()-2][initBoard.getHeight()-2] = -25;
 		matrix[initBoard.getWidth()-2][1] = -25;
 		matrix[1][initBoard.getHeight()-2] = -25;
-		
+
 		matrix[0][0] = 30;
 		matrix[initBoard.getWidth()-1][initBoard.getHeight()-1] = 30;
 		matrix[initBoard.getWidth()-1][0] = 30;
 		matrix[0][initBoard.getHeight()-1] = 30;
-		
+
 		return matrix;
 	}
 
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -530,7 +560,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		return bestScore;
 	}
 
-	private Point nextBestLessPlayableMove(Integer player) {
+	private Point nextBestMovePositionMobility(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
 		Integer score = Integer.MAX_VALUE;
@@ -542,12 +572,8 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
 			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-				if ((p.x == 0 && p.y == 0)
-						|| (p.x == 0 && p.y == (tree.getSentinel().getBoard()
-								.getHeight() - 1))
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == 0)
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == (tree
-								.getSentinel().getBoard().getHeight() - 1))) {
+				Point best = tree.getSentinel().getBestMove();
+				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
 					score = node.getBoard().getNbWhitePiece();
 					tree.getSentinel().setBestMove(p);
 				}
@@ -559,7 +585,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		}
 		return tree.getSentinel().getBestMove();
 	}
-	
+
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
 		NodeMove<Point> n = null;
 		for (NodeMove<Point> child : node.getChildren()) {
@@ -585,49 +611,16 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 
 	}
 
-	@SuppressWarnings("static-access")
-	public void run() {
-		System.out.println("Hello from a thread!");
 
 
-		if(this.maxTime != 0 && !(this.maxTime == null)){ 
-			tm.startTimer(this.maxTime); 
-		}
-
-		// Integer finalScore = alphaBeta(depth, tree.getSentinel(), alpha,
-		// beta);
-		// Integer finalScore = alphaBetaNegaMax(depth, tree.getSentinel(),
-		// alpha, beta);
-		Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;
-		@SuppressWarnings("unused")
-		Integer finalScore = alphaBetaPVS(depth, tree.getSentinel(), alpha,
-				beta);
-
-		if(this.maxTime != 0 && !(this.maxTime == null)) 
-			tm.stopTimer();
-		this.stopAlgorithm = false;
-
-	}
-
-	@SuppressWarnings("static-access")
-	@Override
-	public void onTimerEnded() {
-		this.stopAlgorithm = true;
-	}
-
-	@Override
-	public void onTimerStopped() {
-	}
 
 	@Override
 	public Boolean initialize(RandomAI random) {
 		stopAlgorithm = false;
 		initBoard = random.initBoard;
 		tree = random.tree;
-		tm = new TimerManagerImpl();
 		maxTime = random.maxTime;
-		tm.setTimerActionEvent(this);
+		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 
@@ -638,7 +631,7 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		tree = nextBestMove.tree;
 		tm = new TimerManagerImpl();
 		maxTime = nextBestMove.maxTime;
-		tm.setTimerActionEvent(this);
+		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 
@@ -649,14 +642,14 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 		tree = brute.tree;
 		tm = new TimerManagerImpl();
 		this.maxTime = brute.maxTime;
-		tm.setTimerActionEvent(this);
+		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 
 	public String boardToString() {
 		return this.tree.getSentinel().getBoard().printBoard();
 	}
-	
+
 	class doAlgorithm implements Runnable{
 		public void run(){
 			Integer alpha = Integer.MIN_VALUE;
@@ -665,5 +658,5 @@ ArtificialIntelligenceStrategy, TimerActionEvent {
 					beta);
 		}
 	}
-	
 }
+

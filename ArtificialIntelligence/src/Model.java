@@ -20,7 +20,7 @@ public class Model {
 		myAI2 = new ArtificialIntelligenceImpl();
 		myAI3.chooseDifficulty(2);
 		myAI.chooseDifficulty(1);
-		myAI2.chooseDifficulty(1);
+		myAI2.chooseDifficulty(2);
 		myAI3.setMaxTime(1000);
 		myAI3.initialize(new HashSet<Point>(myBoard.whitePiece), new HashSet<Point>(myBoard.blackPiece), myBoard.width, myBoard.height);
 		myAI2.initialize(myAI3);

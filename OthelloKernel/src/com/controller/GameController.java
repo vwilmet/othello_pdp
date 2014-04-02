@@ -172,7 +172,8 @@ public abstract class GameController{
 		for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 			if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
 				this.gameSettings.setPiece(i, j);
-				GameControllers.reverseInbetweenPieceAfterPlaying(this.gameSettings, i, j);
+				GameControllers.reverseInbetweenPieceAfterPlaying(this.gameSettings.getGameBoard(), i, j);
+				GameControllers.checkPlayersPiecesCount(this.gameSettings);
 				this.gameSettings.manageBoardHistory(i, j);
 				
 				try {

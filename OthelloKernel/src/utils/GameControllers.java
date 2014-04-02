@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 
+import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
@@ -24,7 +25,7 @@ public class GameControllers {
 
 		for(Piece origin : origins){
 
-			for(Piece intermediatePiece : GameControllers.getReversePieceAround(gameSettings, origin)){
+			for(Piece intermediatePiece : GameControllers.getReversePieceAround(gameSettings.getGameBoard(), origin)){
 				previousIntermediatePosX = origin.getPosX();
 				previousIntermediatePosy = origin.getPosY();
 
@@ -55,7 +56,7 @@ public class GameControllers {
 		}
 	}
 
-	private static ArrayList<Piece> getReversePieceAround(GameSettings gameSettings, Piece origin){
+	private static ArrayList<Piece> getReversePieceAround(BoardObservable gameBoard, Piece origin){
 		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;
 
@@ -64,33 +65,33 @@ public class GameControllers {
 				posX = origin.getPosX()+j-1;
 				posY = origin.getPosY()+i-1;
 
-				if(posX >= gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= gameSettings.getGameBoard().getSizeY() || posY < 0)
+				if(posX >= gameBoard.getSizeX() || posX < 0 || posY >= gameBoard.getSizeY() || posY < 0)
 					continue;
 
 				if(posX == origin.getPosX() && posY == origin.getPosY())
 					continue;
 
-				if(!gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
-						!gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
-					neighbours.add(gameSettings.getGameBoard().getBoard()[posX][posY]);
+				if(!gameBoard.getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
+						!gameBoard.getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
+					neighbours.add(gameBoard.getBoard()[posX][posY]);
 
 			}
 		return neighbours;
 	}
 
-	public static void reverseInbetweenPieceAfterPlaying(GameSettings gameSettings, int originPosX, int originPosY){
+	public static void reverseInbetweenPieceAfterPlaying(BoardObservable gameBoard, int originPosX, int originPosY){
 
 		ArrayList<Piece> inBetween = new ArrayList<Piece>();
 		int longestCombinaisonSize = 
-				(gameSettings.getGameBoard().getSizeX() > gameSettings.getGameBoard().getSizeY() ?
-						gameSettings.getGameBoard().getSizeX() :
-							gameSettings.getGameBoard().getSizeY());
+				(gameBoard.getSizeX() > gameBoard.getSizeY() ?
+						gameBoard.getSizeX() :
+							gameBoard.getSizeY());
 
-		Piece origin = gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
+		Piece origin = gameBoard.getBoard()[originPosX][originPosY];
 		Piece target = null;
 		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
 
-		for(Piece intermediatePiece : GameControllers.getReversePieceAround(gameSettings, origin)){
+		for(Piece intermediatePiece : GameControllers.getReversePieceAround(gameBoard, origin)){
 			inBetween.add(intermediatePiece);
 			previousIntermediatePosX = origin.getPosX();
 			previousIntermediatePosy = origin.getPosY();
@@ -100,12 +101,12 @@ public class GameControllers {
 				posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
 				posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
 
-				if(posX >= gameSettings.getGameBoard().getSizeX() || posX < 0  || posY >= gameSettings.getGameBoard().getSizeY() || posY < 0){
+				if(posX >= gameBoard.getSizeX() || posX < 0  || posY >= gameBoard.getSizeY() || posY < 0){
 					inBetween.clear();
 					break;
 				}
 
-				target = gameSettings.getGameBoard().getBoard()[posX][posY];
+				target = gameBoard.getBoard()[posX][posY];
 
 				if(target.getColor().getClass().equals(origin.getColor().getClass())){
 					break;
@@ -122,12 +123,10 @@ public class GameControllers {
 			}
 
 			for(Piece p : inBetween){
-				gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
+				gameBoard.reverse(p.getPosX(), p.getPosY());
 			}
 			inBetween.clear();
 		}
-
-		GameControllers.checkPlayersPiecesCount(gameSettings);
 	}
 	
 	public static void checkPlayersPiecesCount(GameSettings gameSettings){

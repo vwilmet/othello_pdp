@@ -289,7 +289,7 @@ public class RestoreGame {
 			 //set Les boardobservble
 			 for (Piece p : this.gameSettings.getGameHistory()){
 				 GameControllers.reverseInbetweenPieceAfterPlaying(btmp, p.getPosX(), p.getPosY());
-				 historyBoard.add(btmp);
+				 historyBoard.add((BoardObservable) btmp.clone());
 			 }
 			 this.gameSettings.setGameBoardHistory(historyBoard);
 			 			 

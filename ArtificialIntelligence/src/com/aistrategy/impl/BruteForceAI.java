@@ -59,7 +59,6 @@ ArtificialIntelligenceStrategy {
 	 */
 	protected Integer maxTime;
 
-	protected Integer[][] positionalMatrix;
 
 
 	/**
@@ -169,7 +168,6 @@ ArtificialIntelligenceStrategy {
 		tree.setRootElement(new NodeMove<Point>(new Point(-1, -1), 1, initBoard));
 		tree.setSentinel(tree.getRootElement());
 		tm = new TimerManagerImpl();
-		positionalMatrix = initializePositionalMatrix();
 		if (maxTime == null)
 			this.maxTime = 0;
 		Integer alpha = Integer.MIN_VALUE;
@@ -178,72 +176,8 @@ ArtificialIntelligenceStrategy {
 		// run();
 		return true;
 	}
-
-	private Integer[][] initializePositionalMatrix() {
-		Integer[][] matrix = positionalMatrix;
-		if(matrix == null){
-			matrix = new Integer[initBoard.getWidth()][initBoard.getHeight()];
-		}
-		for(int i = 0; i < initBoard.getWidth(); i++)
-			for(int j = 0; j < initBoard.getHeight(); j++){
-				matrix[i][j] = 1;
-			}
-
-
-		matrix[3][2] = 2;
-		matrix[2][3] = 2;
-		matrix[initBoard.getWidth()-4][2] = 2;
-		matrix[initBoard.getWidth()-3][3] = 2;
-		matrix[3][initBoard.getHeight()-3] = 2;
-		matrix[2][initBoard.getHeight()-4] = 2;
-		matrix[initBoard.getWidth()-4][initBoard.getHeight()-3] = 2;
-		matrix[initBoard.getWidth()-3][initBoard.getHeight()-4] = 2;
-
-		matrix[2][2] = 5;
-		matrix[initBoard.getWidth()-3][2] = 5;
-		matrix[initBoard.getWidth()-3][initBoard.getHeight()-3] = 5;
-		matrix[2][initBoard.getHeight()-3] = 5;
-
-		matrix[3][0] = 5;
-		matrix[0][3] = 5;
-		matrix[initBoard.getWidth()-4][0] = 5;
-		matrix[0][initBoard.getHeight()-4] = 5;
-		matrix[3][initBoard.getHeight()-1] = 5;
-		matrix[initBoard.getWidth()-1][3] = 5;
-		matrix[initBoard.getWidth()-4][initBoard.getHeight()-1] = 5;
-		matrix[initBoard.getWidth()-1][initBoard.getHeight()-4] = 5;
-
-		matrix[2][0] = 10;
-		matrix[0][2] = 10;
-		matrix[initBoard.getWidth()-3][0] = 10;
-		matrix[0][initBoard.getHeight()-3] = 10;
-		matrix[2][initBoard.getHeight()-1] = 10;
-		matrix[initBoard.getWidth()-1][2] = 10;
-		matrix[initBoard.getWidth()-3][initBoard.getHeight()-1] = 10;
-		matrix[initBoard.getWidth()-1][initBoard.getHeight()-3] = 10;
-
-		matrix[1][0] = -20;
-		matrix[0][1] = -20;
-		matrix[initBoard.getWidth()-2][0] = -20;
-		matrix[0][initBoard.getHeight()-2] = -20;
-		matrix[1][initBoard.getHeight()-1] = -20;
-		matrix[initBoard.getWidth()-1][1] = -20;
-		matrix[initBoard.getWidth()-2][initBoard.getHeight()-1] = -25;
-		matrix[initBoard.getWidth()-1][initBoard.getHeight()-2] = -25;
-
-		matrix[1][1] = -25;
-		matrix[initBoard.getWidth()-2][initBoard.getHeight()-2] = -25;
-		matrix[initBoard.getWidth()-2][1] = -25;
-		matrix[1][initBoard.getHeight()-2] = -25;
-
-		matrix[0][0] = 30;
-		matrix[initBoard.getWidth()-1][initBoard.getHeight()-1] = 30;
-		matrix[initBoard.getWidth()-1][0] = 30;
-		matrix[0][initBoard.getHeight()-1] = 30;
-
-		return matrix;
-	}
-
+	
+	
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -563,6 +497,7 @@ ArtificialIntelligenceStrategy {
 	private Point nextBestMovePositionMobility(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
+		Integer[][] positionalMatrix = this.tree.getSentinel().getBoard().getPositionalMatrix(player);
 		Integer score = Integer.MAX_VALUE;
 		Integer opponent = player % 2 + 1;
 		while (!stackPoint.isEmpty()) {
@@ -612,15 +547,12 @@ ArtificialIntelligenceStrategy {
 	}
 
 
-
-
 	@Override
 	public Boolean initialize(RandomAI random) {
 		stopAlgorithm = false;
 		initBoard = random.initBoard;
 		tree = random.tree;
 		maxTime = random.maxTime;
-		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 
@@ -631,7 +563,6 @@ ArtificialIntelligenceStrategy {
 		tree = nextBestMove.tree;
 		tm = new TimerManagerImpl();
 		maxTime = nextBestMove.maxTime;
-		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 
@@ -642,7 +573,6 @@ ArtificialIntelligenceStrategy {
 		tree = brute.tree;
 		tm = new TimerManagerImpl();
 		this.maxTime = brute.maxTime;
-		positionalMatrix = initializePositionalMatrix();
 		return true;
 	}
 

@@ -16,32 +16,34 @@ public class Board {
 	 * Grille de PiecEnum représentant le plateau de jeu 
 	 */
 	private PieceEnum[][] grid;
-	
+
 	/**
 	 * Taille du plateau en largeur
 	 */
 	private Integer width;
-	
+
 	/**
 	 * Taille du plateau en hauteur
 	 */
 	private Integer height;
-	
+
 	/**
 	 * Ensemble des pions blanc
 	 */
 	private Set<Point> whitePiece;
-	
+
 	/** 
 	 * Ensemble des pions noir
 	 */
 	private Set<Point> blackPiece;
-	
+
 	/**
 	 * Frontière de case vide entre les pions joués et le reste des cases vides
 	 */
 	private Set<Point> borderLine;
-	
+
+	private Integer[][] positionalMatrix;
+
 	/**
 	 * Constructeur de la classe.
 	 * @param boardWidth : int, taille de la grille en largeur.
@@ -63,9 +65,9 @@ public class Board {
 			grid[p.x][p.y] = PieceEnum.WHITEPIECE;
 		for(Point p : blackPiece)
 			grid[p.x][p.y] = PieceEnum.BLACKPIECE;
-
+		positionalMatrix = initializePositionalMatrix();
 	}
-	
+
 	/**
 	 * Constructeur par copie de la classe.
 	 * @param otherBoard : Board, un autre plateau.
@@ -80,8 +82,10 @@ public class Board {
 		for(int i =0; i< this.width; i++)
 			for(int j =0; j< this.height; j++)
 				grid[i][j] = otherBoard.grid[i][j];
+		positionalMatrix = initializePositionalMatrix();
+
 	}
-	
+
 
 	/**
 	 * Calcule la frontière définissant la zone entre les cases vides et les cases avec pion.
@@ -123,7 +127,7 @@ public class Board {
 		this.borderLine = borderLine;
 		return this.borderLine;
 	}
-	
+
 	/**
 	 * Calcule les cases jouable par le joueur.
 	 * @param player : Integer, le joueur jouant le coup.
@@ -162,7 +166,7 @@ public class Board {
 		return possiblePosition;
 
 	}
-	
+
 	/**
 	 * Calcule le plateau résultant de la pose d'un pion.
 	 * @param Position : Point, la position jouée.
@@ -240,7 +244,110 @@ public class Board {
 			whitePiece.removeAll(blackPiece); 
 		}
 	}
-	
+
+	public void recalculatePositionalMatrix(Integer player){
+		if(this.positionalMatrix == null)
+			this.positionalMatrix = initializePositionalMatrix();
+		for(int i = 0; i< this.getWidth()-3; i ++){
+			if(isEmpty(i+1, 0) && isPlayer(i,0 , player) && isPlayer(i+2, 0, player))
+				positionalMatrix[i+1][0] = 	Math.abs(positionalMatrix[i+1][0]);
+			else if(isEmpty(i+1, 0))
+				positionalMatrix[i+1][0] = -Math.abs(positionalMatrix[i+1][0]);
+			if(isEmpty(i+1, this.getHeight() - 1) && isPlayer(i,this.getHeight() - 1, player) && isPlayer(i+2, this.getHeight() - 1, player))
+				positionalMatrix[i+1][this.getHeight() - 1] = Math.abs(positionalMatrix[i+1][this.getHeight() - 1]);
+			else if(isEmpty(i+1, this.getHeight() - 1))
+				positionalMatrix[i+1][this.getHeight() - 1] = -Math.abs(positionalMatrix[i+1][this.getHeight() - 1]);
+		}	
+		for(int i = 0; i< this.getHeight()-3; i ++){
+			if(isEmpty(0, i+1) && isPlayer(0,i , player) && isPlayer(0, i+2, player))
+				positionalMatrix[0][i+1] = Math.abs(positionalMatrix[0][i+1]);
+			else if(isEmpty(0, i+1))
+				positionalMatrix[0][i+1] = -Math.abs(positionalMatrix[0][i+1]);
+			System.out.println(this.getHeight() - 1 + " + " + (i+1));
+			if(isEmpty(this.getWidth() - 1,i+1) && isPlayer(this.getWidth() - 1,i, player) && isPlayer(this.getWidth() - 1,i+2, player))
+				positionalMatrix[this.getWidth() - 1][i+1] = Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
+			else if(isEmpty( this.getWidth() - 1, i+1))
+				positionalMatrix[this.getWidth() - 1][i+1] = -Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
+
+		}
+		if(isEmpty(1, 1) && isPlayer(0,0 , player) && isPlayer(0, 1, player) && isPlayer(1, 0, player))
+			positionalMatrix[1][1] = Math.abs(positionalMatrix[1][1]);
+		if(isEmpty(this.width-2, this.height-2) && isPlayer(this.width-1,this.height-1 , player) && isPlayer(this.width-1, this.height-2, player) && isPlayer(this.width-2, this.height-1, player))
+			positionalMatrix[this.width-2][this.height-2] = Math.abs(positionalMatrix[this.width-2][this.height-2]);
+		if(isEmpty(1, this.height-2) && isPlayer(0,this.height-1 , player) && isPlayer(0, this.height-2, player) && isPlayer(1, this.height-1, player))
+			positionalMatrix[1][this.height-2] = Math.abs(positionalMatrix[1][this.height-2]);
+		if(isEmpty(this.width-2, 1) && isPlayer(this.width-1,0 , player) && isPlayer(this.width-1, 1, player) && isPlayer(this.width-2, 0, player))
+			positionalMatrix[this.width-2][1] = Math.abs(positionalMatrix[this.width-2][1]);
+
+
+	}
+
+	private Integer[][] initializePositionalMatrix() {
+		Integer[][] matrix = positionalMatrix;
+		if(matrix == null){
+			matrix = new Integer[this.getWidth()][this.getHeight()];
+		}
+		for(int i = 0; i < this.getWidth(); i++)
+			for(int j = 0; j < this.getHeight(); j++){
+				matrix[i][j] = 1;
+			}
+
+
+		matrix[3][2] = 2;
+		matrix[2][3] = 2;
+		matrix[this.getWidth()-4][2] = 2;
+		matrix[this.getWidth()-3][3] = 2;
+		matrix[3][this.getHeight()-3] = 2;
+		matrix[2][this.getHeight()-4] = 2;
+		matrix[this.getWidth()-4][this.getHeight()-3] = 2;
+		matrix[this.getWidth()-3][this.getHeight()-4] = 2;
+
+		matrix[2][2] = 5;
+		matrix[this.getWidth()-3][2] = 5;
+		matrix[this.getWidth()-3][this.getHeight()-3] = 5;
+		matrix[2][this.getHeight()-3] = 5;
+
+		matrix[3][0] = 5;
+		matrix[0][3] = 5;
+		matrix[this.getWidth()-4][0] = 5;
+		matrix[0][this.getHeight()-4] = 5;
+		matrix[3][this.getHeight()-1] = 5;
+		matrix[this.getWidth()-1][3] = 5;
+		matrix[this.getWidth()-4][this.getHeight()-1] = 5;
+		matrix[this.getWidth()-1][this.getHeight()-4] = 5;
+
+		matrix[2][0] = 10;
+		matrix[0][2] = 10;
+		matrix[this.getWidth()-3][0] = 10;
+		matrix[0][this.getHeight()-3] = 10;
+		matrix[2][this.getHeight()-1] = 10;
+		matrix[this.getWidth()-1][2] = 10;
+		matrix[this.getWidth()-3][this.getHeight()-1] = 10;
+		matrix[this.getWidth()-1][this.getHeight()-3] = 10;
+
+		matrix[1][0] = -20;
+		matrix[0][1] = -20;
+		matrix[this.getWidth()-2][0] = -20;
+		matrix[0][this.getHeight()-2] = -20;
+		matrix[1][this.getHeight()-1] = -20;
+		matrix[this.getWidth()-1][1] = -20;
+		matrix[this.getWidth()-2][this.getHeight()-1] = -25;
+		matrix[this.getWidth()-1][this.getHeight()-2] = -25;
+
+		matrix[1][1] = -25;
+		matrix[this.getWidth()-2][this.getHeight()-2] = -25;
+		matrix[this.getWidth()-2][1] = -25;
+		matrix[1][this.getHeight()-2] = -25;
+
+		matrix[0][0] = 30;
+		matrix[this.getWidth()-1][this.getHeight()-1] = 30;
+		matrix[this.getWidth()-1][0] = 30;
+		matrix[0][this.getHeight()-1] = 30;
+
+		return matrix;
+	}
+
+
 	/**
 	 * Vérifie si la case est vide.
 	 * @param x : Integer, la position en abscisse de la case.
@@ -250,7 +357,7 @@ public class Board {
 	public boolean isEmpty(Integer x, Integer y){
 		return isEmpty(new Point(x,y));
 	}
-	
+
 	/**
 	 * Vérifie si la case est rempli par le joueur passé en paramètre.
 	 * @param x : Integer, la position en abscisse de la case.
@@ -261,7 +368,7 @@ public class Board {
 	public boolean isPlayer(Integer x, Integer y, Integer player){
 		return isPlayer(new Point(x,y), player);
 	}
-	
+
 	/**
 	 * Vérifie si la case est vide.
 	 * @param p : Point, la position de la case sur le plateau.
@@ -270,7 +377,7 @@ public class Board {
 	public boolean isEmpty(Point p){
 		return grid[p.x][p.y].getValue() == 0? true :false;
 	}
-	
+
 	/**
 	 * Vérifie si la case est rempli par le joueur passé en paramètre.
 	 * @param p : Point, la position de la case sur le plateau.
@@ -280,7 +387,7 @@ public class Board {
 	public boolean isPlayer(Point p, Integer player){
 		return grid[p.x][p.y].getValue() == player? true :false;
 	}
-	
+
 	/**
 	 * Ajoute un pion noir à l'emplacement donné
 	 * @param x : Integer, la position en abscisse.
@@ -290,7 +397,7 @@ public class Board {
 		if(grid[x][y] == PieceEnum.EMPTYPIECE)
 			grid[x][y] = PieceEnum.BLACKPIECE;
 	}
-	
+
 	/**
 	 * Ajoute un pion blanc à l'emplacement donné
 	 * @param x : Integer, la position en abscisse.
@@ -300,7 +407,7 @@ public class Board {
 		if(grid[x][y] == PieceEnum.EMPTYPIECE)
 			grid[x][y] = PieceEnum.WHITEPIECE;
 	}
-	
+
 	/**
 	 * Ajoute un pion noir à l'emplacement donné
 	 * @param p : Point, la position de la case sur le plateau.
@@ -308,7 +415,7 @@ public class Board {
 	public void putBlackPiece(Point p){
 		putBlackPiece(p.x,p.y);
 	}
-	
+
 	/**
 	 * Ajoute un pion blanc à l'emplacement donné
 	 * @param p : Point, la position de la case sur le plateau.
@@ -316,7 +423,7 @@ public class Board {
 	public void putWhitePiece(Point p){
 		putWhitePiece(p.x,p.y);
 	}
-	
+
 	/**
 	 * Retourne la pièce sur la case donnée en paramètre
 	 * @param i : Integer, la position de la case en abscisse.
@@ -334,7 +441,7 @@ public class Board {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Retourne la pièce sur la case donnée en paramètre
 	 * @param p : Point, la position de la case.
@@ -342,7 +449,7 @@ public class Board {
 	public void turnPiece(Point p){
 		turnPiece(p.x,p.y);
 	}
-	
+
 	/**
 	 * Retourne l'ensemble des pions blancs du plateau
 	 * @return l'ensemble des pions blancs
@@ -358,7 +465,7 @@ public class Board {
 	public Set<Point> getBlackPiece() {
 		return blackPiece;
 	}
-	
+
 	/**
 	 * Retourne le nombre de pions blancs.
 	 * @return le nombre de pions blancs.
@@ -366,7 +473,7 @@ public class Board {
 	public Integer getNbWhitePiece(){
 		return whitePiece.size();
 	}
-	
+
 	/**
 	 * Retourne le nombre de pions noirs.
 	 * @return le nombre de pions noirs.
@@ -374,13 +481,19 @@ public class Board {
 	public Integer getNbBlackPiece(){
 		return blackPiece.size();
 	}
-	
+
 	public Integer getWidth() {
 		return width;
 	}
 
 	public Integer getHeight() {
 		return height;
+	}
+
+
+	public Integer[][] getPositionalMatrix(Integer player) {
+		this.recalculatePositionalMatrix(player);
+		return positionalMatrix;
 	}
 
 	/**
@@ -405,7 +518,7 @@ public class Board {
 			for(int i = 0; i < this.width; i++)
 				res += " _";
 		}
-			
-			return res;	
+
+		return res;	
 	}
 }

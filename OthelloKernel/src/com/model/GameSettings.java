@@ -360,6 +360,8 @@ public class GameSettings {
 		if(this.player2.getPlayerType() instanceof MachinePlayer)
 			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player2ArtificialIntelligenceDifficulty] + "\n\n";
 
+		res+= this.gameBoard.toString();
+		
 		res += "Temps de réflexion des IA : " + this.artificialIntelligenceThinkingTime + "\n";
 		res += "Difficulté de l'IA d'aide: " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.helpArtificialIntelligenceDifficulty] + "\n";
 		return res;

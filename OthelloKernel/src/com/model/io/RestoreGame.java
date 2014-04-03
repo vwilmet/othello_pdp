@@ -150,12 +150,10 @@ public class RestoreGame {
 		}
 
 		try {
-			this.saveDoc = sbx.build(new ByteArrayInputStream(gameGrid
-					.getBytes()));
+			this.saveDoc = sbx.build(new ByteArrayInputStream(gameGrid.getBytes()));
 		} catch (JDOMException e) {
 			throw new GameHandlerException(
-					GameHandlerException.ERROR_WRONG_FORMAT_SAVE_GAME_FILE,
-					e.getMessage());
+					GameHandlerException.ERROR_WRONG_FORMAT_SAVE_GAME_FILE, e.getMessage());
 		} catch (IOException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -168,7 +166,7 @@ public class RestoreGame {
 	 * fichier de sauvegarde.
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
-		
+		System.out.println( "====================== JE RECCUP LE CONTENU DU FICHIER ");
 		Element initPart = this.root.getChild(BoardPublisher.INIT_PART);
 
 		if (initPart == null)
@@ -226,6 +224,15 @@ public class RestoreGame {
 		/* INITIAL PIECES */
 		try {
 			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(BoardPublisher.PIECES_PART), false);
+			
+			/**
+			 * DEBUG History
+			 */
+			System.out.println("initialPieces");
+			for (Piece p : initialPieces){
+				System.out.println(p);
+			}
+			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -239,6 +246,15 @@ public class RestoreGame {
 		/* PLAYED PIECES */
 		try {
 			playedPieces = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.PLAYED_PIECES_PART), false);
+			
+			/**
+			 * DEBUG Played Pieces
+			 */
+			System.out.println("PlayedPieces");
+			for (Piece p : playedPieces){
+				System.out.println(p);
+			}
+			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -246,10 +262,20 @@ public class RestoreGame {
 
 		/* HISTORY -> FACULTATIF */
 		try {
-			history = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.HISTORY_PART),false);
+			history = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.HISTORY_PART),true);
+			
+			/**
+			 * DEBUG History
+			 */
+			System.out.println("History");
+			for (Piece p : history){
+				System.out.println(p);
+			}
+			
 		} catch (GameHandlerException e) {
 			try {
 				history = pieceFacto.getArrayListOfPiece();
+				
 			} catch (FactoryHandlerException e1) {
 				Log.error(e.getMessage());
 				e1.printStackTrace();
@@ -263,12 +289,17 @@ public class RestoreGame {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
+		
+		System.out.println("===================================DEBUG Plateau de jeu =================" );
+		System.out.println(board);
 
 		/* Construction de GameSettings */
 		 try { 
 			 BoardObservable btmp = null;
 			 
 			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aIHelpLevel, history);
+			 
+			 System.out.println("***************************************************************** DEBUG GAME SETTINGS ****************************************************");
 
 			 try {
 				 btmp = bFacto.getBoard(board.getSizeX(), board.getSizeX(), this.initialPieces); 
@@ -278,6 +309,9 @@ public class RestoreGame {
 				 e.printStackTrace();
 			 }
 			 
+			 System.out.println("Board Initial avant history mode");
+			 System.out.println(btmp);
+			 
 			 try{
 				 historyBoard = (ArrayList<BoardObservable>) bFacto.getBoardList();
 			 }
@@ -286,11 +320,14 @@ public class RestoreGame {
 				 e.printStackTrace();
 			 }
 			 
-			 //set Les boardobservble
+			 historyBoard.add((BoardObservable) btmp.clone());
+			 
 			 for (Piece p : this.gameSettings.getGameHistory()){
 				 GameControllers.reverseInbetweenPieceAfterPlaying(btmp, p.getPosX(), p.getPosY());
 				 historyBoard.add((BoardObservable) btmp.clone());
+				 System.out.println(btmp);
 			 }
+			 
 			 this.gameSettings.setGameBoardHistory(historyBoard);
 			 			 
 			 this.gameSettings.setPlayer1ArtificialIntelligenceDifficulty(aIP1Level);
@@ -300,6 +337,8 @@ public class RestoreGame {
 			 Log.error(e.getMessage()); 
 			 e.printStackTrace(); 
 		 }
+		 
+		 System.out.println( "====================== J'AI TT RECCUP ");
 	}
 
 	/**

@@ -165,7 +165,9 @@ public abstract class GameController{
 		}
 		rg.loadGameFromBackupFile();
 
-		gameSettings = rg.getGameSettings();
+		this.gameSettings = rg.getGameSettings();
+		
+		System.out.println(this.gameSettings);
 	}
 	
 	protected boolean onPiecePlayed(int i, int j){

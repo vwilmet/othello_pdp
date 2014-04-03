@@ -64,9 +64,8 @@ public class SaveGame {
 		this.gameSettings = gameSettings;
 		this.fmanager = new FilesManagerImpl();
 		this.fmanager.init("", false);
-		
-		this.root = new Element(BoardPublisher.BOARD_PART);
-		this.saveDoc = new Document (root);
+		this.root = null;
+		this.saveDoc = null;
 	}
 	
 	public void setSaveFileName(String saveFileName){
@@ -82,6 +81,10 @@ public class SaveGame {
 	 * Méthode permettant la sauvegarde d'une partie.
 	 */
 	public boolean saveGameToBackupFile(){
+		this.root = null;
+		this.root = new Element(BoardPublisher.BOARD_PART);
+		this.saveDoc = new Document (root);
+		
 		this.root.addContent(makeInitPartInXML());
 		
 		try {
@@ -106,6 +109,10 @@ public class SaveGame {
 	 * Méthode permettant la sauvegarde automatique d'une partie.
 	 */
 	public boolean autoSaveGameToBackupFile(){
+		this.root = null;
+		this.root = new Element(BoardPublisher.BOARD_PART);
+		this.saveDoc = new Document (root);
+		
 		this.root.addContent(makeInitPartInXML());
 		
 		fmanager.init(this.autoSaveFileName, false);
@@ -136,7 +143,7 @@ public class SaveGame {
 		
 		Element init = new Element (BoardPublisher.INIT_PART);
 		init.addContent(makeBardSizeInXML());
-		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), BoardPublisher.INIT_PART));
+		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), BoardPublisher.PIECES_PART));
 		init.addContent(makePlayerInXML(this.gameSettings.getFirstPlayer()));
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
 		

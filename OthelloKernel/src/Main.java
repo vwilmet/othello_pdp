@@ -220,20 +220,21 @@ public class Main {
 		 * System.out.println(p1.toString());
 		 */
 		
-	/*	System.out.println("test de la lecure de partie");
+		/*System.out.println("test de la lecure de partie");
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		
 		RestoreGame rg = null;
 		
 		try {
-			rg = rgFacto.getRestoreGame("grille4x4.xml");
+			rg = rgFacto.getRestoreGame("./test.xml");
 			rg.loadGameFromBackupFile();
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		
-		
+		System.out.println(rg.getGameSettings());*/
+		/*
 		System.out.println("test de la Ecriture de partie");
 		SaveGameFactory sgFacto = FactoryProducer.getSaveGameFactory();
 		SaveGame sg = null;

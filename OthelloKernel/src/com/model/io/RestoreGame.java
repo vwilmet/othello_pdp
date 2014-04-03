@@ -302,7 +302,7 @@ public class RestoreGame {
 			 System.out.println("***************************************************************** DEBUG GAME SETTINGS ****************************************************");
 
 			 try {
-				 btmp = bFacto.getBoard(board.getSizeX(), board.getSizeX(), this.initialPieces); 
+				 btmp = bFacto.getBoard(board.getSizeX(), board.getSizeY(), this.initialPieces); 
 			 }
 			 catch (FactoryHandlerException e){
 				 Log.error(e.getMessage());

@@ -49,7 +49,7 @@ public interface PostsPublisher {
 	/**
 	 * Constantes permettant de donner un nom par défaut à chaque joueur.
 	 */
-	public static final String FIRST_PLAYER_NAME_POST = "J. McCain", SECOND_PLAYER_NAME_POST = "J. Rambo";
+	public static final String FIRST_PLAYER_NAME_POST = "J. McClain", SECOND_PLAYER_NAME_POST = "J. Rambo";
 	
 	public static final String GRID_FILE_EXTENSION = ".grd";
 	public static final String PATH_GRID_FILE_FOLDER = "./";
@@ -173,6 +173,71 @@ public interface PostsPublisher {
 	 * Constante demandant à l'utilisateur de saisir le nom du fichier contenant la grille de jeu à charger.
 	 */
 	public static final String LOAD_OR_CREATE_BOARD_REQUEST_FR = "Voulez-vous charger un fichier contenant un othelier initial, ou le créer ? (1 pour charger le fichier, 2 pour le créer) ";
+	
+	/**
+	 * Constante demandant à l'utilisateur la difficulté de l'ia pour l'aide.
+	 */
+	public static final String AI_HELP_LEVEL_POST_FR = "Quel est le niveau de difficulté que vous voulez donnez à l'IA d'aide ? (0 pour facile, 1 pour moyen, 2 pour difficile) ";
+	
+	/**
+	 * Constante demandant à l'utilisateur la difficulté de l'ia pour le joueur 1.
+	 */
+	public static final String AI_PLAYER1_LEVEL_POST_FR = "Quel est le niveau de difficulté que vous voulez donnez à l'IA du joueur 1 ? (0 pour facile, 1 pour moyen, 2 pour difficile) ";	
+	
+	/**
+	 * Constante demandant à l'utilisateur si le joueur 1 est une machine.
+	 */
+	public static final String IS_MACHINE_PLAYER1_FR = "Voulez-vous que le joueur 1 (Blanc) soit une machine ? (1 pour oui, 0 pour non) ";
+	
+	/**
+	 * Constande indiquant à l'utilisateur que le joueur 2 est une machine.
+	 */
+	public static final String PLAYER1_IS_MACHINE_FR = "Le Joueur 1 (Blanc) est une machine.";
+	
+	/**
+	 * Constande indiquant à l'utilisateur que le joueur 2 est un humain.
+	 */
+	public static final String PLAYER1_IS_HUMAN_FR = "Le Joueur 1 (Blanc) est un humain.";
+	
+	/**
+	 * Constante demandant à l'utilisateur quel est le nom du joueur 1.
+	 */
+	public static final String PLAYER1_NAME_REQUEST_FR = "Quel est le nom du joueur 1 ?";
+	
+	/**
+	 * Constante demandant à l'utilisateur la difficulté de l'ia pour le joueur 2.
+	 */
+	public static final String AI_PLAYER2_LEVEL_POST_FR = "Quel est le niveau de difficulté que vous voulez donnez à l'IA du joueur 2 ? (0 pour facile, 1 pour moyen, 2 pour difficile) ";
+	
+	/**
+	 * Constante demandant à l'utilisateur si le joueur 2 est une machine.
+	 */
+	public static final String IS_MACHINE_PLAYER2_FR = "Voulez-vous que le joueur 2 (Noir) soit une machine ? (1 pour oui, 0 pour non) ";
+	
+	/**
+	 * Constande indiquant à l'utilisateur que le joueur 2 est une machine.
+	 */
+	public static final String PLAYER2_IS_MACHINE_FR = "Le Joueur 2 (Noir) est une machine.";
+	
+	/**
+	 * Constande indiquant à l'utilisateur que le joueur 2 est un humain.
+	 */
+	public static final String PLAYER2_IS_HUMAN_FR = "Le Joueur 2 (Noir) est un humain.";	
+	
+	/**
+	 * Constante demandant à l'utilisateur quel est le nom du joueur 2.
+	 */
+	public static final String PLAYER2_NAME_REQUEST_FR = "Quel est le nom du joueur 2 ?";
+	
+	/**
+	 * Constante précisant à l'utilisateur les choix de reponse correspondant au paramétrage de l'IA.
+	 */
+	public static final String AI_LEVEL_POST_FR = "(0 pour facile, 1 pour moyen, 2 pour difficile) ";
+	
+	/**
+	 * Constante demandant à l'utilisateur si le joueur est une machine.
+	 */
+	public static final String IS_MACHINE_PLAYER_POST_FR = "(1 pour oui, 0 pour non) ";
 	
 	/**
 	 * Message d'erreur générale.

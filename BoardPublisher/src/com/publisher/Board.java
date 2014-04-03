@@ -20,7 +20,7 @@ public class Board {
 	private static final int ZERO = 0, ONE = 1;
 	
 	/**
-	 * Constantes sur les bornes (choix possibles de l'utilisateur.
+	 * Constantes sur les bornes (choix possibles de l'utilisateur).
 	 */
 	private static final int BOUND_TWO = 2,
 			BOUND_FOUR = 4,
@@ -30,7 +30,7 @@ public class Board {
 	/**
 	 * Constantes de parametrage de l'IA (valeures par defaut).
 	 */
-	private static final int DEFAULT_AI_THINKING_TIME = 2000, DEFAULT_AI_LEVEL = 1;
+	private static final int DEFAULT_AI_THINKING_TIME = 2000, DEFAULT_AI_LEVEL = 0;
 	
 	/**
 	 * Constantes permettant la représentation des couleures dans la grille en cours de création.
@@ -87,15 +87,14 @@ public class Board {
 	 */
 	public Board (){
 		
+		boolean requestAILevel = false;
+		
 		this.sc = new Scanner(System.in);
 		
 		this.nbPieceX = initializeBoardSize(PostsPublisher.LENGTH_CAPITAL_FR);
 		this.nbPieceY = initializeBoardSize(PostsPublisher.WIDTH_CAPIAL_FR);
 		
 		this.gameBoard = new int[this.nbPieceX][this.nbPieceY];
-		
-		this.p1 = new Player(PostsPublisher.FIRST_PLAYER_NAME_POST, BoardPublisher.WHITE_PLAYER, BoardPublisher.HUMAN_PLAYER, 1);
-		this.p2 = new Player(PostsPublisher.SECOND_PLAYER_NAME_POST, BoardPublisher.BLACK_PLAYER, BoardPublisher.MACHINE_PLAYER, 2);
 
 		System.out.println(PostsPublisher.INITIALIZATION_POST_FR);
 		
@@ -106,27 +105,46 @@ public class Board {
 
 		System.out.println(this.toString());
 		
-		/**
-		 * TODO demander au client si on demande à l'utilisateur s'il veux changer le type de joueur si oui, alors faire les modifs associées
-		 * 
-		 * DEMANDER SI LE PLAYER EST UN HUMAIN OU UNE MACHINE
-		 * 
-		 * SI MACHINE DEMANDER LA DIFFICULTE DE L'IA
-		 * 
-		 * DEMANDER LE TEMPS DE RéFLEXION DE l'IA
-		 * 
-		 * this.AIHelpLevel = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
-		 * this.AIP1Level = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
-		 * this.AIP2Level = Utils.getIntUserChoice(messageToPrint, optionalMessage, ZERO, BOUND_TWO, sc);
-		 */
+		if (Utils.getIntUserChoice(PostsPublisher.IS_MACHINE_PLAYER1_FR,
+				PostsPublisher.IS_MACHINE_PLAYER_POST_FR, ZERO, ONE, sc) == 1){
+			this.AIP1Level = Utils.getIntUserChoice(PostsPublisher.AI_PLAYER1_LEVEL_POST_FR,
+					PostsPublisher.AI_LEVEL_POST_FR, ZERO, BOUND_TWO, sc);
+			System.out.println(PostsPublisher.PLAYER1_IS_MACHINE_FR);
+			this.p1 = new Player(PostsPublisher.FIRST_PLAYER_NAME_POST, 
+					BoardPublisher.WHITE_PLAYER, BoardPublisher.MACHINE_PLAYER, 1);
+		}
+		else {
+			this.AIP1Level = DEFAULT_AI_LEVEL;
+			requestAILevel = true;
+			System.out.println(PostsPublisher.PLAYER1_IS_HUMAN_FR);
+			String name = getStringEntrie(PostsPublisher.PLAYER1_NAME_REQUEST_FR);
+			this.p1 = new Player(name, BoardPublisher.WHITE_PLAYER, BoardPublisher.HUMAN_PLAYER, 1);
+		}
 		
-		this.AIHelpLevel = DEFAULT_AI_LEVEL;
-		this.AIP1Level = DEFAULT_AI_LEVEL;
-		this.AIP2Level = DEFAULT_AI_LEVEL;
+		if (Utils.getIntUserChoice(PostsPublisher.IS_MACHINE_PLAYER2_FR,
+				PostsPublisher.IS_MACHINE_PLAYER_POST_FR, ZERO, ONE, sc) == 1){
+			this.AIP2Level = Utils.getIntUserChoice(PostsPublisher.AI_PLAYER2_LEVEL_POST_FR,
+					PostsPublisher.AI_LEVEL_POST_FR, ZERO, BOUND_TWO, sc);
+			System.out.println(PostsPublisher.PLAYER2_IS_MACHINE_FR);
+			this.p2 = new Player(PostsPublisher.SECOND_PLAYER_NAME_POST,
+					BoardPublisher.BLACK_PLAYER, BoardPublisher.MACHINE_PLAYER, 2);
+		}
+		else {
+			this.AIP2Level = DEFAULT_AI_LEVEL;
+			requestAILevel = true;
+			System.out.println(PostsPublisher.PLAYER2_IS_HUMAN_FR);
+			String name = getStringEntrie(PostsPublisher.PLAYER2_NAME_REQUEST_FR);
+			this.p2 = new Player(name, BoardPublisher.BLACK_PLAYER, BoardPublisher.HUMAN_PLAYER, 2);
+		}
+		
+		if (requestAILevel)
+			this.AIHelpLevel = Utils.getIntUserChoice(PostsPublisher.AI_HELP_LEVEL_POST_FR, PostsPublisher.AI_LEVEL_POST_FR, ZERO, BOUND_TWO, sc);
+		else
+			this.AIHelpLevel = DEFAULT_AI_LEVEL;
 		
 		this.AIThinkingTime = DEFAULT_AI_THINKING_TIME;
 		
-		this.boardFileName = initializeBoardFileName(PostsPublisher.SAVE_FILE_NAME_REQUEST_FR);
+		this.boardFileName = getStringEntrie(PostsPublisher.SAVE_FILE_NAME_REQUEST_FR);
 		
 		System.out.println(PostsPublisher.END_POST_FR);
 	}
@@ -243,7 +261,7 @@ public class Board {
 	 * Méthode permettant de charger un plateau initial à partir d'un fichier existant.
 	 */
 	private void loadBoard(){
-		String loadFile = initializeBoardFileName(PostsPublisher.LOAD_BOARD_FILE_NAME_REQUEST_FR);
+		String loadFile = getStringEntrie(PostsPublisher.LOAD_BOARD_FILE_NAME_REQUEST_FR);
 		LoadBoardFile lbf = new LoadBoardFile(loadFile, this.nbPieceX, this.nbPieceY);
 		try {
 			lbf.getMapFromFile();
@@ -252,9 +270,7 @@ public class Board {
 			Log.error(e.getMessage());
 			System.out.println(e.getMessage());
 			this.gameBoard = getInitialBoard(this.nbPieceX, this.nbPieceY);
-			//e.printStackTrace();
-		}
-		
+		}	
 	}
 	
 	/**
@@ -310,26 +326,26 @@ public class Board {
 	}
 	
 	/**
-	 * Methode demandant à l'utilisateur de saisir le nom du fichier de sauvegarde, le reformate en cas de besoin.
+	 * Methode demandant à l'utilisateur de saisir une chaine de caractère, la reformate en cas de besoin (pour supprimer les caractère interdits pour un nom de fichier).
 	 * @return String : Le nom du fichier de sauvegarde.
 	 */
-	private String initializeBoardFileName(String post) {
-		String fileName;
+	private String getStringEntrie(String post) {
+		String value;
 
 		System.out.println(post);
-		fileName = this.sc.next();
+		value = this.sc.next();
 		
-		fileName = fileName.replace('/', '-');
-		fileName = fileName.replace('\\', '-');
-		fileName = fileName.replace(':', '-');
-		fileName = fileName.replace('*', '-');
-		fileName = fileName.replace('?', '-');
-		fileName = fileName.replace('"', '-');
-		fileName = fileName.replace('<', '-');
-		fileName = fileName.replace('>', '-');
-		fileName = fileName.replace('|', '-');
+		value = value.replace('/', '-');
+		value = value.replace('\\', '-');
+		value = value.replace(':', '-');
+		value = value.replace('*', '-');
+		value = value.replace('?', '-');
+		value = value.replace('"', '-');
+		value = value.replace('<', '-');
+		value = value.replace('>', '-');
+		value = value.replace('|', '-');
 		
-		return fileName; 
+		return value; 
 	}
 	
 	/**

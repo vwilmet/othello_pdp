@@ -156,6 +156,8 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Boolean completeReflexion() {
+		this.tree = null;
+		this.initBoard = null;
 		return true;
 	}
 

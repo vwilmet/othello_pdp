@@ -9,7 +9,6 @@ import java.util.Stack;
 import com.aistrategy.ArtificialIntelligenceStrategy;
 import com.board.Board;
 import com.error_manager.Log;
-import com.timermanager.TimerActionEvent;
 import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
 import com.tree.NodeMove;
@@ -68,14 +67,10 @@ ArtificialIntelligenceStrategy {
 	 * l'objet de la classe <br/>
 	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
 	 */
-	
-	
 	@Override
 	public Point nextMove(final Integer player) {
 		Point p = tree.getSentinel().getBestMove();
-		if (p == null
-				&& !tree.getSentinel().getBoard()
-				.calculatePlayablePosition(player).isEmpty()) {
+		if (p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()) {
 			if((initBoard.getHeight()*initBoard.getWidth() - (this.tree.getSentinel().getBoard().getNbBlackPiece() + this.tree.getSentinel().getBoard().getNbWhitePiece())) <= depth){
 				Integer alpha = Integer.MIN_VALUE;
 				Integer beta = Integer.MAX_VALUE;
@@ -84,10 +79,10 @@ ArtificialIntelligenceStrategy {
 			else{
 				p = nextBestMovePositionMobility(player);
 			}
-			
+
 			//System.out.println("coucou");
 			//start();
-		/*	Thread t = new Thread(new doAlgorithm());
+			/*	Thread t = new Thread(new doAlgorithm());
 			TimerManager time = new TimerManagerImpl();
 			time.setTimerActionEvent(new TimerActionEvent(){
 
@@ -114,11 +109,6 @@ ArtificialIntelligenceStrategy {
 		return p;
 	}
 
-	public Point result(){
-		
-		return null;
-	}
-	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -176,8 +166,57 @@ ArtificialIntelligenceStrategy {
 		// run();
 		return true;
 	}
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override
+	public Boolean initialize(RandomAI random) {
+		stopAlgorithm = false;
+		initBoard = random.initBoard;
+		tree = random.tree;
+		maxTime = random.maxTime;
+		return true;
+	}
 	
-	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override
+	public Boolean initialize(NextBestMoveAI nextBestMove) {
+		stopAlgorithm = false;
+		initBoard = nextBestMove.initBoard;
+		tree = nextBestMove.tree;
+		tm = new TimerManagerImpl();
+		maxTime = nextBestMove.maxTime;
+		return true;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override
+	public Boolean initialize(BruteForceAI brute) {
+		stopAlgorithm = false;
+		initBoard = brute.initBoard;
+		tree = brute.tree;
+		tm = new TimerManagerImpl();
+		this.maxTime = brute.maxTime;
+		return true;
+	}
+
+
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -229,7 +268,9 @@ ArtificialIntelligenceStrategy {
 	@Override
 	public Boolean completeReflexion() {
 		this.stopAlgorithm = true;
-		return null;
+		this.tree = null;
+		this.initBoard = null;
+		return true;
 	}
 
 	/**
@@ -506,13 +547,23 @@ ArtificialIntelligenceStrategy {
 					tree.getSentinel().getBoard()), tree.getSentinel());
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
+		
+			/*Point best = tree.getSentinel().getBestMove();
+			if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				
+				if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+					
+				}
+			}*/
+				
 			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
 				Point best = tree.getSentinel().getBestMove();
 				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
 					score = node.getBoard().getNbWhitePiece();
 					tree.getSentinel().setBestMove(p);
 				}
-			} else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+			} 
+			else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
 				score = node.getBoard().getNbWhitePiece();
 				tree.getSentinel().setBestMove(p);
 			}
@@ -547,34 +598,7 @@ ArtificialIntelligenceStrategy {
 	}
 
 
-	@Override
-	public Boolean initialize(RandomAI random) {
-		stopAlgorithm = false;
-		initBoard = random.initBoard;
-		tree = random.tree;
-		maxTime = random.maxTime;
-		return true;
-	}
 
-	@Override
-	public Boolean initialize(NextBestMoveAI nextBestMove) {
-		stopAlgorithm = false;
-		initBoard = nextBestMove.initBoard;
-		tree = nextBestMove.tree;
-		tm = new TimerManagerImpl();
-		maxTime = nextBestMove.maxTime;
-		return true;
-	}
-
-	@Override
-	public Boolean initialize(BruteForceAI brute) {
-		stopAlgorithm = false;
-		initBoard = brute.initBoard;
-		tree = brute.tree;
-		tm = new TimerManagerImpl();
-		this.maxTime = brute.maxTime;
-		return true;
-	}
 
 	public String boardToString() {
 		return this.tree.getSentinel().getBoard().printBoard();

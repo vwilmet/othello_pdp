@@ -248,7 +248,7 @@ public class Board {
 	public void recalculatePositionalMatrix(Integer player){
 		if(this.positionalMatrix == null)
 			this.positionalMatrix = initializePositionalMatrix();
-		for(int i = 0; i< this.getWidth()-3; i ++){
+		for(int i = 0; i<= this.getWidth()-3; i ++){
 			if(isEmpty(i+1, 0) && isPlayer(i,0 , player) && isPlayer(i+2, 0, player))
 				positionalMatrix[i+1][0] = 	Math.abs(positionalMatrix[i+1][0]);
 			else if(isEmpty(i+1, 0))
@@ -258,17 +258,17 @@ public class Board {
 			else if(isEmpty(i+1, this.getHeight() - 1))
 				positionalMatrix[i+1][this.getHeight() - 1] = -Math.abs(positionalMatrix[i+1][this.getHeight() - 1]);
 		}	
-		for(int i = 0; i< this.getHeight()-3; i ++){
-			if(isEmpty(0, i+1) && isPlayer(0,i , player) && isPlayer(0, i+2, player))
+		for(int i = 0; i<= this.getHeight()-3; i ++){
+			if(isEmpty(0, i+1) && isPlayer(0,i , player) && isPlayer(0, i+2, player)){
+				System.out.println("Got there");	
 				positionalMatrix[0][i+1] = Math.abs(positionalMatrix[0][i+1]);
+			}
 			else if(isEmpty(0, i+1))
 				positionalMatrix[0][i+1] = -Math.abs(positionalMatrix[0][i+1]);
-			System.out.println(this.getHeight() - 1 + " + " + (i+1));
 			if(isEmpty(this.getWidth() - 1,i+1) && isPlayer(this.getWidth() - 1,i, player) && isPlayer(this.getWidth() - 1,i+2, player))
 				positionalMatrix[this.getWidth() - 1][i+1] = Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
 			else if(isEmpty( this.getWidth() - 1, i+1))
 				positionalMatrix[this.getWidth() - 1][i+1] = -Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
-
 		}
 		if(isEmpty(1, 1) && isPlayer(0,0 , player) && isPlayer(0, 1, player) && isPlayer(1, 0, player))
 			positionalMatrix[1][1] = Math.abs(positionalMatrix[1][1]);
@@ -279,9 +279,8 @@ public class Board {
 		if(isEmpty(this.width-2, 1) && isPlayer(this.width-1,0 , player) && isPlayer(this.width-1, 1, player) && isPlayer(this.width-2, 0, player))
 			positionalMatrix[this.width-2][1] = Math.abs(positionalMatrix[this.width-2][1]);
 
-
 	}
-
+	
 	private Integer[][] initializePositionalMatrix() {
 		Integer[][] matrix = positionalMatrix;
 		if(matrix == null){
@@ -331,8 +330,8 @@ public class Board {
 		matrix[0][this.getHeight()-2] = -20;
 		matrix[1][this.getHeight()-1] = -20;
 		matrix[this.getWidth()-1][1] = -20;
-		matrix[this.getWidth()-2][this.getHeight()-1] = -25;
-		matrix[this.getWidth()-1][this.getHeight()-2] = -25;
+		matrix[this.getWidth()-2][this.getHeight()-1] = -20;
+		matrix[this.getWidth()-1][this.getHeight()-2] = -20;
 
 		matrix[1][1] = -25;
 		matrix[this.getWidth()-2][this.getHeight()-2] = -25;
@@ -344,6 +343,8 @@ public class Board {
 		matrix[this.getWidth()-1][0] = 30;
 		matrix[0][this.getHeight()-1] = 30;
 
+		positionalMatrix = matrix;
+		
 		return matrix;
 	}
 

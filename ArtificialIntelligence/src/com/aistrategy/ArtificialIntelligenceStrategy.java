@@ -43,10 +43,25 @@ public interface ArtificialIntelligenceStrategy {
 	 */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 
+	/**
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA random
+	 * @param random
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
+	 */
 	public Boolean initialize(RandomAI random);
 	
+	/**
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA random
+	 * @param nextBestMove l'ia nextBestMove
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
+	 */
 	public Boolean initialize(NextBestMoveAI nextBestMove);
 	
+	/**
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA force brute
+	 * @param brute l'ia brute force
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
+	 */
 	public Boolean initialize(BruteForceAI brute);
 
 

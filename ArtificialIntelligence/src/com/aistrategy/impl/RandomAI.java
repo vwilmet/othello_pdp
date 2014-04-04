@@ -186,18 +186,6 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			this.tree.setSentinel(this.tree.getSentinel().getParent());
 	}
 
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
-	 * Utiliser l'interface
-	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
-	 * l'objet de la classe <br/>
-	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
-	 */
-	@Override
-	public void setMaxTime(Integer time) {
-		this.maxTime = time;
-	}
-
 	@Override
 	public Boolean initialize(RandomAI random) {
 		initBoard = random.initBoard;
@@ -218,7 +206,6 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	public Boolean initialize(BruteForceAI brute) {
 		initBoard = brute.initBoard;
 		tree = brute.tree;
-		this.maxTime = brute.maxTime;
 		return true;
 	}
 

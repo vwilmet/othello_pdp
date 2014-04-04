@@ -132,7 +132,6 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 
 	}
 
-
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
@@ -142,16 +141,6 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 	public void undoMove() {
 		if(ai != null)
 			ai.undoMove();
-	}
-
-	/**
-	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
-	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
-	 * <br/>Voir {@link com.ai.ArtificialIntelligence#setMaxTime}
-	 */
-	@Override
-	public void setMaxTime(Integer time) {
-		ai.setMaxTime(time);
 	}
 
 	@Override
@@ -167,10 +156,4 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 			return false;
 	}
 
-	public String boardToString(){
-		return ai.boardToString();
-	}
-
-
-	
 }

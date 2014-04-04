@@ -75,7 +75,6 @@ public class NodeMove<T> {
 		setParent(parent);
 		setBoard(board);      
 		bestMove = null;
-
 	}
 
 	/**

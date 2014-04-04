@@ -159,15 +159,8 @@ public class GameSettings {
 	}
 
 	public void setHistoryPosition(int sentinel){
-		System.out.println("[setHistoryPosition]");
 		this.sentinel = sentinel;
 
-		/*showHistory();
-		System.out.println("sentinel : " + sentinel);
-		System.out.println("board sentinel : " + (sentinel+1));
-		if(sentinel != -1)
-			System.out.println("piece at sentinel " + this.gameHistory.get(this.sentinel));
-		 */
 		if(this.sentinel == -1)
 			this.setCurrentPlayer(this.player1);
 		else if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
@@ -177,10 +170,6 @@ public class GameSettings {
 
 		this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
 		this.gameBoard.notifyObservers();
-		/*System.out.println("Current board : " + this.gameBoard);
-		showHistory();
-		 */
-		System.out.println("[====================setHistoryPosition==================]");
 	}
 
 	public BoardObservable getHistoryBoard(int position){
@@ -200,6 +189,7 @@ public class GameSettings {
 		this.gameBoardHistory.clear();
 		this.gameBoardHistory.add((BoardObservable)gameBoard.clone());
 		this.sentinel = -1;
+		System.gc();
 	}
 
 	public void restartGame(){
@@ -208,7 +198,7 @@ public class GameSettings {
 		resetHistory();
 		this.currentPlayer = this.player1;
 	}
-
+	
 	public boolean canGoBack(){
 		if(this.sentinel == -1)
 			return false;
@@ -294,7 +284,6 @@ public class GameSettings {
 	 * @param p : Piece que l'utilisateur viens de jouer. 
 	 */
 	public void manageBoardHistory(int x, int y){
-		System.out.println("[manageBoardHistory]");
 
 		Piece p = this.gameBoard.getBoard()[x][y];
 		if(this.gameHistory.size()-1 > this.sentinel){
@@ -304,8 +293,8 @@ public class GameSettings {
 				int size = this.gameHistory.size();
 
 				for(int i = this.sentinel; i < size; i++){
-					System.out.println( "Remove piece : " + this.gameHistory.remove(this.sentinel));
-					System.out.println( "Remove Board : " + this.gameBoardHistory.remove(this.sentinel+1));
+					this.gameHistory.remove(this.sentinel);
+					this.gameBoardHistory.remove(this.sentinel+1);
 				}
 				this.gameHistory.add(p.clone());
 				this.gameBoardHistory.add((BoardObservable)this.gameBoard.clone());

@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 
 import utils.TextManager;
 
+import com.error_manager.Log;
 import com.model.Board;
 import com.model.BoardObservable;
 import com.model.piece.BlackPiece;
@@ -38,7 +39,7 @@ import com.view.event.GameCanvasMouseEventListener;
  * @version 1.0
  */
 public class GameCanvas extends Canvas implements MouseListener, Observer{
-	
+
 	private Dimension gridSize;
 	private Dimension margin;
 	private GameCanvasMouseEventListener mouseEvent;
@@ -47,6 +48,10 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 	private int pieceSizeWidth, pieceSizeHeight;
 	private boolean onPause, showPlayablePiece;
 	private Piece IAAdvisedPiece;
+	private Image blackPieceimg;
+	private Image whitePieceimg;
+	private Image possiblePieceimg;
+	private Image advisedIAPieceimg;
 
 	public GameCanvas(int canvasWidth, int canvasHeight){
 		this.setBackground (Color.white);
@@ -55,6 +60,16 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 		this.onPause = false;
 		this.IAAdvisedPiece = null;
 		this.showPlayablePiece(true);
+
+		try {
+			whitePieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
+			possiblePieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
+			blackPieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
+			advisedIAPieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.IA_ADVISED_PIECE_IMG));
+		} catch (IOException e) {
+			Log.error("Impossible d'ouvrir les images des pions!");
+			e.printStackTrace();
+		}
 	}
 
 	public void setIAAdvisedPiece(Piece p){
@@ -73,49 +88,29 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 				g.drawRect(i*this.pieceSizeWidth+margin.width, j*this.pieceSizeHeight+margin.height, this.pieceSizeWidth, this.pieceSizeHeight);
 
 				Image img;
-				try {
-					Piece p = board.getBoard()[i][j];
-					if(p.getColor() instanceof WhitePiece)
-						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.WHITE_PIECE_IMG));
-					else if (p.getColor() instanceof BlackPiece)
-						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
-					else if(p.isPlayable() && this.showPlayablePiece)
-						img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.POSSIBLE_PIECE_IMG));
-					else{
-						//g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
-						continue;
-					}
-					g.drawImage(
-							scaleImage(
-									img,
-									this.pieceSizeWidth,
-									this.pieceSizeHeight
-									),
-									i*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
-									j*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
-									this);
-				} catch (IOException e) {
-					e.printStackTrace();
+				Piece p = board.getBoard()[i][j];
+				if(p.getColor() instanceof WhitePiece)
+					img = this.whitePieceimg;
+				else if (p.getColor() instanceof BlackPiece)
+					img = this.blackPieceimg;
+				else if(p.isPlayable() && this.showPlayablePiece)
+					img = this.possiblePieceimg;
+				else{
+					continue;
 				}
-				//g.drawString("[" + i + ", " + j + "]", i*this.pieceSizeWidth+margin.width + this.pieceSizeWidth/2, j*this.pieceSizeHeight+margin.height + this.pieceSizeHeight/2);
+				g.drawImage(
+						img,
+						i*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
+						j*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
+						this);
 			}
 		}
 
 		if(this.IAAdvisedPiece != null){
-			try {
-				Image img = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.IA_ADVISED_PIECE_IMG));
-				g.drawImage(
-						scaleImage(
-								img,
-								this.pieceSizeWidth-ViewSettings.DRAW_LINE_SIZE,
-								this.pieceSizeHeight-ViewSettings.DRAW_LINE_SIZE
-								),
-								this.IAAdvisedPiece.getPosX()*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
-								this.IAAdvisedPiece.getPosY()*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
-								this);
-			}catch (IOException e) {
-				e.printStackTrace();
-			}
+			g.drawImage(this.advisedIAPieceimg,
+					this.IAAdvisedPiece.getPosX()*this.pieceSizeWidth+margin.width+ ViewSettings.DRAW_LINE_SIZE/2,
+					this.IAAdvisedPiece.getPosY()*this.pieceSizeHeight+margin.height+ ViewSettings.DRAW_LINE_SIZE/2,
+					this);
 		}
 	}
 
@@ -155,13 +150,37 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 		int marginX = (this.canvasWidth - gridSize.width)/2;
 		int marginY = (this.canvasHeight - gridSize.height)/2;
-
+		
 		margin = new Dimension(
 				(marginX > marginY ? marginX : 0),
 				(marginX > marginY ? 0 : marginY)
 				);
+		
+		advisedIAPieceimg = scaleImage(
+				advisedIAPieceimg,
+				this.pieceSizeWidth-ViewSettings.DRAW_LINE_SIZE,
+				this.pieceSizeHeight-ViewSettings.DRAW_LINE_SIZE
+				);
+		
+		blackPieceimg = scaleImage(
+				this.blackPieceimg,
+				this.pieceSizeWidth,
+				this.pieceSizeHeight
+				);
+		
+		whitePieceimg = scaleImage(
+				this.whitePieceimg,
+				this.pieceSizeWidth,
+				this.pieceSizeHeight
+				);
+		
+		possiblePieceimg = scaleImage(
+				this.possiblePieceimg,
+				this.pieceSizeWidth,
+				this.pieceSizeHeight
+				);
 	}
-
+	
 	private Image scaleImage(Image image, int width, int height) {
 		int type = BufferedImage.TYPE_INT_ARGB;
 
@@ -181,7 +200,6 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 
 	public void refreshView(){
 		this.repaint();
-
 	}
 
 	private int[] getPiecePositionFromCoordinates(int x, int y){

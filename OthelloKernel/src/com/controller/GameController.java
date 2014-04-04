@@ -49,14 +49,14 @@ public abstract class GameController{
 	protected boolean hasThePreviousPlayerPassHisTurn;
 	protected SaveGameFactory sgFacto;
 	protected SaveGame saveGame = null;
-	
+
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 		this.sgFacto = FactoryProducer.getSaveGameFactory();
-		
+
 		BoardObservable board = null;
 		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
@@ -78,13 +78,12 @@ public abstract class GameController{
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
 					GameSettings.DEFAULT_IA_DIFFICULTY,
 					pieceFacto.getArrayListOfPiece());
-			
+
 			this.ai.put("John DOE", new ArtificialIntelligenceImpl());
-			
+
 			this.initializeIA();
 			GameControllers.setPlayablePiece(this.gameSettings);
-			
-			//			
+
 			try {
 				saveGame = sgFacto.getSaveGame();
 			} catch (FactoryHandlerException e) {
@@ -95,11 +94,11 @@ public abstract class GameController{
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		timer.startCountingElapsedTime();
 		GameControllers.checkPlayersPiecesCount(this.gameSettings);
 	}
-	
+
 	protected void initializeIA(){
 		String current_key;
 		Set<Point> 	whitePiece = new HashSet<Point>(),
@@ -137,28 +136,28 @@ public abstract class GameController{
 	protected void stopAllAI(){
 		for(ArtificialIntelligence ai : this.ai.values())
 			ai.completeReflexion();
-		
+
 		System.gc();
 	}
 
 	protected abstract void initializeNewGame();
-				
+
 	protected abstract void loadFileForGame();
-				
+
 	protected abstract void playerCantPlay();
-	
+
 	protected abstract void beforeDealingWithCurrentPlayer();
-	
+
 	protected abstract void onIAPlayed(String login, int i, int j);
-	
+
 	protected abstract void onChangePlayerTurnFinished();
 
 	protected abstract void onSaveToFile(String message);
-	
+
 	protected void onLoadedFileChoosen(String path){
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		RestoreGame rg = null;
-		
+
 		try {
 			rg = rgFacto.getRestoreGame(path);
 		} catch (FactoryHandlerException e) {
@@ -168,10 +167,10 @@ public abstract class GameController{
 		rg.loadGameFromBackupFile();
 
 		this.gameSettings = rg.getGameSettings();
-		
+
 		System.out.println(this.gameSettings);
 	}
-	
+
 	protected boolean onPiecePlayed(int i, int j){
 		for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 			if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
@@ -179,7 +178,7 @@ public abstract class GameController{
 				GameControllers.reverseInbetweenPieceAfterPlaying(this.gameSettings.getGameBoard(), i, j);
 				GameControllers.checkPlayersPiecesCount(this.gameSettings);
 				this.gameSettings.manageBoardHistory(i, j);
-				
+
 				try {
 					this.helpAI.notifyChosenMove(new Point(i, j), this.gameSettings.getCurrentPlayer().getPlayerNumber());
 				} catch (WrongPlayablePositionException e) {
@@ -197,15 +196,15 @@ public abstract class GameController{
 	protected void changePlayerTurn(){
 		this.gameSettings.changePlayer();
 		GameControllers.setPlayablePiece(this.gameSettings);
-		
+
 		this.onChangePlayerTurnFinished();
 	}
-	
+
 	protected void dealWithCurrentPlayer(){
 		this.beforeDealingWithCurrentPlayer();
-		
+
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
-						
+
 			if(!hasThePreviousPlayerPassHisTurn &&
 					(this.gameSettings.getGameBoard().getBlackPieces().size() + this.gameSettings.getGameBoard().getWhitePieces().size()) <
 					(this.gameSettings.getGameBoard().getSizeX()*this.gameSettings.getGameBoard().getSizeY())){
@@ -214,54 +213,61 @@ public abstract class GameController{
 				JOptionPane.showMessageDialog(null, 
 						message, 
 						"Attention ... ", JOptionPane.INFORMATION_MESSAGE);
-				
+
 				changePlayerTurn();
 				dealWithCurrentPlayer();
 			}
 			else{
 				this.playerCantPlay();
 			}
-			
+
 			return;
 		}else{
 			hasThePreviousPlayerPassHisTurn = false;
-		
-		//Si le joueur à jouer est l'IA
-		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
-			final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
-			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-			final Point p = this.ai.get(userLogin).nextMove(playerNumber);
 
-			if(p == null){
-				/*JOptionPane.showMessageDialog(null, 
+			//Si le joueur à jouer est l'IA
+			if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
+				final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
+				final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
+				
+				
+				
+				
+				final Point p = this.ai.get(userLogin).nextMove(playerNumber);
+				
+				
+				
+				
+				if(p == null){
+					/*JOptionPane.showMessageDialog(null, 
 						"L'IA ne peut plus jouer !", 
 						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
-				Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
-			}else{
-				TimerManager time = new TimerManagerImpl();
-				time.setTimerActionEvent(new TimerActionEvent() {
-					
-					@Override
-					public void onTimerStopped() {
-						this.commonAction();
-					}
-					
-					@Override
-					public void onTimerEnded() {
-						this.commonAction();
-					}
-					
-					public void commonAction(){
+					Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
+				}else{
+					TimerManager time = new TimerManagerImpl();
+					time.setTimerActionEvent(new TimerActionEvent() {
 
-						if(onPiecePlayed(p.x, p.y)){
-							onIAPlayed(userLogin, p.x, p.y);
-							dealWithCurrentPlayer();
+						@Override
+						public void onTimerStopped() {
+							this.commonAction();
 						}
-					}
-				});
-				time.startTimer(10);
+
+						@Override
+						public void onTimerEnded() {
+							this.commonAction();
+						}
+
+						public void commonAction(){
+
+							if(onPiecePlayed(p.x, p.y)){
+								onIAPlayed(userLogin, p.x, p.y);
+								dealWithCurrentPlayer();
+							}
+						}
+					});
+					time.startTimer(750);
+				}
 			}
-		}
 		}
 		/*
 		 * Sinon c'est un joueur humain. Du coup on attend qu'il joue et lorsqu'il joue l'évenement GameControllerGraphical.onLeftMouseButtonPressed est soulevé.
@@ -278,12 +284,12 @@ public abstract class GameController{
 		Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
 		return this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
 	}
-	
+
 	protected void reversePlayer(){
 		this.gameSettings.reversePlayer();
 		GameControllers.setPlayablePiece(this.gameSettings);
 	}
-	
+
 	protected void saveHistoryPosition(){
 
 		String boardContent = "";
@@ -301,7 +307,7 @@ public abstract class GameController{
 
 	protected void quickSaveOFCurrentBoard(){
 		saveGame.setAutoSaveFileName("autosave.xml");
-		
+
 		if(!saveGame.autoSaveGameToBackupFile(this.gameSettings)){
 			Log.error("Echec lors de la sauvegarde automatique du jeu!");
 			this.onSaveToFile("Echec lors de la sauvegarde automatique du jeu!");
@@ -338,142 +344,5 @@ public abstract class GameController{
 		else
 			this.onSaveToFile("Echec de la sauvegarde du jeu dans le fichier : " + path);
 	}
-	
-	/*private ArrayList<Piece> getReversePieceAround(Piece origin){
-		ArrayList<Piece> neighbours = new ArrayList<Piece>();
-		int posX, posY;
 
-		for(int i = 0; i < 3; i++)
-			for(int j = 0; j < 3; j++){
-				posX = origin.getPosX()+j-1;
-				posY = origin.getPosY()+i-1;
-
-				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
-					continue;
-
-				if(posX == origin.getPosX() && posY == origin.getPosY())
-					continue;
-
-				if(!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(origin.getColor().getClass()) && 
-						!this.gameSettings.getGameBoard().getBoard()[posX][posY].getColor().getClass().equals(EmptyPiece.class))
-					neighbours.add(this.gameSettings.getGameBoard().getBoard()[posX][posY]);
-
-			}
-		return neighbours;
-	}*/
-
-	/**
-	 * Pk ici dans controller et pas comme les méthode history dans le model 
-	 * => cette méthode fait partie des regles du jeu! du coup elle pourrait etre modifier pour changer le jeu alors que le comportement de back and forwrd seras tjr le même et dépend de la board 
-	 */
-	/*protected void setPlayablePiece(){
-
-		this.gameSettings.getGameBoard().resetPlayablePosition();
-		ArrayList<Piece> origins;
-		int longestCombinaisonSize = (this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ? this.gameSettings.getGameBoard().getSizeX() : this.gameSettings.getGameBoard().getSizeY());
-		Piece target = null;
-		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
-
-		if(this.gameSettings.getCurrentPlayer().getColor().equals(BoardPublisher.WHITE_PLAYER))
-			origins = new ArrayList<Piece>(gameSettings.getGameBoard().getWhitePieces());
-		else
-			origins = new ArrayList<Piece>(this.gameSettings.getGameBoard().getBlackPieces());
-
-		for(Piece origin : origins){
-
-			for(Piece intermediatePiece : getReversePieceAround(origin)){
-				previousIntermediatePosX = origin.getPosX();
-				previousIntermediatePosy = origin.getPosY();
-
-				//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
-				for(int i = 0; i < longestCombinaisonSize; i++){
-					posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
-					posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
-
-					if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0 || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0)
-						break;
-
-					target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-
-					if(target.getColor().getClass().equals(origin.getColor().getClass())){
-						break;
-					}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
-						previousIntermediatePosX = intermediatePiece.getPosX();
-						previousIntermediatePosy = intermediatePiece.getPosY();
-						intermediatePiece = target;
-						continue;
-					}else if(target.getColor() instanceof EmptyPiece){
-						this.gameSettings.getGameBoard().setPiecePlayable(posX, posY);
-						break;
-					}
-				}
-			}
-
-		}
-	}*/
-
-	/*protected void reverseInbetweenPieceAfterPlaying(int originPosX, int originPosY){
-
-		ArrayList<Piece> inBetween = new ArrayList<Piece>();
-		int longestCombinaisonSize = 
-				(this.gameSettings.getGameBoard().getSizeX() > this.gameSettings.getGameBoard().getSizeY() ?
-						this.gameSettings.getGameBoard().getSizeX() :
-							this.gameSettings.getGameBoard().getSizeY());
-
-		Piece origin = this.gameSettings.getGameBoard().getBoard()[originPosX][originPosY];
-		Piece target = null;
-		int posX = 0, posY = 0, previousIntermediatePosX, previousIntermediatePosy;
-
-		for(Piece intermediatePiece : getReversePieceAround(origin)){
-			inBetween.add(intermediatePiece);
-			previousIntermediatePosX = origin.getPosX();
-			previousIntermediatePosy = origin.getPosY();
-			//on utilise un for pour optimiser la recherche et être sur de s'arreter! Il ne peut pas y avoir de combinaison plus longue que la diagonale ou le coté le plus long
-			for(int i = 0; i < longestCombinaisonSize; i++){
-
-				posX = 2*intermediatePiece.getPosX() - previousIntermediatePosX;
-				posY = 2*intermediatePiece.getPosY() - previousIntermediatePosy;
-
-				if(posX >= this.gameSettings.getGameBoard().getSizeX() || posX < 0  || posY >= this.gameSettings.getGameBoard().getSizeY() || posY < 0){
-					inBetween.clear();
-					break;
-				}
-
-				target = this.gameSettings.getGameBoard().getBoard()[posX][posY];
-
-				if(target.getColor().getClass().equals(origin.getColor().getClass())){
-					break;
-				}else if(target.getColor().getClass().equals(intermediatePiece.getColor().getClass())){
-					inBetween.add(target);
-					previousIntermediatePosX = intermediatePiece.getPosX();
-					previousIntermediatePosy = intermediatePiece.getPosY();
-					intermediatePiece = target;
-					continue;
-				}else if(target.getColor() instanceof EmptyPiece){
-					inBetween.clear();
-					break;
-				} 
-			}
-
-			for(Piece p : inBetween){
-				this.gameSettings.getGameBoard().reverse(p.getPosX(), p.getPosY());
-			}
-			inBetween.clear();
-		}
-
-		this.checkPlayersPiecesCount();
-	}*/
-
-	/*protected void checkPlayersPiecesCount(){
-		if(this.gameSettings.getFirstPlayer().getColor().equals(BoardPublisher.WHITE_PLAYER)){
-			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
-		}else{
-			this.gameSettings.getFirstPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
-		}
-		if(this.gameSettings.getSecondPlayer().getColor().equals(BoardPublisher.BLACK_PLAYER)){
-			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getBlackPieces().size());
-		}else{
-			this.gameSettings.getSecondPlayer().setPiecesNumber(this.gameSettings.getGameBoard().getWhitePieces().size());
-		}
-	}*/
 }

@@ -10,6 +10,16 @@ package com.model.piece;
  */
 public class BlackPiece implements PieceColor {
 
+	public static BlackPiece instance;
+	
+	private BlackPiece() {}
+	
+	public static BlackPiece getInstance(){
+		if(instance == null)
+			instance = new BlackPiece();
+		return instance;
+	}
+	
 	public String toString() {
 		return "Ce pion est noir.\n";
 	}

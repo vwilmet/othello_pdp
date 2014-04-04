@@ -100,7 +100,6 @@ public class ChoosePositionViewImpl extends JFrame implements ChoosePositionView
 				JSlider source = (JSlider)e.getSource();
 				if (!source.getValueIsAdjusting()) {
 					currentChoosenPosition = (int)source.getValue();
-					System.out.println("Position slider : " + currentChoosenPosition);
 					game.setData((BoardObservable)boards.get(currentChoosenPosition));
 					game.refreshView();
 				}

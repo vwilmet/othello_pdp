@@ -25,6 +25,7 @@ public class Application {
 		this.height = screenSize.height;
 		this.width = screenSize.width;
 		this.startTime = System.currentTimeMillis();
+		
 	}
 
 	public static Application getInstance() {

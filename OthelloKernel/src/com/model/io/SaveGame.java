@@ -60,11 +60,11 @@ public class SaveGame {
 	 * @param saveFileName : String, nom du fichier de sortie dans lequel il faut effectuer la sauvegarde.
 	 * @throws GameHandlerException
 	 */
-	public SaveGame (GameSettings gameSettings) {
-		this.gameSettings = gameSettings;
+	public SaveGame () {
 		this.fmanager = new FilesManagerImpl();
 		this.fmanager.init("", false);
 		this.root = null;
+		this.gameSettings = null;
 		this.saveDoc = null;
 	}
 	
@@ -76,11 +76,11 @@ public class SaveGame {
 		this.autoSaveFileName = autoSaveFileName;
 	}
 	
-	
 	/**
 	 * Méthode permettant la sauvegarde d'une partie.
 	 */
-	public boolean saveGameToBackupFile(){
+	public boolean saveGameToBackupFile(GameSettings gameSettings){
+		this.gameSettings = gameSettings;
 		this.root = null;
 		this.root = new Element(BoardPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
@@ -108,7 +108,8 @@ public class SaveGame {
 	/**
 	 * Méthode permettant la sauvegarde automatique d'une partie.
 	 */
-	public boolean autoSaveGameToBackupFile(){
+	public boolean autoSaveGameToBackupFile(GameSettings gameSettings){
+		this.gameSettings = gameSettings;
 		this.root = null;
 		this.root = new Element(BoardPublisher.BOARD_PART);
 		this.saveDoc = new Document (root);
@@ -142,7 +143,7 @@ public class SaveGame {
 	private Element makeInitPartInXML(){
 		
 		Element init = new Element (BoardPublisher.INIT_PART);
-		init.addContent(makeBardSizeInXML());
+		init.addContent(makeBoardSizeInXML());
 		init.addContent(makePiecesPartFromList(this.gameSettings.getGameBoard().getInitialPiece(), BoardPublisher.PIECES_PART));
 		init.addContent(makePlayerInXML(this.gameSettings.getFirstPlayer()));
 		init.addContent(makePlayerInXML(this.gameSettings.getSecondPlayer()));
@@ -204,7 +205,7 @@ public class SaveGame {
 	 * correspondant à la taille d'une grille de jeu.
 	 * @return Element, la partie en question.
 	 */
-	private Element makeBardSizeInXML(){
+	private Element makeBoardSizeInXML(){
 		Element size = new Element(BoardPublisher.SIZE_PART);
 		Element x = new Element (BoardPublisher.X_PART);
 		Element y = new Element (BoardPublisher.Y_PART);

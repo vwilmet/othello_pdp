@@ -84,9 +84,9 @@ public abstract class GameController{
 			this.initializeIA();
 			GameControllers.setPlayablePiece(this.gameSettings);
 			
-			
+			//			
 			try {
-				saveGame = sgFacto.getSaveGame(this.gameSettings);
+				saveGame = sgFacto.getSaveGame();
 			} catch (FactoryHandlerException e) {
 				Log.error(e.getMessage());
 				e.printStackTrace();
@@ -137,6 +137,8 @@ public abstract class GameController{
 	protected void stopAllAI(){
 		for(ArtificialIntelligence ai : this.ai.values())
 			ai.completeReflexion();
+		
+		System.gc();
 	}
 
 	protected abstract void initializeNewGame();
@@ -200,11 +202,7 @@ public abstract class GameController{
 	}
 	
 	protected void dealWithCurrentPlayer(){
-		System.out.println("[dealWithCurrentPlayer]");
-		
 		this.beforeDealingWithCurrentPlayer();
-		
-		System.out.println("current player : " + this.gameSettings.getCurrentPlayer().getPlayerType());
 		
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
 						
@@ -228,24 +226,18 @@ public abstract class GameController{
 		}else{
 			hasThePreviousPlayerPassHisTurn = false;
 		
-			System.out.println("Par la !!");
-			System.out.println("current player : " + this.gameSettings.getCurrentPlayer().getPlayerType());
-			
 		//Si le joueur à jouer est l'IA
 		if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
-			System.out.println("Par la !! 2");
 			final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 			final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 			final Point p = this.ai.get(userLogin).nextMove(playerNumber);
 
 			if(p == null){
-				System.out.println("Par la !! 3");
 				/*JOptionPane.showMessageDialog(null, 
 						"L'IA ne peut plus jouer !", 
 						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
 				Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
 			}else{
-				System.out.println("good");
 				TimerManager time = new TimerManagerImpl();
 				time.setTimerActionEvent(new TimerActionEvent() {
 					
@@ -261,17 +253,13 @@ public abstract class GameController{
 					
 					public void commonAction(){
 
-						System.out.println("good 1 p :" + p);
 						if(onPiecePlayed(p.x, p.y)){
-							System.out.println("good 2");
 							onIAPlayed(userLogin, p.x, p.y);
-							gameSettings.showHistory();
 							dealWithCurrentPlayer();
-						}else
-							System.out.println("good 3");
+						}
 					}
 				});
-				time.startTimer(1000);
+				time.startTimer(10);
 			}
 		}
 		}
@@ -314,7 +302,7 @@ public abstract class GameController{
 	protected void quickSaveOFCurrentBoard(){
 		saveGame.setAutoSaveFileName("autosave.xml");
 		
-		if(!saveGame.autoSaveGameToBackupFile()){
+		if(!saveGame.autoSaveGameToBackupFile(this.gameSettings)){
 			Log.error("Echec lors de la sauvegarde automatique du jeu!");
 			this.onSaveToFile("Echec lors de la sauvegarde automatique du jeu!");
 		}
@@ -327,6 +315,7 @@ public abstract class GameController{
 
 	protected void initializeCompletGameAfterNewConfiguration(GameSettings game){
 		this.stopAllAI();
+		this.gameSettings = null;
 		this.gameSettings = game;
 		GameControllers.setPlayablePiece(this.gameSettings);
 
@@ -344,7 +333,7 @@ public abstract class GameController{
 
 	protected void saveCurrentBoard(String path){
 		saveGame.setSaveFileName(path);
-		if(saveGame.saveGameToBackupFile())
+		if(saveGame.saveGameToBackupFile(this.gameSettings))
 			this.onSaveToFile("Réussite de la sauvegarde du jeu dans le fichier : " + path);
 		else
 			this.onSaveToFile("Echec de la sauvegarde du jeu dans le fichier : " + path);

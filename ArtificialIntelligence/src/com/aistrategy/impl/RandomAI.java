@@ -57,6 +57,18 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		} else
 			return null;
 	}
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#quickNextMove}
+	 */
+	@Override
+	public Point quickNextMove(Integer player) {
+		return nextMove(player);
+	}
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>

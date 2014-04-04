@@ -50,6 +50,18 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#quickNextMove}
+	 */
+	@Override
+	public Point quickNextMove(Integer player) {
+		if(ai != null)
+			return ai.quickNextMove(player);
+		return null;
+	}
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
 	 * <br/>Voir {@link com.ai.ArtificialIntelligence#winStatus}
 	 */
 	@Override
@@ -114,6 +126,7 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 			ai = new BruteForceAI();
 			break;
 		default:
+			ai = new RandomAI();
 			break;
 		}
 
@@ -148,7 +161,6 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 		else if(ai.ai instanceof NextBestMoveAI)
 			return this.ai.initialize((NextBestMoveAI) ai.ai);
 		else if(ai.ai instanceof BruteForceAI){
-			System.out.println(ai.ai);	
 			return this.ai.initialize((BruteForceAI) ai.ai);
 		}
 		else 
@@ -158,6 +170,7 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 	public String boardToString(){
 		return ai.boardToString();
 	}
+
 
 	
 }

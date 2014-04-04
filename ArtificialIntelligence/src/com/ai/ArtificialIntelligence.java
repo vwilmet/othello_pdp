@@ -29,6 +29,13 @@ public interface ArtificialIntelligence {
 	public Point nextMove(Integer player);
 
 	/**
+	 * Interrompt tout algorithme lourd et calcule rapidement le prochain mouvement
+	 * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+	 * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
+	 */
+	public Point quickNextMove(Integer player);
+	
+	/**
 	 * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
 	 * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	 * @return un entier repr�sentant le statut.

@@ -53,13 +53,25 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		Integer boardSize = this.initBoard.getHeight()
 				* this.initBoard.getWidth();
 		Point nextMove;
-		if (((Integer) (boardSize / 3)) > (boardSize - (this.tree.getSentinel()
+		if (((Integer) (boardSize / 3))*2 > (boardSize - (this.tree.getSentinel()
 				.getBoard().getNbBlackPiece() + this.tree.getSentinel()
 				.getBoard().getNbWhitePiece())))
-			nextMove = nextBestLessPlayableMove(player);
+			nextMove = nextBestMovePositionMobility(player) ;
 		else
 			nextMove = nextBestScore(player);
 		return nextMove;
+	}
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#quickNextMove}
+	 */
+	@Override
+	public Point quickNextMove(Integer player) {
+		return nextMove(player);
 	}
 
 	/**
@@ -252,35 +264,59 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		}
 		return tree.getSentinel().getBestMove();
 	}
-
-	private Point nextBestLessPlayableMove(Integer player) {
+	
+	private Point nextBestMovePositionMobility(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
+		Integer[][] positionalMatrix = this.tree.getSentinel().getBoard().getPositionalMatrix(player);
 		Integer score = Integer.MAX_VALUE;
 		Integer opponent = player % 2 + 1;
+		Point p = null;
+		if(!stackPoint.isEmpty()){
+			p = stackPoint.pop();
+			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(tree.getSentinel().getBoard()), tree.getSentinel());
+			node.calculateTurnResult();
+			tree.getSentinel().addChild(node);
+			score = node.getBoard().calculatePlayablePosition(player).size();
+			tree.getSentinel().setBestMove(p);
+		}
 		while (!stackPoint.isEmpty()) {
-			Point p = stackPoint.pop();
+			p = stackPoint.pop();
 			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(
 					tree.getSentinel().getBoard()), tree.getSentinel());
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
-			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-				if ((p.x == 0 && p.y == 0)
-						|| (p.x == 0 && p.y == (tree.getSentinel().getBoard()
-								.getHeight() - 1))
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == 0)
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == (tree
-								.getSentinel().getBoard().getHeight() - 1))) {
+			Point best = tree.getSentinel().getBestMove();
+			/*if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				if(node.getBoard().calculatePlayablePosition(player).size() == score){
 					score = node.getBoard().getNbWhitePiece();
 					tree.getSentinel().setBestMove(p);
 				}
-			} else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+			}
+			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
 				score = node.getBoard().getNbWhitePiece();
+				tree.getSentinel().setBestMove(p);
+				if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+
+				}
+			}*/
+
+			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+				best = tree.getSentinel().getBestMove();
+				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
+					score = node.getBoard().calculatePlayablePosition(player).size();
+					tree.getSentinel().setBestMove(p);
+				}
+			} 
+			else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+				score = node.getBoard().calculatePlayablePosition(player).size();
 				tree.getSentinel().setBestMove(p);
 			}
 
 		}
 		return tree.getSentinel().getBestMove();
 	}
+
+
 
 }

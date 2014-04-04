@@ -41,7 +41,7 @@ ArtificialIntelligenceStrategy {
 	/**
 	 * Profondeur de recherche pour l'arbre de coups
 	 */
-	protected static final Integer depth = 7;
+	protected static final Integer DEPTH = 7;
 
 	/**
 	 * Minuteur pour le temps d'execution de l'algorithme.
@@ -68,42 +68,38 @@ ArtificialIntelligenceStrategy {
 	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
 	 */
 	@Override
-	public Point nextMove(final Integer player) {
+	public Point nextMove(Integer player) {
 		Point p = tree.getSentinel().getBestMove();
 		if (p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()) {
-			if((initBoard.getHeight()*initBoard.getWidth() - (this.tree.getSentinel().getBoard().getNbBlackPiece() + this.tree.getSentinel().getBoard().getNbWhitePiece())) <= depth){
+			if((initBoard.getHeight()*initBoard.getWidth() - (this.tree.getSentinel().getBoard().getNbBlackPiece() + this.tree.getSentinel().getBoard().getNbWhitePiece())) <= DEPTH){
 				Integer alpha = Integer.MIN_VALUE;
 				Integer beta = Integer.MAX_VALUE;
-				alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
+				alphaBetaPVS(DEPTH, tree.getSentinel(), alpha, beta);
 			}
 			else{
 				p = nextBestMovePositionMobility(player);
 			}
-
-			//System.out.println("coucou");
-			//start();
-			/*	Thread t = new Thread(new doAlgorithm());
-			TimerManager time = new TimerManagerImpl();
-			time.setTimerActionEvent(new TimerActionEvent(){
-
-				@Override
-				public void onTimerEnded() {
-					System.out.println(Thread.currentThread() + "toto");
-					stopAlgorithm = true;
-					p = nextBestLessPlayableMove(player);
-					 }
-
-				@Override
-				public void onTimerStopped() {
-					stopAlgorithm = true;
-				}
-
-			});
-			time.startTimer(this.maxTime);
-			t.start();*/
-			//run();
 			p = tree.getSentinel().getBestMove();
 		} else if (tree.getSentinel().getBoard()
+				.calculatePlayablePosition(player).isEmpty())
+			p = null;
+		return p;
+	}
+
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#nextMove}
+	 */
+	public Point quickNextMove(Integer player){
+		Point p = tree.getSentinel().getBestMove();
+		this.stopAlgorithm = true;
+		if (p == null && !tree.getSentinel().getBoard().calculatePlayablePosition(player).isEmpty()) {
+			p = nextBestMovePositionMobility(player);
+		} 
+		else if (tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).isEmpty())
 			p = null;
 		return p;
@@ -160,10 +156,6 @@ ArtificialIntelligenceStrategy {
 		tm = new TimerManagerImpl();
 		if (maxTime == null)
 			this.maxTime = 0;
-		Integer alpha = Integer.MIN_VALUE;
-		Integer beta = Integer.MAX_VALUE;
-		alphaBetaPVS(depth, tree.getSentinel(), alpha, beta);
-		// run();
 		return true;
 	}
 	/**
@@ -181,7 +173,7 @@ ArtificialIntelligenceStrategy {
 		maxTime = random.maxTime;
 		return true;
 	}
-	
+
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
 	 * Utiliser l'interface
@@ -541,30 +533,45 @@ ArtificialIntelligenceStrategy {
 		Integer[][] positionalMatrix = this.tree.getSentinel().getBoard().getPositionalMatrix(player);
 		Integer score = Integer.MAX_VALUE;
 		Integer opponent = player % 2 + 1;
+		Point p = null;
+		if(!stackPoint.isEmpty()){
+			p = stackPoint.pop();
+			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(tree.getSentinel().getBoard()), tree.getSentinel());
+			node.calculateTurnResult();
+			tree.getSentinel().addChild(node);
+			score = node.getBoard().calculatePlayablePosition(player).size();
+			tree.getSentinel().setBestMove(p);
+		}
 		while (!stackPoint.isEmpty()) {
-			Point p = stackPoint.pop();
+			p = stackPoint.pop();
 			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(
 					tree.getSentinel().getBoard()), tree.getSentinel());
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
-		
-			/*Point best = tree.getSentinel().getBestMove();
-			if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
-				
+			Point best = tree.getSentinel().getBestMove();
+			/*if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				if(node.getBoard().calculatePlayablePosition(player).size() == score){
+					score = node.getBoard().getNbWhitePiece();
+					tree.getSentinel().setBestMove(p);
+				}
+			}
+			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
+				score = node.getBoard().getNbWhitePiece();
+				tree.getSentinel().setBestMove(p);
 				if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-					
+
 				}
 			}*/
-				
+
 			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-				Point best = tree.getSentinel().getBestMove();
+				best = tree.getSentinel().getBestMove();
 				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
-					score = node.getBoard().getNbWhitePiece();
+					score = node.getBoard().calculatePlayablePosition(player).size();
 					tree.getSentinel().setBestMove(p);
 				}
 			} 
 			else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
-				score = node.getBoard().getNbWhitePiece();
+				score = node.getBoard().calculatePlayablePosition(player).size();
 				tree.getSentinel().setBestMove(p);
 			}
 
@@ -572,6 +579,36 @@ ArtificialIntelligenceStrategy {
 		return tree.getSentinel().getBestMove();
 	}
 
+	private Point nextBestLessPlayableMove(Integer player) {
+		Stack<Point> stackPoint = tree.getSentinel().getBoard()
+				.calculatePlayablePosition(player);
+		Integer score = Integer.MAX_VALUE;
+		Integer opponent = player % 2 + 1;
+		while (!stackPoint.isEmpty()) {
+			Point p = stackPoint.pop();
+			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(
+					tree.getSentinel().getBoard()), tree.getSentinel());
+			node.calculateTurnResult();
+			tree.getSentinel().addChild(node);
+			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+				if ((p.x == 0 && p.y == 0)
+						|| (p.x == 0 && p.y == (tree.getSentinel().getBoard()
+								.getHeight() - 1))
+						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == 0)
+						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == (tree
+								.getSentinel().getBoard().getHeight() - 1))) {
+					score = node.getBoard().getNbWhitePiece();
+					tree.getSentinel().setBestMove(p);
+				}
+			} else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+				score = node.getBoard().getNbWhitePiece();
+				tree.getSentinel().setBestMove(p);
+			}
+
+		}
+		return tree.getSentinel().getBestMove();
+	}
+	
 	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
 		NodeMove<Point> n = null;
 		for (NodeMove<Point> child : node.getChildren()) {
@@ -608,7 +645,7 @@ ArtificialIntelligenceStrategy {
 		public void run(){
 			Integer alpha = Integer.MIN_VALUE;
 			Integer beta = Integer.MAX_VALUE;
-			alphaBetaPVS(depth, tree.getSentinel(), alpha,
+			alphaBetaPVS(DEPTH, tree.getSentinel(), alpha,
 					beta);
 		}
 	}

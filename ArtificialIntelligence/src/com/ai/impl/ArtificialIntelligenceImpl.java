@@ -147,13 +147,8 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée !
 	 * <br/>Utiliser l'interface {@link com.ai.ArtificialIntelligence} pour stocker l'objet de la classe
-	 * <br/>Voir {@link com.ai.ArtificialIntelligence#setMaxTime}
+	 * <br/>Voir {@link com.ai.ArtificialIntelligence#initialize(ArtificialIntelligenceImpl)}
 	 */
-	@Override
-	public void setMaxTime(Integer time) {
-		ai.setMaxTime(time);
-	}
-
 	@Override
 	public Boolean initialize(ArtificialIntelligenceImpl ai) {
 		if(ai.ai instanceof RandomAI)
@@ -166,11 +161,5 @@ public class ArtificialIntelligenceImpl implements ArtificialIntelligence {
 		else 
 			return false;
 	}
-
-	public String boardToString(){
-		return ai.boardToString();
-	}
-
-
 	
 }

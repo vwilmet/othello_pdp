@@ -1,8 +1,6 @@
 package com.aistrategy.impl;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
@@ -35,11 +33,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 * Plateau initial au début du lancement de l'IA
 	 */
 	protected Board initBoard;
-
-	/**
-	 * Temps maximal pour l'execution de l'algorithme
-	 */
-	protected Integer maxTime;
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -113,8 +106,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		tree = new TreeMove<Point>();
 		tree.setRootElement(new NodeMove<Point>(new Point(-1, -1), 1, initBoard));
 		tree.setSentinel(tree.getRootElement());
-		if (maxTime == null)
-			this.maxTime = 0;
 		return true;
 	}
 
@@ -136,7 +127,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			Log.error(e.getMessage());
 			throw e;
 		} else {
-			if (findNodeFromMove(tree.getSentinel(), pos) == null) {
+			if (this.tree.findNodeFromMove(tree.getSentinel(), pos) == null) {
 				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,
 						player % 2 + 1,
 						new Board(tree.getSentinel().getBoard()),
@@ -145,7 +136,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 				tree.getSentinel().addChild(newSentinel);
 				tree.getSentinel().setBestMove(pos);
 			}
-			tree.setSentinel(findNodeFromMove(tree.getSentinel(), pos));
+			tree.setSentinel(this.tree.findNodeFromMove(tree.getSentinel(), pos));
 		}
 	}
 
@@ -182,56 +173,46 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 	 * Utiliser l'interface
 	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
 	 * l'objet de la classe <br/>
-	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
 	 */
-	@Override
-	public void setMaxTime(Integer time) {
-		this.maxTime = time;
-	}
-
-	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
-		NodeMove<Point> n = null;
-		for (NodeMove<Point> child : node.getChildren()) {
-			if (child.getLastMove().equals(p)) {
-				n = child;
-				break;
-			}
-		}
-		return n;
-	}
-
 	@Override
 	public Boolean initialize(RandomAI random) {
 		initBoard = random.initBoard;
 		tree = random.tree;
-		this.maxTime = random.maxTime;
 		return true;
 	}
 
-	@Override
-	public Boolean initialize(NextBestMoveAI nextBestMove) {
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override	public Boolean initialize(NextBestMoveAI nextBestMove) {
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
-		this.maxTime = nextBestMove.maxTime;
 		return true;
 	}
 
-	@Override
-	public Boolean initialize(BruteForceAI brute) {
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override	public Boolean initialize(BruteForceAI brute) {
 		initBoard = brute.initBoard;
 		tree = brute.tree;
-		this.maxTime = brute.maxTime;
 		return true;
-	}
-
-	public String boardToString() {
-		return this.tree.getSentinel().printBoard();
 	}
 
 	private Point nextBestScore(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
 		Integer score;
+		Integer[][] positionalMatrix = this.tree.getSentinel().getBoard().getPositionalMatrix(player);
 		if (player == 1)
 			score = Integer.MIN_VALUE;
 		else
@@ -243,13 +224,11 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 					tree.getSentinel().getBoard()), tree.getSentinel());
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
+			Point best = tree.getSentinel().getBestMove();
+			if(best == null)
+				best = p;
 			if (node.getBoard().getNbWhitePiece() == score) {
-				if ((p.x == 0 && p.y == 0)
-						|| (p.x == 0 && p.y == (tree.getSentinel().getBoard()
-								.getHeight() - 1))
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == 0)
-						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == (tree
-								.getSentinel().getBoard().getHeight() - 1))) {
+				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) {
 					score = node.getBoard().getNbWhitePiece();
 					tree.getSentinel().setBestMove(p);
 				}
@@ -287,20 +266,6 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
 			Point best = tree.getSentinel().getBestMove();
-			/*if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
-				if(node.getBoard().calculatePlayablePosition(player).size() == score){
-					score = node.getBoard().getNbWhitePiece();
-					tree.getSentinel().setBestMove(p);
-				}
-			}
-			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
-				score = node.getBoard().getNbWhitePiece();
-				tree.getSentinel().setBestMove(p);
-				if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-
-				}
-			}*/
-
 			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
 				best = tree.getSentinel().getBestMove();
 				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 

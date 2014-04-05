@@ -1,5 +1,7 @@
 package com.tree;
 
+import java.awt.Point;
+
 /**
  * Cette classe représente un arbre d'objet de type générique T. 
  * </br>L'arbre est représenté par un simple noeud racine qui pointe vers une List<NodeMove<T>> représentant ses fils.
@@ -56,6 +58,17 @@ public class TreeMove<T> {
      */
 	public void setSentinel(NodeMove<T> sentinel) {
 		this.sentinel = sentinel;
+	}
+	
+	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
+		NodeMove<Point> n = null;
+		for (NodeMove<Point> child : node.getChildren()) {
+			if (child.getLastMove().equals(p)) {
+				n = child;
+				break;
+			}
+		}
+		return n;
 	}
 
 }

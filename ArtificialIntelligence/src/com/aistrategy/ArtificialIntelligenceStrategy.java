@@ -71,18 +71,6 @@ public interface ArtificialIntelligenceStrategy {
 	 */
 	public Boolean initialize(BruteForceAI brute);
 
-
-	/**
-	 * Pas sûr d'être implémenter donc pas encore retraduit
-	 * Actualize the informations in order to recalculate moves
-	 * @param whitePiece a list of all the pieces of the player 1.
-	 * @param blackPiece a list of all the pieces of the player 2.
-	 * @param boardWidth an integer representing the width of the board.
-	 * @param boardHeight an integer representing the height of the board.
-	 * @return a boolean, true if the initialization is finished without error, otherwise false.
-	 */
-	//public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight); Pas sûr de l'utilisté encore
-
 	/**
 	 * Notifie à l'IA le mouvement que le joueur a choisi.
 	 * @param pos la position choisie par le joueur.
@@ -92,7 +80,7 @@ public interface ArtificialIntelligenceStrategy {
 	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException;
 
 	/**
-	 * Interrompt la recherche de mouvement de l'algorithme.
+	 * Interrompt la recherche de mouvement de l'algorithme et détruit l'arbre.
 	 * @return un booléen, vrai si l'algorithme a été stoppé, faux sinon
 	 */
 	public Boolean completeReflexion();
@@ -102,13 +90,5 @@ public interface ArtificialIntelligenceStrategy {
 	 * Annule le dernier coup jouer.
 	 */
 	public void undoMove();
-
-	/**
-	 * Permet de donner un temps maximal de calcule pour l'IA en milliseconde.
-	 * @param time le temps en milliseconde.
-	 */
-	public void setMaxTime(Integer time);
-	
-	public String boardToString();
 
 }

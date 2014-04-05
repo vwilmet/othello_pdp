@@ -54,7 +54,7 @@ public interface ArtificialIntelligence {
 
 	/**
 	 * Initialise l'IA dans le but de calculer les mouvements
-	 * @param ai, l'ia à partir de laquelle on initialise notre ia
+	 * @param ai l'ia à partir de laquelle on initialise notre ia
 	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	 */
 	public Boolean initialize(ArtificialIntelligenceImpl ai);
@@ -84,13 +84,6 @@ public interface ArtificialIntelligence {
 	 */
 	public void undoMove();
 
-	/**
-	 * Permet de donner un temps maximal de calcule pour l'IA en milliseconde.
-	 * @param time le temps en milliseconde.
-	 */
-	public void setMaxTime(Integer time);
-	
-	public String boardToString();
 
 
 }

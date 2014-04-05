@@ -112,7 +112,6 @@ public abstract class GameController {
 		helpAI = new ArtificialIntelligenceImpl();
 		helpAI.chooseDifficulty(this.gameSettings.getHelpAIDifficulty());
 		helpAI.initialize(whitePiece, blackPiece, this.gameSettings.getGameBoard().getSizeX(), this.gameSettings.getGameBoard().getSizeY());
-		helpAI.setMaxTime(this.gameSettings.getAIThinkingTime());
 
 		Set<String> key = ai.keySet();
 		Iterator<String> key_it = key.iterator();
@@ -127,7 +126,6 @@ public abstract class GameController {
 				_ai.chooseDifficulty(this.gameSettings.getPlayer2ArtificialIntelligenceDifficulty());
 
 			_ai.initialize((ArtificialIntelligenceImpl)helpAI);
-			_ai.setMaxTime(GameSettings.DEFAULT_IA_THINKING_TIME);
 		}
 
 	}

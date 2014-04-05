@@ -169,7 +169,6 @@ public class GameSettings {
 			this.setCurrentPlayer(this.player1);
 
 		this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
-		this.gameBoard.refresh();
 	}
 
 	public BoardObservable getHistoryBoard(int position){
@@ -226,7 +225,6 @@ public class GameSettings {
 				this.setCurrentPlayer(this.player2);
 
 			this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel).clone();
-			this.gameBoard.refresh();
 
 			this.sentinel--;
 			
@@ -270,7 +268,6 @@ public class GameSettings {
 				this.gameBoard.reverse(i, j);
 		
 		this.changePlayer();
-		this.gameBoard.refresh();
 	}
 
 	public void setPiece(int i, int j) {
@@ -279,13 +276,11 @@ public class GameSettings {
 			this.gameBoard.setWhitePiece(i, j);
 		else
 			this.gameBoard.setBlackPiece(i, j);
-
-		this.gameBoard.refresh();
 	}
 
 	/**
 	 * 
-	 * @param p : Piece que l'utilisateur viens de jouer. 
+	 * @param p : Piece que l'utilisateur vient de jouer. 
 	 */
 	public void manageBoardHistory(int x, int y){
 

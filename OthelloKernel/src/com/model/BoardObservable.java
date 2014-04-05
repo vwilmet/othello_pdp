@@ -19,10 +19,6 @@ public class BoardObservable extends Observable implements Board {
 		notifyObservers();
 	}
 
-	public void refresh(){
-		notifierObservateurs();
-	}
-	
 	@Override
 	public int getSizeX() {
 		return this.board.getSizeX();
@@ -46,25 +42,25 @@ public class BoardObservable extends Observable implements Board {
 	@Override
 	public void reverse(int i, int j) {
 		this.board.reverse(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
 	public void setBlackPiece(int i, int j) {
 		this.board.setBlackPiece(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
 	public void setWhitePiece(int i, int j) {
 		this.board.setWhitePiece(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
 	public void setEmptyPiece(int i, int j) {
 		this.board.setEmptyPiece(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
@@ -75,13 +71,13 @@ public class BoardObservable extends Observable implements Board {
 	@Override
 	public void setPiecePlayable(int i, int j) {
 		this.board.setPiecePlayable(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
 	public void setPieceNotPlayable(int i, int j) {
 		this.board.setPieceNotPlayable(i, j);
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override
@@ -102,7 +98,7 @@ public class BoardObservable extends Observable implements Board {
 	@Override
 	public void resetPlayablePosition() {
 		this.board.resetPlayablePosition();
-		//notifierObservateurs();
+		notifierObservateurs();
 	}
 
 	@Override

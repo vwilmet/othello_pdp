@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="libs/timer_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/boardpublisher_plugin.jar"/>
 	<classpathentry kind="lib" path="libs/ai_plugin.jar"/>
+	<classpathentry kind="lib" path="libs/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

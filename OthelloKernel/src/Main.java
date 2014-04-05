@@ -6,10 +6,7 @@ import com.error_manager.Log;
 import com.model.BoardObservable;
 
 /**
- * @author  <ul>
- *         <li>Morgane Badré</li>
- *         <li>Vincent Wilmet</li>
- *         </ul>
+ * @author Benjamin Letourneau
  * @version 1.0
  */
 public class Main {

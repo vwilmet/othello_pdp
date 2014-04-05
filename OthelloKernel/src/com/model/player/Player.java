@@ -74,7 +74,7 @@ public class Player {
 	}
 
 	public String toString() {
-		String res = "Pseudonyme du joueur : " + this.login + ".\n";
+		String res = this.login + ".\n";
 		res += "Couleur du joueur : " + this.color + ".\n";
 		res += "Type du joueur : " + this.type + ".\n";
 		res += "Pions sur le plateau : " + this.piecesNumber + ".\n";

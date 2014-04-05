@@ -200,6 +200,8 @@ public abstract class GameController {
 	}
 
 	protected void dealWithCurrentPlayer(){
+		System.out.println("[dealWithCurrentPlayer]");
+		System.out.println("Curent player : " + this.gameSettings.getCurrentPlayer());
 		this.beforeDealingWithCurrentPlayer();
 
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
@@ -229,10 +231,13 @@ public abstract class GameController {
 				final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 				final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 
+				
+				System.out.println("passer par la!!");
 				iaInterface = new IAResponseTimeHandler() {
 
 					@Override
 					public void onIAPositionGiven(final Point pointChoosen) {
+						System.out.println("pointChoosen : " + pointChoosen);
 						if(pointChoosen == null){
 							/*JOptionPane.showMessageDialog(null, 
 								"L'IA ne peut plus jouer !", 
@@ -260,11 +265,11 @@ public abstract class GameController {
 									}
 								}
 							});
-							time.startTimer(750);
+							time.startTimer(150);
 						}
 					}
 				};
-			
+				
 				final Thread iaThinkingThread = new Thread(new Runnable() {
 				
 					@Override
@@ -283,6 +288,7 @@ public abstract class GameController {
 							}
 						});
 						time.startTimer(gameSettings.getAIThinkingTime());
+						System.out.println("passer par la!!==================");
 						Point p = ai.get(userLogin).nextMove(playerNumber);
 						time.stopTimer();
 						System.out.println("IA chosed correctly!!");

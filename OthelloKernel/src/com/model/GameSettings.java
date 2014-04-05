@@ -169,7 +169,7 @@ public class GameSettings {
 			this.setCurrentPlayer(this.player1);
 
 		this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
-		this.gameBoard.notifyObservers();
+		this.gameBoard.refresh();
 	}
 
 	public BoardObservable getHistoryBoard(int position){
@@ -226,7 +226,7 @@ public class GameSettings {
 				this.setCurrentPlayer(this.player2);
 
 			this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel).clone();
-			this.gameBoard.notifyObservers();
+			this.gameBoard.refresh();
 
 			this.sentinel--;
 			
@@ -253,22 +253,24 @@ public class GameSettings {
 	}
 
 	public void reversePlayer(){
-		if(this.player1.getColor().equals(BoardPublisher.BLACK_PLAYER))
+		if(this.player1.getColor().equals(BoardPublisher.BLACK_PLAYER)){
 			this.player1.setColor(BoardPublisher.WHITE_PLAYER);
-		else
+		}else{
 			this.player1.setColor(BoardPublisher.BLACK_PLAYER);
-
-		if(this.player2.getColor().equals(BoardPublisher.BLACK_PLAYER))
-			this.player2.setColor(BoardPublisher.WHITE_PLAYER);
-		else
-			this.player2.setColor(BoardPublisher.BLACK_PLAYER);
+		}
 		
+		if(this.player2.getColor().equals(BoardPublisher.BLACK_PLAYER)){
+			this.player2.setColor(BoardPublisher.WHITE_PLAYER);
+		}else{
+			this.player2.setColor(BoardPublisher.BLACK_PLAYER);
+		}
 		//change couleur des pions sur le plateau
 		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
 			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
 				this.gameBoard.reverse(i, j);
 		
 		this.changePlayer();
+		this.gameBoard.refresh();
 	}
 
 	public void setPiece(int i, int j) {
@@ -277,6 +279,8 @@ public class GameSettings {
 			this.gameBoard.setWhitePiece(i, j);
 		else
 			this.gameBoard.setBlackPiece(i, j);
+
+		this.gameBoard.refresh();
 	}
 
 	/**

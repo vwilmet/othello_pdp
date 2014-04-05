@@ -201,6 +201,10 @@ ArtificialIntelligenceStrategy {
 	@Override
 	public void notifyChosenMove(Point pos, Integer player)
 			throws WrongPlayablePositionException {
+		System.out.println(this.tree.getSentinel().getBoard().printBoard());
+		System.out.println(player);
+		System.out.println(this.tree.getSentinel().getBoard()
+				.calculatePlayablePosition(player));
 		if (!this.tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).contains(pos)) {
 			WrongPlayablePositionException e = new WrongPlayablePositionException(
@@ -453,6 +457,7 @@ ArtificialIntelligenceStrategy {
 		return bestScore;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Version amélioré de l'algorithme failSoftAlphaBeta par un pré-calcule
 	 * des branches de l'arbre afin d'éviter tout gros calcule récursif.
@@ -465,6 +470,10 @@ ArtificialIntelligenceStrategy {
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */	
 	public Integer alphaBetaPVS(Integer depth, NodeMove<Point> node,
+=======
+	@SuppressWarnings("static-access")
+	public synchronized Integer alphaBetaPVS(Integer depth, NodeMove<Point> node,
+>>>>>>> parent of 9adb3e9... Revert b6c83bf..8c0383d
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
@@ -546,6 +555,20 @@ ArtificialIntelligenceStrategy {
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
 			Point best = tree.getSentinel().getBestMove();
+			/*if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				if(node.getBoard().calculatePlayablePosition(player).size() == score){
+					score = node.getBoard().getNbWhitePiece();
+					tree.getSentinel().setBestMove(p);
+				}
+			}
+			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
+				score = node.getBoard().getNbWhitePiece();
+				tree.getSentinel().setBestMove(p);
+				if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+
+				}
+			}*/
+
 			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
 				best = tree.getSentinel().getBestMove();
 				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
@@ -561,7 +584,80 @@ ArtificialIntelligenceStrategy {
 		}
 		return tree.getSentinel().getBestMove();
 	}
-	
 
+	private Point nextBestLessPlayableMove(Integer player) {
+		Stack<Point> stackPoint = tree.getSentinel().getBoard()
+				.calculatePlayablePosition(player);
+		Integer score = Integer.MAX_VALUE;
+		Integer opponent = player % 2 + 1;
+		while (!stackPoint.isEmpty()) {
+			Point p = stackPoint.pop();
+			NodeMove<Point> node = new NodeMove<Point>(p, opponent, new Board(
+					tree.getSentinel().getBoard()), tree.getSentinel());
+			node.calculateTurnResult();
+			tree.getSentinel().addChild(node);
+			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
+				if ((p.x == 0 && p.y == 0)
+						|| (p.x == 0 && p.y == (tree.getSentinel().getBoard()
+								.getHeight() - 1))
+						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == 0)
+						|| (p.x == (tree.getSentinel().getBoard().getWidth() - 1) && p.y == (tree
+								.getSentinel().getBoard().getHeight() - 1))) {
+					score = node.getBoard().getNbWhitePiece();
+					tree.getSentinel().setBestMove(p);
+				}
+			} else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+				score = node.getBoard().getNbWhitePiece();
+				tree.getSentinel().setBestMove(p);
+			}
+
+		}
+		return tree.getSentinel().getBestMove();
+	}
+	
+<<<<<<< HEAD
+
+=======
+	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
+		NodeMove<Point> n = null;
+		for (NodeMove<Point> child : node.getChildren()) {
+			if (child.getLastMove().equals(p)) {
+				n = child;
+				break;
+			}
+		}
+		return n;
+	}
+
+	public void showBestMoveParty() {
+		NodeMove<Point> s = tree.getRootElement();
+		Point p = s.getBestMove();
+		while (p != null) {
+			System.out.println(s.printBoard());
+			System.out.println("BestMove : " + p.toString());
+			s = findNodeFromMove(s, p);
+			p = s.getBestMove();
+		}
+		System.out.println(s.printBoard());
+		System.out.println("End of game!");
+
+	}
+
+
+
+
+	public String boardToString() {
+		return this.tree.getSentinel().getBoard().printBoard();
+	}
+
+	class doAlgorithm implements Runnable{
+		public void run(){
+			Integer alpha = Integer.MIN_VALUE;
+			Integer beta = Integer.MAX_VALUE;
+			alphaBetaPVS(DEPTH, tree.getSentinel(), alpha,
+					beta);
+		}
+	}
+>>>>>>> parent of 9adb3e9... Revert b6c83bf..8c0383d
 }
 

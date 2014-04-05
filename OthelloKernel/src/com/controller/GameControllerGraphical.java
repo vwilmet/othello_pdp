@@ -12,7 +12,7 @@ import utils.Application;
 import utils.GameControllers;
 import utils.TextManager;
 
-import com.controller.interfaces.NotifyGameController;
+import com.controller.interfaces.NotifyGameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -27,7 +27,7 @@ import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.GameViewMenuEventListener;
 import com.view.interfaces.GameView;
 
-public class GameControllerGraphical extends GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
+public class GameControllerGraphical extends GameController implements NotifyGameControllerGraphical, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
 
 	protected GameView gameView;
 	protected InitGameController initGameController;

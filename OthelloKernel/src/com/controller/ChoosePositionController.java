@@ -3,7 +3,7 @@ package com.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.controller.interfaces.NotifyGameController;
+import com.controller.interfaces.NotifyGameControllerGraphical;
 import com.model.Board;
 import com.model.BoardObservable;
 import com.view.ChoosePositionViewImpl;
@@ -13,7 +13,7 @@ import com.view.interfaces.ChoosePositionView;
 public class ChoosePositionController implements ChoosePositionButtonEventListener {
 
 	private static ChoosePositionController instance;
-	private NotifyGameController event;
+	private NotifyGameControllerGraphical event;
 	private ChoosePositionView view;
 	private int position;
 	
@@ -25,7 +25,7 @@ public class ChoosePositionController implements ChoosePositionButtonEventListen
 	
 	private ChoosePositionController() {}
 
-	public void setEvent(NotifyGameController event){
+	public void setEvent(NotifyGameControllerGraphical event){
 		this.event = event;
 	}
 	

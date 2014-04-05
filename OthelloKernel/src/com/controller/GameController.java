@@ -1,7 +1,6 @@
 package com.controller;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,10 +10,10 @@ import javax.swing.JOptionPane;
 
 import utils.FactoryHandlerException;
 import utils.GameControllers;
-import utils.TextManager;
 
 import com.ai.ArtificialIntelligence;
 import com.ai.impl.ArtificialIntelligenceImpl;
+import com.controller.interfaces.IAResponseTimeHandler;
 import com.error_manager.Log;
 import com.manager.FilesManager;
 import com.manager.FilesManagerImpl;
@@ -29,7 +28,6 @@ import com.model.factory.interfaces.RestoreGameFactory;
 import com.model.factory.interfaces.SaveGameFactory;
 import com.model.io.RestoreGame;
 import com.model.io.SaveGame;
-import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.model.player.MachinePlayer;
 import com.publisher.BoardPublisher;
@@ -39,7 +37,7 @@ import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
-public abstract class GameController{
+public abstract class GameController {
 
 	protected GameSettings gameSettings;
 	protected TimerManager timer;
@@ -49,6 +47,7 @@ public abstract class GameController{
 	protected boolean hasThePreviousPlayerPassHisTurn;
 	protected SaveGameFactory sgFacto;
 	protected SaveGame saveGame = null;
+	private IAResponseTimeHandler iaInterface;
 
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
@@ -69,7 +68,7 @@ public abstract class GameController{
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
 					pFacto.getHumanPlayer("toto", BoardPublisher.WHITE_PLAYER,1), 
@@ -229,44 +228,68 @@ public abstract class GameController{
 			if(this.gameSettings.getCurrentPlayer().getPlayerType() instanceof MachinePlayer){
 				final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 				final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
-				
-				
-				
-				
-				final Point p = this.ai.get(userLogin).nextMove(playerNumber);
-				
-				
-				
-				
-				if(p == null){
-					/*JOptionPane.showMessageDialog(null, 
-						"L'IA ne peut plus jouer !", 
-						TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
-					Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
-				}else{
-					TimerManager time = new TimerManagerImpl();
-					time.setTimerActionEvent(new TimerActionEvent() {
 
-						@Override
-						public void onTimerStopped() {
-							this.commonAction();
+				iaInterface = new IAResponseTimeHandler() {
+
+					@Override
+					public void onIAPositionGiven(final Point pointChoosen) {
+						if(pointChoosen == null){
+							/*JOptionPane.showMessageDialog(null, 
+								"L'IA ne peut plus jouer !", 
+								TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
+							Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
+						}else{
+							TimerManager time = new TimerManagerImpl();
+							time.setTimerActionEvent(new TimerActionEvent() {
+
+								@Override
+								public void onTimerStopped() {
+									this.commonAction();
+								}
+
+								@Override
+								public void onTimerEnded() {
+									this.commonAction();
+								}
+
+								public void commonAction(){
+
+									if(onPiecePlayed(pointChoosen.x, pointChoosen.y)){
+										onIAPlayed(userLogin, pointChoosen.x, pointChoosen.y);
+										dealWithCurrentPlayer();
+									}
+								}
+							});
+							time.startTimer(750);
 						}
+					}
+				};
+			
+				final Thread iaThinkingThread = new Thread(new Runnable() {
+				
+					@Override
+					public void run() {
+						TimerManager time = new TimerManagerImpl();
+						time.setTimerActionEvent(new TimerActionEvent() {
 
-						@Override
-						public void onTimerEnded() {
-							this.commonAction();
-						}
+							@Override
+							public void onTimerStopped() {}
 
-						public void commonAction(){
-
-							if(onPiecePlayed(p.x, p.y)){
-								onIAPlayed(userLogin, p.x, p.y);
-								dealWithCurrentPlayer();
+							@Override
+							public void onTimerEnded() {
+								Thread.currentThread().suspend();
+								System.out.println("IA choice time BOUM!!!");
+								iaInterface.onIAPositionGiven(ai.get(userLogin).quickNextMove(playerNumber));
 							}
-						}
-					});
-					time.startTimer(750);
-				}
+						});
+						time.startTimer(gameSettings.getAIThinkingTime());
+						Point p = ai.get(userLogin).nextMove(playerNumber);
+						time.stopTimer();
+						System.out.println("IA chosed correctly!!");
+						iaInterface.onIAPositionGiven(p);
+					}
+				});
+				iaThinkingThread.start();
 			}
 		}
 		/*

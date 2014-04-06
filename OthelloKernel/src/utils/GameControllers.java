@@ -53,7 +53,6 @@ public class GameControllers {
 				}
 			}
 		}
-		gameSettings.getGameBoard().refresh();
 	}
 
 	private static ArrayList<Piece> getReversePieceAround(BoardObservable gameBoard, Piece origin){
@@ -127,7 +126,6 @@ public class GameControllers {
 			}
 			inBetween.clear();
 		}
-		gameBoard.refresh();
 	}
 	
 	public static void checkPlayersPiecesCount(GameSettings gameSettings){

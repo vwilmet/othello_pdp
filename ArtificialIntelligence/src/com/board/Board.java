@@ -290,58 +290,64 @@ public class Board {
 			for(int j = 0; j < this.getHeight(); j++){
 				matrix[i][j] = 1;
 			}
+		
+		Integer corner = 30;
+		Integer xCase = -25;
+		Integer cCase = -20;
+		Integer aCase = 10;
+		Integer bCase = 5;
+		Integer dCase = 2;
 
+		matrix[3][2] = dCase;
+		matrix[2][3] = dCase;
+		matrix[this.getWidth()-4][2] = dCase;
+		matrix[this.getWidth()-3][3] = dCase;
+		matrix[3][this.getHeight()-3] = dCase;
+		matrix[2][this.getHeight()-4] = dCase;
+		matrix[this.getWidth()-4][this.getHeight()-3] = dCase;
+		matrix[this.getWidth()-3][this.getHeight()-4] = dCase;
 
-		matrix[3][2] = 2;
-		matrix[2][3] = 2;
-		matrix[this.getWidth()-4][2] = 2;
-		matrix[this.getWidth()-3][3] = 2;
-		matrix[3][this.getHeight()-3] = 2;
-		matrix[2][this.getHeight()-4] = 2;
-		matrix[this.getWidth()-4][this.getHeight()-3] = 2;
-		matrix[this.getWidth()-3][this.getHeight()-4] = 2;
+		matrix[2][2] = bCase;
+		matrix[this.getWidth()-3][2] = bCase;
+		matrix[this.getWidth()-3][this.getHeight()-3] = bCase;
+		matrix[2][this.getHeight()-3] = bCase;
 
-		matrix[2][2] = 5;
-		matrix[this.getWidth()-3][2] = 5;
-		matrix[this.getWidth()-3][this.getHeight()-3] = 5;
-		matrix[2][this.getHeight()-3] = 5;
+		matrix[3][0] = bCase;
+		matrix[0][3] = bCase;
+		matrix[this.getWidth()-4][0] = bCase;
+		matrix[0][this.getHeight()-4] = bCase;
+		matrix[3][this.getHeight()-1] = bCase;
+		matrix[this.getWidth()-1][3] = bCase;
+		matrix[this.getWidth()-4][this.getHeight()-1] = bCase;
+		matrix[this.getWidth()-1][this.getHeight()-4] = bCase;
 
-		matrix[3][0] = 5;
-		matrix[0][3] = 5;
-		matrix[this.getWidth()-4][0] = 5;
-		matrix[0][this.getHeight()-4] = 5;
-		matrix[3][this.getHeight()-1] = 5;
-		matrix[this.getWidth()-1][3] = 5;
-		matrix[this.getWidth()-4][this.getHeight()-1] = 5;
-		matrix[this.getWidth()-1][this.getHeight()-4] = 5;
+		matrix[2][0] = aCase;
+		matrix[0][2] = aCase;
+		matrix[this.getWidth()-3][0] = aCase;
+		matrix[0][this.getHeight()-3] = aCase;
+		matrix[2][this.getHeight()-1] = aCase;
+		matrix[this.getWidth()-1][2] = aCase;
+		matrix[this.getWidth()-3][this.getHeight()-1] = aCase;
+		matrix[this.getWidth()-1][this.getHeight()-3] = aCase;
 
-		matrix[2][0] = 10;
-		matrix[0][2] = 10;
-		matrix[this.getWidth()-3][0] = 10;
-		matrix[0][this.getHeight()-3] = 10;
-		matrix[2][this.getHeight()-1] = 10;
-		matrix[this.getWidth()-1][2] = 10;
-		matrix[this.getWidth()-3][this.getHeight()-1] = 10;
-		matrix[this.getWidth()-1][this.getHeight()-3] = 10;
+		matrix[1][0] = cCase;
+		matrix[0][1] = cCase;
+		matrix[this.getWidth()-2][0] = cCase;
+		matrix[0][this.getHeight()-2] = cCase;
+		matrix[1][this.getHeight()-1] = cCase;
+		matrix[this.getWidth()-1][1] = cCase;
+		matrix[this.getWidth()-2][this.getHeight()-1] = cCase;
+		matrix[this.getWidth()-1][this.getHeight()-2] = cCase;
 
-		matrix[1][0] = -20;
-		matrix[0][1] = -20;
-		matrix[this.getWidth()-2][0] = -20;
-		matrix[0][this.getHeight()-2] = -20;
-		matrix[1][this.getHeight()-1] = -20;
-		matrix[this.getWidth()-1][1] = -20;
-		matrix[this.getWidth()-2][this.getHeight()-1] = -20;
-		matrix[this.getWidth()-1][this.getHeight()-2] = -20;
+		matrix[1][1] = xCase;
+		matrix[this.getWidth()-2][this.getHeight()-2] = xCase;
+		matrix[this.getWidth()-2][1] = xCase;
+		matrix[1][this.getHeight()-2] = xCase;
 
-		matrix[1][1] = -25;
-		matrix[this.getWidth()-2][this.getHeight()-2] = -25;
-		matrix[this.getWidth()-2][1] = -25;
-		matrix[1][this.getHeight()-2] = -25;
-
-		matrix[0][0] = 30;
-		matrix[this.getWidth()-1][this.getHeight()-1] = 30;
-		matrix[this.getWidth()-1][0] = 30;
-		matrix[0][this.getHeight()-1] = 30;
+		matrix[0][0] = corner;
+		matrix[this.getWidth()-1][this.getHeight()-1] = corner;
+		matrix[this.getWidth()-1][0] = corner;
+		matrix[0][this.getHeight()-1] = corner;
 
 		positionalMatrix = matrix;
 		

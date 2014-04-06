@@ -268,7 +268,9 @@ ArtificialIntelligenceStrategy {
 	 *            calculés.
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */
-	public Integer miniMax(Integer depth, NodeMove<Point> node) {
+	@SuppressWarnings("unused")
+	@Deprecated 
+	private Integer miniMax(Integer depth, NodeMove<Point> node) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore;
 		Integer opponent = node.getPlayer() % 2 + 1;
@@ -318,7 +320,9 @@ ArtificialIntelligenceStrategy {
 	 * @param beta borne maximale de recherche pour le score
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */
-	public Integer alphaBeta(Integer depth, NodeMove<Point> node,
+	@SuppressWarnings("unused")
+	@Deprecated 
+	private Integer alphaBeta(Integer depth, NodeMove<Point> node,
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
@@ -368,7 +372,9 @@ ArtificialIntelligenceStrategy {
 	 * @param beta borne maximale de recherche pour le score
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */
-	public Integer alphaBetaNegaMax(Integer depth, NodeMove<Point> node,
+	@SuppressWarnings("unused")
+	@Deprecated 
+	private Integer alphaBetaNegaMax(Integer depth, NodeMove<Point> node,
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
@@ -396,7 +402,7 @@ ArtificialIntelligenceStrategy {
 				.isEmpty()
 				&& depth > 0) {
 			node.setPlayer(node.getPlayer() % 2 + 1);
-			bestScore = -alphaBeta(depth, node, -beta, -alpha);
+			bestScore = -alphaBetaNegaMax(depth, node, -beta, -alpha);
 		} else {
 			bestScore = node.getBoard().getNbWhitePiece();
 		}
@@ -414,7 +420,9 @@ ArtificialIntelligenceStrategy {
 	 * @param beta borne maximale de recherche pour le score
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */
-	public Integer failSoftAlphaBeta(Integer depth, NodeMove<Point> node,
+	@SuppressWarnings("unused")
+	@Deprecated 
+	private Integer failSoftAlphaBeta(Integer depth, NodeMove<Point> node,
 			Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
@@ -448,7 +456,7 @@ ArtificialIntelligenceStrategy {
 				.isEmpty()
 				&& depth > 0) {
 			node.setPlayer(node.getPlayer() % 2 + 1);
-			bestScore = -alphaBeta(depth, node, -beta, -alpha);
+			bestScore = -failSoftAlphaBeta(depth, node, -beta, -alpha);
 		} else {
 			bestScore = node.getBoard().getNbWhitePiece();
 		}
@@ -466,7 +474,7 @@ ArtificialIntelligenceStrategy {
 	 * @param beta borne maximale de recherche pour le score
 	 * @return le meilleur score obtenu à partir de ce noeud
 	 */	
-	public Integer alphaBetaPVS(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta) {
+	private Integer alphaBetaPVS(Integer depth, NodeMove<Point> node, Integer alpha, Integer beta) {
 		Stack<Point> playablePosition = node.calculatePlayablePosition();
 		Integer bestScore = 0;
 		Integer opponent = node.getPlayer() % 2 + 1;
@@ -520,10 +528,11 @@ ArtificialIntelligenceStrategy {
 	}
 
 	/**
-	 * Cette fonction calcule le meilleur coup permettant de donner le moins
-	 * de possibilité de jeu à l'adversaire.
-	 * @param player est le joueur qui veut le coup
-	 * @return un point représentant les coup
+	 * Fonction permettant de calculer le meilleur prochain coup en terme de score de mobilité
+	 * </br>(nombre de possibilité de coup pour l'adversaire au prochain tour) et de position (priorité
+	 * de certaine case sur d'autre).
+	 * @param player est le joueur demandant le pion
+	 * @return la position du meilleur pion à jouer
 	 */
 	private Point nextBestMovePositionMobility(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
@@ -547,18 +556,16 @@ ArtificialIntelligenceStrategy {
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
 			Point best = tree.getSentinel().getBestMove();
-			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-				best = tree.getSentinel().getBestMove();
-				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
+			if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				if (node.getBoard().calculatePlayablePosition(player).size() < score) {
 					score = node.getBoard().calculatePlayablePosition(player).size();
 					tree.getSentinel().setBestMove(p);
 				}
-			} 
-			else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+			}
+			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
 				score = node.getBoard().calculatePlayablePosition(player).size();
 				tree.getSentinel().setBestMove(p);
 			}
-
 		}
 		return tree.getSentinel().getBestMove();
 	}

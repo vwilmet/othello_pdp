@@ -46,7 +46,7 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		Integer boardSize = this.initBoard.getHeight()
 				* this.initBoard.getWidth();
 		Point nextMove;
-		if (((Integer) (boardSize / 3))*2 > (boardSize - (this.tree.getSentinel()
+		if (((Integer) (boardSize / 3))*1 > (boardSize - (this.tree.getSentinel()
 				.getBoard().getNbBlackPiece() + this.tree.getSentinel()
 				.getBoard().getNbWhitePiece())))
 			nextMove = nextBestMovePositionMobility(player) ;
@@ -208,6 +208,11 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		return true;
 	}
 
+	/**
+	 * Fonction permettant de calculer le meilleur prochain coup en terme de score de capture de pion.
+	 * @param player est le joueur demandant le pion
+	 * @return la position du meilleur pion à jouer
+	 */
 	private Point nextBestScore(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
@@ -244,6 +249,13 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 		return tree.getSentinel().getBestMove();
 	}
 	
+	/**
+	 * Fonction permettant de calculer le meilleur prochain coup en terme de score de mobilité
+	 * </br>(nombre de possibilité de coup pour l'adversaire au prochain tour) et de position (priorité
+	 * de certaine case sur d'autre).
+	 * @param player est le joueur demandant le pion
+	 * @return la position du meilleur pion à jouer
+	 */
 	private Point nextBestMovePositionMobility(Integer player) {
 		Stack<Point> stackPoint = tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player);
@@ -266,14 +278,14 @@ public class NextBestMoveAI implements ArtificialIntelligenceStrategy {
 			node.calculateTurnResult();
 			tree.getSentinel().addChild(node);
 			Point best = tree.getSentinel().getBestMove();
-			if (node.getBoard().calculatePlayablePosition(player).size() == score) {
-				best = tree.getSentinel().getBestMove();
-				if (positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]) { 
+			
+			if(positionalMatrix[best.x][best.y] == positionalMatrix[p.x][p.y]){
+				if (node.getBoard().calculatePlayablePosition(player).size() < score) {
 					score = node.getBoard().calculatePlayablePosition(player).size();
 					tree.getSentinel().setBestMove(p);
 				}
-			} 
-			else if (node.getBoard().calculatePlayablePosition(player).size() < score) {
+			}
+			else if(positionalMatrix[best.x][best.y] < positionalMatrix[p.x][p.y]){
 				score = node.getBoard().calculatePlayablePosition(player).size();
 				tree.getSentinel().setBestMove(p);
 			}

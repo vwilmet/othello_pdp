@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import utils.Application;
 import utils.FactoryHandlerException;
 import utils.GameControllers;
 
@@ -49,19 +50,27 @@ public abstract class GameController {
 	protected SaveGame saveGame = null;
 	private IAResponseTimeHandler iaInterface;
 
+	public static void main(String[] args) {
+		Log.reset();
+		Application app = Application.getInstance();
+		app.calculateComponentSize();
+		
+		GameController game = new GameControllerGraphical();
+	}
+	
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 		this.sgFacto = FactoryProducer.getSaveGameFactory();
-
+		
 		BoardObservable board = null;
 		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
 		this.files.init(false);
 		hasThePreviousPlayerPassHisTurn = false;
-
+		
 		try {
 			board = bFacto.getInitialBoard(4, 4);
 		} catch (FactoryHandlerException e) {
@@ -263,7 +272,7 @@ public abstract class GameController {
 									}
 								}
 							});
-							time.startTimer(150);
+							time.startTimer(750);
 						}
 					}
 				};

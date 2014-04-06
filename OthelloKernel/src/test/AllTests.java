@@ -5,5 +5,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ FilesManagerImplTest.class })
+@SuiteClasses({ LogicielTest.class })
 public class AllTests {}

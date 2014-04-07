@@ -25,12 +25,22 @@ import com.model.player.Player;
  */
 public class PieceFactoryImpl extends AbstractFactory {
 
+	/**
+	 * Variable permettant la mise en place du design pattern Singleton
+	 */
 	private static PieceFactoryImpl instance;
 
+	/**
+	 * Constructeur private de la classe (constructeur prvate pour la mise en place du Singleton). 
+	 */
 	private PieceFactoryImpl() {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Methode permettant de récupérer l'unique instance de la classe.
+	 * @return PieceFactory : Instance de la classe.
+	 */
 	public static PieceFactoryImpl getInstance() {
 		if (instance == null)
 			instance = new PieceFactoryImpl();
@@ -38,33 +48,74 @@ public class PieceFactoryImpl extends AbstractFactory {
 		return instance;
 	}
 
+	/**
+	 * Fabrique d'un pion blanc.
+	 * @param posX : int, coordonnée suivant l'axe des abscisse du pion.
+	 * @param posY : int, coordonnée suivant l'axe des ordonnées du pion.
+	 * @return PieceImpl : pion blanc à construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public PieceImpl getWhitePiece(int posX, int posY) {
 		return (new PieceImpl(posX, posY))
 				.setWhitePiece();
 	}
 
+	/**
+	 * Fabrique d'un pion noir.
+	 * @param posX : int, coordonnée suivant l'axe des abscisse du pion.
+	 * @param posY : int, coordonnée suivant l'axe des ordonnées du pion.
+	 * @return PieceImpl : pion noir à construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public PieceImpl getBlackPiece(int posX, int posY) {
 		return (new PieceImpl(posX, posY))
 				.setBlackPiece();
 	}
 
+	/**
+	 * Fabrique d'un pion vide.
+	 * @param posX : int, coordonnée suivant l'axe des abscisse du pion.
+	 * @param posY : int, coordonnée suivant l'axe des ordonnées du pion.
+	 * @return PieceImpl : pion vide construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public PieceImpl getEmptyPiece(int posX, int posY) {
 		return (new PieceImpl(posX, posY));
 	}
 
+	/**
+	 * Fabrique d'une matrice de pion.
+	 * @param i : int, taille de la matrice.
+	 * @param j : int, taille de la matrice
+	 * @return PieceImpl[][]: Matrice de Pion construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public PieceImpl[][] getMatrixPiece(int i, int j) {
 		return new PieceImpl[i][j];
 	}
 
+	/**
+	 *  Fabrique d'un tableau dynamique de pion.
+	 * @return List<Piece> : Liste vide de Pion construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public List<Piece> getArrayListOfPiece() {
 		return new ArrayList<Piece>();
 	}
 
+	/**
+	 * Fabrique d'un joueur humain.
+	 * @param playerLogin : String, login du joueur.
+	 * @param c : String, chaine de caractère représentant la couleur du pion.
+	 * @param playerNumber : int, numero du joueur.
+	 * @return Player : Joueur humain construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public Player getHumanPlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
@@ -73,6 +124,14 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
+	/**
+	 * Fabrique d'un joueur machine (IA).
+	 * @param playerLogin : String, login du joueur.
+	 * @param c : String, chaine de caractère représentant la couleur du pion.
+	 * @param playerNumber : int, numero du joueur.
+	 * @return Player : Joueur machine construit par la fabrique.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public Player getMachinePlayer(String playerLogin, String c, int playerNumber)
 			throws FactoryHandlerException {
@@ -81,6 +140,14 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
+	/**
+	 * Fabrique d'un plateau de jeu.
+	 * @param sizeX : int, Taille du plateau de jeu.
+	 * @param sizeY : int, Taille du plateau de jeu.
+	 * @param List<Piece> : Ensemble des pieces initiales de la partie.
+	 * @return BoardObservable : Plateau de jeu
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public BoardObservable getBoard(int sizeX, int sizeY,	List<Piece> initiaPieces) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
@@ -88,6 +155,13 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 	
+	/**
+	 * Fabrique d'un plateau de jeu initial.
+	 * @param sizeX : int, Taille du plateau de jeu.
+	 * @param sizeY : int, Taille du plateau de jeu.
+	 * @return BoardObservable : Plateau de jeu
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public BoardObservable getInitialBoard(int sizeX, int sizeY)
 			throws FactoryHandlerException {
@@ -96,6 +170,11 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 	
+	/**
+	 * Fabrique d'une liste de plateau de jeu.
+	 * @return List<BoardObservable> : ensemble de plateaux de jeu.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public List<BoardObservable> getBoardList()
 			throws FactoryHandlerException {
@@ -104,6 +183,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
+	
 	@Override
 	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) throws FactoryHandlerException {
 		throw new FactoryHandlerException(

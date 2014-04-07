@@ -39,6 +39,17 @@ import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
 /**
+ * @mainpage Module de création d'Othellier
+ * 
+ * Ce module a pour but de permettre à l'utilisateur de créer un othellier personnalisé. Il peut ainsi décider de sa taille ainsi que des différentes pièces présentes sur le plateau. Ses actions sont toutefois limitées par les règles du jeu. 
+ * 
+ * <b>Exemple de BONNE utilisation du module : </b>
+ *  
+ *		BoardPublisher bp = new BoardPublisher();
+ *		bp.boardMaker();
+ */
+
+/**
  * Classe qui implémente le contrôleur abstrait général du jeu 
  * @author <ul>
  *         <li>Vincent Wilmet</li>

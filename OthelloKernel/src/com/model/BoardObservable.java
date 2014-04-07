@@ -36,6 +36,7 @@ public class BoardObservable extends Observable implements Board {
 		setChanged();
 		notifyObservers();
 	}
+	
 	/**
 	 * Accesseur sur la taille d'un othellier (Axe des abscisses).
 	 * @return : int la taille de l'othellier suivant l'axe des abscisses.
@@ -44,6 +45,7 @@ public class BoardObservable extends Observable implements Board {
 	public int getSizeX() {
 		return this.board.getSizeX();
 	}
+
 	/**
 	 * Accesseur sur la taille d'un othellier (Axe des ordonnées).
 	 * @return : int la taille de l'othellier suivant l'axe des ordonnées.
@@ -52,6 +54,7 @@ public class BoardObservable extends Observable implements Board {
 	public int getSizeY() {
 		return this.board.getSizeY();
 	}
+	
 	/**
 	 * Accesseur sur la matrice représentant l'othellier à un instant de jeu.
 	 * @return int [][] : La matrice remplie de pièces.
@@ -60,6 +63,7 @@ public class BoardObservable extends Observable implements Board {
 	public Piece[][] getBoard() {
 		return this.board.getBoard();
 	}
+	
 	/**
 	 * Accesseur sur la liste des pions initials l'une partie.
 	 * @return List<Piece> : liste chainée des pions initiaux de la partie.
@@ -68,6 +72,7 @@ public class BoardObservable extends Observable implements Board {
 	public List<Piece> getInitialPiece() {
 		return this.board.getInitialPiece();
 	}
+	
 	/**
 	 * Méthode permettant de changer la couleur du pion correspondant aux positions en paramètre
 	 * @param i La position en X
@@ -78,6 +83,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.reverse(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Méthode permettant de poser une pièce de couleur noire
 	 * @param i La position en X
@@ -88,6 +94,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setBlackPiece(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Méthode permettant de poser une pièce blanche
 	 * @param i La position en X
@@ -98,6 +105,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setWhitePiece(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Méthode permettant de poser une pièce vide
 	 * @param i La position en X
@@ -108,6 +116,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setEmptyPiece(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Permet l'affichge de l'othellier dans la console.
 	 * @return String : Une chaine de caractère prête pour l'affichage en console.
@@ -116,6 +125,7 @@ public class BoardObservable extends Observable implements Board {
 	public String toString() {
 		return this.board.toString();
 	}
+
 	/**
 	 * Méthode permettant de définir une pièce jouable
 	 * @param i La position en X
@@ -126,6 +136,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setPiecePlayable(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Méthode permettant de définir une pièce non jouable
 	 * @param i La position en X
@@ -136,6 +147,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.setPieceNotPlayable(i, j);
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Méthode retournant la liste des pièce de couleur noire
 	 * @return La liste de pièce
@@ -144,6 +156,7 @@ public class BoardObservable extends Observable implements Board {
 	public List<Piece> getBlackPieces() {
 		return this.board.getBlackPieces();
 	}
+	
 	/**
 	 * Méthode retournant la liste des pièce de couleur blanche
 	 * @return La liste de pièce
@@ -152,6 +165,7 @@ public class BoardObservable extends Observable implements Board {
 	public List<Piece> getWhitePieces() {
 		return this.board.getWhitePieces();
 	}
+	
 	/**
 	 * Méthode retournant la liste des pièce jouables
 	 * @return La liste de pièce
@@ -160,6 +174,7 @@ public class BoardObservable extends Observable implements Board {
 	public List<Piece> getPlayablePieces() {
 		return this.board.getPlayablePieces();
 	}
+	
 	/**
 	 * Cette méthode réinitialise les coups jouables
 	 */
@@ -168,6 +183,7 @@ public class BoardObservable extends Observable implements Board {
 		this.board.resetPlayablePosition();
 		notifierObservateurs();
 	}
+	
 	/**
 	 * Cette méthode clone l'othellier
 	 * @return Un clone de l'objet appellant la méthode

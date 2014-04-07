@@ -1,7 +1,7 @@
 package com.model.piece;
 
 /**
- * 
+ * Interface d'utilisation de la couleur d'un pion.
  * @author <ul>
  *         <li>Benjamin Letourneau</li>
  *         <li>Vincent Wilmet</li>

@@ -29,6 +29,7 @@ public class GameSettings {
 	 * La taille par défaut de la grille en colonne
 	 */
 	public static final int DEFAULT_ROW_SIZE = 4;
+
 	/**
 	 * La taille par défaut de la grille en ligne
 	 */
@@ -38,17 +39,40 @@ public class GameSettings {
 	 * Le temps donnée à l'IA pour donner une solution par défaut : 2 secondes
 	 */
 	public static final int DEFAULT_IA_THINKING_TIME = 2000;
+	
 	/**
 	 * La difficulté de l'IA par défaut [0, 1 ou 2 avec 0 le plus facile et 2 le plus compliqué] 
 	 */
 	public static final int DEFAULT_IA_DIFFICULTY = 0;
 
+	/**
+	 * Temps de réflexion maximal de l'IA autorisé.
+	 */
 	public static final int AI_THINKING_TIME_LIMIT_MAX = 900000;
+	
+	/**
+	 * Temps de réflexion minimal de l'IA autorisé.
+	 */
 	public static final int AI_THINKING_TIME_LIMIT_MIN = 2000;
+	
+	/**
+	 * Taille minimal du plateau sur l'axe des abscisses.
+	 */
 	public static final int BOARD_MIN_SIZE_X = 4;
+	
+	/**
+	 * Taille minimal du plateau sur l'axe des ordonnées.
+	 */
 	public static final int BOARD_MIN_SIZE_Y = 4;
 
+	/**
+	 * Taille maximal du plateau sur l'axe des abscisses.
+	 */
 	public static final int BOARD_MAX_SIZE_X = 50;
+	
+	/**
+	 * Taille maximal du plateau sur l'axe des ordonnées.
+	 */
 	public static final int BOARD_MAX_SIZE_Y = 50;
 
 	/**
@@ -83,16 +107,27 @@ public class GameSettings {
 	 * Variable stoquant l'historique des coups.
 	 */
 	private List <Piece> gameHistory;
+	
 	/**
 	 * Variable contenant l'ensemble des board jouée depuis le début de la partie
 	 */
 	private List <BoardObservable> gameBoardHistory;
+	
 	/**
 	 * Sentinel utilisée pour se repérer dans l'historique! Les deux listes gameHistory et gameBoardHistory 
 	 * l'utilise mais gameBoardHistory à une case de plus car il contient la partie initial
 	 */
 	private int sentinel;
-
+	
+	/**
+	 * Constructeur de classe.
+	 * @param player1 : Player, joueur 1 de la partie.
+	 * @param player2 : Player, joueur 2 de la partie.
+	 * @param gameBoard : BoardObservable, plateau courrant de jeu.
+	 * @param artificialIntelligenceThinkingTime : int, temps de réflexion de l'intelligence artificielle.
+	 * @param artificialIntelligenceDifficulty : int, difficulté par defaut de l'IA (d'aide).
+	 * @param history : List<Piece>, historique de tous les coups joués (si les coups existent).
+	 */
 	public GameSettings (Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) {
 		
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
@@ -119,54 +154,139 @@ public class GameSettings {
 		this.currentPlayer = player1;
 	}
 
+	/**
+	 * Méthode permettant de changer le joueur courrant.
+	 */
 	public void changePlayer(){
 		this.currentPlayer = this.currentPlayer == player1 ? player2 : player1;
 	}
 
+	/**
+	 * Accesseur (lecture) sur le joueur courrant.
+	 * @return Player : Joueur courrant.
+	 */
 	public Player getCurrentPlayer(){
 		return this.currentPlayer;
 	}
 
+	/**
+	 * Accesseur sur le joueur qui ne joue pas.
+	 * @return Player : Joueur qui ne joue pas.
+	 */
 	public Player getOpponentPlayer(){
 		return this.currentPlayer == player1 ? player2 : player1;
 	}
 
+	/**
+	 * Accesseur (Ecriture) permettant de modifier le joueur courrant.
+	 * @param currentPlayer : Player, joueur à affecteur au current player.
+	 */
 	public void setCurrentPlayer(Player currentPlayer){
 		this.currentPlayer = currentPlayer;
 	}
 
+	/**
+	 * Accesseur sur le joueur 1 (en début de partie).
+	 * @return Player : le joueur 1.
+	 */
 	public Player getFirstPlayer(){
 		return this.player1;
 	}
 
+	/**
+	 * Accesseur sur le joueur 2 (en début de partie).
+	 * @return Player : le joueur 2.
+	 */
 	public Player getSecondPlayer(){
 		return this.player2;
 	}
 
+	/**
+	 * Accesseur (lecture) sur le plateau de jeu.
+	 * @return BoardObservable : Plateau de jeu.
+	 */
 	public BoardObservable getGameBoard(){
 		return this.gameBoard;
 	}
 
+	/**
+	 * Accesseur (lecture) sur le temps de réflexion de l'IA.
+	 * @return int : Le temps de réflexion de l'IA.
+	 */
 	public int getAIThinkingTime(){
 		return this.artificialIntelligenceThinkingTime;
 	}
 
+	/**
+	 * Accesseur (lecture) sur le niveau de l'IA (aide).
+	 * @return int : Le niveau de difficulté de l'IA (aide).
+	 */
 	public int getHelpAIDifficulty(){
 		return this.helpArtificialIntelligenceDifficulty;
+	}	
+	
+	/**
+	 * Accesseur (lecture) sur le niveau de l'IA (joueur 1).
+	 * @return int : Le niveau de difficulté de l'IA (joueur 1).
+	 */
+	public int getPlayer1ArtificialIntelligenceDifficulty() {
+		return player1ArtificialIntelligenceDifficulty;
 	}
 
+	/**
+	 * Accesseur (Ecriture) sur le niveau de l'IA (joueur 1).
+	 * @param int : Le niveau de difficulté de l'IA (joueur 1).
+	 */
+	public void setPlayer1ArtificialIntelligenceDifficulty(
+			int player1ArtificialIntelligenceDifficulty) {
+		this.player1ArtificialIntelligenceDifficulty = player1ArtificialIntelligenceDifficulty;
+	}
+
+	/**
+	 * Accesseur (lecture) sur le niveau de l'IA (joueur 2).
+	 * @return int : Le niveau de difficulté de l'IA (joueur 2).
+	 */
+	public int getPlayer2ArtificialIntelligenceDifficulty() {
+		return player2ArtificialIntelligenceDifficulty;
+	}
+
+	/**
+	 * Accesseur (Ecriture) sur le niveau de l'IA (joueur 2).
+	 * @param int : Le niveau de difficulté de l'IA (joueur 2).
+	 */
+	public void setPlayer2ArtificialIntelligenceDifficulty(
+			int player2ArtificialIntelligenceDifficulty) {
+		this.player2ArtificialIntelligenceDifficulty = player2ArtificialIntelligenceDifficulty;
+	}
+
+	/**
+	 * Accesseur (lecture) sur l'historique des pieces jouées pendant le jeu.
+	 * @return List<Piece> : Historique des pieces joués.
+	 */
 	public List<Piece> getGameHistory(){
 		return this.gameHistory;
 	}
 
+	/**
+	 * Accesseur (lecture) sur la sentinelle dans l'historique des coups joués.
+	 * @return int : position de la sentinelle dans la liste. 
+	 */
 	public int getHistoryPosition(){
 		return this.sentinel;
 	}
 
+	/**
+	 * Accesseur (lecture) sur la sentinelle dans l'historique des plateaux de jeu.
+	 * @return int : position de la sentinelle dans la liste des plateaux de jeu. 
+	 */
 	public int getBoardHistoryPosition(){
 		return this.sentinel + 1;
 	}
 
+	/**
+	 * Permet de modifier la position de la sentinelle.
+	 * @param sentinel : int, nouvelle position de la sentinelle.
+	 */
 	public void setHistoryPosition(int sentinel){
 		this.sentinel = sentinel;
 
@@ -180,18 +300,34 @@ public class GameSettings {
 		this.gameBoard = (BoardObservable) this.gameBoardHistory.get(this.sentinel+1).clone();
 	}
 
+	/**
+	 * Méthode permettant de réccupérer un plateau de jeu à un certain moment de la partie.
+	 * @param position : numero du plateau de jeu.
+	 * @return BoardObservable : plateau de jeu. 
+	 */
 	public BoardObservable getHistoryBoard(int position){
 		return this.gameBoardHistory.get(position);
 	}
 
+	/**
+	 * Accesseur (lecture) sur l'historique des plateaux de jeu de la partie en cours.
+	 * @return List<BoardObservable> : Ensemble des plateaux de jeu.
+	 */
 	public List<BoardObservable> getGameBoardHistory(){
 		return this.gameBoardHistory;
 	}
 	
+	/**
+	 * Accesseur (ecriture) sur l'historique des plateaux de jeu de la partie en cours.
+	 * @param List<BoardObservable> : Ensemble des plateaux de jeu à affecter.
+	 */
 	public void setGameBoardHistory(List<BoardObservable> gameBoardHistory){
 		this.gameBoardHistory = gameBoardHistory;
 	}
 
+	/**
+	 * Méthode permettant de remettre à zéro l'historique de la partie.
+	 */
 	public void resetHistory(){
 		this.gameHistory.clear();
 		this.gameBoardHistory.clear();
@@ -200,6 +336,9 @@ public class GameSettings {
 		System.gc();
 	}
 
+	/**
+	 * Méthode permettant la remise à zéro du jeu.
+	 */
 	public void restartGame(){
 		if(this.gameBoardHistory.size() > 0)
 			this.gameBoard = (BoardObservable)this.gameBoardHistory.get(0).clone();
@@ -207,25 +346,40 @@ public class GameSettings {
 		this.currentPlayer = this.player1;
 	}
 	
+	/**
+	 * Méthode indiquant si il y a possibilité de revenir en arrière dans la liste des coups joués.
+	 * @return boolean : true si il y a possiblité, false sinon.
+	 */
 	public boolean canGoBack(){
 		if(this.sentinel == -1)
 			return false;
 		return true;
 	}
 
+	/**
+	 * Méthode indiquant si il y a possibilité d'avancer dans la liste des coups joués.
+	 * @return boolean : true si il y a possiblité, false sinon.
+	 */
 	public boolean canGoForward(){
 		if(this.gameHistory.size() == 0 || (this.gameHistory.size()-1) == this.sentinel)
 			return false;
 		return true;
 	}
 
-	//si il y a déjà eu un coup
+	/**
+	 * Méthode indiquant on peut remettre à zero l'historique des coups.
+	 * @return boolean : true si il y a possiblité, false sinon.
+	 */
 	public boolean canReset(){
 		if(this.gameHistory.size() == 0)
 			return false;
 		return true;
 	}
 
+	/**
+	 * Méthode indiquant si il y a possibilité de revenir en arrière dans l'historique.
+	 * @return boolean : true si il y a possiblité, false sinon.
+	 */
 	public boolean getBackInHistory(){
 		if(this.sentinel >= 0){
 			if(this.gameHistory.get(this.sentinel).getColor() instanceof WhitePiece)
@@ -243,6 +397,10 @@ public class GameSettings {
 		return false;
 	}
 
+	/**
+	 * Méthode indiquant si il y a possibilité d'avancer dans l'historique.
+	 * @return boolean : true si il y a possiblité, false sinon.
+	 */
 	public boolean getForwardInHistory(){
 		if(this.sentinel < this.gameHistory.size()-1){
 			this.sentinel++;
@@ -259,6 +417,9 @@ public class GameSettings {
 		return false;
 	}
 
+	/**
+	 * Méthode permettant de changer les joueurs.
+	 */
 	public void reversePlayer(){
 		if(this.player1.getColor().equals(BoardPublisher.BLACK_PLAYER)){
 			this.player1.setColor(BoardPublisher.WHITE_PLAYER);
@@ -275,14 +436,14 @@ public class GameSettings {
 		this.player1.setPlayerNumber(2);
 		this.player2.setPlayerNumber(1);
 		
-		//change couleur des pions sur le plateau
-		/*for(int i = 0; i < this.gameBoard.getSizeX(); i++)
-			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
-				this.gameBoard.reverse(i, j);
-		*/
 		this.changePlayer();
 	}
 
+	/**
+	 * Méthode permettant de modifier le la couleur d'un pion.
+	 * @param i : int, coordonnée du pion sur l'axe des abscisses.
+	 * @param j : int, coordonnée du pion sur l'axe des ordonnées.
+	 */
 	public void setPiece(int i, int j) {
 
 		if(this.currentPlayer.getColor().equals(BoardPublisher.WHITE_PLAYER))
@@ -318,6 +479,9 @@ public class GameSettings {
 		}
 	}
 
+	/**
+	 * Méthode d'affichage du contenu d'une partie.
+	 */
 	public String toString() {
 		String res = "\tJoueur 1 : " + this.player1.toString() + "\n";
 
@@ -331,23 +495,5 @@ public class GameSettings {
 		res += "Temps de réflexion des IA : " + this.artificialIntelligenceThinkingTime + "\n";
 		res += "Difficulté de l'IA d'aide: " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.helpArtificialIntelligenceDifficulty] + "\n";
 		return res;
-	}
-
-	public int getPlayer1ArtificialIntelligenceDifficulty() {
-		return player1ArtificialIntelligenceDifficulty;
-	}
-
-	public void setPlayer1ArtificialIntelligenceDifficulty(
-			int player1ArtificialIntelligenceDifficulty) {
-		this.player1ArtificialIntelligenceDifficulty = player1ArtificialIntelligenceDifficulty;
-	}
-
-	public int getPlayer2ArtificialIntelligenceDifficulty() {
-		return player2ArtificialIntelligenceDifficulty;
-	}
-
-	public void setPlayer2ArtificialIntelligenceDifficulty(
-			int player2ArtificialIntelligenceDifficulty) {
-		this.player2ArtificialIntelligenceDifficulty = player2ArtificialIntelligenceDifficulty;
 	}
 }

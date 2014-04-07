@@ -1,10 +1,9 @@
 package com.model.player;
 
 /**
- * 
+ * Interface d'utilisation du type d'un joueur.
  * @author <ul><li>Benjamin Letourneau</li></ul>
  * @version 1.0
- *
  */
 public interface PlayerType {
 	
@@ -16,7 +15,7 @@ public interface PlayerType {
 	
 	/**
 	 * Methode retournant le type de joueur.
-	 * @return String : "machine" su le joueur est l'IA, "human" si le joueur est humain.
+	 * @return String : "machine" si le joueur est l'IA, "human" si le joueur est humain.
 	 */
 	public String getPlayerType();
 

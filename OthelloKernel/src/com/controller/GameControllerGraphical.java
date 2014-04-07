@@ -27,12 +27,32 @@ import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.GameViewMenuEventListener;
 import com.view.interfaces.GameView;
 
+/**
+ * Classe qui spécifie le contrôleur générale pour l'affichage graphique
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ */
 public class GameControllerGraphical extends GameController implements NotifyGameControllerGraphical, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
 
+	/**
+	 * L'objet de la vue principale du jeu
+	 */
 	protected GameView gameView;
+	/**
+	 * Le contrôleur qui gère l'initialisation d'une nouvelle partie graphiquement
+	 */
 	protected InitGameController initGameController;
+
+	/**
+	 * Le contrôleur qui gère le choix d'une position dans l'historique graphiquement
+	 */
 	protected ChoosePositionController chooseGameBoardController;
-	
+
+	/**
+	 * Constructeur qui lance la vue graphique du logiciel
+	 */
 	public GameControllerGraphical() {
 		super();
 
@@ -46,11 +66,17 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.dealWithCurrentPlayer();
 	}
 
+	/**
+	 * Méthode qui lance l'affichage de la vue d'initialisation d'une nouvelle partie
+	 */
 	protected void initializeNewGame(){
 		this.initGameController = InitGameController.getInstance(this);
 		this.initGameController.showView();
 	}
 
+	/**
+	 * Méthode qui lance l'affichage de la vue de choix de position graphiquement
+	 */
 	protected void chooseHistoryBoardPosition(){
 		chooseGameBoardController = ChoosePositionController.getInstance();
 		chooseGameBoardController.setEvent(this);
@@ -58,6 +84,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		chooseGameBoardController.showView();
 	}
 
+	/**
+	 * Méthode qui permet à l'utilisateur de choisir un fichier graphiquement et de le charger
+	 */
 	protected void loadFileForGame(){
 		int returnVal;
 
@@ -76,6 +105,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		}
 	}
 
+	/**
+	 * Evènements soulevés à chaque clique gauche de la souris sur l'othellier
+	 */
 	@Override
 	public void onLeftMouseButtonPressed(int i, int j) {
 
@@ -90,21 +122,41 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Veuillez patientez, l'IA est en train de jouer !");
 	}
 
+	/**
+	 * Méthode appelée sur le clique droit de la souris
+	 */
 	@Override
 	public void onRightMouseButtonPressed(int i, int j) {}
 
+	/**
+	 * Méthode utilisée pour ajouter une entrée dans la liste des évènements
+	 * @param message Le message à ajouter
+	 */
 	protected void addMessageToListForUser(String message){
 		this.gameView.addMessageToMessageList(message);
 	}
 
+	/**
+	 * Méthode qui permet de modifier le message des statistiques de l'interface
+	 * @param stat Le nouveau message de statistique
+	 */
 	protected void writeStatMessage(String stat){
 		this.gameView.changeStatViewMessage(stat);
 	}
 
+	/**
+	 * Méthode qui modifie le message d'information pour l'utilisateur
+	 * @param message Le nouveau contenue
+	 */
 	protected void writeMessageToUser(String message){
 		this.gameView.changeMessageViewContent(message);
 	}
 
+	/**
+	 * Evènement soulevé à la fin de l'initilisation d'une partie
+	 * @param valid Booléen déterminant si l'initialisation est correct
+	 * @param game Le nouveau model contenant la nouvelle partie
+	 */
 	@Override
 	public void initGameFinished(boolean valid, GameSettings game) {
 		if(valid){
@@ -117,21 +169,34 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		}
 	}
 
+	/**
+	 * Evènement soulevé à chaque clique de bouton du menu du jeu
+	 * @param button Le bouton cliqué
+	 * @code code Le code associé au bouton cliqué
+	 */
 	@Override
 	public void onButtonCliked(ImageButton button, int code) {}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton play
+	 */
 	@Override
 	public void onPlayButtonCliked() {
 		this.gameView.setOnPause(false);
 		this.addMessageToListForUser(TextManager.PLAY_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
-
+	/**
+	 * Evènement soulevé lors du clique sur le bouton pause
+	 */
 	@Override
 	public void onPauseButtonCliked() {
 		this.gameView.setOnPause(true);
 		this.addMessageToListForUser(TextManager.PAUSE_MESSAGE_LIST_VUE + " : " + timer.getElapsedTimeInMinAndSeconde());
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton suivant
+	 */
 	@Override
 	public void onForwardButtonCliked() {
 		if(this.gameSettings.canGoForward()){
@@ -165,6 +230,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en avant !!");
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton précédent
+	 */
 	@Override
 	public void onBackButtonCliked() {
 		if(this.gameSettings.canGoBack()){
@@ -185,6 +253,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Vous ne pouvez pas revenir en arrière !!");
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton recommencer
+	 */
 	@Override
 	public void onResetButtonCliked() {
 		if(!this.gameSettings.canReset()){
@@ -201,6 +272,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.dealWithCurrentPlayer();
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton d'aide de l'IA
+	 */
 	@Override
 	public void onHelpIAButtonCliked() {
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() != 0){
@@ -209,6 +283,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		}
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton "choisir une position"
+	 */
 	@Override
 	public void onPositionButtonCliked() {
 		if(this.gameSettings.canGoBack() || this.gameSettings.canGoForward())
@@ -217,6 +294,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.addMessageToListForUser("Vous devez jouer au moins un coup pour choisir une position !!");
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton changement de joueur
+	 */
 	@Override
 	public void onReversePlayerButtonCliked() {
 		reversePlayer();
@@ -226,11 +306,17 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.dealWithCurrentPlayer();	
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton "nouvelle patie"
+	 */
 	@Override
 	public void onNewGameItemMenuPressed() {
 		this.initializeNewGame();
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton de sauvegarde
+	 */
 	@Override
 	public void onSaveGameUnderItemMenuPressed() {
 
@@ -248,6 +334,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		}
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton d'ouverture de fichier et de reprise de jeu à la dernière board jouée
+	 */
 	@Override
 	public void onOpenFileAndContinueItemMenuPressed() {
 		this.loadFileForGame();
@@ -257,12 +346,18 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.dealWithCurrentPlayer();
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton d'ouverture de fichier et de choix de la position de reprise
+	 */
 	@Override
 	public void onOpenFileAndChoosePositionItemMenuPressed() {
 		this.loadFileForGame();
 		this.onPositionButtonCliked();
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton d'option
+	 */
 	@Override
 	public void onOptionItemMenuPressed() {
 		String message = 	"Joueur____________________" + "\n" + 
@@ -276,6 +371,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		JOptionPane.showMessageDialog(null, message, TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Evènement soulevé lors du clique sur le bouton d'aide
+	 */
 	@Override
 	public void onHelpItemMenuPressed() {
 		try {
@@ -286,6 +384,12 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		}
 	}
 
+	/**
+	 * Evènement soulevé dès que le choix d'une position est fait
+	 * @param valid Booléen déterminant si le choix réalisé est valide
+	 * @param board L'othellier choisie
+	 * @param position L'entier correspondant à la position choisie dans l'historique
+	 */
 	@Override
 	public void chooseGameBoardFinished(boolean valid, BoardObservable board,
 			int position) {
@@ -306,6 +410,10 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.dealWithCurrentPlayer();
 	}
 
+	/**
+	 * Méthode modifiant les messages sur la vue, visible pour l'utilisateur,
+	 *  en fonction du contenue du model
+	 */
 	private void updateInformationField(){
 		GameControllers.checkPlayersPiecesCount(this.gameSettings);
 		this.writeMessageToUser("Tour du joueur : " + this.gameSettings.getCurrentPlayer().getLogin() + ", de couleur " + this.gameSettings.getCurrentPlayer().getColor() + " => " + this.gameSettings.getGameBoard().getPlayablePieces().size() + " coup(s) jouable(s)");
@@ -317,15 +425,22 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	}
 
+	/**
+	 * Méthode appelée dès que l'IA à jouer une pièce
+	 */
 	@Override
 	protected void onIAPlayed(String login, int i, int j) {
 		this.updateInformationField();
 		this.addMessageToListForUser("L'IA : " + login + " a joué en " + i + ", " + j);
 	}
 
+	/**
+	 * Méthode retournant pour les options le status de le personne gagnant la partie
+	 * @return Status du joueur gagnant
+	 */
 	protected String getCurrentWinningStateAsAString(){
 		String result = "Status________________\n";
-		
+
 		switch(this.helpAI.winStatus(this.gameSettings.getFirstPlayer().getPlayerNumber())){
 		case 0 :
 			result += "Le joueur " + this.gameSettings.getFirstPlayer().getLogin() + " est plus susceptible de perdre\n";
@@ -339,26 +454,13 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		default :
 			Log.error("Une erreur est survenue pendant la récupération du status de la partie par l'IA");
 		}
-		
+
 		return result;
 	}
 
-	/*
-	protected void manageButtonState(){
-
-		this.gameView.enableBackButton(
-				this.gameSettings.canGoBack() == true ? 
-						true : false);
-
-		this.gameView.enableForwardButton(
-				this.gameSettings.canGoForward() == true ? 
-						true : false);
-
-		this.gameView.enableResetButton(
-				this.gameSettings.canReset() == true ? 
-						true : false);
-	}*/
-
+	/**
+	 * Méthode appelée quand les joueurs ne peuvent plus jouer
+	 */
 	@Override
 	protected void playerCantPlay() {
 		String message = "Partie terminée !!! \n\n Le joueur : ";
@@ -373,26 +475,39 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		JOptionPane.showMessageDialog(null, message, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Méthode appelée avant que les joueurs ne joue
+	 */
 	@Override
-	protected void beforeDealingWithCurrentPlayer() {
-		//this.manageButtonState();
-	}
+	protected void beforeDealingWithCurrentPlayer() {}
 
+	/**
+	 * Evènement soulevée lors du clique sur le bouton de configuration d'un othellier personnalisé
+	 */
 	@Override
 	public void onConfigureBoardItemMenuPressed() {
 		launchShellToLetUserConfigureNewBoard();
 	}
 
+	/**
+	 * Evènement soulevée lors du clique sur le bouton de sauvegarde des positions des coups jouée jusqu'à l'appel de la méthode
+	 */
 	@Override
 	public void onSaveHistoryPositionItemMenuPressed() {
 		this.saveHistoryPosition();
 	}
 
+	/**
+	 * Méthode appelée à la fin du changement de joueur à chaque tour
+	 */
 	@Override
 	protected void onChangePlayerTurnFinished() {
 		this.updateInformationField();
 	}
-
+	
+	/**
+	 * Méthode appelé pour afficher un message utilisateur concernant la sauvegarde d'un fichier
+	 */
 	@Override
 	protected void onSaveToFile(String message) {
 		this.addMessageToListForUser(message);

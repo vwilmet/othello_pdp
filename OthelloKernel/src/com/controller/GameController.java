@@ -38,39 +38,78 @@ import com.timermanager.TimerManager;
 import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
+/**
+ * Classe qui implémente le contrôleur abstrait général du jeu 
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ */
 public abstract class GameController {
 
+	/**
+	 * Objet du model contenant les informations de bases sur l'othellier a afficher
+	 */
 	protected GameSettings gameSettings;
+	/**
+	 * Objet du module Timer
+	 */
 	protected TimerManager timer;
+	/**
+	 * Objets du module d'IA
+	 */
 	protected ArtificialIntelligence helpAI;
 	protected HashMap<String, ArtificialIntelligence> ai;
-	protected FilesManager files = new FilesManagerImpl();
+	/**
+	 * Objet du module de gestion de fichier
+	 */
+	protected FilesManager files;
+	/**
+	 * Booléen permettant de savoir si le joueur précèdent à passer son tour pour savoir si la partie est terminée
+	 */
 	protected boolean hasThePreviousPlayerPassHisTurn;
+	/**
+	 * La factory permettant de générer les objets pour la sauvegarde de la partie
+	 */
 	protected SaveGameFactory sgFacto;
+	/**
+	 * L'objet permettant de sauvegarder la partie en cours
+	 */
 	protected SaveGame saveGame = null;
-	private IAResponseTimeHandler iaInterface;
+	/**
+	 * Interface gérant les coups de l'IA à travers le thread
+	 */
+	protected IAResponseTimeHandler iaInterface;
 
+	/**
+	 * Méthode lançant l'application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Log.reset();
 		Application app = Application.getInstance();
 		app.calculateComponentSize();
-		
+
 		GameController game = new GameControllerGraphical();
 	}
-	
+
+	/**
+	 * Constructeur qui initialise le logiciel, tous les objets ainsi que une partie par défault en 4x4
+	 */
 	protected GameController() {
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
 		PieceFactory pieceFacto = FactoryProducer.getPieceFactory();
 		this.sgFacto = FactoryProducer.getSaveGameFactory();
-		
+
 		BoardObservable board = null;
+		files = new FilesManagerImpl();
 		this.timer = new TimerManagerImpl();
 		this.ai = new HashMap<String, ArtificialIntelligence>();
 		this.files.init(false);
 		hasThePreviousPlayerPassHisTurn = false;
-		
+
 		try {
 			board = bFacto.getInitialBoard(4, 4);
 		} catch (FactoryHandlerException e) {
@@ -107,6 +146,9 @@ public abstract class GameController {
 		GameControllers.checkPlayersPiecesCount(this.gameSettings);
 	}
 
+	/**
+	 * Méthode qui initialise toutes les IA
+	 */
 	protected void initializeIA(){
 		String current_key;
 		Set<Point> 	whitePiece = new HashSet<Point>(),
@@ -139,6 +181,9 @@ public abstract class GameController {
 
 	}
 
+	/**
+	 * Méthode qui stop toutes les IA
+	 */
 	protected void stopAllAI(){
 		for(ArtificialIntelligence ai : this.ai.values())
 			ai.completeReflexion();
@@ -146,20 +191,37 @@ public abstract class GameController {
 		System.gc();
 	}
 
+	/**
+	 * Méthode appelée pour l'initialisation d'une nouvelle partie
+	 */
 	protected abstract void initializeNewGame();
-
+	/**
+	 * Méthode appelée pour le chargement d'un fichier
+	 */
 	protected abstract void loadFileForGame();
-
+	/**
+	 * Méthode appelée lorsque les joueurs ne peuvent plus jouer
+	 */
 	protected abstract void playerCantPlay();
-
+	/**
+	 * Méthode appelée avant de donnée la main au joueur actuel
+	 */
 	protected abstract void beforeDealingWithCurrentPlayer();
-
+	/**
+	 * Méthode appelée quand l'IA à jouer
+	 */
 	protected abstract void onIAPlayed(String login, int i, int j);
-
+	/**
+	 * Méthode appelée à la fin du changement du tour du joueur
+	 */
 	protected abstract void onChangePlayerTurnFinished();
-
+	/**
+	 * Méthode appelée pour afficher un message utilisateur concernant la sauvegarde d'un fichier
+	 */
 	protected abstract void onSaveToFile(String message);
-
+	/**
+	 * Méthode appelée dès qu'un fichier à charger est fourni par l'utilisateur
+	 */
 	protected void onLoadedFileChoosen(String path){
 		RestoreGameFactory rgFacto = FactoryProducer.getRestoreGameFactory();
 		RestoreGame rg = null;
@@ -174,7 +236,12 @@ public abstract class GameController {
 
 		this.gameSettings = rg.getGameSettings();
 	}
-
+	/**
+	 * Méthode soulevée dès qu'une pièce est jouée
+	 * @param i La position en X
+	 * @param j La position en Y
+	 * @return true si l'ajout est réalisé sinon faux car impossible
+	 */
 	protected boolean onPiecePlayed(int i, int j){
 		for(Piece possiblePiece : this.gameSettings.getGameBoard().getPlayablePieces())
 			if(possiblePiece.getPosX() == i && possiblePiece.getPosY() == j){
@@ -196,7 +263,9 @@ public abstract class GameController {
 			}
 		return false;
 	}
-
+	/**
+	 * Cette méthode permet de changer le joueur qui doit jouer
+	 */
 	protected void changePlayerTurn(){
 		this.gameSettings.changePlayer();
 		GameControllers.setPlayablePiece(this.gameSettings);
@@ -204,6 +273,9 @@ public abstract class GameController {
 		this.onChangePlayerTurnFinished();
 	}
 
+	/**
+	 * Méthode gérant l'action à réaliser en fonction du type du joueur qui doit jouer
+	 */
 	protected void dealWithCurrentPlayer(){
 		this.beforeDealingWithCurrentPlayer();
 
@@ -268,9 +340,9 @@ public abstract class GameController {
 						}
 					}
 				};
-				
+
 				final Thread iaThinkingThread = new Thread(new Runnable() {
-				
+
 					@Override
 					public void run() {
 						TimerManager time = new TimerManagerImpl();
@@ -298,23 +370,33 @@ public abstract class GameController {
 		 * Sinon c'est un joueur humain. Du coup on attend qu'il joue et lorsqu'il joue l'évenement GameControllerGraphical.onLeftMouseButtonPressed est soulevé.
 		 */
 	}
-
+	/**
+	 * Méthode réinitialisant la partie à zéro
+	 */
 	protected void resetGameBoard(){
 		this.gameSettings.restartGame();
 		GameControllers.setPlayablePiece(this.gameSettings);
 		this.stopAllAI();
 	}
-
+	/**
+	 * Cette méthode retourne la pièce conseillé par l'IA
+	 * @return La pièce conseillé
+	 */
 	protected Piece getAdvisedPieceByAI(){
 		Point p = this.helpAI.nextMove(this.gameSettings.getCurrentPlayer().getPlayerNumber());
 		return this.gameSettings.getGameBoard().getBoard()[p.x][p.y];
 	}
 
+	/**
+	 * Cette méthode permet d'inverser les joueurs
+	 */
 	protected void reversePlayer(){
 		this.gameSettings.reversePlayer();
 		GameControllers.setPlayablePiece(this.gameSettings);
 	}
-
+	/**
+	 * Méthode permettant de sauvegarder les positions jouées jusqu'à l'appel de la méthode
+	 */
 	protected void saveHistoryPosition(){
 
 		String boardContent = "";
@@ -329,7 +411,9 @@ public abstract class GameController {
 			this.onSaveToFile("Echec de la sauvegarde automatique de la liste de coups joués : " + this.timer.getElapsedTimeInMinAndSeconde());
 		}
 	}
-
+	/**
+	 * Méthode sauvegardeant rapidement, et appelé à chaque pièce jouée, la partie
+	 */
 	protected void quickSaveOFCurrentBoard(){
 		saveGame.setAutoSaveFileName("autosave.xml");
 
@@ -339,11 +423,17 @@ public abstract class GameController {
 		}
 	}
 
+	/**
+	 * Méthode lançant le module d'édition de plateau
+	 */
 	protected void launchShellToLetUserConfigureNewBoard(){
 		GenerateXML gxml = new GenerateXML();
 		gxml.boardMaker();
 	}
-
+	/**
+	 * Cette méthode termine l'initialisation d'une nouvelle partie
+	 * @param game Le nouveau model contenant la nouvelle partie
+	 */
 	protected void initializeCompletGameAfterNewConfiguration(GameSettings game){
 		this.stopAllAI();
 		this.gameSettings = null;
@@ -362,6 +452,10 @@ public abstract class GameController {
 		this.initializeIA();
 	}
 
+	/**
+	 * Méthode permettant de sauvegarder la partie dans un fichier du nom choisi par l'utilisateur
+	 * @param path Le chemin complet vers le fichier
+	 */
 	protected void saveCurrentBoard(String path){
 		saveGame.setSaveFileName(path);
 		if(saveGame.saveGameToBackupFile(this.gameSettings))

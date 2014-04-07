@@ -199,10 +199,6 @@ ArtificialIntelligenceStrategy {
 	@Override
 	public void notifyChosenMove(Point pos, Integer player)
 			throws WrongPlayablePositionException {
-		System.out.println(this.tree.getSentinel().getBoard().printBoard());
-		System.out.println(player);
-		System.out.println(this.tree.getSentinel().getBoard()
-				.calculatePlayablePosition(player));
 		if (!this.tree.getSentinel().getBoard()
 				.calculatePlayablePosition(player).contains(pos)) {
 			WrongPlayablePositionException e = new WrongPlayablePositionException(

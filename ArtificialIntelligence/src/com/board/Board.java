@@ -245,6 +245,11 @@ public class Board {
 		}
 	}
 
+	
+	/**
+	 * Cette fonction recalcule la matrice de position du plateau
+	 * @param player le joueur qui demande le recalcule
+	 */
 	public void recalculatePositionalMatrix(Integer player){
 		if(this.positionalMatrix == null)
 			this.positionalMatrix = initializePositionalMatrix();
@@ -281,6 +286,10 @@ public class Board {
 
 	}
 	
+	/**
+	 * Cette fonction initialise la matrice de position et la retourne
+	 * @return la matrice de position
+	 */
 	private Integer[][] initializePositionalMatrix() {
 		Integer[][] matrix = positionalMatrix;
 		if(matrix == null){
@@ -489,15 +498,28 @@ public class Board {
 		return blackPiece.size();
 	}
 
+	
+/**
+ * Retourne la largeur du plateau
+ * @return la largeur
+ */
 	public Integer getWidth() {
 		return width;
 	}
 
+	/**
+	 * Retourne la hauteur du plateau
+	 * @return la hauteur du plateau
+	 */
 	public Integer getHeight() {
 		return height;
 	}
 
-
+/**
+ * Retourne la matrice de position recalculer en fonction du joueur
+ * @param player le joueur qui demande la matrice
+ * @return
+ */
 	public Integer[][] getPositionalMatrix(Integer player) {
 		this.recalculatePositionalMatrix(player);
 		return positionalMatrix;

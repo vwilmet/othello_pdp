@@ -223,8 +223,4 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		return true;
 	}
 
-	public String boardToString() {
-		return this.tree.getSentinel().printBoard();
-	}
-
 }

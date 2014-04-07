@@ -2,6 +2,11 @@ package com.utils;
 
 import java.awt.Point;
 
+/**
+ * Classe d'exception pour la détection de position non jouable.
+ * @author Nicolas YVON
+ *
+ */
 @SuppressWarnings("serial")
 public class WrongPlayablePositionException extends Exception {
 

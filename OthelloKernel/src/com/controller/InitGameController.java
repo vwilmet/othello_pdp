@@ -36,23 +36,23 @@ public class InitGameController implements InitGameButtonEventListener {
 	/**
 	 * La vue gérer par le contrôleur : la vue d'initialisation
 	 */
-	private InitGameView view;
+	protected InitGameView view;
 	/**
 	 * Interface de communication avec le contrôleur général
 	 */
-	private NotifyGameControllerGraphical event;
+	protected NotifyGameControllerGraphical event;
 	/**
 	 * L'objet de la vue du BenchMarck afin de le lancer à partir de la vue d'initialisation
 	 */
-	private BenchMarkView benchMark;
+	protected BenchMarkView benchMark;
 	/**
 	 * L'instance unique du contrôleur
 	 */
-	private static InitGameController instance;
+	protected static InitGameController instance;
 	/**
 	 * Booléen qui détermine si le calcul du BenchMark est terminé
 	 */
-	private boolean benchMarkOver;
+	protected boolean benchMarkOver;
 
 	/**
 	 * Méthode qui renvoie l'instance unique de cette classe
@@ -91,7 +91,7 @@ public class InitGameController implements InitGameButtonEventListener {
 	 * @param IATime Le temps accordé à l'IA
 	 * @return le booléen confirmant que les champs sont corrects
 	 */
-	private boolean verifyFields(int row, int ligne, int IATime){
+	protected boolean verifyFields(int row, int ligne, int IATime){
 		boolean result = true;
 		String message = "";
 

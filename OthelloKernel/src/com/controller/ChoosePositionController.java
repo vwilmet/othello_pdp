@@ -22,19 +22,19 @@ public class ChoosePositionController implements ChoosePositionButtonEventListen
 	/**
 	 * L'instance de l'objet unique de cette classe
 	 */
-	private static ChoosePositionController instance;
+	protected static ChoosePositionController instance;
 	/**
 	 * L'interface de communication avec le contrôleur principale
 	 */
-	private NotifyGameControllerGraphical event;
+	protected NotifyGameControllerGraphical event;
 	/**
 	 * L'objet de la vue à afficher
 	 */
-	private ChoosePositionView view;
+	protected ChoosePositionView view;
 	/**
 	 * Entier contenant la position de l'othellier dans l'historique pour la vue
 	 */
-	private int position;
+	protected int position;
 	
 	/**
 	 * Méthode permettant de n'instancier qu'un objet de cette classe afin d'éviter la duplication du contrôleur

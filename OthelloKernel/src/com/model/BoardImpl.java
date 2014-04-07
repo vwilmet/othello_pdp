@@ -30,29 +30,29 @@ public class BoardImpl implements Board, Cloneable{
 	/**
 	 * Factory pour la création des pièces.
 	 */
-	PieceFactory pieceFacto;
+	protected PieceFactory pieceFacto;
 
 	/**
 	 * Taille de la Board suivant les Abscisses / Ordonnées
 	 */
-	private int sizeX, sizeY;
+	protected int sizeX, sizeY;
 
 	/**
 	 * Structure représentant le plateau de jeu.
 	 */
-	private PieceImpl[][] gameBoard;
+	protected PieceImpl[][] gameBoard;
 
 	/**
 	 * Liste contenant les pions initiaux d'une partie.
 	 */
-	private List<Piece> initialPieces;
+	protected List<Piece> initialPieces;
 
 	/**
 	 * Listes des pions
 	 */
-	private List<Piece> playablePiece;
-	private List<Piece> blackPiece;
-	private List<Piece> whitePiece;
+	protected List<Piece> playablePiece;
+	protected List<Piece> blackPiece;
+	protected List<Piece> whitePiece;
 
 	/**
 	 * Constructeur de la classe.
@@ -298,7 +298,7 @@ public class BoardImpl implements Board, Cloneable{
 	 * @param p : Piece,  pion à ajouter sur le plateau pour jouer.
 	 * @throws GameHandlerException
 	 */
-	private void addInitialPiece(Piece p) throws GameHandlerException {
+	protected void addInitialPiece(Piece p) throws GameHandlerException {
 		if (p.getColor() instanceof EmptyPiece)
 			throw new GameHandlerException(
 					GameHandlerException.WRONG_INITIAL_PIECE_COLOR);
@@ -321,7 +321,7 @@ public class BoardImpl implements Board, Cloneable{
 	/**
 	 * Methode de classe initialisant le plateau avec des EmptyPieces. A appeler avant de placer les pions initaux (blanc et noir).
 	 */
-	private void initialiseBoardToPlay() {
+	protected void initialiseBoardToPlay() {
 		for (int i = 0; i < this.sizeX; i++) {
 			for (int j = 0; j < this.sizeY; j++) {
 				if (this.gameBoard[i][j] == null) {

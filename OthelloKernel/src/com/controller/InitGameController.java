@@ -24,21 +24,51 @@ import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.event.InitGameButtonEventListener;
 import com.view.interfaces.BenchMarkView;
 import com.view.interfaces.InitGameView;
-
+/**
+ * Classe implémentant le contrôleur de la fenêtre d'initialisation
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ */
 public class InitGameController implements InitGameButtonEventListener {
 
+	/**
+	 * La vue gérer par le contrôleur : la vue d'initialisation
+	 */
 	private InitGameView view;
+	/**
+	 * Interface de communication avec le contrôleur général
+	 */
 	private NotifyGameControllerGraphical event;
+	/**
+	 * L'objet de la vue du BenchMarck afin de le lancer à partir de la vue d'initialisation
+	 */
 	private BenchMarkView benchMark;
+	/**
+	 * L'instance unique du contrôleur
+	 */
 	private static InitGameController instance;
+	/**
+	 * Booléen qui détermine si le calcul du BenchMark est terminé
+	 */
 	private boolean benchMarkOver;
 
+	/**
+	 * Méthode qui renvoie l'instance unique de cette classe
+	 * @param event L'interface qui permet de communiquer avec le contrôleur général
+	 * @return L'instance de la classe
+	 */
 	public static InitGameController getInstance(NotifyGameControllerGraphical event){
 		if(instance == null)
 			instance = new InitGameController(event);
 		return instance;
 	}
 
+	/**
+	 * Contrôleur privé utilisé uniquement pour instancier le design pattern singleton
+	 * @param event L'interface qui permet de communiquer avec le contrôleur général
+	 */
 	private InitGameController(NotifyGameControllerGraphical event) {
 		this.event = event;
 		this.benchMark = new BenchMarkViewImpl();
@@ -46,11 +76,21 @@ public class InitGameController implements InitGameButtonEventListener {
 		this.view.setButtonListener(this);
 		this.benchMarkOver = true;
 	}
-
+	
+	/**
+	 * Méthode permettant d'afficher la vue
+	 */
 	public void showView(){
 		this.view.showFrame();
 	}
 
+	/**
+	 * Méthode vérifiant la bonne valeur des différents champs rentrés par l'utilisateur
+	 * @param row La taille en X de la grille
+	 * @param ligne La taille en Y de la grille
+	 * @param IATime Le temps accordé à l'IA
+	 * @return le booléen confirmant que les champs sont corrects
+	 */
 	private boolean verifyFields(int row, int ligne, int IATime){
 		boolean result = true;
 		String message = "";
@@ -80,12 +120,16 @@ public class InitGameController implements InitGameButtonEventListener {
 
 		return result;
 	}
-
+	/**
+	 * @see {@link com.view.event.InitGameButtonEventListener#onCancelButtonPressed}
+	 */
 	@Override
 	public void onCancelButtonPressed() {
 		this.view.hideFrame();
 	}
-
+	/**
+	 * @see {@link com.view.event.InitGameButtonEventListener#onBenchMarkButtonPressed}
+	 */
 	@Override
 	public void onBenchMarkButtonPressed(final JFormattedTextField AITime) {
 		this.benchMark.showFrame();
@@ -103,12 +147,15 @@ public class InitGameController implements InitGameButtonEventListener {
 		this.benchMark.launchBenchMark();
 	}
 
+	/**
+	 * @see {@link com.view.event.InitGameButtonEventListener#onValidButtonPressed}
+	 */
 	@Override
 	public void onValidButtonPressed(int row, int ligne, int IATime,
 			int HelpIADifficulty, String player1Name, boolean isPlayer1AI,
 			int iaPlayer1Difficulty, String player2Name, boolean isPlayer2AI,
 			int iaPlayer2Difficulty) {
-		
+
 		BoardFactory bFacto = FactoryProducer.getBoardFactory();
 		GameSettingsFactory gsFacto = FactoryProducer.getGameSettingsFactory();
 		PlayerFactory pFacto = FactoryProducer.getPlayerFactory();
@@ -116,7 +163,7 @@ public class InitGameController implements InitGameButtonEventListener {
 		GameSettings gameSetts = null;
 		BoardObservable board = null;
 		Player player1 = null, player2 = null;
-		
+
 		if(this.verifyFields(row, ligne, IATime)){
 			try {
 				board = bFacto.getInitialBoard(row, ligne);
@@ -124,7 +171,7 @@ public class InitGameController implements InitGameButtonEventListener {
 				Log.error(e.getMessage());
 				e.printStackTrace();
 			}
-			
+
 			try {
 				if(isPlayer1AI){
 					player1 = pFacto.getMachinePlayer(player1Name, BoardPublisher.WHITE_PLAYER, 1);

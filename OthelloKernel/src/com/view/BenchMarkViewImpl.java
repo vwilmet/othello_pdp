@@ -22,15 +22,43 @@ import utils.TextManager;
 import com.view.event.BenchMarkViewButtonEventListener;
 import com.view.interfaces.BenchMarkView;
 
+/**
+ * Classe gérant l'affichage de la vue de BenchMark
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ */
 public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 	
+	/**
+	 * La progresse bar permettant d'afficher à l'utilisateur l'avancement du calcul
+	 */
 	private static JProgressBar progressBar;
+	/**
+	 * Bouton ok, activé lorsque le BenchMark est terminé
+	 */
 	private static JButton okButton;
+	/**
+	 * Objet BenchMark qui gère les calculs
+	 */
 	private static BenchMark benchmark;
+	/**
+	 * Variable qui va contenir le résultat du BenchMark
+	 */
 	private static BenchMarkResult result;
+	/**
+	 * Panel qui va contenir les composants de la vue
+	 */
 	private static JPanel panel;
+	/**
+	 * Interface qui permet de récupérer l'avancement du calcul du BenchMark
+	 */
 	private BenchMarkViewButtonEventListener event;
 	
+	/**
+	 * Constructeur de la vue qui initialise les différents objets
+	 */
 	public BenchMarkViewImpl() {
 		
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
@@ -42,11 +70,19 @@ public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 		pack();
 	}
 	
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.BenchMarkView#setButtonListener}
+	 */
 	@Override
 	public void setButtonListener(BenchMarkViewButtonEventListener event){
 		this.event = event;
 	}
 	
+	/**
+	 * Méthode initialisation les composants de la vue
+	 */
 	private void initComponent(){
 
 		okButton = new JButton("Start");
@@ -74,7 +110,12 @@ public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 
 		add(panel, BorderLayout.PAGE_START);
 	}
-
+	
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.BenchMarkView#launchBenchMark}
+	 */
 	@Override
 	public void launchBenchMark(){
 		SwingWorker sw = new SwingWorker(){
@@ -118,14 +159,20 @@ public class BenchMarkViewImpl extends JFrame implements BenchMarkView{
 
 		sw.execute();
 	}
-
-	
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.BenchMarkView#showFrame}
+	 */
 	@Override
 	public void showFrame() {
 		setVisible(true);
 	}
-	
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.BenchMarkView#hideFrame}
+	 */
 	@Override
 	public void hideFrame() {
 		this.dispose();

@@ -155,7 +155,7 @@ public class BenchMarkResult {
 			this.value = value;
 		}
 	}
-
+	
 	/**
 	 * Classe contenant le résultat de la méthode de Monte-Carlo qui vise à calculer une valeur numérique en utilisant des procédés aléatoires
 	 * @see <a href="http://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo">Wikipedia</a>

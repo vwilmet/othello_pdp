@@ -37,23 +37,29 @@ import com.view.event.GameCanvasMouseEventListener;
 import com.view.interfaces.GameView;
 
 /**
- * 
- * @author 	<ul>
- * 			<li>Vincent Wilmet</li>
- * 			</ul>
+ * Classe gérant l'affichage de la vue principale du jeu
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
  * @version 1.0
  */
 public class GameViewImpl extends JFrame implements GameView{
 
+	/**
+	 * Interfaces de communication de la vue sur les différents évènements des menus
+	 */
 	private ButtonImageMenuEventListener buttonEvent;
 	private GameViewMenuEventListener menuEvent;
 
+	/**
+	 * Objets du menu générale du logiciel
+	 */
+	private JMenu option;
+	private JMenu help;
 	private JMenuBar menuBar;
 	private JToolBar actionBar;
 	private JToolBar messageBar;
 	private JToolBar informationBar;
-
-	// Menu part
 	private JMenu menu;
 	private JMenuItem newGame;
 	private JMenuItem configureBoard;
@@ -63,18 +69,20 @@ public class GameViewImpl extends JFrame implements GameView{
 	private JMenuItem continueGame;
 	private JMenuItem choosePosition;
 
+	/**
+	 * Objets permettant d'afficher à l'utilisateur les différents messages concernant l'état du jeu
+	 */
 	private JLabel messageLabel;
 	private JLabel statLabel;
-
+	/**
+	 * Objet permettant de gérer la liste d'évènements
+	 */
 	private JList<String> messageList;
 	private DefaultListModel<String> messageListModel;
 
-	//Option part
-	private JMenu option;
-
-	//Help part
-	private JMenu help;
-
+	/**
+	 * Bouton du menu du jeu
+	 */
 	private PlayButton playButton;
 	private ResetButton resetButton;
 	private BackButton backButton;
@@ -83,8 +91,15 @@ public class GameViewImpl extends JFrame implements GameView{
 	private HelpIAButton helpButton;
 	private PositionButton positionButton;
 
+	/**
+	 * Objet de la vue qui gère l'affichage de l'othellier
+	 */
 	private GameCanvas game;
 
+	/**
+	 * Constructeur qui initialise tous les composants de la vue
+	 * @param board L'othellier a afficher
+	 */
 	public GameViewImpl(BoardObservable board) {
 
 		this.setSize(ViewSettings.GAME_FRAME_WIDTH, ViewSettings.GAME_FRAME_HEIGHT);
@@ -127,21 +142,38 @@ public class GameViewImpl extends JFrame implements GameView{
 		this.add(informationBar, BorderLayout.EAST);
 	}
 
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#showFrame}
+	 */
 	@Override
 	public void showFrame(){
 		this.setVisible(true);
 	}
 
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setOnPause}
+	 */
 	@Override
 	public void setOnPause(boolean onPause){
 		this.game.setOnPause(onPause);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setGameMouseEventListener}
+	 */
 	@Override
 	public void setGameMouseEventListener(GameCanvasMouseEventListener mouseEvent){
 		this.game.setMouseListener(mouseEvent);
 	}
 
+	/**
+	 * Méthode qui va permettre de donner aux composants leurs tailles
+	 */
 	private void setComponentSize(){
 
 		messageBar.setPreferredSize(new Dimension(ViewSettings.MESSAGE_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
@@ -161,6 +193,9 @@ public class GameViewImpl extends JFrame implements GameView{
 		statLabel.setMaximumSize(new Dimension(ViewSettings.INFORMATION_COMPONENT_VIEW_WIDTH, ViewSettings.MESSAGE_COMPONENT_VIEW_HEIGHT));
 	}
 
+	/**
+	 * Cette méthode initialise les différents composants de la vue
+	 */
 	private void instantiation(){
 		this.menuBar = new JMenuBar();
 		this.actionBar = new JToolBar();
@@ -183,10 +218,10 @@ public class GameViewImpl extends JFrame implements GameView{
 		// menu part
 		this.menu = new JMenu(TextManager.MENU_TEXT_FR);
 		this.newGame = new JMenuItem(TextManager.NEW_GAME_TEXT_FR);
-		
+
 		this.savePositionHistory = new JMenuItem(TextManager.SAVE_POSITON_TEXT_FR);
 		this.configureBoard = new JMenuItem(TextManager.CONFIGURE_BOARD_FR);
-		
+
 		this.openFile = new JMenu(TextManager.OPEN_FILE_TEXT_FR);
 		this.continueGame = new JMenuItem(TextManager.CONTINUE_GAME_TEXT_FR);
 		this.choosePosition = new JMenuItem(TextManager.CHOOSE_POS_TEXT_FR);
@@ -200,22 +235,27 @@ public class GameViewImpl extends JFrame implements GameView{
 
 		this.game = new GameCanvas(ViewSettings.GAMEVIEW_COMPONENT_VIEW_WIDTH, ViewSettings.GAMEVIEW_COMPONENT_VIEW_HEIGHT);
 	}
-
+	/**
+	 * Méthode ajoutant le paramètre dans la liste des évènements
+	 * @param element Le string à ajouter
+	 */
 	private void addStringToInformationList(String element){
 		messageListModel.addElement(element);
 		messageList.setModel(messageListModel);
 		messageList.setSelectedIndex(messageList.getModel().getSize()-1);
 		messageList.ensureIndexIsVisible(messageList.getSelectedIndex());
 	}
-
+	/**
+	 * Méthode qui permet de gérer le menu
+	 */
 	private void manageMenu(){
 		this.menu.add(newGame);
 		this.menu.add(configureBoard);
-		
+
 		this.openFile.add(continueGame);
 		this.openFile.add(choosePosition);
 		this.menu.add(openFile);
-		
+
 		this.menu.add(savePositionHistory);
 		this.menu.add(saveGame);
 
@@ -238,7 +278,7 @@ public class GameViewImpl extends JFrame implements GameView{
 				if(menuEvent != null)menuEvent.onSaveHistoryPositionItemMenuPressed();
 			}
 		});
-		
+
 		configureBoard.addActionListener(new ActionListener() {
 
 			@Override
@@ -246,7 +286,7 @@ public class GameViewImpl extends JFrame implements GameView{
 				if(menuEvent != null)menuEvent.onConfigureBoardItemMenuPressed();
 			}
 		});
-		
+
 		saveGame.addActionListener(new ActionListener() {
 
 			@Override
@@ -302,7 +342,9 @@ public class GameViewImpl extends JFrame implements GameView{
 
 		});
 	}
-
+	/**
+	 * Méthode ajoutant les boutons du menu du jeu à l'interface utilisateur
+	 */
 	private void addImageButtonToMenu(){
 
 		playButton = new PlayButton();
@@ -322,42 +364,74 @@ public class GameViewImpl extends JFrame implements GameView{
 		actionBar.add(helpButton);
 		actionBar.add(positionButton);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#addMessageToMessageList}
+	 */
 	@Override
 	public void addMessageToMessageList(String element) {
 		this.addStringToInformationList(element);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#changeStatViewMessage}
+	 */
 	@Override
 	public void changeStatViewMessage(String message) {
 		statLabel.setText(message);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#changeMessageViewContent}
+	 */
 	@Override
 	public void changeMessageViewContent(String content) {
 		messageLabel.setText(content);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setMenuListener}
+	 */
 	@Override
 	public void setMenuListener(GameViewMenuEventListener event) {
 		this.menuEvent = event;
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#hideFrame}
+	 */
 	@Override
 	public void hideFrame() {
 		this.dispose();
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setBoard}
+	 */
 	@Override
 	public void setBoard(BoardObservable board) {
 		this.game.setData(board);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setIAAdvisedPiece}
+	 */
 	@Override
 	public void setIAAdvisedPiece(Piece p) {
 		this.game.setIAAdvisedPiece(p);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#setImageButtonEventListener}
+	 */
 	@Override
 	public void setImageButtonEventListener(ButtonImageMenuEventListener event) {
 		this.buttonEvent = event;
@@ -370,27 +444,47 @@ public class GameViewImpl extends JFrame implements GameView{
 		helpButton.setMouseListener(buttonEvent);
 		positionButton.setMouseListener(buttonEvent);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#refresh}
+	 */
 	@Override
 	public void refresh() {
 		this.game.refreshView();
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#enableBackButton}
+	 */
 	@Override
 	public void enableBackButton(boolean enable) {
 		this.backButton.enableButton(enable);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#enableForwardButton}
+	 */
 	@Override
 	public void enableForwardButton(boolean enable) {
 		this.forwardButton.enableButton(enable);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#enableResetButton}
+	 */
 	@Override
 	public void enableResetButton(boolean enable) {
 		this.resetButton.enableButton(enable);
 	}
-
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.GameView#resetMessageListContent}
+	 */
 	@Override
 	public void resetMessageListContent() {
 		messageListModel.clear();

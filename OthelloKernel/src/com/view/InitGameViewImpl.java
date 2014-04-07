@@ -22,11 +22,26 @@ import com.model.GameSettings;
 import com.model.view.ViewSettings;
 import com.view.event.InitGameButtonEventListener;
 import com.view.interfaces.InitGameView;
-
+/**
+ * Classe gérant l'affichage de la vue permettant d'initialiser une partie
+ * @author <ul>
+ *         <li>Vincent Wilmet</li>
+ *         </ul>
+ * @version 1.0
+ */
 public class InitGameViewImpl extends JFrame implements InitGameView{
 
+	/**
+	 * Interface de communication sur les boutons
+	 */
 	private InitGameButtonEventListener event;
+	/**
+	 * Boutons de l'interface
+	 */
 	private JButton valid, cancel, benchmark;
+	/**
+	 * Objet de l'interface pour choisir, entrer et cocher les données utilisateurs
+	 */
 	private JTextField player1, player2;
 	private JFormattedTextField row, ligne;
 	private JFormattedTextField AItime;
@@ -35,9 +50,14 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 	private JComboBox<String> player2AIDifficulty;
 	private JCheckBox player1IsAI;
 	private JCheckBox player2IsAI;
-
+	/**
+	 * Panel qui vont contenir les composants de la vue
+	 */
 	private JPanel gridPanel, AIPanel, playerPanel;
 
+	/**
+	 * Constructeur qui initialise tous les composants de la vue
+	 */
 	public InitGameViewImpl() {
 
 		this.setSize(ViewSettings.CHOOSE_BOARD_FRAME_WIDTH, ViewSettings.CHOOSE_BOARD_FRAME_HEIGHT);
@@ -66,21 +86,38 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		this.pack();
 	}
 
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.InitGameView#setButtonListener}
+	 */
 	@Override
 	public void setButtonListener(InitGameButtonEventListener event) {
 		this.event = event;
 	}
 
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.InitGameView#showFrame}
+	 */
 	@Override
 	public void showFrame(){
 		this.setVisible(true);
 	}
 
+	/**
+	 * <b>Attention : </b>Cette classe ne doit pas être utilisée !
+	 * <br/>Utiliser l'interface {@link com.view.interfaces.GameView} pour stocker l'objet de la classe
+	 * <br/>Voir {@link com.view.interfaces.InitGameView#hideFrame}
+	 */
 	@Override
 	public void hideFrame(){
 		this.dispose();
 	}
-
+	/**
+	 * Méthode qui va permettre de donner aux composants leurs tailles
+	 */
 	private void setComponentSize() {
 		player1.setPreferredSize(new Dimension(100, 20));
 		player2.setPreferredSize(new Dimension(100, 20));
@@ -88,7 +125,9 @@ public class InitGameViewImpl extends JFrame implements InitGameView{
 		ligne.setPreferredSize(new Dimension(50, 20));
 		AItime.setPreferredSize(new Dimension(50, 20));
 	}
-
+	/**
+	 * Cette méthode initialise les différents composants de la vue
+	 */
 	private void instantiation() {
 		valid = new JButton(TextManager.INIT_GAMEVIEW_VALID_BUTTON_FR);
 		cancel = new JButton(TextManager.INIT_GAMEVIEW_CANCEL_BUTTON_FR);

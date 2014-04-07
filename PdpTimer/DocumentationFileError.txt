@@ -1,0 +1,9 @@
+error: Problems running epstopdf. Check your TeX installation!
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManager.java:43: warning: unable to resolve link to `com.timermanager.TimerActionEvent#startCountingElapsedTime' for \link command
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManager.java:56: warning: unable to resolve link to `com.timermanager.TimerActionEvent#startCountingElapsedTime' for \link command
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManager.java:37: warning: unable to resolve link to `com.timermanager.TimerActionEvent#getElapsedTime' for \link command
+error: Problems running epstopdf. Check your TeX installation!
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManagerImpl.java:73: warning: argument 'timerInterface' of command @param is not found in the argument list of com.timermanager.TimerManagerImpl::TimerManagerImpl()
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManagerImpl.java:164: warning: unable to resolve link to `com.timermanager.TimerManager#getElepsedTimeInMinAndSeconde' for \link command
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManagerImpl.java:85: warning: unable to resolve link to `com.manager.TimerManager' for \link command
+C:/Users/Vincent/Documents/GitHub/othello_pdp/PdpTimer/src/com/timermanager/TimerManagerImpl.java:95: warning: unable to resolve link to `com.manager.TimerManager' for \link command

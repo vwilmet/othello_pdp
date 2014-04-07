@@ -31,8 +31,6 @@ public class Player {
 		this.piecesNumber = 0;
 		this.playerNumber = playerNumber;
 		this.type = new HumanPlayer();
-		
-		System.out.println(this.toString());
 	}
 
 	public String getLogin() {

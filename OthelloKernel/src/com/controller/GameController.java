@@ -80,7 +80,7 @@ public abstract class GameController {
 
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer("toto", BoardPublisher.WHITE_PLAYER,1), 
+					pFacto.getHumanPlayer("Harry POTTER", BoardPublisher.WHITE_PLAYER,1), 
 					pFacto.getMachinePlayer("John DOE", BoardPublisher.BLACK_PLAYER,2),
 					board,
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
@@ -173,8 +173,6 @@ public abstract class GameController {
 		rg.loadGameFromBackupFile();
 
 		this.gameSettings = rg.getGameSettings();
-
-		System.out.println(this.gameSettings);
 	}
 
 	protected boolean onPiecePlayed(int i, int j){
@@ -207,8 +205,6 @@ public abstract class GameController {
 	}
 
 	protected void dealWithCurrentPlayer(){
-		System.out.println("[dealWithCurrentPlayer]");
-		System.out.println("Curent player : " + this.gameSettings.getCurrentPlayer());
 		this.beforeDealingWithCurrentPlayer();
 
 		if(this.gameSettings.getGameBoard().getPlayablePieces().size() == 0){
@@ -238,16 +234,11 @@ public abstract class GameController {
 				final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 				final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 
-				System.out.println("passer par la!!");
 				iaInterface = new IAResponseTimeHandler() {
 
 					@Override
 					public void onIAPositionGiven(final Point pointChoosen) {
-						System.out.println("pointChoosen : " + pointChoosen);
 						if(pointChoosen == null){
-							/*JOptionPane.showMessageDialog(null, 
-								"L'IA ne peut plus jouer !", 
-								TextManager.OPTION_POPUP_TITLE, JOptionPane.INFORMATION_MESSAGE);*/
 							Log.error("Erreur : l'ia ne peut plus jouer d'après le module mais elle à toujours des positions à jouer d'après le controlleur!");
 						}else{
 							TimerManager time = new TimerManagerImpl();
@@ -291,15 +282,12 @@ public abstract class GameController {
 							@Override
 							public void onTimerEnded() {
 								Thread.currentThread().suspend();
-								System.out.println("IA choice time BOUM!!!");
 								iaInterface.onIAPositionGiven(ai.get(userLogin).quickNextMove(playerNumber));
 							}
 						});
 						time.startTimer(gameSettings.getAIThinkingTime());
-						System.out.println("passer par la!!==================");
 						Point p = ai.get(userLogin).nextMove(playerNumber);
 						time.stopTimer();
-						System.out.println("IA chosed correctly!!");
 						iaInterface.onIAPositionGiven(p);
 					}
 				});

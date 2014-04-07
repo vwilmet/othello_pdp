@@ -167,8 +167,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 
 	@Override
 	public void onBackButtonCliked() {
-		System.out.println("[onBackButtonCliked]");
-
 		if(this.gameSettings.canGoBack()){
 			if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
 				this.gameSettings.getBackInHistory();
@@ -246,7 +244,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: " +  chooser.getSelectedFile().getPath());
 			this.saveCurrentBoard(chooser.getSelectedFile().getPath());
 		}
 	}
@@ -299,17 +296,9 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		this.gameView.setBoard(this.gameSettings.getGameBoard());
 		GameControllers.setPlayablePiece(this.gameSettings);	
 
-		/*System.out.println("(------------------------------------------)");
-		System.out.println("Before undoing!!");
-		System.out.println(this.helpAI.boardToString());*/
-
 		for(int i = 0; i < recoil; i++){
 			this.helpAI.undoMove();
 		}
-
-		/*System.out.println(this.helpAI.boardToString());
-		System.out.println("After undoing");
-		System.out.println("(------------------------------------------)");*/
 
 		this.updateInformationField();
 		this.addMessageToListForUser("Vous avez fait un retour de " + recoil + " position(s).");

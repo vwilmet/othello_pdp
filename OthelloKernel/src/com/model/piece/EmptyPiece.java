@@ -10,6 +10,16 @@ package com.model.piece;
  */
 public class EmptyPiece implements PieceColor {
 
+	public static EmptyPiece instance;
+	
+	private EmptyPiece() {}
+	
+	public static EmptyPiece getInstance(){
+		if(instance == null)
+			instance = new EmptyPiece();
+		return instance;
+	}
+	
 	public String toString() {
 		return "Ce pion est vide.\n";
 	}

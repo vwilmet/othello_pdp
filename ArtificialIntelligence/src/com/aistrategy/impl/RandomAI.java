@@ -57,6 +57,18 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 		} else
 			return null;
 	}
+	
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#quickNextMove}
+	 */
+	@Override
+	public Point quickNextMove(Integer player) {
+		return nextMove(player);
+	}
 
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -120,7 +132,7 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 			Log.error(e.getMessage());
 			throw e;
 		} else {
-			if (findNodeFromMove(tree.getSentinel(), pos) == null) {
+			if (this.tree.findNodeFromMove(tree.getSentinel(), pos) == null) {
 				NodeMove<Point> newSentinel = new NodeMove<Point>(pos,
 						player % 2 + 1,
 						new Board(tree.getSentinel().getBoard()),
@@ -129,22 +141,12 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 				tree.getSentinel().addChild(newSentinel);
 				tree.getSentinel().setBestMove(pos);
 			}
-			NodeMove<Point> newSentinel = findNodeFromMove(tree.getSentinel(),
+			NodeMove<Point> newSentinel = this.tree.findNodeFromMove(tree.getSentinel(),
 					pos);
 			tree.setSentinel(newSentinel);
 		}
 	}
 
-	public NodeMove<Point> findNodeFromMove(NodeMove<Point> node, Point p) {
-		NodeMove<Point> n = null;
-		for (NodeMove<Point> child : node.getChildren()) {
-			if (child.getLastMove().equals(p)) {
-				n = child;
-				break;
-			}
-		}
-		return n;
-	}
 	
 	/**
 	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
@@ -156,6 +158,8 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 */
 	@Override
 	public Boolean completeReflexion() {
+		this.tree = null;
+		this.initBoard = null;
 		return true;
 	}
 
@@ -179,32 +183,43 @@ public class RandomAI implements ArtificialIntelligenceStrategy {
 	 * l'objet de la classe <br/>
 	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#setMaxTime}
 	 */
-	@Override
-	public void setMaxTime(Integer time) {
-		this.maxTime = time;
-	}
 
-	@Override
-	public Boolean initialize(RandomAI random) {
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override	public Boolean initialize(RandomAI random) {
 		initBoard = random.initBoard;
 		tree = random.tree;
-		this.maxTime = random.maxTime;
 		return true;
 	}
 
-	@Override
-	public Boolean initialize(NextBestMoveAI nextBestMove) {
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override	public Boolean initialize(NextBestMoveAI nextBestMove) {
 		initBoard = nextBestMove.initBoard;
 		tree = nextBestMove.tree;
-		this.maxTime = nextBestMove.maxTime;
 		return true;
 	}
 
-	@Override
-	public Boolean initialize(BruteForceAI brute) {
+	/**
+	 ** <b>Attention : </b>Cette classe ne doit pas être utilisée ! <br/>
+	 * Utiliser l'interface
+	 * {@link com.aistrategy.ArtificialIntelligenceStrategy} pour stocker
+	 * l'objet de la classe <br/>
+	 * Voir {@link com.aistrategy.ArtificialIntelligenceStrategy#initialize}
+	 */
+	@Override	public Boolean initialize(BruteForceAI brute) {
 		initBoard = brute.initBoard;
 		tree = brute.tree;
-		this.maxTime = brute.maxTime;
 		return true;
 	}
 

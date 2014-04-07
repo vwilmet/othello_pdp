@@ -18,6 +18,7 @@ import utils.TextManager;
 import com.error_manager.Log;
 import com.manager.FilesManager;
 import com.manager.FilesManagerImpl;
+import com.model.Board;
 import com.model.BoardObservable;
 import com.model.GameSettings;
 import com.model.factory.FactoryProducer;
@@ -26,6 +27,7 @@ import com.model.factory.interfaces.GameSettingsFactory;
 import com.model.factory.interfaces.PieceFactory;
 import com.model.factory.interfaces.PlayerFactory;
 import com.model.piece.Piece;
+import com.model.piece.WhitePiece;
 import com.model.player.Player;
 import com.publisher.BoardPublisher;
 
@@ -166,7 +168,6 @@ public class RestoreGame {
 	 * fichier de sauvegarde.
 	 */
 	private void xmlGetFileContent() throws GameHandlerException {
-		System.out.println( "====================== JE RECCUP LE CONTENU DU FICHIER ");
 		Element initPart = this.root.getChild(BoardPublisher.INIT_PART);
 
 		if (initPart == null)
@@ -225,14 +226,6 @@ public class RestoreGame {
 		try {
 			this.initialPieces = xmlGetPiecesFromPart(initPart.getChild(BoardPublisher.PIECES_PART), false);
 			
-			/**
-			 * DEBUG History
-			 */
-			System.out.println("initialPieces");
-			for (Piece p : initialPieces){
-				System.out.println(p);
-			}
-			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -246,15 +239,6 @@ public class RestoreGame {
 		/* PLAYED PIECES */
 		try {
 			playedPieces = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.PLAYED_PIECES_PART), false);
-			
-			/**
-			 * DEBUG Played Pieces
-			 */
-			System.out.println("PlayedPieces");
-			for (Piece p : playedPieces){
-				System.out.println(p);
-			}
-			
 		} catch (GameHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
@@ -263,14 +247,6 @@ public class RestoreGame {
 		/* HISTORY -> FACULTATIF */
 		try {
 			history = xmlGetPiecesFromPart(this.root.getChild(BoardPublisher.HISTORY_PART),true);
-			
-			/**
-			 * DEBUG History
-			 */
-			System.out.println("History");
-			for (Piece p : history){
-				System.out.println(p);
-			}
 			
 		} catch (GameHandlerException e) {
 			try {
@@ -290,16 +266,11 @@ public class RestoreGame {
 			e.printStackTrace();
 		}
 		
-		System.out.println("===================================DEBUG Plateau de jeu =================" );
-		System.out.println(board);
-
 		/* Construction de GameSettings */
 		 try { 
 			 BoardObservable btmp = null;
 			 
 			 this.gameSettings = gsFacto.getGameSettings(((ArrayList<Player>)(players)).get(0), ((ArrayList<Player>)(players)).get(1), board, aIThinkingTime, aIHelpLevel, history);
-			 
-			 System.out.println("***************************************************************** DEBUG GAME SETTINGS ****************************************************");
 
 			 try {
 				 btmp = bFacto.getBoard(board.getSizeX(), board.getSizeY(), this.initialPieces); 
@@ -308,9 +279,6 @@ public class RestoreGame {
 				 Log.error(e.getMessage());
 				 e.printStackTrace();
 			 }
-			 
-			 System.out.println("Board Initial avant history mode");
-			 System.out.println(btmp);
 			 
 			 try{
 				 historyBoard = (ArrayList<BoardObservable>) bFacto.getBoardList();
@@ -323,9 +291,13 @@ public class RestoreGame {
 			 historyBoard.add((BoardObservable) btmp.clone());
 			 
 			 for (Piece p : this.gameSettings.getGameHistory()){
+				 if(p.getColor() instanceof WhitePiece)
+					 btmp.setWhitePiece(p.getPosX(), p.getPosY());
+				 else
+					 btmp.setBlackPiece(p.getPosX(), p.getPosY());
+					 
 				 GameControllers.reverseInbetweenPieceAfterPlaying(btmp, p.getPosX(), p.getPosY());
 				 historyBoard.add((BoardObservable) btmp.clone());
-				 System.out.println(btmp);
 			 }
 			 
 			 this.gameSettings.setGameBoardHistory(historyBoard);
@@ -337,8 +309,6 @@ public class RestoreGame {
 			 Log.error(e.getMessage()); 
 			 e.printStackTrace(); 
 		 }
-		 
-		 System.out.println( "====================== J'AI TT RECCUP ");
 	}
 
 	/**

@@ -96,7 +96,7 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	/**
 	 * Fabrique de la classe de sauvegarde du jeu.
 	 */
-	public abstract SaveGame getSaveGame(GameSettings gameSettings)
+	public abstract SaveGame getSaveGame()
 			throws FactoryHandlerException;
 
 	/**

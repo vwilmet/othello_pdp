@@ -10,6 +10,16 @@ package com.model.piece;
  */
 public class WhitePiece implements PieceColor {
 
+	public static WhitePiece instance;
+	
+	private WhitePiece() {}
+	
+	public static WhitePiece getInstance(){
+		if(instance == null)
+			instance = new WhitePiece();
+		return instance;
+	}
+	
 	public String toString() {
 		return "Ce pion est blanc.\n";
 	}

@@ -29,6 +29,13 @@ public interface ArtificialIntelligence {
 	public Point nextMove(Integer player);
 
 	/**
+	 * Interrompt tout algorithme lourd et calcule rapidement le prochain mouvement
+	 * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+	 * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
+	 */
+	public Point quickNextMove(Integer player);
+	
+	/**
 	 * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
 	 * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	 * @return un entier repr�sentant le statut.
@@ -47,7 +54,7 @@ public interface ArtificialIntelligence {
 
 	/**
 	 * Initialise l'IA dans le but de calculer les mouvements
-	 * @param ai, l'ia à partir de laquelle on initialise notre ia
+	 * @param ai l'ia à partir de laquelle on initialise notre ia
 	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	 */
 	public Boolean initialize(ArtificialIntelligenceImpl ai);
@@ -77,13 +84,6 @@ public interface ArtificialIntelligence {
 	 */
 	public void undoMove();
 
-	/**
-	 * Permet de donner un temps maximal de calcule pour l'IA en milliseconde.
-	 * @param time le temps en milliseconde.
-	 */
-	public void setMaxTime(Integer time);
-	
-	public String boardToString();
 
 
 }

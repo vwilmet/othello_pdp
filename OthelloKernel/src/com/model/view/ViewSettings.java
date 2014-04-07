@@ -1,7 +1,7 @@
 package com.model.view;
 
 /**
- * 
+Interface contenant les variables necessaires au bon fonctionnement de la vue
  * @author 	<ul>
  * 			<li>Vincent Wilmet</li>
  * 			</ul>

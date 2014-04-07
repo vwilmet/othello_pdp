@@ -248,7 +248,7 @@ public class Board {
 	public void recalculatePositionalMatrix(Integer player){
 		if(this.positionalMatrix == null)
 			this.positionalMatrix = initializePositionalMatrix();
-		for(int i = 0; i< this.getWidth()-3; i ++){
+		for(int i = 0; i<= this.getWidth()-3; i ++){
 			if(isEmpty(i+1, 0) && isPlayer(i,0 , player) && isPlayer(i+2, 0, player))
 				positionalMatrix[i+1][0] = 	Math.abs(positionalMatrix[i+1][0]);
 			else if(isEmpty(i+1, 0))
@@ -258,17 +258,17 @@ public class Board {
 			else if(isEmpty(i+1, this.getHeight() - 1))
 				positionalMatrix[i+1][this.getHeight() - 1] = -Math.abs(positionalMatrix[i+1][this.getHeight() - 1]);
 		}	
-		for(int i = 0; i< this.getHeight()-3; i ++){
-			if(isEmpty(0, i+1) && isPlayer(0,i , player) && isPlayer(0, i+2, player))
+		for(int i = 0; i<= this.getHeight()-3; i ++){
+			if(isEmpty(0, i+1) && isPlayer(0,i , player) && isPlayer(0, i+2, player)){
+				System.out.println("Got there");	
 				positionalMatrix[0][i+1] = Math.abs(positionalMatrix[0][i+1]);
+			}
 			else if(isEmpty(0, i+1))
 				positionalMatrix[0][i+1] = -Math.abs(positionalMatrix[0][i+1]);
-			System.out.println(this.getHeight() - 1 + " + " + (i+1));
 			if(isEmpty(this.getWidth() - 1,i+1) && isPlayer(this.getWidth() - 1,i, player) && isPlayer(this.getWidth() - 1,i+2, player))
 				positionalMatrix[this.getWidth() - 1][i+1] = Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
 			else if(isEmpty( this.getWidth() - 1, i+1))
 				positionalMatrix[this.getWidth() - 1][i+1] = -Math.abs(positionalMatrix[this.getWidth() - 1][i+1]);
-
 		}
 		if(isEmpty(1, 1) && isPlayer(0,0 , player) && isPlayer(0, 1, player) && isPlayer(1, 0, player))
 			positionalMatrix[1][1] = Math.abs(positionalMatrix[1][1]);
@@ -279,9 +279,8 @@ public class Board {
 		if(isEmpty(this.width-2, 1) && isPlayer(this.width-1,0 , player) && isPlayer(this.width-1, 1, player) && isPlayer(this.width-2, 0, player))
 			positionalMatrix[this.width-2][1] = Math.abs(positionalMatrix[this.width-2][1]);
 
-
 	}
-
+	
 	private Integer[][] initializePositionalMatrix() {
 		Integer[][] matrix = positionalMatrix;
 		if(matrix == null){
@@ -291,59 +290,67 @@ public class Board {
 			for(int j = 0; j < this.getHeight(); j++){
 				matrix[i][j] = 1;
 			}
+		
+		Integer corner = 30;
+		Integer xCase = -25;
+		Integer cCase = -20;
+		Integer aCase = 10;
+		Integer bCase = 5;
+		Integer dCase = 2;
 
+		matrix[3][2] = dCase;
+		matrix[2][3] = dCase;
+		matrix[this.getWidth()-4][2] = dCase;
+		matrix[this.getWidth()-3][3] = dCase;
+		matrix[3][this.getHeight()-3] = dCase;
+		matrix[2][this.getHeight()-4] = dCase;
+		matrix[this.getWidth()-4][this.getHeight()-3] = dCase;
+		matrix[this.getWidth()-3][this.getHeight()-4] = dCase;
 
-		matrix[3][2] = 2;
-		matrix[2][3] = 2;
-		matrix[this.getWidth()-4][2] = 2;
-		matrix[this.getWidth()-3][3] = 2;
-		matrix[3][this.getHeight()-3] = 2;
-		matrix[2][this.getHeight()-4] = 2;
-		matrix[this.getWidth()-4][this.getHeight()-3] = 2;
-		matrix[this.getWidth()-3][this.getHeight()-4] = 2;
+		matrix[2][2] = bCase;
+		matrix[this.getWidth()-3][2] = bCase;
+		matrix[this.getWidth()-3][this.getHeight()-3] = bCase;
+		matrix[2][this.getHeight()-3] = bCase;
 
-		matrix[2][2] = 5;
-		matrix[this.getWidth()-3][2] = 5;
-		matrix[this.getWidth()-3][this.getHeight()-3] = 5;
-		matrix[2][this.getHeight()-3] = 5;
+		matrix[3][0] = bCase;
+		matrix[0][3] = bCase;
+		matrix[this.getWidth()-4][0] = bCase;
+		matrix[0][this.getHeight()-4] = bCase;
+		matrix[3][this.getHeight()-1] = bCase;
+		matrix[this.getWidth()-1][3] = bCase;
+		matrix[this.getWidth()-4][this.getHeight()-1] = bCase;
+		matrix[this.getWidth()-1][this.getHeight()-4] = bCase;
 
-		matrix[3][0] = 5;
-		matrix[0][3] = 5;
-		matrix[this.getWidth()-4][0] = 5;
-		matrix[0][this.getHeight()-4] = 5;
-		matrix[3][this.getHeight()-1] = 5;
-		matrix[this.getWidth()-1][3] = 5;
-		matrix[this.getWidth()-4][this.getHeight()-1] = 5;
-		matrix[this.getWidth()-1][this.getHeight()-4] = 5;
+		matrix[2][0] = aCase;
+		matrix[0][2] = aCase;
+		matrix[this.getWidth()-3][0] = aCase;
+		matrix[0][this.getHeight()-3] = aCase;
+		matrix[2][this.getHeight()-1] = aCase;
+		matrix[this.getWidth()-1][2] = aCase;
+		matrix[this.getWidth()-3][this.getHeight()-1] = aCase;
+		matrix[this.getWidth()-1][this.getHeight()-3] = aCase;
 
-		matrix[2][0] = 10;
-		matrix[0][2] = 10;
-		matrix[this.getWidth()-3][0] = 10;
-		matrix[0][this.getHeight()-3] = 10;
-		matrix[2][this.getHeight()-1] = 10;
-		matrix[this.getWidth()-1][2] = 10;
-		matrix[this.getWidth()-3][this.getHeight()-1] = 10;
-		matrix[this.getWidth()-1][this.getHeight()-3] = 10;
+		matrix[1][0] = cCase;
+		matrix[0][1] = cCase;
+		matrix[this.getWidth()-2][0] = cCase;
+		matrix[0][this.getHeight()-2] = cCase;
+		matrix[1][this.getHeight()-1] = cCase;
+		matrix[this.getWidth()-1][1] = cCase;
+		matrix[this.getWidth()-2][this.getHeight()-1] = cCase;
+		matrix[this.getWidth()-1][this.getHeight()-2] = cCase;
 
-		matrix[1][0] = -20;
-		matrix[0][1] = -20;
-		matrix[this.getWidth()-2][0] = -20;
-		matrix[0][this.getHeight()-2] = -20;
-		matrix[1][this.getHeight()-1] = -20;
-		matrix[this.getWidth()-1][1] = -20;
-		matrix[this.getWidth()-2][this.getHeight()-1] = -25;
-		matrix[this.getWidth()-1][this.getHeight()-2] = -25;
+		matrix[1][1] = xCase;
+		matrix[this.getWidth()-2][this.getHeight()-2] = xCase;
+		matrix[this.getWidth()-2][1] = xCase;
+		matrix[1][this.getHeight()-2] = xCase;
 
-		matrix[1][1] = -25;
-		matrix[this.getWidth()-2][this.getHeight()-2] = -25;
-		matrix[this.getWidth()-2][1] = -25;
-		matrix[1][this.getHeight()-2] = -25;
+		matrix[0][0] = corner;
+		matrix[this.getWidth()-1][this.getHeight()-1] = corner;
+		matrix[this.getWidth()-1][0] = corner;
+		matrix[0][this.getHeight()-1] = corner;
 
-		matrix[0][0] = 30;
-		matrix[this.getWidth()-1][this.getHeight()-1] = 30;
-		matrix[this.getWidth()-1][0] = 30;
-		matrix[0][this.getHeight()-1] = 30;
-
+		positionalMatrix = matrix;
+		
 		return matrix;
 	}
 

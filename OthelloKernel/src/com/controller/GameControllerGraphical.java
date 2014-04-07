@@ -12,7 +12,7 @@ import utils.Application;
 import utils.GameControllers;
 import utils.TextManager;
 
-import com.controller.interfaces.NotifyGameController;
+import com.controller.interfaces.NotifyGameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -27,12 +27,12 @@ import com.view.event.GameCanvasMouseEventListener;
 import com.view.event.GameViewMenuEventListener;
 import com.view.interfaces.GameView;
 
-public class GameControllerGraphical extends GameController implements NotifyGameController, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
+public class GameControllerGraphical extends GameController implements NotifyGameControllerGraphical, GameCanvasMouseEventListener, ButtonImageMenuEventListener, GameViewMenuEventListener{
 
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
-
+	
 	public GameControllerGraphical() {
 		super();
 
@@ -170,8 +170,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		System.out.println("[onBackButtonCliked]");
 
 		if(this.gameSettings.canGoBack()){
-			System.out.println("Joueur qui jouer : " + this.gameSettings.getCurrentPlayer());
-			System.out.println("Sentinelle avant : " + this.gameSettings.getHistoryPosition());
 			if(this.gameSettings.getOpponentPlayer().getPlayerType() instanceof MachinePlayer){
 				this.gameSettings.getBackInHistory();
 				this.helpAI.undoMove();
@@ -182,9 +180,6 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 			this.updateInformationField();
 			this.gameView.setBoard(this.gameSettings.getGameBoard());
 			this.addMessageToListForUser(TextManager.BACK_PIECE_MESSAGE_LIST_VUE);
-
-			System.out.println("Sentinelle après : " + this.gameSettings.getHistoryPosition());
-			System.out.println("Joueuer qui va jouer : " + this.gameSettings.getCurrentPlayer());
 
 			this.dealWithCurrentPlayer();
 
@@ -229,6 +224,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		reversePlayer();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
 		this.updateInformationField();
+		GameControllers.setPlayablePiece(this.gameSettings);
 		this.dealWithCurrentPlayer();	
 	}
 

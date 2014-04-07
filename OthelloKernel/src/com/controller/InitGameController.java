@@ -7,7 +7,7 @@ import jnt.BenchMarkResult;
 import utils.FactoryHandlerException;
 import utils.TextManager;
 
-import com.controller.interfaces.NotifyGameController;
+import com.controller.interfaces.NotifyGameControllerGraphical;
 import com.error_manager.Log;
 import com.model.BoardObservable;
 import com.model.GameSettings;
@@ -28,18 +28,18 @@ import com.view.interfaces.InitGameView;
 public class InitGameController implements InitGameButtonEventListener {
 
 	private InitGameView view;
-	private NotifyGameController event;
+	private NotifyGameControllerGraphical event;
 	private BenchMarkView benchMark;
 	private static InitGameController instance;
 	private boolean benchMarkOver;
 
-	public static InitGameController getInstance(NotifyGameController event){
+	public static InitGameController getInstance(NotifyGameControllerGraphical event){
 		if(instance == null)
 			instance = new InitGameController(event);
 		return instance;
 	}
 
-	private InitGameController(NotifyGameController event) {
+	private InitGameController(NotifyGameControllerGraphical event) {
 		this.event = event;
 		this.benchMark = new BenchMarkViewImpl();
 		this.view = new InitGameViewImpl();

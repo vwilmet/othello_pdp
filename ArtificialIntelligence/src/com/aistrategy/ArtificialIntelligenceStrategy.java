@@ -27,6 +27,13 @@ public interface ArtificialIntelligenceStrategy {
 	public Point nextMove(Integer player);
 
 	/**
+	 * Interrompt tout algorithme lourd et calcule rapidement le prochain mouvement
+	 * @param player est un entier représentant le joueur effectuant le prochain mouvement.
+	 * @return le prochain mouvement calculé par l'IA et s'il n'y a pas de prochain mouvement, null.
+	 */
+	public Point quickNextMove(Integer player);
+	
+	/**
 	 * Renvoie un entier représentant le statut de la partie pour le joueur (0 pour perdant, 1 pour gagnant et 2 pour match-nul).
 	 * @param player est un entier représentant le joueur demandant le statut de la partie de son point de vue.
 	 * @return un entier représentant le statut.
@@ -43,23 +50,26 @@ public interface ArtificialIntelligenceStrategy {
 	 */
 	public Boolean initialize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight);
 
+	/**
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA random
+	 * @param random
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
+	 */
 	public Boolean initialize(RandomAI random);
 	
+	/**
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA random
+	 * @param nextBestMove l'ia nextBestMove
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
+	 */
 	public Boolean initialize(NextBestMoveAI nextBestMove);
 	
-	public Boolean initialize(BruteForceAI brute);
-
-
 	/**
-	 * Pas sûr d'être implémenter donc pas encore retraduit
-	 * Actualize the informations in order to recalculate moves
-	 * @param whitePiece a list of all the pieces of the player 1.
-	 * @param blackPiece a list of all the pieces of the player 2.
-	 * @param boardWidth an integer representing the width of the board.
-	 * @param boardHeight an integer representing the height of the board.
-	 * @return a boolean, true if the initialization is finished without error, otherwise false.
+	 * Initialise l'IA dans le but de calculer les mouvements à partir d'une IA force brute
+	 * @param brute l'ia brute force
+	 * @return un booléen, vrai si l'initialisation a fini sans erreur, sinon faux.
 	 */
-	//public Boolean actualize(Set<Point> whitePiece, Set<Point> blackPiece, Integer boardWidth, Integer boardHeight); Pas sûr de l'utilisté encore
+	public Boolean initialize(BruteForceAI brute);
 
 	/**
 	 * Notifie à l'IA le mouvement que le joueur a choisi.
@@ -70,7 +80,7 @@ public interface ArtificialIntelligenceStrategy {
 	public void notifyChosenMove(Point pos, Integer player) throws WrongPlayablePositionException;
 
 	/**
-	 * Interrompt la recherche de mouvement de l'algorithme.
+	 * Interrompt la recherche de mouvement de l'algorithme et détruit l'arbre.
 	 * @return un booléen, vrai si l'algorithme a été stoppé, faux sinon
 	 */
 	public Boolean completeReflexion();
@@ -80,13 +90,5 @@ public interface ArtificialIntelligenceStrategy {
 	 * Annule le dernier coup jouer.
 	 */
 	public void undoMove();
-
-	/**
-	 * Permet de donner un temps maximal de calcule pour l'IA en milliseconde.
-	 * @param time le temps en milliseconde.
-	 */
-	public void setMaxTime(Integer time);
-	
-	public String boardToString();
 
 }

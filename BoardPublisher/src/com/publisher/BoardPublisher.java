@@ -1,6 +1,17 @@
 package com.publisher;
 
 /**
+ * @mainpage Module de création d'Othellier
+ * 
+ * Ce module a pour but de permettre à l'utilisateur de créer un othellier personnalisé. Il peut ainsi décider de sa taille ainsi que des différentes pièces présentes sur le plateau. Ses actions sont toutefois limitées par les règles du jeu. 
+ * 
+ * <b>Exemple de BONNE utilisation du module : </b>
+ *  
+ *		BoardPublisher bp = new BoardPublisher();
+ *		bp.boardMaker();
+ */
+
+/**
  * Interface de gestion du module de génération de plateau pour Othello.
  * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0

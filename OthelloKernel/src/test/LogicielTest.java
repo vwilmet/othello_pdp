@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import utils.FactoryHandlerException;
 import utils.GameControllers;
+import utils.TextManager;
 
 import com.error_manager.Log;
 import com.model.BoardObservable;
@@ -44,7 +45,7 @@ public class LogicielTest {
 
 		try {
 			this.gameSettings = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer("toto", BoardPublisher.WHITE_PLAYER,1), 
+					pFacto.getHumanPlayer("Harry POTTER", BoardPublisher.WHITE_PLAYER,1), 
 					pFacto.getHumanPlayer("John DOE", BoardPublisher.BLACK_PLAYER,2),
 					board,
 					GameSettings.DEFAULT_IA_THINKING_TIME, 
@@ -67,30 +68,30 @@ public class LogicielTest {
 	public void testCorrectSizeBoard() {
 		try {
 			board = bFacto.getInitialBoard(3, 8);
-			assertTrue("Grille hors des limites autorisées", board == null);
+			assertTrue(TextManager.WRONG_GRID_SIZE_FR, board == null);
 		} catch (FactoryHandlerException e) {
-			fail("Mauvaise utilisation de la factory");
+			fail(TextManager.WRONG_FACTORY_USES_FR);
 		}
 
 		try {
 			board = bFacto.getInitialBoard(51, 20);
-			assertTrue("Grille hors des limites autorisées", board == null);
+			assertTrue(TextManager.WRONG_GRID_SIZE_FR, board == null);
 		} catch (FactoryHandlerException e) {
-			fail("Mauvaise utilisation de la factory");
+			fail(TextManager.WRONG_FACTORY_USES_FR);
 		}
 
 		try {
 			board = bFacto.getBoard(2, 8, null);
-			assertTrue("Grille hors des limites autorisées", board == null);
+			assertTrue(TextManager.WRONG_GRID_SIZE_FR, board == null);
 		} catch (FactoryHandlerException e) {
-			fail("Mauvaise utilisation de la factory");
+			fail(TextManager.WRONG_FACTORY_USES_FR);
 		}
 
 		try {
 			board = bFacto.getBoard(10, -1, null);
-			assertTrue("Grille hors des limites autorisées", board == null);
+			assertTrue(TextManager.WRONG_GRID_SIZE_FR, board == null);
 		} catch (FactoryHandlerException e) {
-			fail("Mauvaise utilisation de la factory");
+			fail(TextManager.WRONG_FACTORY_USES_FR);
 		}
 	}
 	

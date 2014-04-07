@@ -144,10 +144,10 @@ public class Player {
 	 * @return String : Chaine correspondant à l'affichage d'un joueur.
 	 */
 	public String toString() {
-		String res = this.login + ".\n";
-		res += "Couleur du joueur : " + this.color + ".\n";
-		res += "Type du joueur : " + this.type + ".\n";
-		res += "Pions sur le plateau : " + this.piecesNumber + ".\n";
+		String res = this.login + TextManager.DOT_EOF;
+		res += TextManager.PLAYER_COLOR_POST_FR + this.color + TextManager.DOT_EOF;
+		res += TextManager.PLAYER_TYPE_POST_FR + this.type + TextManager.DOT_EOF;
+		res += TextManager.PIECES_ON_BOARD_FR + this.piecesNumber + TextManager.DOT_EOF;
 		if (this.playerNumber == 1){
 			res += TextManager.PLAYER_INFORMATION_1ST_PLAYER_FR;
 		}

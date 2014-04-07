@@ -483,17 +483,17 @@ public class GameSettings {
 	 * Méthode d'affichage du contenu d'une partie.
 	 */
 	public String toString() {
-		String res = "\tJoueur 1 : " + this.player1.toString() + "\n";
+		String res = TextManager.TAB + TextManager.PLAYER_ONE_FR + this.player1.toString() + TextManager.EOF;
 
 		if(this.player1.getPlayerType() instanceof MachinePlayer)
-			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player1ArtificialIntelligenceDifficulty] + "\n";
+			res+= TextManager.AI_DIFFICULTY_POST_FR + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player1ArtificialIntelligenceDifficulty] + TextManager.EOF;
 
-		res += "\tJoueur 2 : " + this.player2.toString() + "\n";
+		res += TextManager.TAB + TextManager.PLAYER_TWO_FR + this.player2.toString() + TextManager.EOF;
 		if(this.player2.getPlayerType() instanceof MachinePlayer)
-			res+= "Difficulté de l'IA : " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player2ArtificialIntelligenceDifficulty] + "\n\n";
+			res+= TextManager.AI_DIFFICULTY_POST_FR  + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.player2ArtificialIntelligenceDifficulty] + TextManager.EOF + TextManager.EOF;
 		
-		res += "Temps de réflexion des IA : " + this.artificialIntelligenceThinkingTime + "\n";
-		res += "Difficulté de l'IA d'aide: " + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.helpArtificialIntelligenceDifficulty] + "\n";
+		res += TextManager.AI_THINKING_TIME_POST_FR + this.artificialIntelligenceThinkingTime + TextManager.EOF;
+		res += TextManager.HELP_AI_DIFFICULTY_POST_FR + TextManager.AI_DIFFICULTY_VALUE_TEXT_FR[this.helpArtificialIntelligenceDifficulty] + TextManager.EOF;
 		return res;
 	}
 }

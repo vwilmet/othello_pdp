@@ -201,8 +201,8 @@ public class GameViewImpl extends JFrame implements GameView{
 		this.actionBar = new JToolBar();
 		this.messageBar = new JToolBar();
 		this.informationBar = new JToolBar();
-		this.messageLabel = new JLabel("Textfiled ou il y aura des messages variables");
-		this.statLabel = new JLabel("stat quelconque");
+		this.messageLabel = new JLabel("Initial Post");
+		this.statLabel = new JLabel("Initial Post");
 		this.messageListModel = new DefaultListModel<String>();
 		this.messageList = new JList<String>(messageListModel);
 

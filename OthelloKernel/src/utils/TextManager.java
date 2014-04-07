@@ -14,13 +14,17 @@ public interface TextManager {
 	public static final String DOT_XML = ".xml";
 	public static final String DOT = ".";
 	public static final String DOT_SLASH = "./";
+	public static final String EOF = "\n";
+	public static final String TAB = "\t";
 	
 	// /////////////////////////////////////////
 	// ////////////////View/////////////////////
 	// /////////////////////////////////////////
 	// error
 	public static final String IO_EXCEPTION_ERROR = "Une erreur est survenue pendant l'ouverture du fichier!";
-
+	public static final String ERROR_DURING_BUTTON_IMG_FR = "Impossible d'ouvrir les images des pions!";
+	public static final String WRONG_GRID_SIZE_FR = "Grille hors des limites autorisées";
+	public static final String WRONG_FACTORY_USES_FR = "Mauvaise utilisation de la factory";
 	// menu part
 	public static final String MENU_TEXT_FR = "Menu";
 	public static final String NEW_GAME_TEXT_FR = "Nouvelle partie";
@@ -102,8 +106,14 @@ public interface TextManager {
 	public static final String FILE_NOT_EXISTING_2_FR = "\" n'existe pas.";
 	
 	// Player
-	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Premier joueur."; 
+	public static final String PLAYER_INFORMATION_1ST_PLAYER_FR = "Premier joueur.";
+	public static final String PLAYER_ONE_FR = "Joueur 1 : ";
+	public static final String PLAYER_TWO_FR = "Joueur 2 : ";
 	public static final String PLAYER_INFORMATION_2ND_PLAYER_FR = "Second joueur."; 
+	public static final String DOT_EOF = ".\n";
+	public static final String PLAYER_COLOR_POST_FR = "Couleur du joueur : ";
+	public static final String PLAYER_TYPE_POST_FR = "Type du joueur : ";
+	public static final String PIECES_ON_BOARD_FR = "Pions sur le plateau : ";
 	
 	public static final String ERROR_ABOUT_PLAYER_NUMBER_FR = "Deux joueurs (humain ou machine) sont nécessaires pour le jeu."; 
 
@@ -115,6 +125,12 @@ public interface TextManager {
 	public static final String WRONG_SIZE_Y_FR = "La taille de votre othellier sur l'axe des ordonnées doit être comprise entre 4 et 50.";
 	public static final String PIECE_NUMBER_ON_BOARD_FR = "Taille de l'othellier (nombre de pions sur le plateau) : ";
 
+	// GameSettings
+	public static final String AI_DIFFICULTY_POST_FR = "Difficulté de l'IA : ";
+	public static final String HELP_AI_DIFFICULTY_POST_FR = "Difficulté de l'IA d'aide: ";
+	public static final String AI_THINKING_TIME_POST_FR = "Temps de réflexion des IA : ";
+	
+	
 	//Save/RestoreGame	
 	public static final String SAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde de la partie.";
 	public static final String AUTOSAVE_FATAL_ERROR_FR = "Une erreur est survenue pendant la sauvegarde automatique de la partie.";

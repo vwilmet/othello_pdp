@@ -115,7 +115,7 @@ public class GameCanvas extends Canvas implements MouseListener, Observer{
 			blackPieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.BLACK_PIECE_IMG));
 			advisedIAPieceimg = ImageIO.read(new File(ViewSettings.IMAGE_PIECE_PATH + ViewSettings.IA_ADVISED_PIECE_IMG));
 		} catch (IOException e) {
-			Log.error("Impossible d'ouvrir les images des pions!");
+			Log.error(TextManager.ERROR_DURING_BUTTON_IMG_FR);
 			e.printStackTrace();
 		}
 	}

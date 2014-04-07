@@ -9,7 +9,7 @@ import com.publisher.utils.PostsPublisher;
 import com.publisher.utils.Utils;
 /**
  * Classe permettant de reccupérer les différentes informations sur les caractéristiques de l'Othellier à créer auprès de l'utilisateur. 
- * @author <ul><li>Benjamin Letourneau </li></ul>
+ * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
 public class Board {
@@ -78,7 +78,7 @@ public class Board {
 	private String boardFileName;
 
 	/**
-	 * Permet de réccupérer les entrées utilisateur.
+	 * Permet de récupérer les entrées utilisateur.
 	 */
 	private Scanner sc;
 	

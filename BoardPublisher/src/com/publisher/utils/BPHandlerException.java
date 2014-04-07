@@ -1,13 +1,10 @@
 package com.publisher.utils;
 
-
-
 /**
  * Classe de gestion d'exceptions dans le BoardPublisher.
- * @author <ul><li>Benjamin Letourneau </li></ul>
+ * @author <ul><li> Benjamin Letourneau </li></ul>
  * @version 1.0
  */
-@SuppressWarnings("serial")
 public class BPHandlerException extends Exception {
 	
 	/**

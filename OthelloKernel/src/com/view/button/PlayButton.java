@@ -19,7 +19,7 @@ public class PlayButton extends ImageButton implements MouseListener {
 	/**
 	 * Booléen qui permet de savoir si le bouton est en mode "Pause" ou "Play"
 	 */
-	private boolean onPlay;
+	protected boolean onPlay;
 	/**
 	 * Constructeur qui réutilise le constructeur de la classe mère {@link com.view.button.ImageButton}
 	 */

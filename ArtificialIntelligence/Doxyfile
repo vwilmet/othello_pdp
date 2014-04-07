@@ -2,7 +2,7 @@
 
 DOXYFILE_ENCODING      = UTF-8
 
-PROJECT_NAME           = "Module de gestion de fichier"
+PROJECT_NAME           = "Intelligence Artificielle"
 
 PROJECT_NUMBER         = 1
 
@@ -10,7 +10,7 @@ PROJECT_NUMBER         = 1
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Gestionnaire d'écriture et de lecture des fichiers"
+PROJECT_BRIEF          = "Module contenant les différents heuristiques de l'IA"
 
 OUTPUT_DIRECTORY       = doc
 

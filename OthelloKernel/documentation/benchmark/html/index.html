@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>Module BenchMark: Module BenchMark</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Module BenchMark
+   &#160;<span id="projectnumber">1</span>
+   </div>
+   <div id="projectbrief">BenchMark en Java de la machine exécutant le logiciel</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.6 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li class="current"><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="namespaces.html"><span>Paquetages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Module <a class="el" href="d3/d2c/classjnt_1_1BenchMark.html">BenchMark</a> </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>SciMark 2.0 (<a href="http://math.nist.gov/scimark2/">http://math.nist.gov/scimark2/</a>) is a Java benchmark for scientific and numerical computing. It measures several computational kernels and reports a composite score in approximate Mflops/s. This benchmark was developed at the US National Institute of Standards and Technology (NIST). Part of the benchmark can also be found in the Java Grande Forum Benchmark Suite (<a href="http://www.epcc.ed.ac.uk/javagrande/javag.html">http://www.epcc.ed.ac.uk/javagrande/javag.html</a>). This benchmark contains codes on FFT, SOR (Successive Over-Relaxation over a 2D grid), Monte-Carlo integration, Sparse matmult (Sparse matrix vector multiplications) and LU factorization. We have chosen this benchmark because the same benchmark is available both in Java and C, allowing us to compare the two languages. There are many other Java benchmarks available, see <a href="http://www.epcc.ed.ac.uk/javagrande/links.html">http://www.epcc.ed.ac.uk/javagrande/links.html</a>.</p>
+<p>Ce module a pour but de lancer une batterie de calculs différents afin de pousser la machine à son max. A la suite de ces calculs un indice général est calculé, correspondant à la moyenne de tous les autres calculs, permettant de connaître les "caractéristiques/puissance" de la machine</p>
+<p><b>Exemple de BONNE utilisation du module : </b> </p>
+<pre class="fragment">  BenchMarkResultEvent event = new BenchMarkResultEvent() {
+
+        @Override
+        public void onStart() {
+              System.out.println("BenchMark démarré!");
+        }
+
+        @Override
+        public void onProgress(int progress) {
+              System.out.println("Pourcentage : " + progress + "%");
+        }
+
+        @Override
+        public void onEnd(BenchMarkResult result) {
+              System.out.println("BenchMark Terminé!");
+              System.out.println(result.toString());
+        }
+  };
+
+  BenchMark b = new BenchMark(event);
+  b.launch();</pre> </div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré le Lundi 7 Avril 2014 14:34:54 pour Module BenchMark par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

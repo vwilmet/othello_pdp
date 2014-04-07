@@ -130,7 +130,12 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 	 * Fabrique d'une partie d'othello.
 	 * @param player1 : Player, joueur 1 de la partie.
 	 * @param player2 : Player, joueur 2 de la partie.
-	 * @param gameBoard : 
+	 * @param gameBoard : BoardObservable, plateau courrant de jeu.
+	 * @param artificialIntelligenceThinkingTime : int, temps de réflexion de l'intelligence artificielle.
+	 * @param artificialIntelligenceDifficulty : int, difficulté par defaut de l'IA (d'aide).
+	 * @param history : List<Piece>, historique de tous les coups joués (si les coups existent).
+	 * return GameSettings : modèle d'une partie d'Othello.
+	 * @throws FactoryHandlerException.
 	 */
 	public abstract GameSettings getGameSettings(Player player1, Player player2, 
 			BoardObservable gameBoard, int artificialIntelligenceThinkingTime,
@@ -139,13 +144,17 @@ public abstract class AbstractFactory implements PieceFactory, PlayerFactory,
 
 	/**
 	 * Fabrique de la classe de sauvegarde du jeu.
+	 * @return SaveGame : module de gestion de sauvegarde d'une partie du jeu.
+	 * @throws FactoryHandlerException.
 	 */
 	public abstract SaveGame getSaveGame()
 			throws FactoryHandlerException;
 
 	/**
 	 * Fabrique de la classe de chargement d'une partie de jeu.
+	 * @return RestoreGame : module de gestiond de chargement d'une partie du jeu.
+	 * @throws FactoryHandlerException.
 	 */
-	public abstract RestoreGame getRestoreGame(String gameFileName)
+	public abstract RestoreGame getRestoreGame()
 			throws FactoryHandlerException;
 }

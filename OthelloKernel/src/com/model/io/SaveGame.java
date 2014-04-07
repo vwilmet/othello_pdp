@@ -52,6 +52,9 @@ public class SaveGame {
 	 */ 
 	private org.jdom2.Document saveDoc;
 	
+	/**
+	 * Attribut permettant d'effectuer la sauvegarde dans un fichier XML.
+	 */
 	private FilesManager fmanager;
 	
 	/**
@@ -68,16 +71,26 @@ public class SaveGame {
 		this.saveDoc = null;
 	}
 	
+	/**
+	 * Accesseur (Ecriture) permettant de modifier le nom du fichier dans lequel il faut réaliser la sauvegarde.
+	 * @param saveFileName : String, nom de fichier dans lequel il faut effectuer la sauvegarde.
+	 */
 	public void setSaveFileName(String saveFileName){
 		this.saveFileName = saveFileName;
 	}
 	
+	/**
+	 * Accesseur (Ecriture) permettant de modifier le nom du fichier dans lequel il faut réaliser l'auto.
+	 * @param saveFileName : String, nom de fichier dans lequel il faut effectuer la sauvegarde.
+	 */
 	public void setAutoSaveFileName(String autoSaveFileName){
 		this.autoSaveFileName = autoSaveFileName;
 	}
 	
 	/**
 	 * Méthode permettant la sauvegarde d'une partie.
+	 * @param gameSettings : GameSettings modèle de partie qu'il faut sauvegarder.
+	 * @return boolean : booleen indiquant si l'opérationd de sauvegarde s'est bien déroulée.
 	 */
 	public boolean saveGameToBackupFile(GameSettings gameSettings){
 		this.gameSettings = gameSettings;
@@ -107,6 +120,8 @@ public class SaveGame {
 	
 	/**
 	 * Méthode permettant la sauvegarde automatique d'une partie.
+	 * @param gameSettings : GameSettings modèle de partie qu'il faut sauvegarder.
+	 * @return boolean : booleen indiquant si l'opérationd de sauvegarde s'est bien déroulée.
 	 */
 	public boolean autoSaveGameToBackupFile(GameSettings gameSettings){
 		this.gameSettings = gameSettings;

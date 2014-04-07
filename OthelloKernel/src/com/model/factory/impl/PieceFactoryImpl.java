@@ -31,7 +31,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 	private static PieceFactoryImpl instance;
 
 	/**
-	 * Constructeur private de la classe (constructeur prvate pour la mise en place du Singleton). 
+	 * Constructeur private de la classe (constructeur private pour la mise en place du Singleton). 
 	 */
 	private PieceFactoryImpl() {
 		// TODO Auto-generated constructor stub
@@ -39,7 +39,7 @@ public class PieceFactoryImpl extends AbstractFactory {
 
 	/**
 	 * Methode permettant de récupérer l'unique instance de la classe.
-	 * @return PieceFactory : Instance de la classe.
+	 * @return PieceFactoryImpl : Instance de la classe.
 	 */
 	public static PieceFactoryImpl getInstance() {
 		if (instance == null)
@@ -183,7 +183,17 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
-	
+	/**
+	 * Fabrique d'une partie d'othello.
+	 * @param player1 : Player, joueur 1 de la partie.
+	 * @param player2 : Player, joueur 2 de la partie.
+	 * @param gameBoard : BoardObservable, plateau courrant de jeu.
+	 * @param artificialIntelligenceThinkingTime : int, temps de réflexion de l'intelligence artificielle.
+	 * @param artificialIntelligenceDifficulty : int, difficulté par defaut de l'IA (d'aide).
+	 * @param history : List<Piece>, historique de tous les coups joués (si les coups existent).
+	 * return GameSettings : modèle d'une partie d'Othello.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public GameSettings getGameSettings(Player player1, Player player2, BoardObservable gameBoard, int artificialIntelligenceThinkingTime, int artificialIntelligenceDifficulty, List<Piece> history) throws FactoryHandlerException {
 		throw new FactoryHandlerException(
@@ -191,6 +201,11 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
+	/**
+	 * Fabrique de la classe de sauvegarde du jeu.
+	 * @return SaveGame : module de gestion de sauvegarde d'une partie du jeu.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
 	public SaveGame getSaveGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
@@ -198,8 +213,13 @@ public class PieceFactoryImpl extends AbstractFactory {
 				TextManager.PIECE_FACTORY_REQUIRED_FR);
 	}
 
+	/**
+	 * Fabrique de la classe de chargement d'une partie de jeu.
+	 * @return RestoreGame : module de gestiond de chargement d'une partie du jeu.
+	 * @throws FactoryHandlerException.
+	 */
 	@Override
-	public RestoreGame getRestoreGame(String gameFileName) throws FactoryHandlerException {
+	public RestoreGame getRestoreGame() throws FactoryHandlerException {
 		throw new FactoryHandlerException(
 				FactoryHandlerException.WRONG_FACTORY_REFERRED,
 				TextManager.PIECE_FACTORY_REQUIRED_FR);

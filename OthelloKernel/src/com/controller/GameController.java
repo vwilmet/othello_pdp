@@ -39,14 +39,9 @@ import com.timermanager.TimerManagerImpl;
 import com.utils.WrongPlayablePositionException;
 
 /**
- * @mainpage Module de création d'Othellier
+ * @mainpage Module de jeu
  * 
- * Ce module a pour but de permettre à l'utilisateur de créer un othellier personnalisé. Il peut ainsi décider de sa taille ainsi que des différentes pièces présentes sur le plateau. Ses actions sont toutefois limitées par les règles du jeu. 
- * 
- * <b>Exemple de BONNE utilisation du module : </b>
- *  
- *		BoardPublisher bp = new BoardPublisher();
- *		bp.boardMaker();
+ * Ce module a pour but de permettre à l'utilisateur de lancer l'application. Il peut ainsi jouer au jeu. 
  */
 
 /**
@@ -238,12 +233,12 @@ public abstract class GameController {
 		RestoreGame rg = null;
 
 		try {
-			rg = rgFacto.getRestoreGame(path);
+			rg = rgFacto.getRestoreGame();
 		} catch (FactoryHandlerException e) {
 			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		rg.loadGameFromBackupFile();
+		rg.loadGameFromBackupFile(path);
 
 		this.gameSettings = rg.getGameSettings();
 	}

@@ -75,12 +75,12 @@ public class RestoreGame {
 	BoardFactory bFacto;
 
 	/**
-	 * Fabrique de Piece.
+	 * Fabrique de Pion.
 	 */
 	PieceFactory pieceFacto;
 	
 	/**
-	 * Fabrique de Piece.
+	 * Fabrique de Joueur.
 	 */
 	PlayerFactory playerFacto;
 
@@ -90,22 +90,29 @@ public class RestoreGame {
 	 * @param gameFileName : String contenant le nom du fichier sauvegarde à
 	 * changer dans le jeu.
 	 */
-	public RestoreGame(String gameFileName) {
+	public RestoreGame() {
 		this.gsFacto = FactoryProducer.getGameSettingsFactory();
 		this.bFacto = FactoryProducer.getBoardFactory();
 		this.pieceFacto = FactoryProducer.getPieceFactory();
 		this.playerFacto = FactoryProducer.getPlayerFactory();
-		this.gameFileName = gameFileName;
+		this.gameFileName = null;
 	}
 	
+	/**
+	 * Accesseur (lecture) du modèle de jeu de la partie.
+	 * @return GameSettings : modèle de la partie.
+	 */
 	public GameSettings getGameSettings(){
 		return this.gameSettings;
 	}
 	
 	/**
 	 * Méthode à appeler pour lancer le chargement de la sauvegarde.
+	 * @param String : chemin du fichier à charger.
 	 */
-	public void loadGameFromBackupFile(){
+	public void loadGameFromBackupFile(String gameFileName){
+		this.gameFileName = gameFileName;
+		
 		try {
 			loadXmlFile();
 		} catch (GameHandlerException e) {
@@ -447,9 +454,9 @@ public class RestoreGame {
 	}
 	
 	/**
-	 * 
-	 * @param player
-	 * @return
+	 * Methode permettant de lire le contenu du fichier de sauvegarde correspondant à un joueur et de le créer.
+	 * @param player : Element, partie du fichier correspondant au joueur.
+	 * @return Player : joueur créé.
 	 * @throws GameHandlerException
 	 */
 	private Player xmlGetPlayer(Element player) throws GameHandlerException {
@@ -528,10 +535,10 @@ public class RestoreGame {
 	}
 	
 	/**
-	 * 
-	 * @param part
-	 * @param xmlField
-	 * @return
+	 * Methode utilitaire permettant de recupérer le contenu (String) d'une balise. 
+	 * @param part : Element, partie dans laquelle il faut récupérer le contenu du champ xmlField.
+	 * @param xmlField : String, nom des balises dans lesquelles il faut récupérer le contenu.
+	 * @return String : Contenu de la balise.
 	 * @throws GameHandlerException
 	 */
 	private String xmlGetStringValueFromField(Element part, String xmlField) throws GameHandlerException {

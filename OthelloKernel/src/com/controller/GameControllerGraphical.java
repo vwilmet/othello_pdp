@@ -32,7 +32,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 	protected GameView gameView;
 	protected InitGameController initGameController;
 	protected ChoosePositionController chooseGameBoardController;
-
+	
 	public GameControllerGraphical() {
 		super();
 
@@ -224,6 +224,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 		reversePlayer();
 		this.addMessageToListForUser(TextManager.REVERSE_PLAYER_MESSAGE_LIST_VUE);
 		this.updateInformationField();
+		GameControllers.setPlayablePiece(this.gameSettings);
 		this.dealWithCurrentPlayer();	
 	}
 

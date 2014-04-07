@@ -3,7 +3,7 @@ package utils;
 import com.model.GameSettings;
 
 /**
- * 
+ * Cette interface contient tous les textes de l'interface utilisateur, écrit en français
  * @author 	<ul>
  * 			<li>Vincent Wilmet</li>
  * 			</ul>

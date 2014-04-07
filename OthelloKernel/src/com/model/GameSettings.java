@@ -1,6 +1,5 @@
 package com.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import utils.FactoryHandlerException;
@@ -16,7 +15,8 @@ import com.model.player.Player;
 import com.publisher.BoardPublisher;
 
 /**
- * 
+ * Cette classe contient toutes les données necessaires pour la gestion de l'othellier <br/>
+ * C'est la classe principale du Model
  * @author <ul>
  *         <li>Benjamin Letourneau</li>
  *         <li>Vincent Wilmet</li>
@@ -51,6 +51,9 @@ public class GameSettings {
 	public static final int BOARD_MAX_SIZE_X = 50;
 	public static final int BOARD_MAX_SIZE_Y = 50;
 
+	/**
+	 * Constante contenant le chemin vers le site web local
+	 */
 	public static final String HELP_WEBSITE_PATH = "resources/website/index.html";
 
 	/**
@@ -58,6 +61,9 @@ public class GameSettings {
 	 */
 	private Player player1, player2;
 
+	/**
+	 * Variable contenant le joueur actuel qui doit jouer
+	 */
 	private Player currentPlayer;
 
 	/**
@@ -77,6 +83,9 @@ public class GameSettings {
 	 * Variable stoquant l'historique des coups.
 	 */
 	private List <Piece> gameHistory;
+	/**
+	 * Variable contenant l'ensemble des board jouée depuis le début de la partie
+	 */
 	private List <BoardObservable> gameBoardHistory;
 	/**
 	 * Sentinel utilisée pour se repérer dans l'historique! Les deux listes gameHistory et gameBoardHistory 
@@ -262,11 +271,15 @@ public class GameSettings {
 		}else{
 			this.player2.setColor(BoardPublisher.BLACK_PLAYER);
 		}
+		
+		this.player1.setPlayerNumber(2);
+		this.player2.setPlayerNumber(1);
+		
 		//change couleur des pions sur le plateau
-		for(int i = 0; i < this.gameBoard.getSizeX(); i++)
+		/*for(int i = 0; i < this.gameBoard.getSizeX(); i++)
 			for(int j = 0; j < this.gameBoard.getSizeY(); j++)
 				this.gameBoard.reverse(i, j);
-		
+		*/
 		this.changePlayer();
 	}
 

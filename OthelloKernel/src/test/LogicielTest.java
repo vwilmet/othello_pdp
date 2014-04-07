@@ -59,7 +59,6 @@ public class LogicielTest {
 		}
 	}
 	
-	
 	@After
 	public void tearDown() throws Exception {
 	}
@@ -104,23 +103,7 @@ public class LogicielTest {
 			e.printStackTrace();
 		}
 		
-		try {
-			this.gameSettings = gsFacto.getGameSettings(
-					pFacto.getHumanPlayer("toto", BoardPublisher.WHITE_PLAYER,1), 
-					pFacto.getHumanPlayer("John DOE", BoardPublisher.BLACK_PLAYER,2),
-					board,
-					GameSettings.DEFAULT_IA_THINKING_TIME, 
-					GameSettings.DEFAULT_IA_DIFFICULTY,
-					pieceFacto.getArrayListOfPiece());
-
-			GameControllers.setPlayablePiece(this.gameSettings);
-
-		} catch (FactoryHandlerException e) {
-			Log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		//nombre de pion blanc et noir
-
+		assertTrue(board.getBlackPieces().size() == 2 && board.getWhitePieces().size() == 2);
 	}
 
 	@Test
@@ -141,4 +124,16 @@ public class LogicielTest {
 
 	}
 
+	public void testSetPlayablePiece(){
+		
+	}
+	
+	
+	public void testGetReversePieceAround(){
+		
+	}
+	
+	public void testReverseInbetweenPieceAfterPlaying(){
+		
+	}
 }

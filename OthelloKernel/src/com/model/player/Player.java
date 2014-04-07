@@ -59,6 +59,10 @@ public class Player {
 		return this.playerNumber;
 	}
 	
+	public void setPlayerNumber(int number){
+		this.playerNumber = number;
+	}
+	
 	public PlayerType getPlayerType(){
 		return this.type;
 	}

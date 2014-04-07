@@ -8,8 +8,20 @@ import com.model.piece.EmptyPiece;
 import com.model.piece.Piece;
 import com.publisher.BoardPublisher;
 
+/**
+ * Cette classe contient les méthodes spécifiques aux méthodes de gestions de modification du plateau après chaque pose de pion <br/>
+ * Ces méthodes sont ici car elles doivent être utilisables dans plusieurs classes différentes
+ * @author 	<ul>
+ * 			<li>Vincent Wilmet</li>
+ * 			</ul>
+ * @version 1.0
+ */
 public class GameControllers {
 
+	/**
+	 * Cette méthode permet de calculer les pièces jouables dans l'othellier
+	 * @param gameSettings Le model contenant l'othellier
+	 */
 	public static void setPlayablePiece(GameSettings gameSettings){
 
 		gameSettings.getGameBoard().resetPlayablePosition();
@@ -55,6 +67,12 @@ public class GameControllers {
 		}
 	}
 
+	/**
+	 * Cette méthode permet de récupérer les voisins de la pièce passé en paramètre. Ces voisins sont de couleur opposés à la pièce d'origine et ne sont pas des pièces vide. 
+	 * @param gameBoard L'othellier on l'on va chercher les voisins
+	 * @param origin La pièce à l'origine de la recherche. On se base sur sa couleur et position pour chercher les voisins de couleur différente 
+	 * @return Une ArrayList de pièce qui va contenir tous les voisins
+	 */
 	private static ArrayList<Piece> getReversePieceAround(BoardObservable gameBoard, Piece origin){
 		ArrayList<Piece> neighbours = new ArrayList<Piece>();
 		int posX, posY;
@@ -78,6 +96,12 @@ public class GameControllers {
 		return neighbours;
 	}
 
+	/**
+	 * Cette méthode permet de calculer quelles sont les pions de l'adversaire qui doivent être retournée après avoir poser la pièce à la position originPosX, originPosY
+	 * @param gameBoard L'othellier qui contient toutes les pièces
+	 * @param originPosX La position en X de la pièce posée
+	 * @param originPosY La position en Y de la pièce posée
+	 */
 	public static void reverseInbetweenPieceAfterPlaying(BoardObservable gameBoard, int originPosX, int originPosY){
 
 		ArrayList<Piece> inBetween = new ArrayList<Piece>();
@@ -128,6 +152,10 @@ public class GameControllers {
 		}
 	}
 	
+	/**
+	 * Cette méthode permet d'attribuer à chaque joueur le nombre de pièces qu'ils ont sur l'othellier
+	 * @param gameSettings Le model qui contient les données
+	 */
 	public static void checkPlayersPiecesCount(GameSettings gameSettings){
 		if(gameSettings.getFirstPlayer().getColor().equals(BoardPublisher.WHITE_PLAYER)){
 			gameSettings.getFirstPlayer().setPiecesNumber(gameSettings.getGameBoard().getWhitePieces().size());

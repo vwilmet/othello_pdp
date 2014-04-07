@@ -238,7 +238,6 @@ public abstract class GameController {
 				final String userLogin = this.gameSettings.getCurrentPlayer().getLogin();
 				final int playerNumber = this.gameSettings.getCurrentPlayer().getPlayerNumber();
 
-				
 				System.out.println("passer par la!!");
 				iaInterface = new IAResponseTimeHandler() {
 
@@ -269,6 +268,8 @@ public abstract class GameController {
 									if(onPiecePlayed(pointChoosen.x, pointChoosen.y)){
 										onIAPlayed(userLogin, pointChoosen.x, pointChoosen.y);
 										dealWithCurrentPlayer();
+									}else{
+										Log.error("La position renseigner par l'IA n'est actuellement impossible!");
 									}
 								}
 							});

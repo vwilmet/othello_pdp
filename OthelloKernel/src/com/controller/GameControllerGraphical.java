@@ -327,7 +327,7 @@ public class GameControllerGraphical extends GameController implements NotifyGam
 				"Fichiers XML", "xml");
 		chooser.setFileFilter(filter);
 
-		returnVal = chooser.showOpenDialog((GameViewImpl)this.gameView);
+		returnVal = chooser.showSaveDialog((GameViewImpl)this.gameView);
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			this.saveCurrentBoard(chooser.getSelectedFile().getPath());

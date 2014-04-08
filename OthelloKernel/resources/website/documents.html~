@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Othello</title>
+		<link rel="stylesheet" href="css/design.css">
+    </head>
+    <body>
+		<header>
+			<div id="entete">
+				<h1><a href="index.html">Projet Othello</a></h1>
+				<img id="pion_b" src="images/b.png" />
+				<img id="pion_n" src="images/n.png" />
+			</div>
+			<nav>
+				<ul id="menu">
+					<li><a href="presentation.html">Présentation</a></li>
+					<li><a href="#">Documentation</a>  
+						<ul>  
+							<li><a href="../../documentation/benchmark/html/index.html">BenchMark</a></li>  
+							<li><a href="#">Timer</a></li>
+							<li><a href="#">Gestion de fichiers</a></li> 
+							<li><a href="#">Logiciel / Jeu</a></li> 
+							<li><a href="#">IA</a></li> 
+							<li><a href="#">BoardPublisher</a></li> 
+						</ul>  
+					</li>
+					<li><a href="jouer.html">Comment jouer</a></li>
+					<li><a href="documents.html">Documents</a></li>  
+					<li><a href="equipe.html">Equipe</a></li>  
+				</ul>
+			</nav>
+		</header>
+		<div id="content">
+			<div id="corps">
+				<h1>Documents</h1>
+				<p>
+					Dans un premier temps, nous avons réalisé les deux documents ci-dessous à la suite de recherches :
+				</p>
+				<ul>
+					<li><a href="documents/Othello_Analyse_des_Besoins.pdf" target="_blank">Analyse des besoins</a></li>
+					<li><a href="documents/Othello_Architecture.pdf" target="_blank">Architecture logicielle</a></li>
+				</ul>
+				<p>
+					Puis, nous avons modifié et complété ces documents afin d'obtenir un mémoire final qui présente notre projet. 
+				</p>
+				<ul>
+					<li><a href="documents/memoire_othello.pdf" target="_blank">Mémoire</a></li>
+				</ul>
+			</div>
+		</div>
+    </body>
+</html>

@@ -1,0 +1,760 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc} 
+\usepackage[french]{babel} 
+\usepackage{url}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[titletoc]{appendix}
+\usepackage{a4wide}
+\usepackage{listings} 
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+
+\frenchbsetup{StandardLists=true}
+\renewcommand{\appendixtocname}{Annexes}
+\renewcommand{\appendixpagename}{Annexes} 
+\addto\captionsfrench{\def\tablename{{Tableau}}}
+\newenvironment*{remerciements}{%
+\renewcommand*{\abstractname}{Remerciements}
+\begin{abstract}
+}{\end{abstract}}
+
+\bibliographystyle{alphaurl} 
+\begin{document}
+
+\title{Mémoire\\
+  \textit{Réalisation d'un jeu d'Othello}
+  }
+
+\author{Morgane Badré\\
+  Benjamin Letourneau,\\
+  Vincent Wilmet,\\
+  Nicolas Yvon\\ \\
+  Client : M. Zeitoun \\
+  Chargé de TD : M. Frey}
+\date\today
+
+\maketitle
+
+
+\begin{remerciements}
+\begin{itemize}
+  \item M. Narbel, responsable de l’UE PDP pour les cours dispensés.
+  \item M. Zeitoun, notre client, qui a pris sur son temps pour effectuer des réunions hebdomadaires et pour nous avoir donné de nombreux conseils.
+  \item M. Frey, notre chargé de TD, pour nous avoir aidé et donné des conseils pour le PDP.
+  \item M. le rapporteur inconnu qui a contribué de manière anonyme à notre évaluation.
+\end{itemize}
+\end{remerciements}
+
+
+\begin{abstract}
+
+L’objectif de ce projet est de réaliser un jeu Othello permettant de jouer Humain opposé à une intelligence artificielle (IA) ou IA contre IA. Une IA est un logiciel qui a pour but de reproduire “intelligemment” un comportement spécifique, ici gagner une partie Othello. Le jeu, avec une interface intuitive, doit permettre à l’utilisateur de pouvoir choisir le niveau (difficulté) de  l’IA en tant qu’aide et joueur.
+
+Le projet s’est déroulé en différentes étapes. Tout d’abord, des recherches ont été effectuées afin de découvrir le jeu et sa communauté, mais également ses spécificités scientifiques. Puis, une analyse des besoins nous a permis de définir clairement les attentes du client. Dans un troisième temps, nous avons mis en place l’architecture du jeu. Le développement a ensuite commencé et pour terminer, une série de tests va être présentée.
+\end{abstract}
+
+\begingroup
+\hypersetup{linkcolor=black}
+\tableofcontents
+\endgroup
+
+\hypersetup{linkcolor=blue}
+
+\phantomsection
+\chapter*{Introduction}
+
+Le travail que nous présentons dans ce rapport correspond à un projet informatique de programmation que nous avons réalisé en quadrinôme dans le cadre de notre première année de Master informatique de l’Université de Bordeaux.
+
+Le thème de notre projet est de gérer la conduite d’un projet : développer un jeu Othello. Pour cela, nous sommes encadrés par un client (M. Zeitoun) qui nous exprime ses besoins et un chargé de TD (M. Frey) qui nous supervise et nous dirige au fur et à mesure de l’avancement du projet et de ses différentes étapes. Nous bénéficions également des techniques et conseils vuent lors des cours dispensés par M. Narbel.
+
+Les objectifs principaux attendus pour ce projet étaient : de définir les éléments nécessaires pour représenter les différentes configurations du jeu, sur plateaux de taille variable, typiquement 6x6 ou 8x8 cases, de programmer un joueur automatique naïf, suivant une heuristique très simple en début de partie, et explorant tout l'arbre des parties lorsqu'il reste peu de coups à jouer ; et d’utiliser une ou plusieurs heuristiques pour améliorer le joueur naïf (Minimax, Alpha-Beta, ...).
+
+Othello est un jeu de stratégie à deux joueurs : Noir et Blanc. Il se joue sur un plateau unicolore de 64 cases, 8 sur 8 appelé othellier. Ces joueurs disposent de 64 pions bicolores, noirs d’un côté et blancs de l’autre. Le but du jeu est d’avoir plus de pions de sa couleur que l’adversaire à la fin de la partie. Celle-ci s’achève lorsque aucun des deux joueurs n’a de coup légal à jouer. Cela intervient généralement lorsque les 64 cases sont occupées (définition de la Fédération Française d’Othello).
+
+Il a été sujet à de nombreuses utilisations par des scientifiques lors de tournois. Ces rencontres permettaient de mesurer la performance de leur Intelligence Artificielle, les unes par rapport aux autres.
+
+Ainsi ce projet est centré
+sur la réalisation du logiciel et plus particulièrement sur une IA compétitive. De plus, les différents besoins de notre client nous ont amenés à réaliser un logiciel Othello amélioré proposant des fonctionnalités supplémentaires au jeu Othello générique.
+
+Notre rapport se décompose en quatre parties dont les premières correspondent aux recherches effectuées avec une étude de l’existant, une bibliographie et une analyse des besoins. Puis, nous présentons notre projet avec nos choix de conception, l’architecture logicielle, les spécificités du jeu, nos choix d’implémentation et les algorithmes utilisés. Enfin, nous évoquerons les fonctionnalités existantes, améliorations que nous pourrions apporter dans le futur ainsi que les différents tests que nous avons réalisés.
+
+\addcontentsline{toc}{chapter}{Introduction}
+
+
+\chapter{Analyse de l'existant}
+
+\input{Existant/analyse}
+
+\chapter{Analyse des besoins}
+
+\input{Besoins/besoins}
+
+\chapter{Architecture et description du logiciel}
+
+\input{Architecture/architecture}
+
+\section{Design patterns utilisés}
+
+Les design patterns (patron de conception, en français) ont été créés afin de remédier à certains problèmes de conception récurrents. Chacun d’eux répond à un problème précis et permet d’améliorer la maintenabilité et la réutilisation de notre code. 
+
+Notre formation à l’approche objet en Java nous a permis de voir plusieurs de ces patterns. Nous les avons implémentés dans nos différents modules dès que l’architecture si prêtait.
+
+\subsection{State}
+
+Le principe de ce pattern est de pouvoir changer le comportement d’un objet sans modifier son instance, ainsi que de facilité l’ajout de nouveaux comportements. Nous l’avons utilisé afin de gérer les pièces de l’othellier.
+
+En effet, une pièce peut être de différentes couleurs : noire, blanche ou vide (équivalent à aucune pièce). Le principal avantage de ce pattern, pour les pièces, est de pouvoir facilement changer sa couleur ou d’ajouter une nouvelle couleur si on le souhaite.
+
+Cependant, cette implémentation a ses désavantages. Chaque changement de couleur demande une nouvelle instanciation de comportement et donc, une partie de la mémoire. C’est pour cela que pour les calculs lourds des intelligences artificielles, ce pattern n’a pas été utilisé.
+
+Nous avons également utilisé ce pattern sur la classe Joueur. Celle-ci contient deux comportements : Machine et Humain correspondant à un joueur humain décidant son coup et à l’IA qui décide son propre coup. Nous avons utilisé ce pattern dans le cas d’un comportement différent qui pourrait être demandé par le client pour améliorer l’expérience utilisateur du jeu ou dans une démarche scientifique de recherches. Prenons, par exemple, une fonctionnalité où à partir d’une certaine position dans la partie, un joueur Humain déciderait de laisser l’IA jouer à sa place. Ainsi, en changeant simplement le type de joueur, l’IA prendrait la main. Ceci est possible car à chaque pièce posée, le contrôleur général gère l’évènement associé (automatique pour l’IA et sur clique d’une case pour l’Humain) selon le type du joueur.
+
+\subsection{Abstract Factory}
+
+Le pattern Abstract Factory (Fabrique Abstraite) permet de fournir une interface unique et simple d’utilisation pour créer les objets d’une même famille sans avoir à connaître la classe à instancier. Nous avons utilisé ce pattern dans le module Othello Kernel notamment sur les objets “package Model”.
+
+Notre fabrique abstraite (classe AbstractFactory) permet de gérer plusieurs fabriques, à savoir celles de “Piece”, de “Player”, “Board”, “GameSettings”, et de “Save/RestoreGame”. Chacune d’elle permet de gérer un type d’objet précis. Ainsi, nous avons plusieurs “factory” ; une pour chaque classe citée ci-dessus. Toutes ces “factory” sont elles mêmes interfacées par une classe abstraite “AbstractFactory” et récupérables par l’intermédiaire de la classe “FactoryProducer”.
+
+Ce pattern présente, malgré tout, plusieurs inconvénients. Premièrement, il est compliqué à mettre en place car chaque fabrique d’objets à besoin d’une classe et d’une interface. De plus, toutes les “factory”, quel que soit leur comportement, doivent implémenter les mêmes méthodes car elles interfacent toute la même classe abstraite. Ainsi, nous avons sécurisé chaque comportement inapproprié pour chaque “factory” par un système d’exceptions. Finalement, chaque fabrique étant liée à la même classe abstraite, la modification d’une signature de méthode se répercute sur toutes les “factory” entrainant des modifications profondes. 
+
+Malgré cette mise en place relativement lourde, ce pattern est pratique notamment lors de mises en place d’évolutions du logiciel, de maintenance, pour sa facilité d’ajout de constructeurs et également pour segmenter le code.
+
+\subsection{Observer}
+
+Le pattern Observer permet de réduire les dépendances d’objet mais également de gérer des évènements déclenchés par un objet observé et suivi par un observateur. Il est indispensable pour nous, pour la gestion de l’affichage de l’othellier. 
+
+En effet, à chaque modification de l’othellier celle-ci doit être représentée visuellement sur la fenêtre utilisateur. Ainsi, la zone de dessin (GameCanvas), représentant l’othellier sous forme de grille, espionne le modèle contenant l’othellier et affiche la grille à chaque modification : ajout d’une pièce, calcul des pièces jouables …
+
+\subsection{Model-View-Controller}
+
+Modèle-Vue-Contrôleur permet de séparer dans une application intéractive les différents composants. La vue permet l’intéraction avec les utilisateurs, le modèle contient les données et le contrôleur gère les évènements utilisateurs et la modification de données.
+
+Ce pattern utilise également le patron “Observer”. En effet, les données du modèle sont liées à la vue afin que celles-ci reflètent les changements à chaque modification.
+
+Ce patron a été utilisé pour gérer le jeu Othello. Nous avons séparé le jeu en trois packages correspondant aux modules MVC. Les accès entre les modules Vue-Contrôleur et Vue-Modèle sont entièrement interfacés pour bien segmenter le code. 
+
+\subsection{Singleton}
+
+Ce design pattern permet de restreindre l’instanciation d’une classe à un unique objet. Nous l’avons utilisé à plusieurs reprises dans le projet. 
+
+Toutes les diverses classes implémentant les “factory” suivent ce pattern afin de limiter l’espace mémoire utilisé. De plus, il n’est pas nécessaire d’avoir plusieurs objets pour une même factory dans notre projet.
+
+Ce pattern a également été utilisé pour la classe Application afin d’empécher la multi-instanciation. En effet, le but de cette classe est d’être unique/”constante” pour tout le logiciel afin que chaque classe ayant besoin de ces informations puissent y accéder sans dupliquer de données.
+
+Les contrôleurs du logiciel se doivent d’être uniques pour ne pas avoir de répétition d’action pour un évènement donné. Du coup, nous les avons implémentés en tant que Singleton par mesure de sécurité.
+
+Lors des tests de performance, nous nous sommes rendus compte que nous avions un important problème d’optimisation mémoire. En effet, à chaque changement d’état d’une pièce, nous faisons une nouvelle instanciation correspondant à la nouvelle couleur : blanche ou noire. Afin d’améliorer nos performances mémoires, la couleur noire/blanche étant la même pour toutes les pièces, nous avons changé les classes codant les couleurs ”Blanche” et “Noire” pour qu’elles suivent le pattern Singleton. Ainsi, avec une unique intanciation des couleurs nous utilisons beaucoup moins de mémoire.
+
+\subsection{Strategy}
+
+Ce patron de conception permet de modifier dynamiquement les algorithmes utilisés. Le but étant de changer de comportement facilement selon l’environnement. Le principe repose sur l’encapsulation de ces algorithmes pour les rendre interchangeables selon les besoins.
+
+Celui-ci a été utilisé pour la gestion des difficultés de l’IA. En effet, selon la difficulté, l’IA n’utilise pas les mêmes algorithmes : elle change de stratégie selon la difficulté choisie.
+
+Par exemple, en mode facile le calcul de position est basé sur un algorithme aléatoire alors qu’en mode difficile celui-ci est basé sur un algorithme brute force.
+
+\section{Heuristiques et Algorithmes de recherches de solution}
+
+Il existe beaucoup de stratégies (voir \cite{strategy}, \cite{13}) permettant de jouer à Othello. Chacune a ses propres spécificités comme par exemple, maximiser le score des pions, empêcher le joueur d'encercler l'autre joueur, donner le moins de coups possibles à l'adversaire,... Nous avons implémenté la stratégie positionnelle, la mobilité, et la maximisation.
+
+\subsection{Stratégie positionnelle}
+
+Le principe de la stratégie positionnelle (voir \cite{strategy}) est de donner des scores aux cases vides du plateau en fonction de leur stabilité, semi-stabilité et de leur instabilité. Une case est dite stable ou définitive si elle ne peut être reprise par l’adversaire lorsqu’on l’aura jouée. Une case est dite instable lorsqu’on est sûr qu’elle pourra être reprise par le joueur adverse. Et enfin, une case est dite semi-stable lorsque la probabilité que le joueur adverse puisse la reprendre est moyenne.
+Ainsi, on peut déjà classer quelques cases comme par exemple les coins. Les coins sont stables puisque une fois pris, ils ne peuvent être repris par l’adversaire. La case en diagonale directe de chaque coin est appelée la case X. Les cases X sont instables. De même que les cases C qui sont les 2 cases adjacentes au coin sur les bords du plateau.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/positionnement.png}
+\caption{Grille classant les cases.}
+\label{pos}
+\end{figure}
+
+Sur le schéma \ref{pos}, plus la case vire vers le rouge, plus il faut éviter de la jouer. Plus la case est bleu, plus il est intéressant de la jouer.
+Ainsi, on peut créer une matrice évaluant tous les types de cases.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/positionnement2.png}
+\caption{Grille évaluant une partie de toutes les cases de l'othellier.}
+\label{pos2}
+\end{figure}
+
+Cette matrice (figure \ref{pos2}) est alors adaptée à la taille de la grille de jeu.
+
+Lorsque certaines configurations permettent de capturer sans crainte une position instable, celle-ci se transforme en position stable après recalcule de la matrice.
+
+
+\subsection{Mobilité}
+
+Le principe de la mobilité (voir \cite{13}) est de faire en sorte que l’adversaire ait le moins de coups possibles. Si l’adversaire a beaucoup de coups possibles, il aura certainement une plus grande probabilité de jouer un bon coup. Si l’adversaire a peu de coups possibles, il n’aura pas vraiment le choix et peut se retrouver avec des coups qui le forceront à donner facilement des pions à son adversaire. Cette stratégie est très efficace en début et en milieu de partie car elle permet de contrer toutes stratégies d’encerclement. De plus, le nombre de pièces appartenant à chaque joueur n’est pas une indication fiable pour vaincre en début et en milieu de partie donc, il faut se concentrer sur le fait de diminuer le nombre de coup du joueur afin d’avoir un net avantage lorsqu’on passera à une stratégie de maximisation...
+
+
+\subsection{Maximisation}
+
+La maximisation est une stratégie dont le principe est de capturer le plus de pièces possibles afin d’avoir le meilleur score. Cette stratégie est la meilleure en apparence puisqu’elle représente l'objectif final du jeu, à savoir obtenir plus de pions que son adversaire. Ceci est vrai si on calcule l’arbre entier de partie représentant toutes les parties possibles du jeu à partir de tous les coups jouables de toutes les positions de plateau. C'est ce qui est plus communément appelé un algorithme "brute force" ou force brute. Cet arbre donne alors le déroulement d'une partie coup après coup jusqu'à atteindre la fin, les feuilles de l'arbre.
+
+
+\subsubsection{MiniMax : parcours exhaustif de l'arbre des parties}
+
+L'algorithme MiniMax (voir \cite{1}) permet de parcourir exhaustivement l'arbre de partie du jeu et de décrire des chemins gagnants pour les deux joueurs. 
+Pour cela, il calcule tous les enchaînements de coup possible à partir de la position de base du jeu. Une fois arrivée à une racine, il prend le score du joueur Max et le remonte. S'il y a plusieurs branches au niveau d'un noeud, le noeud prendra le score maximal des branches si c'est le tour du joueur Max (joueur qui maximise le score) ou prendra le score minimal si c'est le tour du joueur Min (joueur qui minimise le score).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{Images/minimax.png}
+\caption{Arbre MiniMax de profondeur 2.}
+\label{minima}
+\end{figure}
+
+L'arbre de partie pouvant être tellement grand qu'il est impossible pour un ordinateur à l'heure actuelle de calculer et de sauvegarder un arbre de partie entier pour une grille d'Othello 8x8 en position initiale de début de jeu. C'est pour cela qu'il est nécessaire de fixer une profondeur à ne pas dépasser. Ainsi, il est d'usage de lancer l'algorithme en fin de partie afin d'obtenir un arbre plus petit et surtout de calculer une stratégie potentiellement gagnante pour le joueur ayant le dernier coup. Si cette stratégie est utilisée en début de partie ou en milieu, elle sera facilement battue par une stratégie positionnelle ou de mobilité puisque l'arbre ne pourra en aucun cas assurer une victoire du joueur sur le long terme.\\
+
+L'algorithme en pseudo-code est consultable en annexe \ref{codemin}.\\
+
+Il existe cependant plusieurs améliorations de l'algorithme MiniMax permettant d'élaguer des branches de l'arbre, l'allégeant quelque peu.
+
+
+\subsubsection{L'élagage Alpha-Beta}
+
+L'élagage Alpha-Beta (voir \cite{1}) reprend le principe de l'algorithme MiniMax en ajoutant des bornes alpha et beta afin d'éviter l'exploration de branches inutiles de l'arbre. En effet, il suffit de passer aux noeuds les valeurs actuelles de ces bornes qui changent de valeur au fur et à mesure de la recherche. Alpha représente pour un noeud MIN n, la plus grande valeur connue pour un noeud MAX ancêtre de n. Beta représente pour un noeud MAX n, la plus grande valeur connue pour un noeud MIN ancêtre de n.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{Images/alphabeta.png}
+\caption{Arbre Alpha-Beta de profondeur 4.}
+\label{alphabet}
+\end{figure}
+
+
+L'algorithme utilise le début de la recherche de solution afin de borner les valeurs possibles de la racine. On élague ainsi des sous-arbres entiers de manière non risquée.\\
+
+L'algorithme en pseudo-code est consultable en annexe \ref{codealpha}.\\
+
+Nous avons implémenté trois autres versions un peu plus efficace pour cette algorithme:
+
+\begin{itemize}
+\item La version NegaMax est une version conventionnant l'utilisation de l'algorithme. Elle permet d'éviter la distinction entre les deux joueurs Max et Min et simplifie ainsi le code.
+
+\item La version fail soft alpha-beta utilise un nouveau pivot dans la recherche afin de rajouter une borne current permettant d'accélerer la recherche.
+
+\item La version NegaScout ou appelé également Principal Variation Search effectue des pré-recherches sur l'arbre en utilisant un intervalle plus petit (alpha, alpha + 1 à la place d'alpha, beta en début d'algorithme) afin d'élaguer d'avantage de branche inutile.
+
+\end{itemize}
+
+
+\chapter{Fonctionnement et tests}
+
+A ce jour, nous avons développé l’intégralité des besoins fonctionnels. Néanmoins, nous aurions pu, si nous avions eu plus de temps, ajouter des optimisations, des améliorations, supprimer davantage de bugs.
+
+\section{Etat du projet}
+
+Comme décrit dans la partie 3 de ce rapport (Architecture et description du logiciel), nous avons découpé le projet en différents modules que nous allons décrire. 
+
+\subsection{Logiciel}
+
+Au lancement du jeu (figure \ref{cap1}), quelques réglages sont à faire avant de pouvoir jouer. Dans un premier temps, il faut indiquer la taille de la grille (le maximum est 50*50). Puis, lancer le BenchMark (explication ci-dessous) et indiquer la difficulté souhaitée. Enfin, préciser si l'on joue entre joueurs ou un joueur contre l'IA. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{Images/initialisation.png}
+\caption{Initialisation du jeu}
+\label{cap1}
+\end{figure}
+
+Le Benchmark (figure \ref{cap2}) permet d'évaluer les performances de la machine. En fonction du temps de réflexion obtenu, on en déduit le temps qu'il faudra à l'IA pour jouer. Celui-ci ne permet pas, actuellement, de récupérer le temps qu'il faudrait associé à l'IA mais uniquement l'indice de performance de la machine. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{Images/benchmark.png}
+\caption{Lancement du BenchMark}
+\label{cap2}
+\end{figure}
+
+Après avoir paramétré le jeu (figure \ref{cap3}), les jetons sont placés au centre du plateau et par défaut c'est le joueur blanc qui commence. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/debut.png}
+\caption{Jeu de base}
+\label{cap3}
+\end{figure}
+
+Le logiciel, au cours d'une partie (figure \ref{cap4}), possède plusieurs zones afin d'informer l'utilisateur : le plateau, l'historique (liste à droite), menu général en haut à gauche ainsi qu'une aide et enfin, en bas, à gauche une barre de notification et à droite, une barre de statistiques sur la partie actuelle.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{Images/cours.png}
+\caption{Partie en cours}
+\label{cap4}
+\end{figure}
+
+Si l'utilisateur le désire, il peut choisir de revenir à n'importe quelle position jouée (figure \ref{cap5}) en cliquant sur le bouton "Revenir à une position". Ainsi, il peut recommencer une partie à une position donnée. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{Images/sliderevenir.png}
+\caption{Changement de position jouée grâce au slider}
+\label{cap5}
+\end{figure}
+
+
+\subsection{Editeur de plateau}
+
+Afin d'accéder à ce module, vous devez aller dans le menu "Menu" puis "Configurer une partie".
+
+Une fois le module lancé, il suffit juste de suivre les instructions à l'écran.
+
+Vous devrez tout d'abord saisir la taille du plateau de jeu, puis préciser la grille de jeu initiale (pion par pion ou à l'aide d'un fichier préconfiguré par vos soins). Il ne vous restera plus qu'à renseigner les valeurs concernant les joueurs et l'intelligence artificielle.
+
+Si vous voulez créer un fichier de jeu à partir d'un plateau préconfiguré, vous devrez créer un fichier evec l'extension ".grd" puis le remplir de façon à représenter la grille de jeu. Pour un emplacement vide de la grille, vous devrez mettre un tiret ("-"), pour un pion blanc, vous devrez saisir la lettre o en minuscule ("o") et pour un pion noir, vous devrez saisir l'astérisque ("*"). Pour finir avec la création de ce fichier, afin de revenir à la ligne, vous devrez utiliser la touche entrée de votre clavier ("enter").
+
+Voici un petit exemple ce que que pourrait représenter un plateau préconfiguré sur une grille de jeu de dimension (20x15).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.33]{Images/ExempleBP.png}
+\caption{Exemple d'utilisation de l'éditeur de plateau}
+\label{exbp}
+\end{figure}
+
+Attention, lors de la création du fichier de jeu, vous devez absolument passer un fichier ".grd" contenant une grille correspondant aux dimensions du plateau de jeu que vous êtes en train de créer, sinon votre grille de jeu sera standard. Elle sera aussi standard si vous saisissez un autre caractère que ceux énnoncés ci dessus.
+
+\subsection{Aide du jeu}
+
+Dans un premier temps, nous avions choisi de faire un fichier PDF contenant les règles et l’aide du jeu.
+Finalement, nous avons décidé de développer un petit site internet en HTML5 et CSS3 qui est visible en local.  \\ 
+Le site présente le projet, le jeu avec ses règles, les documents relatifs au développement, la documentation et l’équipe. 
+Depuis le jeu, nous avons le bouton "Aide" qui permet d'y accéder directement.
+
+En annexe \ref{site}, nous avons une capture ainsi que l'adresse du site hébergé sur le serveur du Cremi.
+
+\section{Améliorations possibles sur le projet}
+
+\subsection{Interface graphique}
+
+Notre version étant une version Beta, il existe quelques bugs graphiques. Notamment au niveau de l'affichage du plateau. Lorsque la grille de jeu s'affiche on peut voir les cases apparaitre les unes après les autres. Cela peut géner l'utilisateur. Concernant le menu, il s'affiche parfois derrière la grille de jeu, il faut donc,  afin de pouvoir le voir dans son intégralité, réduire puis restaurer la fenêtre de jeu.
+
+Une fonctionnalité intéressante à modifier serait l’interface d’affichage. En effet, celle-ci se rafraîchit plusieurs fois à la suite d’une pièce posée car l’ajout d’un pion entraîne plusieurs calculs qui rafraîchissent tout l’interface (exemples : action de poser un pion, calcul des pions qui se retournent, calcul des pions jouables pour l’adversaire, ...). Cette modification est très facile à implémenter grâce au pattern Observer.
+
+
+\subsection{Fichier de sauvegarde}
+
+L’une des optimisations que nous aurions pu apporter au projet concerne le module de sauvegarde (notamment l’auto-sauvegarde). En effet, lorsque l’on fait appel à la sauvegarde automatique, un nouveau fichier est créé à chaque coup joué (que l’utilisateur soit un humain ou l’intelligence artificielle). Il serait intéressant qu’à chaque fin de partie, les fichiers créés soient détruits afin de ne pas avoir occupé un espace disque trop grand au bout d’un certain nombre de parties jouées.
+
+Comme indiqué dans le paragraphe précédent, le jeu possède un module d’édition de plateau et réalise régulièrement des sauvegardes. Le problème est que lorsque l’on veut charger une partie, le temps de chargement peut être assez long. Effectivement, il  est très rapide sur des grilles de taille standard (inférieure à 10*10), mais sur des grilles de taille 50*50 par exemple, il peut durer plusieurs secondes. La solution est donc d’exécuter le chargement d’un fichier de sauvegarde sur son propre thread afin que le reste du logiciel ne se bloque pas. 
+
+
+\subsection{Module éditeur de plateau}
+
+Nous avons développé un module de création de plateau de jeu en lignes de commande (cf. partie Etat du projet). Il serait intéressant de réaliser un éditeur de plateau de jeu graphique basé sur l’interface graphique du jeu elle-même. Du fait d’avoir réalisé une architecture du logiciel modulaire, il serait très simple de l’intégrer dans le projet.
+
+De plus, lorsque l'on exécute le module d'édition de plateau de jeu, si l’utilisateur ne souhaite pas terminer la création de son plateau, le seul moyen pour quitter l’éditeur est de fermer complètement l’application. La solution à ce problème serait d’ajouter à l’éditeur, une fonctionnalité permettant de quitter proprement le module, et ainsi redonner la main au jeu.
+
+
+\subsection{Améliorations diverses}
+
+Lorsque nous avons testé notre logiciel sur les ordinateurs du Cremi, nous nous sommes compte que le module de gestion de fichiers ne gère pas les chemins de type /net/cremi/... mais nécessite un chemin C:\textbackslash{}...
+Ainsi, il faudrait utiliser des chemins relatifs, ./chemin/..., plutôt qu'un chemin absolu. 
+A cause de ces inconvénients, la sauvegarde utilisateur et le chargement ne fonctionnent pas au Cremi. 
+
+
+Grâce à l’architecture choisie, l’interface peu travaillé, est facilement modifiable et de nombreuses autres fonctionnalités peuvent être facilement implémentées. Parmi ces fonctionnalités, on pourrait avoir une amélioration de l’IA qui serait évolutive, c’est-à-dire qui apprend en fonction des coups joués par l’utilisateur, s’améliorant donc au fur et à mesure de son utilisation.
+
+Dans l’optique de rendre le jeu plus fluide et agréable à jouer nous avons créé le module BenchMark. Celui-ci attribue un chiffre à la puissance de la machine qui le lance. Nous n’avons pas eu le temps de le faire mais cela aurait été une amélioration permettant de gérer le déclenchement de certains algorithmes “gourmands” de l’IA. En effet, une machine peu puissante lancerait ces algorithmes au dernier moment pour que l’interface soit toujours réactive à l’utilisateur. Une machine puissante pourrait les lancer plus tôt dans la partie et ainsi optimiser les choix de l’IA.
+
+Dans l’idée de rendre le jeu plus accessible nous avons codé la gestion des textes de l’interface utilisateur, pour chaque module, dans une interface. Ainsi, si l’on souhaite internationaliser le logiciel il suffit de créer une classe qui récupère le bon texte dans la langue désirée dans l’interface.
+
+
+\section{Protocoles de test}
+
+Depuis le début de nos études, c’est la première fois que nous avons à réaliser un projet aussi complet (étude bibliographique, étude des besoins, gestion d’un client, ...). Ainsi, nous n’avons pas réussi à respecter notre emploi du temps comme nous aurions dû. De ce fait, nous n’avons pas pu réaliser autant de tests que voulu. 
+
+Pour s’assurer du bon fonctionnement de notre architecture et de notre implémentation, nous avons réalisé différents types de tests.
+
+\subsection{Tests unitaires}
+
+Le \textbf{test unitaire} est un procédé permettant de vérifier le bon fonctionnement d’une partie spécifique du programme. Pour se faire, nous nous sommes aidés de l’outil JUnit pour tester certaines de nos méthodes.
+
+Parmi les tests prévus, nous en avons réalisé la plus grande partie que nous présentons ci-dessous :
+
+\begin{itemize}
+\item L’othellier choisi au chargement correspond bien à celui de la sauvegarde
+\item La position choisie ne doit pas être hors des bornes
+\item Lorsque l’IA suggère un coups, la position de celui-ci doit correspondre à un coup valide
+\item La grille générée doit avoir la taille demandée
+\item Le temps de réflexion alloué à la réflexion de l’IA doit être respecté
+\item Tester visuellement que les jetons sont correctement échangés avec ceux de l’adversaire lors du changement de joueur
+\item Changer de joueur fréquemment
+\item Les fichiers de sauvegardes contiennent les informations correspondant à la partie sauvée.
+\end{itemize}
+
+\subsection{Tests d’intégration}
+
+Le \textbf{test d’intégration} permet de vérifier le bon fonctionnement du regroupement de différents modules validés. 
+Pour l’évolution de chaque module, à l’ajout ou la modification de fonctionnalités, entraînant la création d’un .jar, tous les tests d’intégration sont refaits afin de vérifier que les changements ne sont pas sources de bugs. 
+
+\subsection{Tests fonctionnels}
+
+Le \textbf{test fonctionnel} sert à vérifier qu’une fonctionnalité est correctement exécutée. Il se rapproche plus d’une représentation accessible au client, “personne lambda”, qu’à un expert en informatique.
+
+Voici une liste des tests effectués :
+\begin{itemize}
+\item Vérifier que le résultat de la réflexion de l’IA est correct.
+\item Le fichier de sauvegarde est bien créé et valide. De plus, le plateau affiché après chargement correspond bien au fichier en entrée.
+\item La fonctionnalité de retour en arrière est désactivée lorsqu’il n’y a plus aucun coup précédant le coup actuel.
+\end{itemize}
+
+\subsection{Tests systèmes}
+
+Les \textbf{tests systèmes} sont un ensemble de tests effectués pour évaluer la correspondance avec les exigences spécifiées. Ils appartiennent à la classe des tests de type boîte noire, et donc, ne nécessitent aucune connaissance au niveau développement.
+Voici une liste des test effectués :
+\begin{itemize}
+\item Exécution du jeu simultanément à un autre logiciel (gourmand en ressources) pour vérifier que le comportement du logiciel reste inchangé.
+\item Le temps de réflexion associé à l’IA doit correspondre à celui donné lors du choix utilisateur
+\item Exécution du logiciel sur différentes machines de puissances différentes (netBook, ultraBook, PC de salon, PC de jeu)
+\item Fermer l’application en plein milieu d’une partie, pendant la réflexion de l’IA.
+\item Tester le logiciel sur différents systèmes d’exploitation supportant la JVM : Windows, Mac OS, Linux
+\end{itemize}
+
+\subsection{Tests non réalisés}
+
+Voici quelques tests que nous n'avons pas eu le temps de faire :
+\begin{itemize}
+\item Test d’utilisation : Faire jouer des personnes inconnues au projet, des personnes ne connaissant pas les règles du jeu Othello, des enfants aux personnes âgées.
+\item Test d’utilisation : Complément du test de Facilité d’utilisation. Faire jouer des scientifiques pouvant utiliser les résultats du programme à des fins professionnelles.
+\end{itemize}
+
+\phantomsection
+\chapter*{Conclusion}
+
+L’objectif de ce projet est de mettre en application les principes et techniques liés à la programmation vus durant notre formation telles que la gestion de projet, la programmation en Java et la documentation de code.
+
+Travailler en quadrinôme sur un projet de 4 mois nous a permis de développer notre travail d’équipe mais essentiellement de comprendre l’intérêt d’un bon cahier des charges et d’une bonne répartition des tâches afin d’optimiser le travail de chaque personne.
+
+Nous nous sommes rendus compte que la gestion du temps est très importante afin de tenir le planning établi.
+
+L’ensemble des fonctionnalités demandées par le client a été implémenté. Nous avons un jeu fonctionnel où un humain peut affronter une IA en choisissant une difficulté. Deux IA peuvent également se rencontrer. Le joueur peut également créer son propre plateau ou revenir à une ancienne position jouée.
+
+\addcontentsline{toc}{chapter}{Conclusion}
+
+
+\bibliography{Existant/biblio} 
+
+\appendix
+\phantomsection
+\appendixpage
+\addappheadtotoc 
+
+\chapter{Prototypes papier de l'interface}
+\label{D}
+
+\section{Prototype papier du plateau de jeu}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.1]{Besoins/plateau.jpg}
+\caption{Plateau de jeu comprenant la grille, les menus et les
+  boutons}
+\label{plateau}
+\end{figure}
+
+\section{Prototype papier du retour en arrière pour les coups}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.1]{Besoins/position.jpg}
+\caption{Prototype de la fonctionnalité de retour en arrière pour des coups}
+\label{retour}
+\end{figure}
+
+\section{Prototype papier des boutons et menus}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.1]{Besoins/boutons.jpg}
+\caption{Prototype des boutons et des menus pour l'interface}
+\label{boutons}
+\end{figure}
+
+\chapter{Diagrammes UML}
+
+\section{Diagramme de machine à états}
+\label{C}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.7]{Besoins/MachineEtat.png}
+\caption{Diagramme UML de machine à états}
+\end{figure}
+
+\section{Diagramme de déploiement}
+\label{A}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.77]{Besoins/DeploymentDiagram.png}
+\caption{Diagramme UML de déploiement}
+\end{figure}
+
+\section{Diagramme des cas d'utilisation}
+\label{B}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.65]{Besoins/Othello_Uses_Cases.png}
+\caption{Diagramme UML des cas d'utilisation du logiciel}
+\end{figure}
+
+\section{Diagramme de classes du Logiciel}
+\label{OthKer}
+\subsection{Model du logiciel}
+
+\label{OthKerModel}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.32]{Kernel/Pack_com_model.png}
+\caption{Diagramme UML de classes du Package Model du Logiciel}
+\end{figure}
+
+\label{OthKerModelIO}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.65]{Kernel/Pack_com_model_io.png}
+\caption{Diagramme UML de classes du Package Model.IO du Logiciel}
+\end{figure}
+
+\label{OthKerModelPlayer}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.7]{Kernel/Pack_com_model_player.png}
+\caption{Diagramme UML de classes du Package Model.Player du Logiciel}
+\end{figure}
+
+\label{OthKerModelPiece}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.54]{Kernel/Pack_com_model_piece.png}
+\caption{Diagramme UML de classes du Package Model.Piece du Logiciel}
+\end{figure}
+
+\label{OthKerModelView}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.65]{Kernel/Pack_com_model_view.png}
+\caption{Diagramme UML de classes du Package Model.View du Logiciel}
+\end{figure}
+
+\label{OthKerModelFactory}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.58]{Kernel/Pack_com_model_factory.png}
+\caption{Diagramme UML de classes du Package Model.Factory du Logiciel}
+\end{figure}
+
+\label{OthKerModelFactoryInterfaces}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.45]{Kernel/Pack_com_model_factory_interfaces.png}
+\caption{Diagramme UML de classes du Package Model.Factory.Interfaces du Logiciel}
+\end{figure}
+
+\label{OthKerModelFactoryImpl}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.32]{Kernel/Pack_com_model_factory_impl.png}
+\caption{Diagramme UML de classes du Package Model.Factory.Impl du Logiciel}
+\end{figure}
+
+\subsection{Vue du logiciel}
+\label{OthKerView}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.45]{Kernel/Pack_com_view.png}
+\caption{Diagramme UML de classes du Package View du Logiciel}
+\end{figure}
+
+\label{OthKerViewInterfaces}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.5]{Kernel/Pack_com_view_interfaces.png}
+\caption{Diagramme UML de classes du Package View.Interfaces du Logiciel}
+\end{figure}
+
+\label{OthKerViewEvent}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.5]{Kernel/Pack_com_view_event.png}
+\caption{Diagramme UML de classes du Package View.Event du Logiciel}
+\end{figure}
+
+\label{OthKerViewButton}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.51]{Kernel/Pack_com_view_button.png}
+\caption{Diagramme UML de classes du Package View.Button du Logiciel}
+\end{figure}
+
+\subsection{Contrôleur du logiciel}
+\label{OthKerController}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{Kernel/Pack_com_controller.png}
+\caption{Diagramme UML de classes du Package Controller du Logiciel}
+\end{figure}
+
+
+\label{OthKerControllerInterfaces}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=1.0]{Kernel/Pack_com_controller_interfaces.png}
+\caption{Diagramme UML de classes du Package Controller.Interfaces du Logiciel}
+\end{figure}
+
+\subsection{Utils du logiciel}
+\label{OthKerUtils}
+\begin{figure}[H]
+\centering
+ \includegraphics[scale=0.35]{Kernel/Pack_utils.png}
+\caption{Diagramme UML de classes du Package Utils du Logiciel}
+\end{figure}
+
+\section{Diagramme de classes Intelligence Artificielle}
+\label{clsAI}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.23]{Architecture/ArtificialIntelligence.png}
+\caption{Diagramme UML de classes de l'intelligence Artificielle}
+\end{figure}
+
+\section{Diagramme de classes du gestionnaire de fichiers}
+\label{clsFM}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.5]{Architecture/FilesManager.png}
+\caption{Diagramme UML de classes du Gestionnaire de fichiers}
+\end{figure}
+
+\section{Diagramme de classes de l'Editeur de plateaux}
+\label{clsBP}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.34]{Architecture/BoardPublisher.png}
+\caption{Diagramme UML de classes de l'Editeur de plateaux}
+\end{figure}
+
+\section{Diagramme de classes du Gestionnaire de temps}
+\label{clsT}
+\begin{figure}[H]
+\centering
+  \includegraphics[scale=0.8]{Architecture/PdpTimer.png}
+\caption{Diagramme UML de classes du Gestionaire de temps}
+\end{figure}
+
+\chapter{Pseudo-codes d'algorithmes}
+\lstset{language=C++,basicstyle=\ttfamily\scriptsize}     
+\section{Algorithme MiniMax}
+\begin{figure}[H]
+\begin{lstlisting}[frame=single]
+int fonction minimax (int depth){
+   if (game over or depth = 0)
+      return winning score or eval();
+   int bestScore;
+   move bestMove;
+   if (noeud == MAX) { //=Programme
+      bestScore = -INFINITY;
+      for (each possible move m) {
+         make move m;
+         int score = minimax (depth - 1)
+         unmake move m;
+         if (score > bestScore) {
+            bestScore = score;
+            bestMove = m ;
+         }
+      }
+   }
+   else { //type MIN = adversaire
+      bestScore = +INFINITY;
+      for (each possible move m) {
+         make move m;
+         int score = minimax (depth - 1)
+         unmake move m;
+         if (score < bestScore) {
+            bestScore = score;
+            bestMove = m ;
+         }
+      }
+   }
+   return bestscore ;
+}
+\end{lstlisting}
+\caption{Pseudo-code de l'algorithme MiniMax \cite{1}}
+\label{codemin}
+\end{figure}
+
+\lstset{language=C++,basicstyle=\ttfamily\footnotesize}     
+\section{Algorithme Alpha-Beta}
+\begin{figure}[H]
+\begin{lstlisting}[frame=single]
+int alphabeta(int depth, int alpha, int beta)
+{
+   if (game over or depth <= 0)
+      return winning score or eval();
+   move bestMove;
+   if(noeud == MAX) { //Programme
+      for (each possible move m) {
+         make move m;
+         int score = alphabeta(depth - 1, alpha, beta)
+         unmake move m;
+         if (score > alpha) {
+            alpha = score;
+            bestMove = m ;
+            if (alpha >= beta)
+               break;
+         }
+      }
+      return alpha ;
+   } 
+   else { //type MIN = adversaire
+      for (each possible move m) {
+         make move m;
+         int score = alphabeta(depth - 1, alpha, beta)
+         unmake move m;
+         if (score < beta) {
+            beta = score;
+            bestMove = m ;
+            if (alpha >= beta)
+               break;
+         }
+      }
+      return beta;
+   }
+}
+\end{lstlisting}
+\caption{Pseudo-code de l'algorithme Alpha-Beta \cite{1}}
+\label{codealpha}
+\end{figure}
+
+\chapter{Site Web}
+
+Nous avons choisi de développer un site web en local pour plusieurs raisons. La principale raison est qu’il nous sert de support pour l’aide du jeu. Il nous permet également de présenter le projet, l’équipe et d’avoir accès à la documentation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.39]{Images/capture_site.png}
+\caption{Capture du site internet}
+\label{site}
+\end{figure}
+
+\centerline{\url{http://morgane.badre.1.emi.u-bordeaux1.fr/Othello/}}
+
+\chapter{Poster}
+
+Nous avons eu l’opportunité dans le cadre du cours de communication de réaliser un poster. C’était un moyen d’agrémenter et de présenter notre projet.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1.5]{Images/posterfinal.png}
+\caption{Poster du projet}
+\label{poster}
+\end{figure}
+
+\end{document}
+
+

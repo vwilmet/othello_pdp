@@ -1,0 +1,96 @@
+\select@language {french}
+\contentsline {chapter}{Introduction}{4}{chapter*.3}
+\contentsline {chapter}{\numberline {1}Analyse de l'existant}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1}\IeC {\'E}l\IeC {\'e}ments bibliographiques}{5}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}G\IeC {\'e}n\IeC {\'e}ralit\IeC {\'e}s sur les jeux d'accessibilit\IeC {\'e}}{5}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Heuristiques et Algorithmes de force-brute}{5}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}Algorithmes \IeC {\'e}volutionnistes et r\IeC {\'e}seaux neuraux}{6}{subsection.1.1.3}
+\contentsline {section}{\numberline {1.2}\IeC {\'E}tude de l'existant}{6}{section.1.2}
+\contentsline {chapter}{\numberline {2}Analyse des besoins}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}Besoins fonctionnels}{7}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Jouer une partie / mettre en pause une partie}{7}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}R\IeC {\'e}aliser une Intelligence Artificielle (IA) }{7}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Enregistrer une partie / Relancer une partie}{8}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Recommencer une partie \IeC {\`a} une certaine position}{8}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {2.1.5}Possibilit\IeC {\'e} de revenir un coup en arri\IeC {\`e}re}{8}{subsection.2.1.5}
+\contentsline {subsection}{\numberline {2.1.6}Fournir le manuel utilisateur du jeu (interface et r\IeC {\`e}gles)}{9}{subsection.2.1.6}
+\contentsline {subsection}{\numberline {2.1.7}Proposer des suggestions de coups par l'IA}{9}{subsection.2.1.7}
+\contentsline {subsection}{\numberline {2.1.8}Chargement d\IeC {\textquoteright }un fichier pr\IeC {\'e}-configur\IeC {\'e}}{9}{subsection.2.1.8}
+\contentsline {subsection}{\numberline {2.1.9}Possibilit\IeC {\'e} de choisir la taille de la grille de jeu}{10}{subsection.2.1.9}
+\contentsline {subsection}{\numberline {2.1.10}Menu pour choisir le temps de r\IeC {\'e}flexion de l\IeC {\textquoteright }IA}{10}{subsection.2.1.10}
+\contentsline {subsection}{\numberline {2.1.11}Possibilit\IeC {\'e} d\IeC {\textquoteright }\IeC {\'e}changer les joueurs}{10}{subsection.2.1.11}
+\contentsline {section}{\numberline {2.2}Besoins non fonctionnels}{10}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Besoins comportementaux}{11}{subsection.2.2.1}
+\contentsline {subsubsection}{Performances}{11}{section*.4}
+\contentsline {subsubsection}{Fiabilit\IeC {\'e}}{11}{section*.5}
+\contentsline {subsubsection}{Facilit\IeC {\'e} d\IeC {\textquoteright }utilisation}{11}{section*.6}
+\contentsline {subsubsection}{Domaine d\IeC {\textquoteright }action}{11}{section*.7}
+\contentsline {subsubsection}{Portabilit\IeC {\'e}}{12}{section*.8}
+\contentsline {subsection}{\numberline {2.2.2}Besoins organisationnels}{12}{subsection.2.2.2}
+\contentsline {subsubsection}{Standards et processus de d\IeC {\'e}veloppement}{12}{section*.9}
+\contentsline {subsubsection}{Gestion du temps}{14}{section*.10}
+\contentsline {subsection}{\numberline {2.2.3}Besoins externes}{15}{subsection.2.2.3}
+\contentsline {subsubsection}{Contraintes d'interop\IeC {\'e}rabilit\IeC {\'e}}{15}{section*.11}
+\contentsline {subsubsection}{Contraintes l\IeC {\'e}gales}{15}{section*.12}
+\contentsline {subsubsection}{Contraintes \IeC {\'e}thiques}{15}{section*.13}
+\contentsline {chapter}{\numberline {3}Architecture et description du logiciel}{16}{chapter.3}
+\contentsline {section}{\numberline {3.1}Architecture du projet}{16}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Logiciel}{17}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Intelligences Artificielles}{17}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Gestionnaire de Fichier}{18}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.4}Editeur de Plateau}{19}{subsection.3.1.4}
+\contentsline {subsection}{\numberline {3.1.5}BenchMark}{20}{subsection.3.1.5}
+\contentsline {subsection}{\numberline {3.1.6}Gestionnaire de Temps}{21}{subsection.3.1.6}
+\contentsline {section}{\numberline {3.2}Design patterns utilis\IeC {\'e}s}{22}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}State}{22}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Abstract Factory}{23}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Observer}{23}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Model-View-Controller}{23}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Singleton}{24}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Strategy}{24}{subsection.3.2.6}
+\contentsline {section}{\numberline {3.3}Heuristiques et Algorithmes de recherches de solution}{25}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Strat\IeC {\'e}gie positionnelle}{25}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Mobilit\IeC {\'e}}{26}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Maximisation}{26}{subsection.3.3.3}
+\contentsline {subsubsection}{MiniMax : parcours exhaustif de l'arbre des parties}{26}{section*.14}
+\contentsline {subsubsection}{L'\IeC {\'e}lagage Alpha-Beta}{27}{section*.15}
+\contentsline {chapter}{\numberline {4}Fonctionnement et tests}{29}{chapter.4}
+\contentsline {section}{\numberline {4.1}Etat du projet}{29}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Logiciel}{29}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Editeur de plateau}{32}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Aide du jeu}{33}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Am\IeC {\'e}liorations possibles sur le projet}{33}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Interface graphique}{33}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Fichier de sauvegarde}{34}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Module \IeC {\'e}diteur de plateau}{34}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Am\IeC {\'e}liorations diverses}{34}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Protocoles de test}{35}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Tests unitaires}{35}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Tests d\IeC {\textquoteright }int\IeC {\'e}gration}{36}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Tests fonctionnels}{36}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Tests syst\IeC {\`e}mes}{36}{subsection.4.3.4}
+\contentsline {subsection}{\numberline {4.3.5}Tests non r\IeC {\'e}alis\IeC {\'e}s}{37}{subsection.4.3.5}
+\contentsline {chapter}{Conclusion}{38}{chapter*.17}
+\contentsline {chapter}{Annexes}{42}{section*.20}
+\contentsline {chapter}{\numberline {A}Prototypes papier de l'interface}{42}{appendix.A}
+\contentsline {section}{\numberline {A.1}Prototype papier du plateau de jeu}{42}{section.A.1}
+\contentsline {section}{\numberline {A.2}Prototype papier du retour en arri\IeC {\`e}re pour les coups}{43}{section.A.2}
+\contentsline {section}{\numberline {A.3}Prototype papier des boutons et menus}{43}{section.A.3}
+\contentsline {chapter}{\numberline {B}Diagrammes UML}{44}{appendix.B}
+\contentsline {section}{\numberline {B.1}Diagramme de machine \IeC {\`a} \IeC {\'e}tats}{44}{section.B.1}
+\contentsline {section}{\numberline {B.2}Diagramme de d\IeC {\'e}ploiement}{45}{section.B.2}
+\contentsline {section}{\numberline {B.3}Diagramme des cas d'utilisation}{46}{section.B.3}
+\contentsline {section}{\numberline {B.4}Diagramme de classes du Logiciel}{47}{section.B.4}
+\contentsline {subsection}{\numberline {B.4.1}Model du logiciel}{47}{subsection.B.4.1}
+\contentsline {subsection}{\numberline {B.4.2}Vue du logiciel}{53}{subsection.B.4.2}
+\contentsline {subsection}{\numberline {B.4.3}Contr\IeC {\^o}leur du logiciel}{56}{subsection.B.4.3}
+\contentsline {subsection}{\numberline {B.4.4}Utils du logiciel}{58}{subsection.B.4.4}
+\contentsline {section}{\numberline {B.5}Diagramme de classes Intelligence Artificielle}{59}{section.B.5}
+\contentsline {section}{\numberline {B.6}Diagramme de classes du gestionnaire de fichiers}{60}{section.B.6}
+\contentsline {section}{\numberline {B.7}Diagramme de classes de l'Editeur de plateaux}{61}{section.B.7}
+\contentsline {section}{\numberline {B.8}Diagramme de classes du Gestionnaire de temps}{62}{section.B.8}
+\contentsline {chapter}{\numberline {C}Pseudo-codes d'algorithmes}{63}{appendix.C}
+\contentsline {section}{\numberline {C.1}Algorithme MiniMax}{63}{section.C.1}
+\contentsline {section}{\numberline {C.2}Algorithme Alpha-Beta}{64}{section.C.2}
+\contentsline {chapter}{\numberline {D}Site Web}{65}{appendix.D}
+\contentsline {chapter}{\numberline {E}Poster}{66}{appendix.E}

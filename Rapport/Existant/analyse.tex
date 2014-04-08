@@ -1,0 +1,38 @@
+\section{Éléments bibliographiques} 
+
+\nocite{*}
+
+Pour plus de lisibilité, nous avons partagé notre bibliographie en trois catégories. Une première partie contient les généralités sur les jeux d’accessiblité. La deuxième regroupe les algorithmes de force brute : IA basique et la dernière partie présente les algorithmes évolutionnistes et les réseaux neuraux.
+
+
+
+
+\subsection{Généralités sur les jeux d'accessibilité}
+
+Les jeux d’accessibilité, le plus souvent en tour par tour et entre deux
+joueurs, consistent à déplacer des pièces sur un plateau contenant un
+nombre fini de positions. Le but étant de capturer les positions du
+plateau ou bien les pièces de l'adversaire afin de gagner (Jeu d’Echecs, Dames, Othello, ...) (voir \cite{7}). Il existe de nombreux programmes (historiques \cite{otstory} et présentation \cite{a}) implémentant les règles d'Othello ainsi que des intelligences artificielles permettant de jouer contre une machine.
+
+
+
+
+\subsection{Heuristiques et Algorithmes de force-brute}
+
+De nombreuses heuristiques ou stratégies permettent de jouer dans le but de gagner. La stratégie positionnelle (voir \cite{strategy}), la mobilité (voir \cite{13}), la maximisation (voir \cite{1}) par le MiniMax (voir \cite{2})  ou l'AlphaBeta sont des heuristiques et algorithmes différents permettant de chercher des solutions. Ces algorithmes ont été comparés (voir \cite{11}) entre eux ce qui nous a permis de choisir l'algorithme AlphaBeta.
+
+Il existe cependant une version alternative de l'algorithme AlphaBeta appelé le ProbCut (voir \cite{5a} \cite{5b}) que nous n'avons pas implémentée mais qui semble intéressante à explorer.
+
+
+\subsection{Algorithmes évolutionnistes et réseaux neuraux}
+
+Les algorithmes évolutionnistes consistent à faire évoluer un ensemble de solutions par itération d’un nouvel ensemble de solutions améliorées. Ils sont utilisés dans le but d’optimiser la résolution de problèmes.
+Les réseaux neuraux sont des modèles de calculs basés sur les réseaux de neurones biologiques de l’être humain. Ils sont représentés par des automates. Nous n'avons pas implémenté ce genre d'algorithmes (voir \cite{b}) par manque de temps. 
+
+
+\section{Étude de l'existant}
+
+Depuis les années 80 (voir \cite{antho,otstory} pour un historique), de nombreux programmes Othello français (voir \cite{prog1}) et
+étrangers (voir \cite{prog2}) ont été créés et se sont défiés lors de tournois afin de
+tester leurs performances. De Iago (voir \cite{iago}), Bill (voir \cite{bill}), Hannibal (voir \cite{hannibal}) à Logistello (voir \cite{logistello}), tous ces programmes utilisent des heuristiques et algorithmes qui ont été développés et améliorés au fil des recherches afin de trouver des solutions de manière rapide et efficace. Nos recherches nous ont amenés à trouver des projets autour d'Othello tel que le Jacothellon (voir \cite{jacothellon}), un Othello en java (voir \cite{projothello1}) et un autre en C++ avec la librairie SFML (voir \cite{projothello2}).
+

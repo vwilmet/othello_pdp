@@ -1,0 +1,120 @@
+\begin{thebibliography}{CDN98}
+
+\bibitem[Bur95]{5a}
+Michael Buro.
+\newblock Probcub: An effective selective extension of the alpha-beta
+  algorithm.
+\newblock {\em ICCA Journal}, 18(2):71--76, 1995.
+
+\bibitem[Bur97]{5b}
+Michael Buro.
+\newblock How machines have learned to play othello.
+\newblock {\em ICCA Journal}, 20(2):71--76, 1997.
+
+\bibitem[Bur02]{logistello}
+Michael Buro.
+\newblock Logistello, 2002.
+\newblock URL: \url{https://skatgame.net/mburo/log.html}.
+
+\bibitem[Bur03]{a}
+Michael Buro.
+\newblock The evolution of strong othello programs.
+\newblock {\em Entertainment Computing - Technology and Applications}, pages
+  81--88, 2003.
+
+\bibitem[CDN98]{1}
+B.~Causse, R.~Delorme, and S.~Nicolet, 1998.
+\newblock URL: \url{http://www.ffothello.org/info/algos.php}.
+
+\bibitem[Che10]{11}
+Jack Chen.
+\newblock Applications of articial intelligence and machine learning in
+  othello.
+\newblock Technical report, tjhsst Computer Systems Lab, 2009-2010.
+
+\bibitem[CN06]{jacothellon}
+Audrey Colbrant and Elodie Nouguier.
+\newblock Jacothellon, 2005/2006.
+\newblock URL: \url{http://alasea.free.fr/Othello.pdf}.
+
+\bibitem[Del12]{edax}
+Richard Delorme.
+\newblock Edax, 2012.
+\newblock URL: \url{http://abulmo.perso.neuf.fr/edax/4.3/index.htm}.
+
+\bibitem[dlB96]{otstory}
+Bruno de~la Boisserie.
+\newblock Anthologie des programmes d'othello, 1996.
+\newblock URL: \url{http://brunodlb.pagesperso-orange.fr/ot_story.htm}.
+
+\bibitem[d'O02a]{antho}
+F{\'e}d{\'e}ration~Fran\c{c}aise d'Othello.
+\newblock Anthologie des programmes d'othello-reversi, 2002.
+\newblock URL: \url{https://skatgame.net/mburo/tour.html}.
+
+\bibitem[d'O02b]{prog2}
+F{\'e}d{\'e}ration~Fran\c{c}aise d'Othello.
+\newblock Programmes {\'e}trangers d'othello, 2002.
+\newblock URL: \url{http://www.ffothello.org/info/programmeurs2.php}.
+
+\bibitem[d'O02c]{prog1}
+F{\'e}d{\'e}ration~Fran\c{c}aise d'Othello.
+\newblock Programmes fran\c{c}ais d'othello, 2002.
+\newblock URL: \url{http://www.ffothello.org/info/programmeurs1.php}.
+
+\bibitem[GP98]{hannibal}
+Louis Geoffroy and Martin Piotte.
+\newblock Hannibal, 1998.
+\newblock URL:
+  \url{http://satirist.org/learn-game/systems/othello/hannibal.html}.
+
+\bibitem[Leo95]{b}
+Anton Leouski.
+\newblock Learning of position evaluation in the game of othello.
+\newblock Technical report, Department of Computer Science University of
+  Massachusetts, 1995.
+
+\bibitem[LM86]{bill}
+Kai-Fu Lee and Sanjoy Mahajan.
+\newblock Bill: A table-based, knowledge-intensive othello program.
+\newblock Technical report, Computer Science Department of Carnegie Mellon
+  University, 1986.
+
+\bibitem[Mac06]{strategy}
+Steve MacGuire.
+\newblock Strategy guide for reverso and reversed reversi, 2006.
+\newblock URL: \url{http://www.samsoft.org.uk/reversi/strategy.htm}.
+
+\bibitem[Mer10]{projothello2}
+Pierre-Emannuel Mercier.
+\newblock Othello en c++ et sfml, 2010.
+\newblock URL: \url{http://blog.ace-art.fr/2010/04/26/othello/}.
+
+\bibitem[Ros81]{iago}
+Paul~S. Rosenbloom.
+\newblock A world-championship-level othello programm.
+\newblock Technical report, Computer Science Department of Carnegie Mellon
+  University, 1981.
+
+\bibitem[SA04]{13}
+Vaishnavi Sannidhanam and Muthukaruppan Annamalai.
+\newblock An analysis of heuristics in othello.
+\newblock Technical report, Department of Computer Science and Egineering, Paul
+  G. Allen Center, University of Washington, Seattle, WA-98195, 2004.
+
+\bibitem[SHM05]{projothello1}
+Guillaume Sauveur, Maxime Harnois, and Charles Melin.
+\newblock Jeu d'othello en java, 2005.
+\newblock URL: \url{http://www.taussane.com/backup/projet2.php}.
+
+\bibitem[Tey12]{7}
+Olivier Teytaud.
+\newblock Programmation des {\'e}checs et d'autres jeux.
+\newblock {\em Interstices}, 2012.
+
+\bibitem[Tor13]{2}
+Fabien Torre, septembre 2013.
+\newblock URL:
+  \url{http://www.grappa.univ-lille3.fr/~torre/Enseignement/Cours/Intelligence-Artificielle/jeux.php}.
+
+\end{thebibliography}
